@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stone Visualizer | Murali Granites &amp; Marbles</title>
+  <meta name="description" content="Explore and visualize natural marble and granite slabs in realistic interior room settings. Select rooms, materials, and architectural surfaces."/>
+  
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png"/>
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png"/>
+  <link rel="shortcut icon" href="assets/images/favicon.ico"/>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/navigation.css?v=1.6"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --gold: #C5A059;
+      --gold-light: #E7C887;
+      --gold-dim: #7A5C2E;
+      --black: #0E0E10;
+      --dark-surface: #141418;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+    }
+    body {
+      background-color: var(--black);
+      color: #E8E6E1;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    .font-serif {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    .gold-gradient {
+      background: linear-gradient(135deg, #F5DCA3 0%, #C5A059 50%, #9C772C 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .room-stage {
+      aspect-ratio: 16 / 9;
+      max-height: 580px;
+    }
+    @media (max-width: 768px) {
+      .room-stage {
+        aspect-ratio: 4 / 3;
+      }
+    }
+    .compare-slider-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .texture-pill {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.25s ease;
+    }
+    .texture-pill:hover, .texture-pill.active {
+      border-color: var(--gold);
+      box-shadow: 0 0 14px rgba(197, 160, 89, 0.35);
+      transform: translateY(-2px);
+    }
+    /* Comparison handle */
+    .split-divider-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #C5A059;
+      z-index: 25;
+      cursor: ew-resize;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    }
+    .split-handle-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #C5A059;
+      color: #0E0E10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.6);
+      border: 2px solid #ffffff;
+      cursor: ew-resize;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a class="logo-link" href="index.html" title="Murali Granites & Marbles Home">
+<img alt="Murali Granites & Marbles Medallion Logo" class="logo-icon-img" decoding="async" height="42" src="assets/images/logo.png" width="42"/>
+<span class="logo-text">Murali <span class="logo-subtext">Granites &amp; Marbles</span></span>
+</a>
+      <ul class="nav-menu">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="visualizer.html" style="color:var(--gold);">Visualizer</a></li>
+        <li class="nav-item"><a class="nav-link" href="products.html">Collection</a></li>
+        <li class="nav-item"><a class="nav-link" href="stone-analysis.html">Stone Analysis</a></li>
+        <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-right-wrap">
+  <a class="nav-login-btn" href="login.html" title="Admin Portal Login">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Login / Admin</span>
+  </a>
+  <a class="nav-quote-btn" href="contact.html"><span>Get Quote</span></a>
+</div>
+      <button aria-label="Toggle Menu" class="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav">
+    <ul class="mobile-nav-list">
+      <li><a class="mobile-nav-link" href="index.html">Home</a></li>
+      <li><a class="mobile-nav-link active" href="visualizer.html">Visualizer</a></li>
+      <li><a class="mobile-nav-link" href="products.html">Collection</a></li>
+      <li><a class="mobile-nav-link" href="stone-analysis.html">Stone Analysis</a></li>
+      <li><a class="mobile-nav-link" href="faq.html">FAQ</a></li>
+      <li><a class="mobile-nav-link" href="contact.html">Contact Us</a></li>
+    <li><a class="mobile-nav-link" href="login.html">Login / Admin</a></li>
+</ul>
+    <a class="mobile-quote-btn" href="contact.html"><span>Request Quote</span></a>
+<a class="mobile-login-btn" href="login.html"><span>Admin Portal Login &rarr;</span></a>
+  </div>
+
+  <!-- Main Visualizer App Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 flex-grow w-full">
+    
+    <!-- Title & Guidance Banner -->
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 border-b border-white/10 pb-6">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 mb-2 uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          Interactive Room Visualizer
+        </div>
+        <h1 class="font-serif text-3xl sm:text-5xl font-bold tracking-wide text-white">
+          Experience Stone in <span class="gold-gradient">Your Space</span>
+        </h1>
+        <p class="text-stone-400 text-xs sm:text-sm mt-1 max-w-xl">
+          Choose a room, select an architectural surface, and preview natural marble and granite textures before you build.
+        </p>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="flex items-center gap-3">
+        <button id="resetVisualizerBtn" class="text-xs px-3.5 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-300 border border-white/10 transition flex items-center gap-1.5" title="Reset to default Living Room and material">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          Reset View
+        </button>
+        <button id="toggleCompareBtn" class="text-xs px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 hover:bg-amber-500 hover:text-black font-semibold transition flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+          <span id="compareModeText">Compare with Original</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Stage Layout: Stage (Left 8 Cols) + Control Deck (Right 4 Cols) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Left: Interactive Stage -->
+      <div class="lg:col-span-8 space-y-4">
+        
+        <!-- Room Stage Viewport -->
+        <div id="stageViewport" class="relative rounded-3xl overflow-hidden bg-stone-950 border border-white/10 shadow-2xl room-stage select-none group">
+          
+          <!-- Base Room Photo (Shows raw original room in Before mode) -->
+          <img id="baseRoomImg" src="assets/images/rooms/living-room.jpg" alt="Original room reference" class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"/>
+
+          <!-- After Layer: Contains Photorealistic Installed Stone Preview clipped to comparison slider -->
+          <div id="afterLayer" class="absolute inset-0 overflow-hidden" style="width: 100%;">
+            <!-- Matching Room Background inside After layer -->
+            <img id="afterBaseRoomImg" src="assets/images/rooms/living-room.jpg" alt="Room background" class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"/>
+
+            <!-- PRIMARY PREVIEW: Photorealistic AI / Architectural Installed Stone Room Image -->
+            <img id="generatedRoomImg" src="assets/visualizer_generated/living-room/river-black-floor.jpg" alt="Photorealistic installed stone preview" class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300" style="display: block;"/>
+
+            <!-- Architectural Simulation Overlay (Active only when specific combination render is pending) -->
+            <div id="surfaceOverlayContainer" class="absolute inset-0 pointer-events-none transition-all duration-300" style="display: none;">
+              <div id="stoneTextureTile" class="absolute inset-0" style="background-image: url('assets/images/products/product-1783138465-6a4888a145274.jpg'); background-size: 280px; background-repeat: repeat;"></div>
+              <div id="stoneLightingShade" class="absolute inset-0 pointer-events-none" style="background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(0,0,0,0.38) 100%); mix-blend-mode: multiply;"></div>
+              <div id="stoneGlossSheen" class="absolute inset-0 pointer-events-none" style="background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%); mix-blend-mode: screen; opacity: 0.5;"></div>
+            </div>
+
+            <!-- Ambient depth vignette -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none"></div>
+          </div>
+
+          <!-- Split Comparison Divider Line & Handle (Active during comparison slider drag) -->
+          <div id="splitDividerLine" class="split-divider-line hidden">
+            <div class="split-handle-btn" title="Drag left/right to compare Before and After">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8L22 12L18 16M6 8L2 12L6 16"/></svg>
+            </div>
+          </div>
+
+          <!-- Live Overlay Label (Top Left) -->
+          <div class="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2">
+            <span id="currentRoomBadge" class="text-xs px-3 py-1 rounded-full bg-black/80 text-white font-medium border border-white/20 backdrop-blur-md shadow-lg">
+              Living Room
+            </span>
+            <span id="currentSurfaceBadge" class="text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg">
+              Surface: Flooring
+            </span>
+            <span id="renderQualityBadge" class="text-xs px-3 py-1 rounded-full bg-emerald-500/25 text-emerald-300 font-medium border border-emerald-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <span id="renderQualityText">Photorealistic Room Render</span>
+            </span>
+          </div>
+
+          <!-- Render Status Notification Banner (Shows when combination is ungenerated) -->
+          <div id="simulationNoticeBanner" class="absolute top-16 left-4 right-4 z-20 hidden">
+            <div class="px-4 py-2.5 rounded-xl bg-black/90 border border-amber-500/40 backdrop-blur-md shadow-xl flex items-center justify-between text-xs">
+              <div class="flex items-center gap-2 text-stone-300">
+                <span class="text-amber-400 font-semibold">Note:</span>
+                <span>Photorealistic photoshoot render for this specific slab is in progress. Showing studio architectural simulation.</span>
+              </div>
+              <button id="suggestRenderBtn" class="text-[11px] px-2.5 py-1 rounded-lg bg-amber-500 text-black font-semibold hover:bg-amber-400 transition shrink-0 ml-3">
+                View Available Render
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Stone Tag (Bottom Left) -->
+          <div class="absolute bottom-4 left-4 z-20 bg-black/85 backdrop-blur-md border border-white/20 rounded-2xl p-3 flex items-center gap-3 shadow-2xl">
+            <div class="w-11 h-11 rounded-xl overflow-hidden bg-black shrink-0 border border-white/25 shadow-inner">
+              <img id="activeStoneThumb" src="assets/images/products/product-1783138465-6a4888a145274.jpg" class="w-full h-full object-cover" alt="Active texture thumbnail"/>
+            </div>
+            <div>
+              <div class="text-[10px] uppercase tracking-wider text-amber-400 font-semibold" id="activeCategoryLabel">Premium Granite</div>
+              <div class="text-sm font-serif font-bold text-white tracking-wide" id="activeMaterialTitle">River Black</div>
+            </div>
+          </div>
+
+          <!-- Before / After Toggle Status Overlay -->
+          <div id="originalRoomIndicator" class="absolute inset-0 bg-black/45 backdrop-blur-[2px] hidden z-10 flex items-center justify-center">
+            <div class="px-5 py-2.5 rounded-full bg-black/90 border border-amber-500/40 text-xs font-semibold uppercase tracking-widest text-amber-400 shadow-2xl flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+              Original Room View (Raw / Unfinished)
+            </div>
+          </div>
+        </div>
+
+                <!-- Before / After Interactive Slider Bar -->
+        <div class="px-4 py-3 rounded-2xl bg-[#141418] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2 text-stone-400 font-medium">
+            <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+            <span>Comparison View:</span>
+            <span class="text-white font-semibold" id="sliderPercentLabel">100% Stone Applied</span>
+          </div>
+          <div class="flex items-center gap-3 w-full sm:w-72">
+            <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold">Raw (0%)</span>
+            <input type="range" id="compareSliderRange" min="0" max="100" value="100" class="w-full h-1.5 bg-stone-800 rounded-lg appearance-none cursor-pointer accent-amber-500" title="Slide to compare before and after finish"/>
+            <span class="text-[10px] text-amber-400 uppercase tracking-wider font-semibold">Stone (100%)</span>
+          </div>
+        </div>
+
+        <!-- Room Selector Pills (All 6 architectural spaces supported) -->
+        <div class="p-4 rounded-2xl bg-[#141418] border border-white/10 space-y-2">
+          <div class="flex items-center justify-between text-xs text-stone-400 font-medium px-1">
+            <span>Select Interior Space:</span>
+            <span class="text-[11px] text-amber-400/80 font-medium">3 Architectural Environments</span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 sm:gap-3" id="roomSelectorGrid">
+            <button class="room-btn active px-3 py-2.5 rounded-xl text-xs font-semibold text-center bg-stone-900 border border-amber-500/60 text-amber-300 transition" data-room="living-room">
+              Living Room
+            </button>
+            <button class="room-btn px-3 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 transition" data-room="bathroom">
+              Bathroom
+            </button>
+            <button class="room-btn px-3 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 transition" data-room="bedroom">
+              Bedroom
+            </button>
+          </div>
+        </div>
+
+        <!-- Practical Disclaimer Note -->
+        <p class="text-[11px] text-stone-500 leading-relaxed px-1">
+          * Note: Visualizer previews simulate color depth, veining patterns, and architectural scale. Because marble and granite are natural geological stones quarried from the earth, individual slab veining, mineral crystallization, and tone nuances vary naturally. We invite you to inspect full physical slab lots at our showroom.
+        </p>
+      </div>
+
+      <!-- Right: Material Selection & Direct Quote Deck -->
+      <div class="lg:col-span-4 space-y-4">
+        
+        <!-- Surface Selection & Blending Options (Dynamically filtered per room) -->
+        <div class="p-5 rounded-3xl bg-[#141418] border border-white/10 space-y-4">
+          <div class="text-xs uppercase tracking-wider font-semibold text-stone-400 flex items-center justify-between">
+            <span>Target Surface</span>
+            <span class="text-amber-400 text-[10px]" id="surfaceContextLabel">Living Room Plane</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="surfaceSelectorContainer">
+            <!-- Dynamically populated to show ONLY surfaces supported by current room -->
+          </div>
+        </div>
+
+        <!-- Material Category Filter Tabs & Verified Slabs -->
+        <div class="p-5 rounded-3xl bg-[#141418] border border-white/10 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs uppercase tracking-wider font-semibold text-stone-400">Select Material</span>
+            <span class="text-xs text-amber-400 font-medium" id="materialCountLabel">12 Verified Slabs</span>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5" id="matCatTabs">
+            <button class="mat-tab active text-[11px] px-3.5 py-1.5 rounded-full bg-amber-500 text-black font-semibold transition" data-cat="all">All</button>
+            <button class="mat-tab text-[11px] px-3.5 py-1.5 rounded-full bg-stone-900 text-stone-300 border border-white/10 hover:border-amber-400 transition" data-cat="granite">Granite</button>
+            <button class="mat-tab text-[11px] px-3.5 py-1.5 rounded-full bg-stone-900 text-stone-300 border border-white/10 hover:border-amber-400 transition" data-cat="marble">Marble</button>
+          </div>
+
+          <!-- Material Grid (Scrollable list of real slabs) -->
+          <div class="grid grid-cols-2 gap-2.5 max-h-[300px] overflow-y-auto pr-1" id="materialsGrid">
+            <!-- Dynamically populated from visualizerMaterials -->
+          </div>
+        </div>
+
+        <!-- Selected Material Profile & Quote Connect Card -->
+        <div class="p-5 rounded-3xl bg-[#17171E] border border-amber-500/30 shadow-2xl space-y-4">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold" id="cardCategoryTag">
+                Granite
+              </span>
+              <span class="text-xs text-stone-400" id="cardOriginTag">India / Rajasthan</span>
+            </div>
+            <h3 class="font-serif text-2xl font-bold text-white mt-2" id="cardMaterialName">River Black</h3>
+            <p class="text-xs text-stone-400 mt-1 leading-relaxed" id="cardDescription">
+              Deep black granite with subtle river-like crystalline grains. Highly recommended for heavy-duty kitchen countertops and high-traffic interior flooring.
+            </p>
+          </div>
+
+          <!-- Specs row -->
+          <div class="grid grid-cols-2 gap-2 text-xs border-y border-white/10 py-3 text-stone-300">
+            <div>
+              <span class="text-stone-500 block text-[10px]">Finish:</span>
+              <span id="cardFinishText" class="font-medium text-white">Polished</span>
+            </div>
+            <div>
+              <span class="text-stone-500 block text-[10px]">Thickness:</span>
+              <span id="cardThicknessText" class="font-medium text-white">16mm - 18mm</span>
+            </div>
+            <div class="col-span-2 pt-1">
+              <span class="text-stone-500 block text-[10px]">Recommended Applications:</span>
+              <span id="cardUsageText" class="font-medium text-stone-300">Flooring, Countertops, Wall Cladding</span>
+            </div>
+          </div>
+
+          <!-- Connect with Business Buttons -->
+          <div class="space-y-2 pt-1">
+            <!-- Direct Quotation Form Transfer -->
+            <a id="enquireQuoteBtn" href="contact.html?material=River+Black&room=Living+Room&surface=Flooring" class="block w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs text-center transition shadow-lg shadow-amber-500/20">
+              Request Quotation For This Look &rarr;
+            </a>
+
+            <!-- WhatsApp Instant Share -->
+            <a id="whatsappShareBtn" href="https://wa.me/916366380051?text=Hello%20Murali%20Granites%20%26%20Marbles%2C%20I%20am%20interested%20in%20River%20Black%20for%20my%20Living%20Room%20Flooring." target="_blank" rel="noreferrer" class="block w-full py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 hover:text-white border border-emerald-500/30 text-emerald-300 font-semibold text-xs text-center transition flex items-center justify-center gap-2">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.149.929 3.182 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.768-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.299.144.347.491 1.199.534 1.286.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.448.74 0.962 1.198.662.59 1.221.773 1.394.859.173.086.275.072.376-.044.101-.116.433-.506.549-.679.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.043.073.043.419-.101.824z"/></svg>
+              <span>Inquire via WhatsApp (+91 6366380051)</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-gold-line"></div>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <p class="brand-name">Murali Granites &amp; Marbles</p>
+        <p class="brand-tagline">Stone That Defines Space</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="visualizer.html">Stone Visualizer</a></li>
+            <li><a href="products.html">Our Collection</a></li>
+            <li><a href="stone-analysis.html">Geological Specs</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact &amp; Showroom</h4>
+          <ul style="color:#8A8A80; font-size:0.85rem; line-height:1.6;">
+            <li style="color:#ffffff; font-weight:500;">Murali Granites &amp; Marbles</li>
+            <li>Direct Phone: <a href="tel:+916366380051" style="color:#E8C98A;">+91 6366380051</a></li>
+            <li>WhatsApp: <a href="https://wa.me/916366380051" target="_blank" style="color:#6ee7b7;">Chat on WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="dev-credit-box">
+        <span>Website developed and designed by <strong>ATHARV HOGADE</strong></span>
+        <span>|</span>
+        <span>Email: <a href="mailto:atharvhogade12@gmail.com" style="color:var(--gold, #C5A059);">atharvhogade12@gmail.com</a></span>
+      </div>
+      <p class="footer-copy">&copy; 2026 Murali Granites &amp; Marbles. All rights reserved.</p>
+      <p class="footer-copy" style="color:var(--gold-dim, #7A5C2E);">Natural Stone Crafted for Living.</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/navigation.js" type="module"></script>
+  <script>
+            // 1. Room Configurations with Authenticated Geometric Surface Bounds
+    const roomConfigs = {
+      'living-room': {
+        name: 'Living Room',
+        image: 'assets/images/rooms/living-room.jpg',
+        defaultSurface: 'floor',
+        surfaces: {
+          'floor': {
+            key: 'floor',
+            label: 'Flooring',
+            clipPath: 'polygon(0% 52%, 100% 52%, 100% 100%, 0% 100%)',
+            textureScale: '300px',
+            blendMode: 'soft-light',
+            opacity: '0.94',
+            shadingGradient: 'linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.35) 100%)'
+          },
+          'wall': {
+            key: 'wall',
+            label: 'Accent Wall',
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%)',
+            textureScale: '340px',
+            blendMode: 'overlay',
+            opacity: '0.88',
+            shadingGradient: 'linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(255,255,255,0.1) 100%)'
+          }
+        }
+      },
+      'bathroom': {
+        name: 'Bathroom',
+        image: 'assets/images/rooms/bathroom.jpg',
+        defaultSurface: 'floor',
+        surfaces: {
+          'floor': {
+            key: 'floor',
+            label: 'Bathroom Flooring',
+            clipPath: 'polygon(0% 58%, 100% 58%, 100% 100%, 0% 100%)',
+            textureScale: '280px',
+            blendMode: 'soft-light',
+            opacity: '0.93',
+            shadingGradient: 'linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.4) 100%)'
+          },
+          'wall': {
+            key: 'wall',
+            label: 'Feature Wall',
+            clipPath: 'polygon(22% 10%, 78% 10%, 78% 60%, 22% 60%)',
+            textureScale: '320px',
+            blendMode: 'overlay',
+            opacity: '0.90',
+            shadingGradient: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(0,0,0,0.2) 100%)'
+          }
+        }
+      },
+      'bedroom': {
+        name: 'Bedroom',
+        image: 'assets/images/rooms/bedroom.jpg',
+        defaultSurface: 'floor',
+        surfaces: {
+          'floor': {
+            key: 'floor',
+            label: 'Bedroom Flooring',
+            clipPath: 'polygon(0% 52%, 100% 52%, 100% 100%, 0% 100%)',
+            textureScale: '320px',
+            blendMode: 'soft-light',
+            opacity: '0.94',
+            shadingGradient: 'linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(0,0,0,0.35) 100%)'
+          }
+        }
+      }
+    };
+
+    // 2. Verified Authentic Stone Materials Catalog
+    const visualizerMaterials = [
+      {
+        id: 'river-black',
+        name: 'River Black',
+        category: 'Granite',
+        origin: 'India / Rajasthan',
+        finish: 'Polished',
+        thickness: '16mm - 18mm',
+        usage: 'Kitchen Countertops, High-Traffic Flooring, Wall Cladding',
+        image: 'assets/images/products/product-1783138465-6a4888a145274.jpg',
+        description: 'Deep jet black granite with crystalline wave patterns and high density. Highly resilient against heat, stains, and scratches.',
+        blendMode: 'multiply',
+        opacity: '0.92'
+      },
+      {
+        id: 'black-pearl',
+        name: 'Black Pearl',
+        category: 'Granite',
+        origin: 'India / Andhra Pradesh',
+        finish: 'Polished',
+        thickness: '16mm - 18mm',
+        usage: 'Kitchen Countertops, Bathroom Vanities, Interior Flooring',
+        image: 'assets/images/products/product-1783138424-6a488878abc22.jpg',
+        description: 'Semi-solid dark granite with uniform speckles of black, silver, and gold minerals. Uniform and exceptionally durable.',
+        blendMode: 'multiply',
+        opacity: '0.90'
+      },
+      {
+        id: 'tan-brown',
+        name: 'Tan Brown',
+        category: 'Granite',
+        origin: 'India / Telangana',
+        finish: 'Polished',
+        thickness: '18mm',
+        usage: 'Kitchen Islands, Exterior Steps, Grand Hall Flooring',
+        image: 'assets/images/products/product-1783084011-6a47b3eb20cf0.jpg',
+        description: 'Rich dark granite characterized by warm brown, chocolate, and copper floral mineral clusters. Highly resistant to staining.',
+        blendMode: 'overlay',
+        opacity: '0.92'
+      },
+      {
+        id: 'statuario-marble',
+        name: 'Statuario / Banswara Marble',
+        category: 'Marble',
+        origin: 'India / Rajasthan',
+        finish: 'Mirror Polished',
+        thickness: '16mm - 18mm',
+        usage: 'Living Room Flooring, Master Bedroom Suites, Luxury Bathrooms',
+        image: 'assets/images/products/product-1783085208-6a47b8986af97.png',
+        description: 'Classic white marble accented by delicate grey and subtle gold veins. Creates an opulent, luminous atmosphere.',
+        blendMode: 'soft-light',
+        opacity: '0.95'
+      },
+      {
+        id: 'kashmir-white',
+        name: 'Kashmir / Alaska White',
+        category: 'Granite',
+        origin: 'India / Rajasthan',
+        finish: 'Polished',
+        thickness: '18mm',
+        usage: 'Kitchen Worktops, Wide Format Flooring, Backsplashes',
+        image: 'assets/images/products/product-1783084356-6a47b5441b767.jpg',
+        description: 'Luminous pale backdrop enriched with neutral grey veins and garnet flecks. Brightens large interior spaces.',
+        blendMode: 'soft-light',
+        opacity: '0.94'
+      },
+      {
+        id: 'emerald-onyx',
+        name: 'Emerald Onyx Marble',
+        category: 'Marble',
+        origin: 'India / Imported',
+        finish: 'Polished / Backlit',
+        thickness: '16mm - 18mm',
+        usage: 'Feature Accent Walls, Backlit Vanity Walls, Bar Counters',
+        image: 'assets/images/products/product-1783085161-6a47b869e0448.jpg',
+        description: 'Translucent banded onyx featuring crystalline jade green and amber honey veining. Striking when backlit.',
+        blendMode: 'overlay',
+        opacity: '0.90'
+      },
+      {
+        id: 'marie-gold',
+        name: 'Marie Gold',
+        category: 'Granite',
+        origin: 'India / Tamil Nadu',
+        finish: 'Polished',
+        thickness: '18mm',
+        usage: 'Living Flooring, Stair Treads, Dining Room Flooring',
+        image: 'assets/images/products/product-1783085317-6a47b9058f71e.jpg',
+        description: 'Warm golden-beige mineral background with fine brown and caramel grains. Adds natural warmth and light.',
+        blendMode: 'overlay',
+        opacity: '0.90'
+      },
+      {
+        id: 'blue-night',
+        name: 'Blue in the Night',
+        category: 'Granite',
+        origin: 'Imported / Norway',
+        finish: 'Polished',
+        thickness: '18mm',
+        usage: 'Statement Countertops, Luxury Vanities, Accent Inlays',
+        image: 'assets/images/products/product-1783085244-6a47b8bcd330d.png',
+        description: 'Exotic midnight black granite studded with iridescent blue labradorite crystals that gleam in light.',
+        blendMode: 'multiply',
+        opacity: '0.92'
+      },
+      {
+        id: 'moon-white',
+        name: 'Moon White',
+        category: 'Granite',
+        origin: 'India / Odisha',
+        finish: 'Polished',
+        thickness: '16mm - 18mm',
+        usage: 'Modern Kitchen Counters, Vanity Tops, Hallway Flooring',
+        image: 'assets/images/products/product-1783079448-6a47a218632fd.jpg',
+        description: 'Fine-grained ivory and pale grey granite with miniature burgundy mineral specks. Crisp, clean contemporary look.',
+        blendMode: 'soft-light',
+        opacity: '0.94'
+      },
+      {
+        id: 'river-white',
+        name: 'River White',
+        category: 'Granite',
+        origin: 'India / Odisha',
+        finish: 'Polished',
+        thickness: '18mm',
+        usage: 'Kitchen Islands, Waterfall Countertops, Living Flooring',
+        image: 'assets/images/products/product-1783078831-6a479faf4fcbd.jpg',
+        description: 'Crisp white base with flowing grey rivers and small deep red mineral crystals. Elegant movement across slabs.',
+        blendMode: 'soft-light',
+        opacity: '0.94'
+      },
+      {
+        id: 'black-forest',
+        name: 'Black Forest',
+        category: 'Granite',
+        origin: 'India / Rajasthan',
+        finish: 'Polished / Leathered',
+        thickness: '18mm - 20mm',
+        usage: 'Feature Walls, Kitchen Countertops, Staircase Treads',
+        image: 'assets/images/products/product-1783083657-6a47b289a4a40.jpg',
+        description: 'Dramatic black granite intersected by bold white and silver streaks resembling forest branches.',
+        blendMode: 'multiply',
+        opacity: '0.92'
+      },
+      {
+        id: 'titanium-black',
+        name: 'Titanium Black',
+        category: 'Granite',
+        origin: 'India / Rajasthan',
+        finish: 'Polished / Honed',
+        thickness: '18mm',
+        usage: 'Luxury Countertops, Backsplashes, Accent Flooring',
+        image: 'assets/images/products/product-1783083560-6a47b228132ac.webp',
+        description: 'Deep charcoal black with undulating cream and quartz veins creating dramatic organic patterns.',
+        blendMode: 'multiply',
+        opacity: '0.90'
+      }
+    ];
+
+    // Incorporate custom stones added via Admin Dashboard
+    try {
+      const customProducts = JSON.parse(localStorage.getItem('murali_custom_products') || '[]');
+      if (Array.isArray(customProducts)) {
+        customProducts.forEach(cp => {
+          visualizerMaterials.unshift({
+            id: cp.id || cp.slug || cp.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+            name: cp.name,
+            color: cp.color || 'Black',
+            category: cp.category || 'Granite',
+            origin: cp.origin || 'India',
+            finish: cp.finish || 'Polished',
+            thickness: cp.thickness || '18mm',
+            usage: cp.usage_area || 'Flooring, Feature Walls',
+            image: cp.image_url,
+            description: cp.description || `${cp.name} - Premium natural stone slab.`,
+            blendMode: 'overlay',
+            opacity: '0.94'
+          });
+        });
+      }
+    } catch (e) {}
+
+    // 3. Central Application State
+    let currentRoomKey = 'living-room';
+    let currentSurfaceKey = 'floor';
+    let selectedMaterial = visualizerMaterials[0];
+    let isComparingOriginal = false;
+
+    // DOM Elements
+    const baseRoomImg = document.getElementById('baseRoomImg');
+    const afterBaseRoomImg = document.getElementById('afterBaseRoomImg');
+    const afterLayer = document.getElementById('afterLayer');
+    const surfaceOverlayContainer = document.getElementById('surfaceOverlayContainer');
+    const stoneTextureTile = document.getElementById('stoneTextureTile');
+    const stoneLightingShade = document.getElementById('stoneLightingShade');
+    const currentRoomBadge = document.getElementById('currentRoomBadge');
+    const currentSurfaceBadge = document.getElementById('currentSurfaceBadge');
+    const surfaceContextLabel = document.getElementById('surfaceContextLabel');
+    const activeStoneThumb = document.getElementById('activeStoneThumb');
+    const activeMaterialTitle = document.getElementById('activeMaterialTitle');
+    const activeCategoryLabel = document.getElementById('activeCategoryLabel');
+    const originalRoomIndicator = document.getElementById('originalRoomIndicator');
+    const compareModeText = document.getElementById('compareModeText');
+    const materialsGrid = document.getElementById('materialsGrid');
+    const surfaceSelectorContainer = document.getElementById('surfaceSelectorContainer');
+    const enquireQuoteBtn = document.getElementById('enquireQuoteBtn');
+    const whatsappShareBtn = document.getElementById('whatsappShareBtn');
+
+    // 4. Render Surface Controls Dynamically for Current Room
+    function renderSurfaceButtons() {
+      surfaceSelectorContainer.innerHTML = '';
+      const room = roomConfigs[currentRoomKey];
+      surfaceContextLabel.textContent = `${room.name} Plane`;
+
+      const surfaces = Object.values(room.surfaces);
+      surfaces.forEach(surf => {
+        const btn = document.createElement('button');
+        const isActive = surf.key === currentSurfaceKey;
+        btn.className = `surface-btn py-2 px-3 rounded-xl text-xs text-center transition font-semibold ${
+          isActive 
+            ? 'active bg-amber-500 text-stone-950 font-bold shadow-md' 
+            : 'bg-stone-900 text-stone-300 border border-white/10 hover:border-amber-400'
+        }`;
+        btn.setAttribute('data-surface', surf.key);
+        btn.textContent = surf.label;
+
+        btn.addEventListener('click', () => {
+          currentSurfaceKey = surf.key;
+          renderSurfaceButtons();
+          updateStage();
+        });
+
+        surfaceSelectorContainer.appendChild(btn);
+      });
+    }
+
+    // 5. Render Materials List
+    function renderMaterialsList(filterCat = 'all') {
+      materialsGrid.innerHTML = '';
+      const list = filterCat === 'all' 
+        ? visualizerMaterials 
+        : visualizerMaterials.filter(m => m.category.toLowerCase().includes(filterCat.toLowerCase()));
+
+      document.getElementById('materialCountLabel').textContent = `${list.length} Verified Slabs`;
+
+      list.forEach(mat => {
+        const btn = document.createElement('button');
+        const isActive = mat.id === selectedMaterial.id;
+        btn.className = `texture-pill p-2 rounded-2xl bg-stone-900 flex items-center gap-2.5 text-left transition ${
+          isActive ? 'active border-amber-400' : ''
+        }`;
+        btn.setAttribute('data-id', mat.id);
+
+        btn.innerHTML = `
+          <div class="w-10 h-10 rounded-xl overflow-hidden bg-black shrink-0 border border-white/10 shadow-inner">
+            <img src="${mat.image}" alt="${mat.name}" class="w-full h-full object-cover"/>
+          </div>
+          <div class="overflow-hidden">
+            <div class="text-[11px] font-bold text-white truncate">${mat.name}</div>
+            <div class="text-[9px] text-stone-400 truncate">${mat.category} &bull; ${mat.origin.split('/')[0].trim()}</div>
+          </div>
+        `;
+
+        btn.addEventListener('click', () => {
+          selectMaterial(mat);
+        });
+
+        materialsGrid.appendChild(btn);
+      });
+    }
+
+    function selectMaterial(mat) {
+      selectedMaterial = mat;
+      updateStage();
+      updateInfoCard();
+      // Keep category filter intact while highlighting active pill
+      const activeCat = document.querySelector('.mat-tab.active')?.getAttribute('data-cat') || 'all';
+      renderMaterialsList(activeCat);
+    }
+
+    // --- PHOTOREALISTIC ROOM PREVIEWS MANIFEST ---
+    const GENERATED_PREVIEWS_MANIFEST = [
+  {
+    "product_id": "statuario-marble",
+    "product_name": "Statuario / Banswara Marble",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_ImageStatuario Banswara Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "tan-brown",
+    "product_name": "Tan Brown",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_ImageTan Brown.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-forest",
+    "product_name": "Black Forest",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_Black Forest.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-pearl",
+    "product_name": "Black Pearl",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_Black Pearl.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "blue-night",
+    "product_name": "Blue in the Night",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_Blue in the Night.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "emerald-onyx",
+    "product_name": "Emerald Onyx Marble",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_Emerald Onyx Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "kashmir-white",
+    "product_name": "Kashmir / Alaska White",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_Kashmir  Alaska White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "marie-gold",
+    "product_name": "Marie Gold",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_Marie Gold.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "moon-white",
+    "product_name": "Moon White",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_Moon White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "river-black",
+    "product_name": "River Black",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_River Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "river-white",
+    "product_name": "River White",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_River White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "titanium-black",
+    "product_name": "Titanium Black",
+    "room_id": "living-room",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_Titanium Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-forest",
+    "product_name": "Black Forest",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Black Forest.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-pearl",
+    "product_name": "Black Pearl",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Black Pearl.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "blue-night",
+    "product_name": "Blue in the Night",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Blue in the Night.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "emerald-onyx",
+    "product_name": "Emerald Onyx Marble",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Emerald Onyx Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "kashmir-white",
+    "product_name": "Kashmir / Alaska White",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Kashmir Alaska White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "marie-gold",
+    "product_name": "Marie Gold",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Marie Gold.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "moon-white",
+    "product_name": "Moon White",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Moon White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "river-black",
+    "product_name": "River Black",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_River Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "river-white",
+    "product_name": "River White",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_River White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "statuario-marble",
+    "product_name": "Statuario / Banswara Marble",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Statuario  Banswara Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "tan-brown",
+    "product_name": "Tan Brown",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Tan Brown.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "titanium-black",
+    "product_name": "Titanium Black",
+    "room_id": "living-room",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/living-room.jpg",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Titanium Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-forest",
+    "product_name": "Black Forest",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Black Forest.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-pearl",
+    "product_name": "Black Pearl",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Black Pearl.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "blue-night",
+    "product_name": "Blue in the Night",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Blue in the Night.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "emerald-onyx",
+    "product_name": "Emerald Onyx Marble",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Emerald Onyx Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "kashmir-white",
+    "product_name": "Kashmir / Alaska White",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Kashmirm Alaska White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "marie-gold",
+    "product_name": "Marie Gold",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Marie Gold.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "moon-white",
+    "product_name": "Moon White",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Moon White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "river-black",
+    "product_name": "River Black",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_River Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "river-white",
+    "product_name": "River White",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_River White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "statuario-marble",
+    "product_name": "Statuario / Banswara Marble",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Statuario Banswara Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "tan-brown",
+    "product_name": "Tan Brown",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Tan Brown.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "titanium-black",
+    "product_name": "Titanium Black",
+    "room_id": "bedroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bedroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Titanium Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-forest",
+    "product_name": "Black Forest",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_Black Forest.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "blue-night",
+    "product_name": "Blue in the Night",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_Blue in the Night.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "emerald-onyx",
+    "product_name": "Emerald Onyx Marble",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_Emerald Onyx Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "kashmir-white",
+    "product_name": "Kashmir / Alaska White",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_Kashmir_Alaska White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "marie-gold",
+    "product_name": "Marie Gold",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_Marie Gold.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "moon-white",
+    "product_name": "Moon White",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_Moon Whitepng.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "river-white",
+    "product_name": "River White",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_River White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "statuario-marble",
+    "product_name": "Statuario / Banswara Marble",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_Statuario Banswara Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "titanium-black",
+    "product_name": "Titanium Black",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_Titanium Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-pearl",
+    "product_name": "Black Pearl",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_black_pearl_floor.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "river-black",
+    "product_name": "River Black",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_rivewr_black_floor.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "tan-brown",
+    "product_name": "Tan Brown",
+    "room_id": "bathroom",
+    "surface_id": "floor",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
+    "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_tan _rown_floore.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "river-white",
+    "product_name": "River White",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_ImageRiver White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-forest",
+    "product_name": "Black Forest",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Black Forest.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-pearl",
+    "product_name": "Black Pearl",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Black Pearl.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "blue-night",
+    "product_name": "Blue in the Night",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Blue in the Night.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "emerald-onyx",
+    "product_name": "Emerald Onyx Marble",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Emerald Onyx Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "kashmir-white",
+    "product_name": "Kashmir / Alaska White",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Kashmir Alaska White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "marie-gold",
+    "product_name": "Marie Gold",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Marie Gold.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "moon-white",
+    "product_name": "Moon White",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Moon White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "river-black",
+    "product_name": "River Black",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_River Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "statuario-marble",
+    "product_name": "Statuario / Banswara Marble",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Statuario Banswara Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "tan-brown",
+    "product_name": "Tan Brown",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Tan Brown.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "titanium-black",
+    "product_name": "Titanium Black",
+    "room_id": "bathroom",
+    "surface_id": "wall",
+    "original_room_image": "assets/images/rooms/bathroom.jpg",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Titanium Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  }
+];
+
+    // Find photorealistic preview from manifest or custom admin uploads
+    function findGeneratedPreview(roomId, matId, surfaceId) {
+      const rKey = (roomId || '').toLowerCase().trim();
+      const mKey = (matId || '').toLowerCase().trim();
+      const sKey = (surfaceId || '').toLowerCase().trim();
+
+      // Check custom visualizers uploaded via Admin Dashboard first
+      try {
+        const customVis = JSON.parse(localStorage.getItem('murali_custom_visualizers') || '[]');
+        if (Array.isArray(customVis)) {
+          const customMatch = customVis.find(item => {
+            const matchRoom = (item.room_id || '').toLowerCase().trim() === rKey;
+            const matchSurface = (item.surface_id || '').toLowerCase().trim() === sKey;
+            const matchProd = (item.product_id || '').toLowerCase().trim() === mKey || 
+                              (item.product_name || '').toLowerCase().trim() === mKey;
+            return matchRoom && matchSurface && matchProd;
+          });
+          if (customMatch && customMatch.generated_preview) {
+            return customMatch;
+          }
+        }
+      } catch (e) {}
+
+      // Direct manifest match
+      const exactMatch = GENERATED_PREVIEWS_MANIFEST.find(item => {
+        return item.room_id === rKey && 
+               item.product_id === mKey && 
+               item.surface_id === sKey;
+      });
+      if (exactMatch) return exactMatch;
+
+      // Smart Color & Mineral Proxy Resolver for newly added custom stones:
+      // Maps the stone to the verified photorealistic AI room render of its mineral family
+      const currentMat = visualizerMaterials.find(m => m.id === mKey || (m.name && m.name.toLowerCase() === mKey)) || selectedMaterial;
+      const matName = (currentMat ? currentMat.name : mKey).toLowerCase();
+      const matCat = (currentMat ? (currentMat.category || '') : '').toLowerCase();
+      const matColor = (currentMat ? (currentMat.color || '') : '').toLowerCase();
+
+      let proxyMatId = 'river-black'; // Default luxury black granite
+
+      if (matColor.includes('gold') || matColor.includes('yellow') || matName.includes('gold') || matName.includes('yellow') || matName.includes('marie') || matName.includes('amber')) {
+        proxyMatId = 'marie-gold';
+      } else if (matColor.includes('white') || matColor.includes('cream') || matName.includes('white') || matName.includes('statuario') || matName.includes('marble') || matName.includes('banswara') || matName.includes('kashmir') || matName.includes('moon') || matCat.includes('marble')) {
+        proxyMatId = (sKey === 'wall') ? 'statuario-marble' : 'kashmir-white';
+      } else if (matColor.includes('brown') || matColor.includes('tan') || matName.includes('brown') || matName.includes('tan') || matName.includes('chocolate')) {
+        proxyMatId = 'tan-brown';
+      } else if (matColor.includes('blue') || matName.includes('blue') || matName.includes('night') || matColor.includes('exotic')) {
+        proxyMatId = 'blue-night';
+      } else if (matColor.includes('green') || matName.includes('green') || matName.includes('onyx') || matName.includes('emerald')) {
+        proxyMatId = 'emerald-onyx';
+      } else if (matName.includes('forest')) {
+        proxyMatId = 'black-forest';
+      } else if (matName.includes('titanium')) {
+        proxyMatId = 'titanium-black';
+      } else if (matName.includes('pearl')) {
+        proxyMatId = 'black-pearl';
+      }
+
+      const proxyMatch = GENERATED_PREVIEWS_MANIFEST.find(item => {
+        return item.room_id === rKey && 
+               item.product_id === proxyMatId && 
+               item.surface_id === sKey;
+      });
+
+      if (proxyMatch) {
+        return {
+          ...proxyMatch,
+          product_id: mKey,
+          product_name: currentMat ? currentMat.name : mKey,
+          status: 'ai_generated_reference_guided',
+          isProxy: true
+        };
+      }
+
+      // If no room/surface pairing for proxy, fallback to first valid render in this room
+      const roomFallback = GENERATED_PREVIEWS_MANIFEST.find(item => item.room_id === rKey && item.surface_id === sKey);
+      if (roomFallback) {
+        return {
+          ...roomFallback,
+          product_id: mKey,
+          product_name: currentMat ? currentMat.name : mKey,
+          status: 'ai_generated_reference_guided',
+          isProxy: true
+        };
+      }
+
+      return null;
+    }
+
+    // 6. Update Stage (Room, Surface, Material, and Comparison)
+    function updateStage() {
+      const room = roomConfigs[currentRoomKey];
+      let surface = room.surfaces[currentSurfaceKey];
+
+      // Safe fallback if surface not in this room
+      if (!surface) {
+        currentSurfaceKey = room.defaultSurface;
+        surface = room.surfaces[currentSurfaceKey];
+        renderSurfaceButtons();
+      }
+
+      // 1. Update original raw room photo (for Before comparison)
+      if (baseRoomImg.getAttribute('src') !== room.image) {
+        baseRoomImg.src = room.image;
+        afterBaseRoomImg.src = room.image;
+      }
+
+      // 2. Resolve Photorealistic Preview from Manifest
+      const generatedMatch = findGeneratedPreview(currentRoomKey, selectedMaterial.id, currentSurfaceKey);
+      const generatedRoomImg = document.getElementById('generatedRoomImg');
+      const renderQualityBadge = document.getElementById('renderQualityBadge');
+      const renderQualityText = document.getElementById('renderQualityText');
+      const simulationNoticeBanner = document.getElementById('simulationNoticeBanner');
+      const suggestRenderBtn = document.getElementById('suggestRenderBtn');
+
+      if (generatedMatch && generatedMatch.generated_preview) {
+        // --- PRIMARY PHOTOREALISTIC RENDER ---
+        if (generatedRoomImg.getAttribute('src') !== generatedMatch.generated_preview) {
+          generatedRoomImg.src = generatedMatch.generated_preview;
+        }
+        generatedRoomImg.style.display = 'block';
+        surfaceOverlayContainer.style.display = 'none'; // Flat CSS texture overlay completely hidden
+
+        if (generatedMatch.status === 'ai_generated_reference_guided') {
+          renderQualityText.textContent = 'Photorealistic AI Room Render';
+          renderQualityBadge.className = 'text-xs px-3 py-1 rounded-full bg-emerald-500/25 text-emerald-300 font-medium border border-emerald-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5';
+        } else {
+          renderQualityText.textContent = 'Photorealistic Room Render';
+          renderQualityBadge.className = 'text-xs px-3 py-1 rounded-full bg-emerald-500/25 text-emerald-300 font-medium border border-emerald-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5';
+        }
+
+        if (simulationNoticeBanner) simulationNoticeBanner.classList.add('hidden');
+      } else {
+        // --- HONEST FALLBACK: ARCHITECTURAL STUDIO SIMULATION ---
+        generatedRoomImg.style.display = 'none';
+        surfaceOverlayContainer.style.display = 'block';
+
+        // Apply geometric mask & lighting to fallback
+        surfaceOverlayContainer.style.clipPath = surface.clipPath;
+        stoneTextureTile.style.backgroundImage = `url('${selectedMaterial.image}')`;
+        stoneTextureTile.style.backgroundSize = surface.textureScale || '280px';
+        stoneTextureTile.style.mixBlendMode = selectedMaterial.blendMode || surface.blendMode || 'soft-light';
+        stoneTextureTile.style.opacity = selectedMaterial.opacity || surface.opacity || '0.94';
+        if (surface.shadingGradient) {
+          stoneLightingShade.style.background = surface.shadingGradient;
+        }
+
+        renderQualityText.textContent = 'Studio Simulation (Render Pending)';
+        renderQualityBadge.className = 'text-xs px-3 py-1 rounded-full bg-amber-500/25 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5';
+
+        if (simulationNoticeBanner) {
+          simulationNoticeBanner.classList.remove('hidden');
+          // Check if this material has a verified render in any other space
+          const anyAlternative = GENERATED_PREVIEWS_MANIFEST.find(it => it.product_id === selectedMaterial.id);
+          if (anyAlternative && suggestRenderBtn) {
+            suggestRenderBtn.style.display = 'block';
+            const altRoomName = roomConfigs[anyAlternative.room_id]?.name || anyAlternative.room_id;
+            suggestRenderBtn.textContent = `View in ${altRoomName}`;
+            suggestRenderBtn.onclick = () => {
+              currentRoomKey = anyAlternative.room_id;
+              currentSurfaceKey = anyAlternative.surface_id;
+              document.querySelectorAll('.room-btn').forEach(b => {
+                if (b.getAttribute('data-room') === currentRoomKey) {
+                  b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+                  b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
+                } else {
+                  b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+                  b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
+                }
+              });
+              renderSurfaceButtons();
+              updateStage();
+            };
+          } else if (suggestRenderBtn) {
+            suggestRenderBtn.style.display = 'none';
+          }
+        }
+      }
+
+      // 5. Update stage badges
+      currentRoomBadge.textContent = room.name;
+      currentSurfaceBadge.textContent = `Surface: ${surface.label}`;
+      activeStoneThumb.src = selectedMaterial.image;
+      activeMaterialTitle.textContent = selectedMaterial.name;
+      activeCategoryLabel.textContent = selectedMaterial.category;
+
+      // 6. Before / After comparison state
+      if (isComparingOriginal) {
+        afterLayer.style.display = 'none';
+        originalRoomIndicator.classList.remove('hidden');
+        compareModeText.textContent = 'View Stone Preview';
+      } else {
+        afterLayer.style.display = 'block';
+        originalRoomIndicator.classList.add('hidden');
+        compareModeText.textContent = 'Compare with Original';
+      }
+
+      // 7. Synchronize quote and WhatsApp links
+      updateActionLinks();
+    }
+
+    // 7. Update Material Info Card
+    function updateInfoCard() {
+      document.getElementById('cardMaterialName').textContent = selectedMaterial.name;
+      document.getElementById('cardCategoryTag').textContent = selectedMaterial.category;
+      document.getElementById('cardOriginTag').textContent = selectedMaterial.origin;
+      document.getElementById('cardDescription').textContent = selectedMaterial.description;
+      document.getElementById('cardFinishText').textContent = selectedMaterial.finish;
+      document.getElementById('cardThicknessText').textContent = selectedMaterial.thickness;
+      document.getElementById('cardUsageText').textContent = selectedMaterial.usage;
+    }
+
+    // 8. Update Quotation and WhatsApp Actions (Synchronized)
+    function updateActionLinks() {
+      const room = roomConfigs[currentRoomKey];
+      const surface = room.surfaces[currentSurfaceKey] || room.surfaces[room.defaultSurface];
+
+      const qMaterial = encodeURIComponent(selectedMaterial.name);
+      const qRoom = encodeURIComponent(room.name);
+      const qSurface = encodeURIComponent(surface.label);
+
+      enquireQuoteBtn.href = `contact.html?material=${qMaterial}&room=${qRoom}&surface=${qSurface}`;
+      
+      const whatsappMsg = encodeURIComponent(
+        `Hello Murali Granites & Marbles, I am interested in ${selectedMaterial.name} for my ${room.name} ${surface.label}. Please share slab availability and quotation details.`
+      );
+      whatsappShareBtn.href = `https://wa.me/916366380051?text=${whatsappMsg}`;
+    }
+
+    // 9. Room Switcher Listeners
+    document.querySelectorAll('.room-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.room-btn').forEach(b => {
+          b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+          b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
+        });
+        btn.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+        btn.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
+
+        currentRoomKey = btn.getAttribute('data-room');
+        const room = roomConfigs[currentRoomKey];
+
+        // Switch to the default primary surface for the chosen room
+        currentSurfaceKey = room.defaultSurface;
+
+        renderSurfaceButtons();
+        updateStage();
+      });
+    });
+
+    // 10. Material Category Tabs
+    document.querySelectorAll('.mat-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.mat-tab').forEach(t => {
+          t.classList.remove('active', 'bg-amber-500', 'text-black', 'font-semibold');
+          t.classList.add('bg-stone-900', 'text-stone-300');
+        });
+        tab.classList.add('active', 'bg-amber-500', 'text-black', 'font-semibold');
+        tab.classList.remove('bg-stone-900', 'text-stone-300');
+
+        renderMaterialsList(tab.getAttribute('data-cat'));
+      });
+    });
+
+    // 11. Before / After Comparison Controls (Slider & Toggle)
+    const compareSliderRange = document.getElementById('compareSliderRange');
+    const sliderPercentLabel = document.getElementById('sliderPercentLabel');
+    const splitDividerLine = document.getElementById('splitDividerLine');
+
+    function applyComparisonSplit(val) {
+      if (val === 0) {
+        isComparingOriginal = true;
+        afterLayer.style.display = 'none';
+        if (splitDividerLine) splitDividerLine.classList.add('hidden');
+        sliderPercentLabel.textContent = 'Original Raw Room (0%)';
+        originalRoomIndicator.classList.remove('hidden');
+        compareModeText.textContent = 'View Stone Preview';
+      } else if (val === 100) {
+        isComparingOriginal = false;
+        afterLayer.style.display = 'block';
+        afterLayer.style.clipPath = 'none';
+        if (splitDividerLine) splitDividerLine.classList.add('hidden');
+        sliderPercentLabel.textContent = '100% Stone Applied';
+        originalRoomIndicator.classList.add('hidden');
+        compareModeText.textContent = 'Compare with Original';
+      } else {
+        isComparingOriginal = false;
+        afterLayer.style.display = 'block';
+        afterLayer.style.clipPath = `inset(0 ${100 - val}% 0 0)`;
+        if (splitDividerLine) {
+          splitDividerLine.classList.remove('hidden');
+          splitDividerLine.style.left = `${val}%`;
+        }
+        sliderPercentLabel.textContent = `${val}% Comparison Split`;
+        originalRoomIndicator.classList.add('hidden');
+        compareModeText.textContent = 'Compare with Original';
+      }
+    }
+
+    if (compareSliderRange) {
+      compareSliderRange.addEventListener('input', (e) => {
+        applyComparisonSplit(parseInt(e.target.value, 10));
+      });
+    }
+
+    document.getElementById('toggleCompareBtn').addEventListener('click', () => {
+      isComparingOriginal = !isComparingOriginal;
+      if (isComparingOriginal) {
+        if (compareSliderRange) compareSliderRange.value = 0;
+        applyComparisonSplit(0);
+      } else {
+        if (compareSliderRange) compareSliderRange.value = 100;
+        applyComparisonSplit(100);
+      }
+    });
+
+    // 12. Reset View to Default
+    document.getElementById('resetVisualizerBtn').addEventListener('click', () => {
+      isComparingOriginal = false;
+      currentRoomKey = 'living-room';
+      currentSurfaceKey = 'floor';
+      selectedMaterial = visualizerMaterials[0]; // River Black
+
+      // Reset room buttons
+      document.querySelectorAll('.room-btn').forEach(b => {
+        if (b.getAttribute('data-room') === 'living-room') {
+          b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+          b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
+        } else {
+          b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+          b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
+        }
+      });
+
+      // Reset category tab to All
+      document.querySelectorAll('.mat-tab').forEach((t, idx) => {
+        if (idx === 0) {
+          t.classList.add('active', 'bg-amber-500', 'text-black', 'font-semibold');
+          t.classList.remove('bg-stone-900', 'text-stone-300');
+        } else {
+          t.classList.remove('active', 'bg-amber-500', 'text-black', 'font-semibold');
+          t.classList.add('bg-stone-900', 'text-stone-300');
+        }
+      });
+
+      if (compareSliderRange) compareSliderRange.value = 100;
+      applyComparisonSplit(100);
+
+      renderSurfaceButtons();
+      renderMaterialsList('all');
+      updateStage();
+      updateInfoCard();
+    });
+
+    // 13. URL Parameter Handling (e.g. ?material=Tan+Brown&room=kitchen&surface=countertop)
+    function checkUrlParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const matParam = urlParams.get('material') || urlParams.get('product');
+      if (matParam) {
+        const clean = matParam.toLowerCase().trim();
+        const found = visualizerMaterials.find(m => {
+          const mName = m.name.toLowerCase();
+          return mName.includes(clean) || clean.includes(mName) || 
+                 (clean.includes('statuario') && mName.includes('statuario')) ||
+                 (clean.includes('galaxy') && m.id === 'river-black') ||
+                 (clean.includes('alaska') && m.id === 'kashmir-white') ||
+                 (clean.includes('onyx') && m.id === 'emerald-onyx') ||
+                 (clean.includes('tan') && m.id === 'tan-brown') ||
+                 (clean.includes('pearl') && m.id === 'black-pearl') ||
+                 m.id.toLowerCase() === clean;
+        });
+        if (found) {
+          selectedMaterial = found;
+        }
+      }
+
+      let roomParam = (urlParams.get('room') || '').toLowerCase().trim();
+      // Handle legacy aliases or removed rooms (kitchen, dining, staircase, foyer, lounge)
+      if (roomParam === 'kitchen' || roomParam === 'dining-room' || roomParam === 'staircase' || roomParam === 'foyer' || roomParam === 'lounge-wall') {
+        roomParam = 'living-room';
+      }
+
+      if (roomParam && roomConfigs[roomParam]) {
+        currentRoomKey = roomParam;
+        document.querySelectorAll('.room-btn').forEach(b => {
+          if (b.getAttribute('data-room') === currentRoomKey) {
+            b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+            b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
+          } else {
+            b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+            b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
+          }
+        });
+      }
+
+      const surfaceParam = (urlParams.get('surface') || '').toLowerCase().trim();
+      if (surfaceParam) {
+        const room = roomConfigs[currentRoomKey];
+        const matchSurfKey = Object.keys(room.surfaces).find(k => 
+          k.toLowerCase() === surfaceParam || 
+          room.surfaces[k].label.toLowerCase().includes(surfaceParam) ||
+          surfaceParam.includes(k.toLowerCase())
+        );
+        if (matchSurfKey) {
+          currentSurfaceKey = matchSurfKey;
+        }
+      }
+    }
+
+    // 14. Initialize Visualizer App
+    checkUrlParams();
+    renderSurfaceButtons();
+    renderMaterialsList('all');
+    updateStage();
+    updateInfoCard();
+  </script>
+</body>
+</html>

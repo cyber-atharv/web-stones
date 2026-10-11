@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="refresh" content="3; url=index.html"/>
+  <title>Page Not Found | Murali Granites &amp; Marbles</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/navigation.css?v=1.6"/>
+  <style>
+    body {
+      background: #08080A;
+      color: #E8E6E1;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: 0;
+    }
+    .gold-gradient {
+      background: linear-gradient(135deg, #F5DCA3 0%, #C5A059 50%, #9C772C 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .redirect-progress {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      overflow: hidden;
+      margin: 1.5rem 0;
+    }
+    .redirect-bar {
+      width: 0%;
+      height: 100%;
+      background: #C5A059;
+      animation: fillBar 3s linear forwards;
+    }
+    @keyframes fillBar {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+  </style>
+</head>
+<body class="flex flex-col justify-between">
+  <!-- Minimal Header -->
+  <header>
+    <div class="nav-container">
+      <a class="logo-link" href="index.html" title="Murali Granites & Marbles Home">
+<img alt="Murali Granites & Marbles Medallion Logo" class="logo-icon-img" decoding="async" height="42" src="assets/images/logo.png" width="42"/>
+<span class="logo-text">Murali <span class="logo-subtext">Granites &amp; Marbles</span></span>
+</a>
+      <div class="nav-right-wrap">
+        <a class="nav-login-btn" href="login.html" title="Admin Portal Login"><span>Login</span></a>
+        <a class="nav-quote-btn" href="index.html"><span>Home</span></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 404 Main Message -->
+  <main style="max-width: 650px; margin: auto; padding: 8rem 1.5rem 4rem; text-align: center;">
+    <div style="font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: #C5A059; font-weight: 600; margin-bottom: 0.5rem;">
+      Architectural Route Not Found
+    </div>
+    <h1 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 7vw, 5.5rem); margin: 0; font-weight: 400; line-height: 1;">
+      404 <span class="gold-gradient">Missing Space</span>
+    </h1>
+    <p style="color: #8A8A80; font-size: 0.95rem; line-height: 1.6; margin-top: 1.25rem;">
+      The stone surface or page you are looking for does not exist or has been relocated to our main gallery.
+    </p>
+
+    <!-- Auto-redirect progress bar -->
+    <div class="redirect-progress">
+      <div class="redirect-bar"></div>
+    </div>
+    <p style="font-size: 0.8rem; color: #71717A;">
+      Redirecting you to the home catalog in <strong id="countdown" style="color: #C5A059;">3</strong> seconds...
+    </p>
+
+    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
+      <a href="index.html" style="background: #C5A059; color: #080808; padding: 0.75rem 1.75rem; border-radius: 8px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; letter-spacing: 0.05em; transition: opacity 0.2s;">
+        Return to Home Page &rarr;
+      </a>
+      <a href="visualizer.html" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #ffffff; padding: 0.75rem 1.75rem; border-radius: 8px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: background 0.2s;">
+        Open Room Visualizer
+      </a>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="text-align: center; padding: 2rem; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.8rem; color: #71717A;">
+    &copy; 2026 Murali Granites &amp; Marbles. All rights reserved.
+  </footer>
+
+  <script>
+    let timeLeft = 3;
+    const countEl = document.getElementById('countdown');
+    const timer = setInterval(() => {
+      timeLeft -= 1;
+      if (countEl) countEl.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        window.location.replace('index.html');
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

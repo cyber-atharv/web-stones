@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Contact &amp; Request a Quote | Murali Granites &amp; Marbles</title>
+  <link href="assets/images/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="assets/images/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="assets/images/favicon.ico" rel="shortcut icon"/>
+  <link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="contact.html" rel="canonical"/>
+  <meta content="Connect with Murali Granites &amp; Marbles. Request custom quotes for natural granite, marble slabs, countertops, and flooring, or speak directly with our team." name="description"/>
+  <meta content="index, follow, max-image-preview:large" name="robots"/>
+  <meta content="Murali Granites &amp; Marbles" name="author"/>
+  <meta content="Murali Granites &amp; Marbles, Granite Slabs, Natural Marble, Stone Quotation, Kitchen Countertops, Stone Flooring" name="keywords"/>
+
+  <meta content="Contact &amp; Request a Quote | Murali Granites &amp; Marbles" property="og:title"/>
+  <meta content="Connect with Murali Granites &amp; Marbles. Request custom quotes for natural granite, marble slabs, countertops, and flooring." property="og:description"/>
+  <meta content="contact.html" property="og:url"/>
+  <meta content="assets/images/hero_poster.webp" property="og:image"/>
+
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="assets/css/navigation.css?v=1.5" rel="stylesheet"/>
+
+  <!-- Schema.org Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "name": "Murali Granites & Marbles",
+    "telephone": "+916366380051",
+    "description": "Natural stone, granite, marble and surface materials.",
+    "priceRange": "₹₹"
+  }
+  </script>
+
+  <style>
+    :root {
+      --gold: #C5A059;
+      --gold-dim: #9C772C;
+      --black: #0E0E10;
+      --dark-surface: #141418;
+      --card-bg: #16161C;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --white: #FFFFFF;
+      --light-grey: #D5D2CA;
+      --mid-grey: #8A8880;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--black);
+      color: var(--light-grey);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--mid-grey);
+      margin-bottom: 2rem;
+    }
+    .breadcrumb a { color: var(--gold); }
+    .contact-hero {
+      margin-bottom: 3.5rem;
+    }
+    .contact-eyebrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .contact-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      color: var(--white);
+      line-height: 1.15;
+      font-weight: 400;
+    }
+    .contact-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3.5rem;
+    }
+    @media (max-width: 900px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    }
+
+    /* Form Styles */
+    .form-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      padding: 2.5rem;
+    }
+    @media (max-width: 600px) {
+      .form-panel { padding: 1.5rem; }
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; gap: 1rem; }
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+    }
+    .form-label span { color: var(--gold); }
+    .form-control {
+      width: 100%;
+      background: #0E0E12;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.25s ease;
+    }
+    .form-control:focus {
+      border-color: var(--gold);
+    }
+    textarea.form-control {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .form-submit-btn {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+    .form-submit-btn:hover {
+      background: #d8b46e;
+      transform: translateY(-2px);
+    }
+
+    /* Info Column */
+    .info-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 1.25rem;
+      padding: 2rem;
+    }
+    .info-heading {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .info-phone {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--white);
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    .action-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .btn-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-call {
+      background: #1C1C24;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--white);
+    }
+    .btn-call:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .btn-whatsapp {
+      background: #128C7E;
+      color: #ffffff;
+      border: 1px solid #25D366;
+    }
+    .btn-whatsapp:hover {
+      background: #075E54;
+    }
+
+    #formAlertBox {
+      display: none;
+      padding: 1.25rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a class="logo-link" href="index.html" title="Murali Granites & Marbles Home">
+<img alt="Murali Granites & Marbles Medallion Logo" class="logo-icon-img" decoding="async" height="42" src="assets/images/logo.png" width="42"/>
+<span class="logo-text">Murali <span class="logo-subtext">Granites &amp; Marbles</span></span>
+</a>
+      <ul class="nav-menu">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="visualizer.html">Visualizer</a></li>
+        <li class="nav-item"><a class="nav-link" href="products.html">Collection</a></li>
+        <li class="nav-item"><a class="nav-link" href="stone-analysis.html">Stone Analysis</a></li>
+        <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link active" href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-right-wrap">
+  <a class="nav-login-btn" href="login.html" title="Admin Portal Login">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Login / Admin</span>
+  </a>
+  <a class="nav-quote-btn" href="contact.html"><span>Get Quote</span></a>
+</div>
+      <button aria-label="Toggle Menu" class="hamburger">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav">
+    <ul class="mobile-nav-list">
+      <li><a class="mobile-nav-link" href="index.html">Home</a></li>
+      <li><a class="mobile-nav-link" href="visualizer.html">Visualizer</a></li>
+      <li><a class="mobile-nav-link" href="products.html">Collection</a></li>
+      <li><a class="mobile-nav-link" href="stone-analysis.html">Stone Analysis</a></li>
+      <li><a class="mobile-nav-link" href="faq.html">FAQ</a></li>
+      <li><a class="mobile-nav-link active" href="contact.html">Contact Us</a></li>
+    <li><a class="mobile-nav-link" href="login.html">Login / Admin</a></li>
+</ul>
+    <a class="mobile-quote-btn" href="contact.html"><span>Request Quote</span></a>
+<a class="mobile-login-btn" href="login.html"><span>Admin Portal Login &rarr;</span></a>
+  </div>
+
+  <!-- Main Content -->
+  <main class="contact-container">
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a> <span>/</span>
+      <span>Contact &amp; Quotation</span>
+    </nav>
+
+    <div class="contact-hero">
+      <span class="contact-eyebrow">Direct Assistance &amp; Estimates</span>
+      <h1 class="contact-title">Let’s discuss your <em>stone requirements.</em></h1>
+      <p style="color: var(--mid-grey); font-size: 0.95rem; margin-top: 0.6rem; max-width: 600px;">
+        Whether you are planning flooring, kitchen countertops, or a custom architectural project, share your requirements and our team will provide quotation details and material guidance.
+      </p>
+    </div>
+
+    <div class="contact-grid">
+      <!-- Quotation Form Column -->
+      <div class="form-panel">
+        <h2 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--white); margin-bottom: 1.25rem;">
+          Request a Quotation
+        </h2>
+
+        <div id="visualizerContextBanner" style="display:none; padding: 12px 16px; border-radius: 8px; background: rgba(197, 160, 89, 0.12); border: 1px solid rgba(197, 160, 89, 0.35); margin-bottom: 20px; font-size: 13px; color: #E8E6E1; line-height: 1.5;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div>
+              <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; display: block;">Visualizer Configuration Attached</span>
+              <span id="visBannerDetails" style="font-weight: 600; color: #ffffff;">Material: River Black &bull; Room: Kitchen Countertop</span>
+            </div>
+            <a id="visBannerEditLink" href="visualizer.html" style="font-size: 12px; color: var(--gold); text-decoration: underline; font-weight: 600;">Edit in Visualizer &rarr;</a>
+          </div>
+        </div>
+
+        <div id="formAlertBox"></div>
+
+        <form id="quotationForm" onsubmit="handleQuotationSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="custName">Your Name <span>*</span></label>
+              <input type="text" id="custName" class="form-control" placeholder="e.g. Anand Kumar" required/>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="custPhone">Phone Number <span>*</span></label>
+              <input type="tel" id="custPhone" class="form-control" placeholder="e.g. +91 98765 43210" required/>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="custEmail">Email Address (Optional)</label>
+              <input type="email" id="custEmail" class="form-control" placeholder="name@email.com"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="custLocation">Project Location / City</label>
+              <input type="text" id="custLocation" class="form-control" placeholder="e.g. Bangalore, Chennai, Krishnagiri"/>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="custMaterial">Selected Material / Stone</label>
+              <input type="text" id="custMaterial" class="form-control" placeholder="e.g. River Black, Statuario Marble, Tan Brown"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="custRoom">Room / Application Surface</label>
+              <input type="text" id="custRoom" class="form-control" placeholder="e.g. Kitchen Countertop, Living Room Flooring"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="custArea">Approximate Area or Quantity (Sq. Ft)</label>
+            <input type="text" id="custArea" class="form-control" placeholder="e.g. 450 sq.ft or 2 slabs"/>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="custNotes">Project Notes or Queries</label>
+            <textarea id="custNotes" class="form-control" placeholder="Tell us about required thickness (16mm / 18mm), finish (Polished / Honed), timeline, or questions..."></textarea>
+          </div>
+
+          <button type="submit" id="submitFormBtn" class="form-submit-btn">
+            <span>Submit Quotation Request</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- Direct Contact Column -->
+      <div class="info-panel">
+        <div class="info-card">
+          <div class="info-heading">Direct Contact</div>
+          <a href="tel:+916366380051" class="info-phone">+91 6366380051</a>
+          <p style="color: var(--mid-grey); font-size: 0.85rem; margin-bottom: 1.5rem; line-height: 1.5;">
+            Speak directly with our stone specialists for material availability, thickness specifications, and factory direct rates.
+          </p>
+
+          <div class="action-btns">
+            <a href="tel:+916366380051" class="btn-action btn-call">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+              <span>Call +91 6366380051</span>
+            </a>
+
+            <a href="https://wa.me/916366380051?text=Hello%20Murali%20Granites%20%26%20Marbles%2C%20I%20would%20like%20to%20enquire%20about%20your%20natural%20stone%20collection." target="_blank" rel="noreferrer" class="btn-action btn-whatsapp">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.149.929 3.182 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.768-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.299.144.347.491 1.199.534 1.286.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.448.74 0.962 1.198.662.59 1.221.773 1.394.859.173.086.275.072.376-.044.101-.116.433-.506.549-.679.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.043.073.043.419-.101.824z"/></svg>
+              <span>Chat on WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-heading">Material Consultation</div>
+          <p style="color: var(--mid-grey); font-size: 0.88rem; line-height: 1.6;">
+            Visiting our collection or need guidance on choosing between Indian granite and imported marble? We help you compare tensile durability, water absorption, and cost per square foot for your specific architectural needs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-gold-line" style="height:1px; background:linear-gradient(to right, var(--gold), transparent); margin-bottom:2.5rem; width:180px;"></div>
+    <div class="footer-top" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:2.5rem; padding-bottom:2.5rem; border-bottom:1px solid rgba(255,255,255,0.06);">
+      <div>
+        <p class="brand-name" style="font-family:var(--font-display); font-size:1.8rem; color:var(--white);">Murali Granites &amp; Marbles</p>
+        <p class="brand-tagline" style="font-size:0.7rem; letter-spacing:0.25em; color:var(--gold); text-transform:uppercase; margin-top:0.3rem;">Stone That Defines Space</p>
+      </div>
+      <div style="display:flex; gap:3.5rem; flex-wrap:wrap;">
+        <div>
+          <h4 style="font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem;">Navigation</h4>
+          <ul style="list-style:none; font-size:0.85rem; line-height:1.8;">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="visualizer.html">Stone Visualizer</a></li>
+            <li><a href="products.html">Stone Collection</a></li>
+            <li><a href="stone-analysis.html">Geological Specs</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-size:0.65rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem;">Contact</h4>
+          <ul style="list-style:none; font-size:0.85rem; line-height:1.8; color:var(--mid-grey);">
+            <li style="color:var(--white); font-weight:500;">Murali Granites &amp; Marbles</li>
+            <li>Phone: <a href="tel:+916366380051" style="color:var(--gold);">+91 6366380051</a></li>
+            <li>WhatsApp: <a href="https://wa.me/916366380051" target="_blank" style="color:#6EE7B7;">+91 6366380051</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; padding-top:1.5rem; font-size:0.75rem; color:var(--mid-grey); flex-wrap:wrap; gap:1rem;">
+      <p>&copy; 2026 Murali Granites &amp; Marbles. All rights reserved.</p>
+      <p style="color:var(--gold-dim);">Crafted for spaces that endure.</p>
+    </div>
+  <div class="footer-bottom">
+      <div class="dev-credit-box">
+        <span>Website developed and designed by <strong>ATHARV HOGADE</strong></span>
+        <span>|</span>
+        <span>Email: <a href="mailto:atharvhogade12@gmail.com" style="color:var(--gold, #C5A059);">atharvhogade12@gmail.com</a></span>
+      </div>
+</div>
+</footer>
+
+  <script src="assets/js/navigation.js" type="module"></script>
+  <script>
+    // URL Parameter Parsing & Pre-filling
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const matParam = params.get('material') || params.get('product');
+      const roomParam = params.get('room');
+      const surfaceParam = params.get('surface');
+
+      if (matParam) {
+        const matInput = document.getElementById('custMaterial');
+        if (matInput) matInput.value = matParam;
+      }
+
+      if (roomParam || surfaceParam) {
+        const roomInput = document.getElementById('custRoom');
+        if (roomInput) {
+          const parts = [];
+          if (roomParam) parts.push(roomParam);
+          if (surfaceParam) parts.push(surfaceParam);
+          roomInput.value = parts.join(' - ');
+        }
+      }
+
+      if (matParam && roomParam) {
+        const notesInput = document.getElementById('custNotes');
+        if (notesInput && !notesInput.value) {
+          notesInput.value = `Requesting quotation and slab availability for ${matParam} planned for ${roomParam}${surfaceParam ? ' (' + surfaceParam + ')' : ''}.`;
+        }
+      }
+
+      // Display visualizer configuration banner if parameters are present
+      if (matParam || roomParam) {
+        const visBanner = document.getElementById('visualizerContextBanner');
+        const visDetails = document.getElementById('visBannerDetails');
+        const visLink = document.getElementById('visBannerEditLink');
+        if (visBanner && visDetails) {
+          const roomSurfaceText = [roomParam, surfaceParam].filter(Boolean).join(' - ') || 'Custom Application';
+          visDetails.textContent = `Material: ${matParam || 'Selected Stone'} • Space: ${roomSurfaceText}`;
+          visBanner.style.display = 'block';
+          if (visLink) {
+            visLink.href = `visualizer.html?material=${encodeURIComponent(matParam || '')}&room=${encodeURIComponent(roomParam || '')}&surface=${encodeURIComponent(surfaceParam || '')}`;
+          }
+        }
+      }
+    });
+
+    // Smart Form Submission Handler
+    window.handleQuotationSubmit = function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const email = document.getElementById('custEmail').value.trim();
+      const location = document.getElementById('custLocation').value.trim();
+      const material = document.getElementById('custMaterial').value.trim();
+      const room = document.getElementById('custRoom').value.trim();
+      const area = document.getElementById('custArea').value.trim();
+      const notes = document.getElementById('custNotes').value.trim();
+
+      const alertBox = document.getElementById('formAlertBox');
+      const submitBtn = document.getElementById('submitFormBtn');
+
+      if (!name || !phone) {
+        alertBox.style.display = 'block';
+        alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
+        alertBox.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+        alertBox.style.color = '#FCA5A5';
+        alertBox.textContent = 'Please enter your name and phone number.';
+        return;
+      }
+
+      // Record quotation request in localStorage for persistence
+      const enquiryRecord = {
+        id: 'REQ_' + Date.now(),
+        date: new Date().toISOString(),
+        name,
+        phone,
+        email,
+        location,
+        material: material || 'General Inquiry',
+        room: room || 'Not Specified',
+        area: area || 'Not Specified',
+        notes
+      };
+
+      try {
+        const existing = JSON.parse(localStorage.getItem('murali_quotation_requests') || '[]');
+        existing.push(enquiryRecord);
+        localStorage.setItem('murali_quotation_requests', JSON.stringify(existing));
+      } catch (err) {
+        console.warn('Storage unavailable:', err);
+      }
+
+      // Generate WhatsApp Direct Pre-filled Link
+      const waText = encodeURIComponent(
+        `Hello Murali Granites & Marbles, I have submitted a quotation enquiry:\n` +
+        `• Name: ${name}\n` +
+        `• Phone: ${phone}\n` +
+        (material ? `• Material: ${material}\n` : '') +
+        (room ? `• Application: ${room}\n` : '') +
+        (area ? `• Area: ${area}\n` : '') +
+        (location ? `• Location: ${location}\n` : '') +
+        (notes ? `• Notes: ${notes}\n` : '')
+      );
+      const waUrl = `https://wa.me/916366380051?text=${waText}`;
+
+      // Show professional success message
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(16, 185, 129, 0.15)';
+      alertBox.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+      alertBox.style.color = '#A7F3D0';
+      alertBox.innerHTML = `
+        <div style="font-weight: 600; margin-bottom: 0.4rem; color: #34D399;">
+          Quotation Request Successfully Submitted!
+        </div>
+        <div style="margin-bottom: 0.8rem;">
+          Thank you, <strong>${name}</strong>. Our stone specialist will review your request for <em>${material || 'your project'}</em> and call you at <strong>${phone}</strong> shortly.
+        </div>
+        <a href="${waUrl}" target="_blank" rel="noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 6px; background: #128C7E; color: #fff; font-weight: 600; font-size: 0.82rem; text-decoration: none;">
+          <span>Send Details to WhatsApp Now &rarr;</span>
+        </a>
+      `;
+
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.6';
+      submitBtn.textContent = 'Request Received';
+    };
+  </script>
+</body>
+</html>

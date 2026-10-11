@@ -1,0 +1,14 @@
+{
+  "subdomains": [
+    {
+      "subdomain": "www.muraligranites.com",
+      "ip": "147.93.17.162"
+    },
+    {
+      "subdomain": "autodiscover.muraligranites.com",
+      "ip": "34.120.251.119"
+    }
+  ],
+  "total_photos_count": 57,
+  "distinct_stone_slabs": 53
+}
