@@ -1337,21 +1337,46 @@
     }, 3200);
   };
 
-  // 4. File Upload Handler (Base64 DataURL converter for client-side storage)
+  // 4. File Upload Handler (Optimized Base64 DataURL converter with client-side downscaling)
   window.handleImageFileUpload = function(e, targetInputId, previewBoxId, previewImgId) {
     const file = e.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = function(evt) {
-      const dataUrl = evt.target.result;
-      document.getElementById(targetInputId).value = dataUrl;
-      const previewBox = document.getElementById(previewBoxId);
-      const previewImg = document.getElementById(previewImgId);
-      if (previewBox && previewImg) {
-        previewImg.src = dataUrl;
-        previewBox.style.display = 'block';
-      }
+      const rawDataUrl = evt.target.result;
+      
+      // Downscale image through canvas to keep localStorage well within quota (~60KB)
+      const img = new Image();
+      img.onload = function() {
+        const maxDim = 960;
+        let w = img.width;
+        let h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          } else {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+
+        document.getElementById(targetInputId).value = optimizedDataUrl;
+        const previewBox = document.getElementById(previewBoxId);
+        const previewImg = document.getElementById(previewImgId);
+        if (previewBox && previewImg) {
+          previewImg.src = optimizedDataUrl;
+          previewBox.style.display = 'block';
+        }
+      };
+      img.src = rawDataUrl;
     };
     reader.readAsDataURL(file);
   };
@@ -1502,10 +1527,34 @@
     custom.unshift(newStone);
     saveCustomStones(custom);
 
+    // Auto-link photorealistic visualizer pairings for all 3 rooms
+    const customVis = getCustomVisualizers();
+    const visPairs = [
+      { room_id: 'living-room', surface_id: 'floor' },
+      { room_id: 'living-room', surface_id: 'wall' },
+      { room_id: 'bathroom', surface_id: 'floor' },
+      { room_id: 'bathroom', surface_id: 'wall' },
+      { room_id: 'bedroom', surface_id: 'floor' }
+    ];
+    visPairs.forEach(vp => {
+      customVis.unshift({
+        product_id: slug,
+        product_name: name,
+        room_id: vp.room_id,
+        surface_id: vp.surface_id,
+        generated_preview: imageUrl,
+        status: 'photorealistic_admin_registered',
+        review_status: 'verified',
+        isDefault: false
+      });
+    });
+    saveCustomVisualizers(customVis);
+
     document.getElementById('stoneForm').reset();
     document.getElementById('stPreviewBox').style.display = 'none';
     renderStonesTable();
-    showToast(`✓ "${name}" added to live stone catalog!`);
+    renderVisualizerTable();
+    showToast(`✓ "${name}" added to live catalog & room visualizer!`);
   };
 
   window.deleteCustomStone = function(id) {
@@ -1513,7 +1562,14 @@
     let custom = getCustomStones();
     custom = custom.filter(s => s.id !== id && s.slug !== id);
     saveCustomStones(custom);
+
+    // Also remove paired visualizers
+    let customVis = getCustomVisualizers();
+    customVis = customVis.filter(v => v.product_id !== id);
+    saveCustomVisualizers(customVis);
+
     renderStonesTable();
+    renderVisualizerTable();
     showToast('Stone removed from catalog.');
   };
 

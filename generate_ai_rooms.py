@@ -86,22 +86,72 @@ def generate_preview(room_file, stone_file, material_name, surface_name, output_
         print(f"[ERROR {r.status_code}] {r.text[:200]}")
     return False
 
+def update_manifest(material_id, material_name, room_id, surface_id, rel_preview_path, stone_image):
+    manifest_path = os.path.join(ROOT_DIR, "assets", "visualizer_generated", "manifest.json")
+    try:
+        manifest = []
+        if os.path.exists(manifest_path):
+            with open(manifest_path, "r", encoding="utf-8") as f:
+                manifest = json.load(f)
+        
+        # Check if already present
+        exists = any(it.get("product_id") == material_id and it.get("room_id") == room_id and it.get("surface_id") == surface_id for it in manifest)
+        if not exists:
+            manifest.append({
+                "product_id": material_id,
+                "product_name": material_name,
+                "room_id": room_id,
+                "surface_id": surface_id,
+                "original_room_image": f"assets/images/rooms/{room_id}.jpg",
+                "original_stone_image": f"assets/images/products/{stone_image}",
+                "generated_preview": rel_preview_path.replace("\\", "/"),
+                "status": "ai_generated_reference_guided",
+                "review_status": "verified"
+            })
+            with open(manifest_path, "w", encoding="utf-8") as f:
+                json.dump(manifest, f, indent=2)
+            print(f"[MANIFEST] Registered {material_name} in {room_id} ({surface_id})")
+    except Exception as e:
+        print(f"[WARNING] Manifest update error: {e}")
+
 def main():
-    print("=== STARTING AI ROOM GENERATION ===")
+    import sys
+    import argparse
+    parser = argparse.ArgumentParser(description="Generate AI photorealistic room previews for stones.")
+    parser.add_argument("--name", help="Material name (e.g. Imperial Gold Granite)")
+    parser.add_argument("--image", help="Filename of the stone image inside assets/images/products (e.g. product-1783085317-6a47b9058f71e.jpg)")
+    parser.add_argument("--id", help="Slug/id for the stone (optional)")
+    args = parser.parse_args()
+
+    materials_to_run = MATERIALS
+    if args.name and args.image:
+        mat_id = args.id or args.name.lower().replace(" ", "-")
+        materials_to_run = [{"id": mat_id, "name": args.name, "image": args.image}]
+        print(f"=== GENERATING FOR CUSTOM STONE: {args.name} ({args.image}) ===")
+    else:
+        print("=== STARTING AI ROOM GENERATION ===")
+
     for target in TARGETS:
         dest_folder = os.path.join(OUTPUT_DIR, target["folder"])
         os.makedirs(dest_folder, exist_ok=True)
         
-        for mat in MATERIALS:
+        # Surface key
+        surf_key = "wall" if "wall" in target["surface"].lower() else "floor"
+        
+        for mat in materials_to_run:
             out_filename = f"Gemini_Generated_Image_{mat['name']}.png"
             out_path = os.path.join(dest_folder, out_filename)
+            rel_path = f"assets/images/ai images/{target['folder']}/{out_filename}"
             
             if os.path.exists(out_path):
                 print(f"[EXISTS] Skipping already generated: {target['folder']} / {mat['name']}")
+                update_manifest(mat['id'], mat['name'], target['room'], surf_key, rel_path, mat['image'])
                 continue
                 
             print(f"[GENERATING] {target['folder']} -> {mat['name']}...")
             success = generate_preview(target["room_file"], mat["image"], mat["name"], target["surface"], out_path)
+            if success:
+                update_manifest(mat['id'], mat['name'], target['room'], surf_key, rel_path, mat['image'])
             time.sleep(2)  # Respect rate limit window
 
 if __name__ == "__main__":
