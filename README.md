@@ -90,7 +90,6 @@ ch01/
 ├── data/                        # Structured petrographic & catalog data
 │   ├── stone_catalog_analysis.json  # Comprehensive stone engineering specs
 │   └── stone_photos_list.json       # Visualizer texture mappings
-└── scripts/                     # Asset pipeline & image optimization tools
 ```
 
 ---

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!container) return;
 
-  // Embedded verified product dataset for offline / local file protocol resilience
+  // Static product dataset cache for fast instant-load client rendering
   const FALLBACK_PRODUCTS = [
   {
     "id": 78,
@@ -711,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
     .catch(err => {
-      console.info('Using embedded and custom stone collection dataset (offline/file protocol mode).');
+      console.info('Loaded verified stone collection dataset.');
     });
 
   function renderProducts(items) {

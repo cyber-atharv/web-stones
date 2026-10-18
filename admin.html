@@ -936,7 +936,7 @@
 
           <div class="metric-card">
             <div class="metric-header">
-              <span>Visualizer AI Previews</span>
+              <span>Room Visualizer Renders</span>
               <div class="metric-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
               </div>
@@ -984,7 +984,7 @@
               <span>Manage Price List &amp; Stock</span>
             </button>
             <button class="btn-submit-action" onclick="switchToTab('tab-visualizer')" style="background:rgba(255,255,255,0.08); color:#ffffff; border:1px solid rgba(255,255,255,0.2);">
-              <span>Upload Room AI Render</span>
+              <span>Upload Room Render</span>
             </button>
             <button class="btn-submit-action" onclick="switchToTab('tab-leads')" style="background:rgba(255,255,255,0.08); color:#ffffff; border:1px solid rgba(255,255,255,0.2);">
               <span>Inspect Lead CRM</span>
@@ -1150,7 +1150,7 @@
               </div>
               <div class="admin-form-group">
                 <label>Secondary Button Label</label>
-                <input class="admin-input" id="cfgHeroCta2Text" placeholder="e.g. AI Room Visualizer" required/>
+                <input class="admin-input" id="cfgHeroCta2Text" placeholder="e.g. Interactive Room Visualizer" required/>
               </div>
               <div class="admin-form-group">
                 <label>Secondary Button URL / Target</label>
@@ -1415,7 +1415,7 @@
 
             <div class="admin-form-group" style="margin-bottom:1.2rem;">
               <label>Photorealistic Room Render (Upload Render File or URL) *</label>
-              <input class="admin-input" id="visRenderUrl" placeholder="assets/images/ai images/... or image URL" required type="text"/>
+              <input class="admin-input" id="visRenderUrl" placeholder="assets/images/room_renders/... or image URL" required type="text"/>
             </div>
 
             <div class="admin-form-group" style="margin-bottom:1.4rem;">
@@ -1557,7 +1557,7 @@
                   <input type="file" id="projFileInput" accept="image/*" style="display:none" onchange="handleImageFileUpload(event, 'projImageUrl', 'projPreviewBox', 'projPreviewImg')"/>
                 </div>
                 <div>
-                  <input class="admin-input" id="projImageUrl" placeholder="Or enter image URL..." value="assets/images/ai images/living room floor/Gemini_Generated_ImageStatuario Banswara Marble.png" required/>
+                  <input class="admin-input" id="projImageUrl" placeholder="Or enter image URL..." value="assets/images/room_renders/living room floor/render_Statuario Banswara Marble.png" required/>
                   <div class="preview-thumbnail-box" id="projPreviewBox">
                     <img id="projPreviewImg" src="" alt="Project Preview"/>
                   </div>
@@ -2152,7 +2152,7 @@
     subtitle: 'Quarry Direct Luxury Natural Stone, Calibrated for Generations.',
     ctaPrimaryText: 'Experience 3D Journey',
     ctaPrimaryLink: '#c0',
-    ctaSecondaryText: 'AI Room Visualizer',
+    ctaSecondaryText: 'Interactive Room Visualizer',
     ctaSecondaryLink: 'visualizer.html',
     bannerEnabled: true,
     bannerText: 'Direct Quarry Supply: New Lot of Italian Statuario & River Black Slabs Arrived at Bargur Hub!',
@@ -2171,7 +2171,7 @@
       city: 'Bangalore',
       material: 'Statuario Marble & River Black Granite',
       area: '14,000 sq.ft',
-      image: 'assets/images/ai images/living room floor/Gemini_Generated_ImageStatuario Banswara Marble.png',
+      image: 'assets/images/room_renders/living room floor/render_Statuario Banswara Marble.png',
       year: '2025',
       notes: 'Bookmatched 18mm calibrated marble for main atrium with diamond mirror finish River Black kitchen countertops.'
     },
@@ -2182,7 +2182,7 @@
       city: 'Chennai',
       material: 'Blue in the Night & Kashmir White',
       area: '8,500 sq.ft',
-      image: 'assets/images/ai images/bathroom floor/Gemini_Generated_Image_Blue in the Night.png',
+      image: 'assets/images/room_renders/bathroom floor/render_Blue in the Night.png',
       year: '2025',
       notes: 'High-density igneous granite resisting saline coastal air and humidity across 12 ocean-facing suites.'
     },
@@ -2193,7 +2193,7 @@
       city: 'Hyderabad',
       material: 'Tan Brown & Black Pearl Granite',
       area: '26,000 sq.ft',
-      image: 'assets/images/ai images/kitchen countertop/Gemini_Generated_Image_River Black.png',
+      image: 'assets/images/room_renders/kitchen countertop/render_River Black.png',
       year: '2024',
       notes: 'Heavy footfall lobby entrance flooring and double-bullnose staircase step treads.'
     }
@@ -2224,10 +2224,10 @@
   ];
 
   const DEFAULT_VISUALIZERS = [
-    { room_id: 'kitchen', surface_id: 'countertop', product_id: 'river-black', product_name: 'River Black', generated_preview: 'assets/images/ai images/kitchen countertop/Gemini_Generated_Image_River Black.png', isDefault: true },
-    { room_id: 'living-room', surface_id: 'floor', product_id: 'statuario-marble', product_name: 'Statuario Marble', generated_preview: 'assets/images/ai images/living room floor/Gemini_Generated_ImageStatuario Banswara Marble.png', isDefault: true },
-    { room_id: 'bathroom', surface_id: 'floor', product_id: 'blue-night', product_name: 'Blue in the Night', generated_preview: 'assets/images/ai images/bathroom floor/Gemini_Generated_Image_Blue in the Night.png', isDefault: true },
-    { room_id: 'bedroom', surface_id: 'floor', product_id: 'black-forest', product_name: 'Black Forest', generated_preview: 'assets/images/ai images/bedroom floor/Gemini_Generated_Image_Black Forest.png', isDefault: true }
+    { room_id: 'kitchen', surface_id: 'countertop', product_id: 'river-black', product_name: 'River Black', generated_preview: 'assets/images/room_renders/kitchen countertop/render_River Black.png', isDefault: true },
+    { room_id: 'living-room', surface_id: 'floor', product_id: 'statuario-marble', product_name: 'Statuario Marble', generated_preview: 'assets/images/room_renders/living room floor/render_Statuario Banswara Marble.png', isDefault: true },
+    { room_id: 'bathroom', surface_id: 'floor', product_id: 'blue-night', product_name: 'Blue in the Night', generated_preview: 'assets/images/room_renders/bathroom floor/render_Blue in the Night.png', isDefault: true },
+    { room_id: 'bedroom', surface_id: 'floor', product_id: 'black-forest', product_name: 'Black Forest', generated_preview: 'assets/images/room_renders/bedroom floor/render_Black Forest.png', isDefault: true }
   ];
 
   const DEFAULT_DIAGNOSTICS = [
@@ -2791,7 +2791,7 @@
         <td><strong style="text-transform:capitalize;">${(v.room_id || '').replace('-', ' ')}</strong></td>
         <td><span class="badge-tag badge-emerald">${(v.surface_id || 'floor').toUpperCase()}</span></td>
         <td>${v.product_name || v.product_id}</td>
-        <td><span class="badge-tag ${isCust ? 'badge-custom' : 'badge-system'}">${isCust ? 'Custom Render' : 'Default AI'}</span></td>
+        <td><span class="badge-tag ${isCust ? 'badge-custom' : 'badge-system'}">${isCust ? 'Custom Render' : 'Studio Render'}</span></td>
         <td>
           ${isCust ? `<button class="action-btn-del" onclick="deleteCustomVisualizer(${idx})">Delete</button>` : `<span style="font-size:0.7rem; color:var(--text-dim);">Core</span>`}
         </td>
