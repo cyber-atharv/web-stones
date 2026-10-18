@@ -7,7 +7,7 @@ import requests
 # Murali Granites & Marbles - Automated AI Room Preview Generator
 # Uses exact reference room photos from assets/images/rooms to prevent fake rooms.
 
-API_KEY = os.environ.get("GEMINI_API_KEY", "AQ.Ab8RN6IyqzeoTX0Wa-1SOHXCg6PIzeAaWkP5JPbStFQNUU3mMA")
+API_KEY = os.environ.get("GEMINI_API_KEY", "")
 MODEL = "gemini-2.5-flash-image"  # Or gemini-3.1-flash-image
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -51,6 +51,8 @@ def encode_img(path):
         return base64.b64encode(f.read()).decode("utf-8")
 
 def generate_preview(room_file, stone_file, material_name, surface_name, output_path):
+    if not API_KEY:
+        raise ValueError("GEMINI_API_KEY environment variable is required to run generation.")
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent?key={API_KEY}"
     
     room_b64 = encode_img(os.path.join(ROOMS_DIR, room_file))
