@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "slug": "titanium-black",
     "category": "Granite",
     "description": "",
-    "image_url": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "image_url": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
     "finish": "Polished",
     "origin": "Rajasthan",
     "color": "Black",

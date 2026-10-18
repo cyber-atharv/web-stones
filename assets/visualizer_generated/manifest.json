@@ -126,7 +126,7 @@
     "room_id": "living-room",
     "surface_id": "floor",
     "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
     "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_Titanium Black.png",
     "status": "ai_generated_reference_guided",
     "review_status": "verified"
@@ -258,7 +258,7 @@
     "room_id": "living-room",
     "surface_id": "wall",
     "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
     "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Titanium Black.png",
     "status": "ai_generated_reference_guided",
     "review_status": "verified"
@@ -390,7 +390,7 @@
     "room_id": "bedroom",
     "surface_id": "floor",
     "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
     "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Titanium Black.png",
     "status": "ai_generated_reference_guided",
     "review_status": "verified"
@@ -489,7 +489,7 @@
     "room_id": "bathroom",
     "surface_id": "floor",
     "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
     "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_Titanium Black.png",
     "status": "ai_generated_reference_guided",
     "review_status": "verified"
@@ -654,8 +654,96 @@
     "room_id": "bathroom",
     "surface_id": "wall",
     "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
     "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Titanium Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "river-black",
+    "product_name": "River Black",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_River Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-pearl",
+    "product_name": "Black Pearl",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Black Pearl.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "tan-brown",
+    "product_name": "Tan Brown",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Tan Brown.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "statuario-marble",
+    "product_name": "Statuario / Banswara Marble",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Statuario Banswara Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "kashmir-white",
+    "product_name": "Kashmir / Alaska White",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Kashmir Alaska White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "blue-night",
+    "product_name": "Blue in the Night",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Blue in the Night.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "marie-gold",
+    "product_name": "Marie Gold",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Marie Gold.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "emerald-onyx",
+    "product_name": "Emerald Onyx Marble",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Emerald Onyx Marble.png",
     "status": "ai_generated_reference_guided",
     "review_status": "verified"
   }

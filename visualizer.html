@@ -175,18 +175,18 @@
       <div class="lg:col-span-8 space-y-4">
         
         <!-- Room Stage Viewport -->
-        <div id="stageViewport" class="relative rounded-3xl overflow-hidden bg-stone-950 border border-white/10 shadow-2xl room-stage select-none group">
+        <div id="stageViewport" class="relative rounded-3xl overflow-hidden bg-stone-950 border border-white/10 shadow-2xl room-stage select-none group" style="touch-action: pan-y; background: radial-gradient(circle at 50% 35%, #181920 0%, #090a0d 100%); min-height: 440px;">
           
           <!-- Base Room Photo (Shows raw original room in Before mode) -->
-          <img id="baseRoomImg" src="assets/images/rooms/living-room.jpg" alt="Original room reference" class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"/>
+          <img id="baseRoomImg" src="assets/images/rooms/kitchen.jpg" alt="Original room reference" class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"/>
 
           <!-- After Layer: Contains Photorealistic Installed Stone Preview clipped to comparison slider -->
-          <div id="afterLayer" class="absolute inset-0 overflow-hidden" style="width: 100%;">
+          <div id="afterLayer" class="absolute inset-0 overflow-hidden" style="width: 100%; clip-path: inset(0 50% 0 0);">
             <!-- Matching Room Background inside After layer -->
-            <img id="afterBaseRoomImg" src="assets/images/rooms/living-room.jpg" alt="Room background" class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"/>
+            <img id="afterBaseRoomImg" src="assets/images/rooms/kitchen.jpg" alt="Room background" class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"/>
 
             <!-- PRIMARY PREVIEW: Photorealistic AI / Architectural Installed Stone Room Image -->
-            <img id="generatedRoomImg" src="assets/visualizer_generated/living-room/river-black-floor.jpg" alt="Photorealistic installed stone preview" class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300" style="display: block;"/>
+            <img id="generatedRoomImg" src="assets/images/ai images/kitchen countertop/Gemini_Generated_Image_River Black.png" alt="Photorealistic installed stone preview" class="absolute inset-0 w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300" style="display: block;"/>
 
             <!-- Architectural Simulation Overlay (Active only when specific combination render is pending) -->
             <div id="surfaceOverlayContainer" class="absolute inset-0 pointer-events-none transition-all duration-300" style="display: none;">
@@ -200,21 +200,21 @@
           </div>
 
           <!-- Split Comparison Divider Line & Handle (Active during comparison slider drag) -->
-          <div id="splitDividerLine" class="split-divider-line hidden">
+          <div id="splitDividerLine" class="split-divider-line" style="left: 50%; touch-action: none;">
             <div class="split-handle-btn" title="Drag left/right to compare Before and After">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 8L22 12L18 16M6 8L2 12L6 16"/></svg>
             </div>
           </div>
 
           <!-- Live Overlay Label (Top Left) -->
-          <div class="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2">
-            <span id="currentRoomBadge" class="text-xs px-3 py-1 rounded-full bg-black/80 text-white font-medium border border-white/20 backdrop-blur-md shadow-lg">
-              Living Room
+          <div class="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2 pointer-events-none">
+            <span id="currentRoomBadge" class="text-xs px-3 py-1 rounded-full bg-black/80 text-white font-medium border border-white/20 backdrop-blur-md shadow-lg pointer-events-auto">
+              Kitchen
             </span>
-            <span id="currentSurfaceBadge" class="text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg">
-              Surface: Flooring
+            <span id="currentSurfaceBadge" class="text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg pointer-events-auto">
+              Surface: Countertop &amp; Island
             </span>
-            <span id="renderQualityBadge" class="text-xs px-3 py-1 rounded-full bg-emerald-500/25 text-emerald-300 font-medium border border-emerald-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5">
+            <span id="renderQualityBadge" class="text-xs px-3 py-1 rounded-full bg-emerald-500/25 text-emerald-300 font-medium border border-emerald-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5 pointer-events-auto">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               <span id="renderQualityText">Photorealistic Room Render</span>
             </span>
@@ -234,7 +234,7 @@
           </div>
 
           <!-- Active Stone Tag (Bottom Left) -->
-          <div class="absolute bottom-4 left-4 z-20 bg-black/85 backdrop-blur-md border border-white/20 rounded-2xl p-3 flex items-center gap-3 shadow-2xl">
+          <div class="absolute bottom-4 left-4 z-20 bg-black/85 backdrop-blur-md border border-white/20 rounded-2xl p-3 flex items-center gap-3 shadow-2xl pointer-events-auto">
             <div class="w-11 h-11 rounded-xl overflow-hidden bg-black shrink-0 border border-white/25 shadow-inner">
               <img id="activeStoneThumb" src="assets/images/products/product-1783138465-6a4888a145274.jpg" class="w-full h-full object-cover" alt="Active texture thumbnail"/>
             </div>
@@ -245,7 +245,7 @@
           </div>
 
           <!-- Before / After Toggle Status Overlay -->
-          <div id="originalRoomIndicator" class="absolute inset-0 bg-black/45 backdrop-blur-[2px] hidden z-10 flex items-center justify-center">
+          <div id="originalRoomIndicator" class="absolute inset-0 bg-black/45 backdrop-blur-[2px] hidden z-10 flex items-center justify-center pointer-events-none">
             <div class="px-5 py-2.5 rounded-full bg-black/90 border border-amber-500/40 text-xs font-semibold uppercase tracking-widest text-amber-400 shadow-2xl flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-amber-400"></span>
               Original Room View (Raw / Unfinished)
@@ -253,28 +253,31 @@
           </div>
         </div>
 
-                <!-- Before / After Interactive Slider Bar -->
+        <!-- Before / After Interactive Slider Bar -->
         <div class="px-4 py-3 rounded-2xl bg-[#141418] border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <div class="flex items-center gap-2 text-stone-400 font-medium">
             <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
             <span>Comparison View:</span>
-            <span class="text-white font-semibold" id="sliderPercentLabel">100% Stone Applied</span>
+            <span class="text-white font-semibold" id="sliderPercentLabel">50% Comparison Split</span>
           </div>
           <div class="flex items-center gap-3 w-full sm:w-72">
             <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold">Raw (0%)</span>
-            <input type="range" id="compareSliderRange" min="0" max="100" value="100" class="w-full h-1.5 bg-stone-800 rounded-lg appearance-none cursor-pointer accent-amber-500" title="Slide to compare before and after finish"/>
+            <input type="range" id="compareSliderRange" min="0" max="100" value="50" class="w-full h-1.5 bg-stone-800 rounded-lg appearance-none cursor-pointer accent-amber-500" title="Slide to compare before and after finish"/>
             <span class="text-[10px] text-amber-400 uppercase tracking-wider font-semibold">Stone (100%)</span>
           </div>
         </div>
 
-        <!-- Room Selector Pills (All 6 architectural spaces supported) -->
+        <!-- Room Selector Pills (All 4 architectural spaces supported) -->
         <div class="p-4 rounded-2xl bg-[#141418] border border-white/10 space-y-2">
           <div class="flex items-center justify-between text-xs text-stone-400 font-medium px-1">
             <span>Select Interior Space:</span>
-            <span class="text-[11px] text-amber-400/80 font-medium">3 Architectural Environments</span>
+            <span class="text-[11px] text-amber-400/80 font-medium">4 Architectural Environments</span>
           </div>
-          <div class="grid grid-cols-3 gap-2 sm:gap-3" id="roomSelectorGrid">
-            <button class="room-btn active px-3 py-2.5 rounded-xl text-xs font-semibold text-center bg-stone-900 border border-amber-500/60 text-amber-300 transition" data-room="living-room">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3" id="roomSelectorGrid">
+            <button class="room-btn active px-3 py-2.5 rounded-xl text-xs font-semibold text-center bg-stone-900 border border-amber-500/60 text-amber-300 transition" data-room="kitchen">
+              Kitchen
+            </button>
+            <button class="room-btn px-3 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 transition" data-room="living-room">
               Living Room
             </button>
             <button class="room-btn px-3 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 transition" data-room="bathroom">
@@ -374,6 +377,288 @@
 
       </div>
     </div>
+  
+    <!-- ============================================================== -->
+    <!-- SECTION 1: ARCHITECTURAL APPLICATIONS GUIDE (WHERE PEOPLE USE THIS) -->
+    <!-- ============================================================== -->
+    <section class="mt-20 pt-12 border-t border-white/10" id="applicationsGuide">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs uppercase tracking-widest px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30">
+          Architectural Guide
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-4">
+          Where Natural Stones Excel in Modern Living
+        </h2>
+        <p class="text-stone-400 text-sm mt-3 leading-relaxed">
+          Explore how architects, luxury builders, and homeowners specify granite, marble, and onyx across high-demand residential and commercial spaces.
+        </p>
+      </div>
+
+      <!-- 6 High-Demand Application Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- 1. Kitchens & Islands -->
+        <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
+          <div>
+            <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
+              <img src="assets/images/ai images/ai_showcase/01_river_black_kitchen.jpg" alt="Kitchen Countertop with River Black Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
+                #1 Most Popular Application
+              </span>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
+              Kitchen Worktops &amp; Waterfall Islands
+            </h3>
+            <p class="text-xs text-stone-400 mt-2 leading-relaxed">
+              Granite withstands direct heat from pots up to 480&deg;C and resists knife scratches. Ideal for waterfall edges, undermount sinks, and high-traffic cooking zones.
+            </p>
+            <div class="mt-4 flex flex-wrap gap-1.5 text-[10px]">
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">Heat: 480&deg;C</span>
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">Porosity: &lt;0.2%</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">River Black &bull; Black Pearl</span>
+            </div>
+          </div>
+          <button onclick="launchVisualizerPreset('kitchen', 'countertop', 'river-black')" class="mt-6 w-full py-2.5 rounded-xl bg-stone-900 hover:bg-amber-500 hover:text-black text-amber-300 border border-amber-500/40 font-semibold text-xs transition flex items-center justify-center gap-2">
+            <span>Test in Visualizer</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- 2. Grand Living Room Flooring -->
+        <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
+          <div>
+            <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
+              <img src="assets/images/ai images/ai_showcase/06_statuario_living_floor.jpg" alt="Living Room with Statuario Italian Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
+                Opulent Grandeur
+              </span>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
+              Grand Salon &amp; Living Room Flooring
+            </h3>
+            <p class="text-xs text-stone-400 mt-2 leading-relaxed">
+              Seamless bookmatched marble and polished granite slabs reflect ambient daylight, keeping large interiors cool and luminous even during peak Indian summers.
+            </p>
+            <div class="mt-4 flex flex-wrap gap-1.5 text-[10px]">
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">Format: Large Slabs</span>
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">Mirror Polish</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">Statuario &bull; Tan Brown</span>
+            </div>
+          </div>
+          <button onclick="launchVisualizerPreset('living-room', 'floor', 'statuario-marble')" class="mt-6 w-full py-2.5 rounded-xl bg-stone-900 hover:bg-amber-500 hover:text-black text-amber-300 border border-amber-500/40 font-semibold text-xs transition flex items-center justify-center gap-2">
+            <span>Test in Visualizer</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- 3. Luxury Bathrooms & Master Vanities -->
+        <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
+          <div>
+            <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
+              <img src="assets/images/ai images/ai_showcase/07_blue_night_bathroom.jpg" alt="Master Bathroom with Blue in the Night Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
+                Spa Sanctuary
+              </span>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
+              Master Bathroom Vanities &amp; Wet Walls
+            </h3>
+            <p class="text-xs text-stone-400 mt-2 leading-relaxed">
+              Moisture-proof and steam-resistant. Dark iridescent stones like Blue in the Night create a boutique 5-star hotel ambiance around freestanding tubs and vanities.
+            </p>
+            <div class="mt-4 flex flex-wrap gap-1.5 text-[10px]">
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">Steam Proof</span>
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">Zero Warpage</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">Blue in the Night &bull; Onyx</span>
+            </div>
+          </div>
+          <button onclick="launchVisualizerPreset('bathroom', 'floor', 'blue-night')" class="mt-6 w-full py-2.5 rounded-xl bg-stone-900 hover:bg-amber-500 hover:text-black text-amber-300 border border-amber-500/40 font-semibold text-xs transition flex items-center justify-center gap-2">
+            <span>Test in Visualizer</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- 4. Translucent Feature Walls -->
+        <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
+          <div>
+            <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
+              <img src="assets/images/ai images/ai_showcase/08_emerald_onyx_feature_wall.jpg" alt="Backlit Feature Wall with Emerald Onyx Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
+                Backlit Fine Art
+              </span>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
+              Backlit Onyx Feature &amp; Media Walls
+            </h3>
+            <p class="text-xs text-stone-400 mt-2 leading-relaxed">
+              Naturally translucent onyx slabs allow integrated warm 3000K LED illumination from behind, revealing crystalline honey and emerald strata as a glowing focal point.
+            </p>
+            <div class="mt-4 flex flex-wrap gap-1.5 text-[10px]">
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">Translucent</span>
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">LED Compatible</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">Emerald Onyx &bull; Titanium Black</span>
+            </div>
+          </div>
+          <button onclick="launchVisualizerPreset('living-room', 'wall', 'emerald-onyx')" class="mt-6 w-full py-2.5 rounded-xl bg-stone-900 hover:bg-amber-500 hover:text-black text-amber-300 border border-amber-500/40 font-semibold text-xs transition flex items-center justify-center gap-2">
+            <span>Test in Visualizer</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- 5. Floating Architectural Staircases -->
+        <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
+          <div>
+            <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
+              <img src="assets/images/ai images/ai_showcase/10_marie_gold_staircase.jpg" alt="Floating Staircase with Marie Gold Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
+                Structural Elegance
+              </span>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
+              Cantilevered Floating Staircases
+            </h3>
+            <p class="text-xs text-stone-400 mt-2 leading-relaxed">
+              Solid granite slabs possess high flexural load capacity for floating treads with hidden steel spine plates, bullnose edge profiles, and under-tread light channels.
+            </p>
+            <div class="mt-4 flex flex-wrap gap-1.5 text-[10px]">
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">Flexural Strength</span>
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">Bullnose/Bevel</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">Marie Gold &bull; River Black</span>
+            </div>
+          </div>
+          <button onclick="launchVisualizerPreset('living-room', 'floor', 'marie-gold')" class="mt-6 w-full py-2.5 rounded-xl bg-stone-900 hover:bg-amber-500 hover:text-black text-amber-300 border border-amber-500/40 font-semibold text-xs transition flex items-center justify-center gap-2">
+            <span>Test in Visualizer</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- 6. Executive Foyers & Entries -->
+        <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
+          <div>
+            <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
+              <img src="assets/images/ai images/ai_showcase/09_black_forest_floor.jpg" alt="Villa Foyer with Black Forest Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
+                High-Traffic Luxury
+              </span>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-white group-hover:text-amber-300 transition-colors">
+              Foyers &amp; Commercial Reception Lobbies
+            </h3>
+            <p class="text-xs text-stone-400 mt-2 leading-relaxed">
+              Black Forest and heavy crystalline granites never lose their polish under intense foot traffic, creating an unforgettable first impression for luxury villas and corporate offices.
+            </p>
+            <div class="mt-4 flex flex-wrap gap-1.5 text-[10px]">
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">Wear: Mohs 6.5</span>
+              <span class="px-2 py-0.5 rounded bg-stone-800 text-stone-300">Zero Dullness</span>
+              <span class="px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">Black Forest &bull; Moon White</span>
+            </div>
+          </div>
+          <button onclick="launchVisualizerPreset('living-room', 'floor', 'black-forest')" class="mt-6 w-full py-2.5 rounded-xl bg-stone-900 hover:bg-amber-500 hover:text-black text-amber-300 border border-amber-500/40 font-semibold text-xs transition flex items-center justify-center gap-2">
+            <span>Test in Visualizer</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 2: GEOLOGICAL PERFORMANCE & SELECTION MATRIX -->
+    <!-- ============================================================== -->
+    <section class="mt-20 pt-12 border-t border-white/10" id="performanceMatrix">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs uppercase tracking-widest px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30">
+          Geological Selection Matrix
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mt-4">
+          Granite vs. Marble vs. Onyx: Engineering Comparison
+        </h2>
+        <p class="text-stone-400 text-sm mt-3 leading-relaxed">
+          Select the optimal mineral composition based on structural hardness, thermal thresholds, and maintenance requirements.
+        </p>
+      </div>
+
+      <div class="rounded-3xl bg-[#141418] border border-white/10 overflow-hidden shadow-2xl">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-stone-300">
+            <thead class="bg-stone-900/80 text-white uppercase tracking-wider text-[11px] border-b border-white/10">
+              <tr>
+                <th class="p-4 sm:p-5 font-semibold">Technical Criteria</th>
+                <th class="p-4 sm:p-5 font-bold text-amber-300">Natural Granite</th>
+                <th class="p-4 sm:p-5 font-semibold">Italian &amp; Indian Marble</th>
+                <th class="p-4 sm:p-5 font-semibold">Natural Onyx Gemstone</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr class="hover:bg-white/[0.02] transition">
+                <td class="p-4 sm:p-5 font-medium text-white">Geological Genesis</td>
+                <td class="p-4 sm:p-5 text-amber-300/90 font-medium">Plutonic Igneous (Slow cooled magma)</td>
+                <td class="p-4 sm:p-5">Metamorphic Calcite Crystallization</td>
+                <td class="p-4 sm:p-5">Sedimentary Cryptocrystalline Silica</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition">
+                <td class="p-4 sm:p-5 font-medium text-white">Mohs Mineral Hardness</td>
+                <td class="p-4 sm:p-5 font-bold text-emerald-400">6.0 &ndash; 7.0 (Extreme Hardness)</td>
+                <td class="p-4 sm:p-5">3.0 &ndash; 4.0 (Medium Dense)</td>
+                <td class="p-4 sm:p-5">3.0 (Delicate Fine-Grain)</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition">
+                <td class="p-4 sm:p-5 font-medium text-white">Heat Limit</td>
+                <td class="p-4 sm:p-5 font-bold text-emerald-400">Up to 480&deg;C (Direct Cookware)</td>
+                <td class="p-4 sm:p-5">Up to 200&deg;C (Trivet recommended)</td>
+                <td class="p-4 sm:p-5">Ambient LED Temperatures</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition">
+                <td class="p-4 sm:p-5 font-medium text-white">Acid &amp; Stain Resistance</td>
+                <td class="p-4 sm:p-5 font-bold text-emerald-400">High (Non-reactive to lemon &amp; oils)</td>
+                <td class="p-4 sm:p-5">Moderate (Requires periodic sealing)</td>
+                <td class="p-4 sm:p-5">Requires gentle pH-neutral care</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition">
+                <td class="p-4 sm:p-5 font-medium text-white">Optimal Architectural Zone</td>
+                <td class="p-4 sm:p-5 font-medium text-white">Kitchen Countertops, High-Traffic Floors, Stairs</td>
+                <td class="p-4 sm:p-5">Living Halls, Master Suites, Vanities</td>
+                <td class="p-4 sm:p-5">Backlit Walls, Bar Consoles, Niches</td>
+              </tr>
+              <tr class="hover:bg-white/[0.02] transition">
+                <td class="p-4 sm:p-5 font-medium text-white">Maintenance Lifecycle</td>
+                <td class="p-4 sm:p-5 font-bold text-emerald-400">Virtually Zero (Reseal every 3-5 yrs)</td>
+                <td class="p-4 sm:p-5">Periodic diamond polish renewal</td>
+                <td class="p-4 sm:p-5">Gentle soft microfiber wipe</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SECTION 3: ARCHITECT & BUILDER DIRECT CONSULTATION CTA -->
+    <!-- ============================================================== -->
+    <section class="mt-20 mb-10 rounded-3xl bg-gradient-to-r from-[#17171E] via-[#1E1A14] to-[#17171E] border border-amber-500/30 p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+      <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div class="max-w-2xl text-center lg:text-left">
+          <span class="text-xs uppercase tracking-widest px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30">
+            Quarry Direct &bull; Bargur Experience Center
+          </span>
+          <h3 class="font-serif text-2xl sm:text-3xl font-bold text-white mt-4">
+            Designing a Luxury Villa or Commercial Development?
+          </h3>
+          <p class="text-stone-300 text-xs sm:text-sm mt-3 leading-relaxed">
+            Visit our 10-acre stockyard at Bargur, Krishnagiri, Tamil Nadu to inspect full physical slab lots under natural daylight. We provide custom edge profiling, waterjet precision cutting, and pan-India dispatch.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+          <a href="https://wa.me/916366380051?text=Hello%20Murali%20Granites%2C%20I%20am%20an%20architect%2Fhomeowner%20interested%20in%20inspecting%20slabs%20for%20my%20upcoming%20project." target="_blank" rel="noreferrer" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs text-center transition shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2">
+            <span>Inquire on WhatsApp (+91 6366380051)</span>
+          </a>
+          <a href="contact.html" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-300 border border-white/20 font-semibold text-xs text-center transition">
+            Book Showroom Visit
+          </a>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Footer -->
@@ -392,6 +677,8 @@
             <li><a href="visualizer.html">Stone Visualizer</a></li>
             <li><a href="products.html">Our Collection</a></li>
             <li><a href="stone-analysis.html">Geological Specs</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Supply</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -419,6 +706,23 @@
   <script>
             // 1. Room Configurations with Authenticated Geometric Surface Bounds
     const roomConfigs = {
+      'kitchen': {
+        name: 'Kitchen',
+        image: 'assets/images/rooms/kitchen.jpg',
+        defaultSurface: 'countertop',
+        surfaces: {
+          'countertop': {
+            key: 'countertop',
+            label: 'Countertop & Island',
+            clipPath: 'polygon(0% 50%, 100% 50%, 100% 100%, 0% 100%)',
+            textureScale: '280px',
+            blendMode: 'multiply',
+            opacity: '0.94',
+            shadingGradient: 'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(0,0,0,0.4) 100%)'
+          }
+        }
+      },
+
       'living-room': {
         name: 'Living Room',
         image: 'assets/images/rooms/living-room.jpg',
@@ -640,7 +944,7 @@
         finish: 'Polished / Honed',
         thickness: '18mm',
         usage: 'Luxury Countertops, Backsplashes, Accent Flooring',
-        image: 'assets/images/products/product-1783083560-6a47b228132ac.webp',
+        image: 'assets/images/products/product-1783083560-6a47b228132ac.jpg',
         description: 'Deep charcoal black with undulating cream and quartz veins creating dramatic organic patterns.',
         blendMode: 'multiply',
         opacity: '0.90'
@@ -671,8 +975,8 @@
     } catch (e) {}
 
     // 3. Central Application State
-    let currentRoomKey = 'living-room';
-    let currentSurfaceKey = 'floor';
+    let currentRoomKey = 'kitchen';
+    let currentSurfaceKey = 'countertop';
     let selectedMaterial = visualizerMaterials[0];
     let isComparingOriginal = false;
 
@@ -724,6 +1028,47 @@
       });
     }
 
+    // Fallback Image Map for Verified Working Slabs on Host
+    const VERIFIED_SLAB_FALLBACKS = {
+      'river-black': 'assets/images/products/product-1783138465-6a4888a145274.jpg',
+      'black-pearl': 'assets/images/products/product-1783138424-6a488878abc22.jpg',
+      'tan-brown': 'assets/images/products/product-1783084011-6a47b3eb20cf0.jpg',
+      'statuario-marble': 'assets/images/products/product-1783085208-6a47b8986af97.png',
+      'kashmir-white': 'assets/images/products/product-1783084356-6a47b5441b767.jpg',
+      'emerald-onyx': 'assets/images/products/product-1783085161-6a47b869e0448.jpg',
+      'marie-gold': 'assets/images/products/product-1783085317-6a47b9058f71e.jpg',
+      'blue-night': 'assets/images/products/product-1783085244-6a47b8bcd330d.png',
+      'moon-white': 'assets/images/products/product-1783084356-6a47b5441b767.jpg',
+      'river-white': 'assets/images/products/product-1783084356-6a47b5441b767.jpg',
+      'black-forest': 'assets/images/ai images/ai_showcase/09_black_forest_floor.jpg',
+      'titanium-black': 'assets/images/products/product-1783138465-6a4888a145274.jpg'
+    };
+
+    function getStoneFallbackSwatch(mat) {
+      if (!mat) return '';
+      const name = (mat.name || '').toLowerCase();
+      const cat = (mat.category || '').toLowerCase();
+      let c1 = '#1a1a20', c2 = '#363740', vein = '#666675';
+      if (name.includes('white') || name.includes('statuario') || cat.includes('marble') || name.includes('moon') || name.includes('river white')) {
+        c1 = '#f5f5f7'; c2 = '#dcdde2'; vein = '#8a8b94';
+      } else if (name.includes('gold') || name.includes('marie') || name.includes('amber')) {
+        c1 = '#d4af37'; c2 = '#996515'; vein = '#ffd700';
+      } else if (name.includes('brown') || name.includes('tan')) {
+        c1 = '#4a2f23'; c2 = '#2e1c15'; vein = '#825945';
+      } else if (name.includes('onyx') || name.includes('emerald') || name.includes('green')) {
+        c1 = '#174036'; c2 = '#0d241e'; vein = '#38a385';
+      } else if (name.includes('blue')) {
+        c1 = '#121f38'; c2 = '#0a101d'; vein = '#3b67b0';
+      }
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="80" height="80" fill="url(#g)"/><path d="M0 20 Q30 35 45 15 T80 30" stroke="${vein}" stroke-width="1.8" fill="none" opacity="0.6"/><path d="M10 70 Q40 50 60 75 T80 60" stroke="${vein}" stroke-width="1.4" fill="none" opacity="0.5"/><circle cx="20" cy="40" r="1.5" fill="${vein}" opacity="0.7"/><circle cx="65" cy="25" r="1.5" fill="${vein}" opacity="0.7"/></svg>`;
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    function getVerifiedFallbackForMaterial(mat) {
+      if (!mat) return '';
+      return VERIFIED_SLAB_FALLBACKS[mat.id] || VERIFIED_SLAB_FALLBACKS['river-black'];
+    }
+
     // 5. Render Materials List
     function renderMaterialsList(filterCat = 'all') {
       materialsGrid.innerHTML = '';
@@ -741,9 +1086,14 @@
         }`;
         btn.setAttribute('data-id', mat.id);
 
+        const fallbackSrc = getVerifiedFallbackForMaterial(mat);
         btn.innerHTML = `
           <div class="w-10 h-10 rounded-xl overflow-hidden bg-black shrink-0 border border-white/10 shadow-inner">
-            <img src="${mat.image}" alt="${mat.name}" class="w-full h-full object-cover"/>
+            <img src="${mat.image}" 
+                 alt="${mat.name}" 
+                 class="w-full h-full object-cover" 
+                 onerror="if(this.dataset.triedFallback!=='1'){this.dataset.triedFallback='1';this.src='${fallbackSrc}';}else{this.onerror=null;this.src=getStoneFallbackSwatch(selectedMaterial);}"
+                 loading="lazy"/>
           </div>
           <div class="overflow-hidden">
             <div class="text-[11px] font-bold text-white truncate">${mat.name}</div>
@@ -770,6 +1120,95 @@
 
     // --- PHOTOREALISTIC ROOM PREVIEWS MANIFEST ---
     const GENERATED_PREVIEWS_MANIFEST = [
+  {
+    "product_id": "river-black",
+    "product_name": "River Black",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_River Black.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "black-pearl",
+    "product_name": "Black Pearl",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Black Pearl.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "tan-brown",
+    "product_name": "Tan Brown",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Tan Brown.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "statuario-marble",
+    "product_name": "Statuario / Banswara Marble",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Statuario Banswara Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "kashmir-white",
+    "product_name": "Kashmir / Alaska White",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Kashmir Alaska White.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "blue-night",
+    "product_name": "Blue in the Night",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Blue in the Night.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "marie-gold",
+    "product_name": "Marie Gold",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Marie Gold.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+  {
+    "product_id": "emerald-onyx",
+    "product_name": "Emerald Onyx Marble",
+    "room_id": "kitchen",
+    "surface_id": "countertop",
+    "original_room_image": "assets/images/rooms/kitchen.jpg",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
+    "generated_preview": "assets/images/ai images/kitchen countertop/Gemini_Generated_Image_Emerald Onyx Marble.png",
+    "status": "ai_generated_reference_guided",
+    "review_status": "verified"
+  },
+
   {
     "product_id": "statuario-marble",
     "product_name": "Statuario / Banswara Marble",
@@ -897,7 +1336,7 @@
     "room_id": "living-room",
     "surface_id": "floor",
     "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
     "generated_preview": "assets/images/ai images/living room floor/Gemini_Generated_Image_Titanium Black.png",
     "status": "ai_generated_reference_guided",
     "review_status": "verified"
@@ -1029,7 +1468,7 @@
     "room_id": "living-room",
     "surface_id": "wall",
     "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
     "generated_preview": "assets/images/ai images/living room acent wall/Gemini_Generated_Image_Titanium Black.png",
     "status": "ai_generated_reference_guided",
     "review_status": "verified"
@@ -1161,7 +1600,7 @@
     "room_id": "bedroom",
     "surface_id": "floor",
     "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
     "generated_preview": "assets/images/ai images/bedroom floor/Gemini_Generated_Image_Titanium Black.png",
     "status": "ai_generated_reference_guided",
     "review_status": "verified"
@@ -1260,7 +1699,7 @@
     "room_id": "bathroom",
     "surface_id": "floor",
     "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
     "generated_preview": "assets/images/ai images/bathroom floor/Gemini_Generated_Image_Titanium Black.png",
     "status": "ai_generated_reference_guided",
     "review_status": "verified"
@@ -1425,7 +1864,7 @@
     "room_id": "bathroom",
     "surface_id": "wall",
     "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
     "generated_preview": "assets/images/ai images/bathroom accent wall/Gemini_Generated_Image_Titanium Black.png",
     "status": "ai_generated_reference_guided",
     "review_status": "verified"
@@ -1533,8 +1972,40 @@
         renderSurfaceButtons();
       }
 
-      // 1. Update original raw room photo (for Before comparison)
+      // 1. Resilient Base Room Loading (Prevents black comparison split screen)
+      const roomShowcaseMap = {
+        'bathroom': 'assets/images/ai images/ai_showcase/07_blue_night_bathroom.jpg',
+        'kitchen': 'assets/images/ai images/ai_showcase/01_river_black_kitchen.jpg',
+        'living-room': 'assets/images/ai images/ai_showcase/06_statuario_living_floor.jpg',
+        'bedroom': 'assets/images/ai images/ai_showcase/06_statuario_living_floor.jpg'
+      };
+
+      baseRoomImg.onerror = function() {
+        console.warn('Base room photo missing on host:', this.src);
+        const fb = roomShowcaseMap[currentRoomKey];
+        if (fb && !this.dataset.triedShowcase && this.src !== fb) {
+          this.dataset.triedShowcase = 'true';
+          this.src = fb;
+          if (afterBaseRoomImg) afterBaseRoomImg.src = fb;
+          return;
+        }
+        // If neither base photo nor showcase loaded, display 100% full photorealistic render
+        // so the user NEVER sees a pitch-black screen
+        if (afterLayer) afterLayer.style.clipPath = 'none';
+        if (splitDividerLine) splitDividerLine.classList.add('hidden');
+        if (sliderPercentLabel) {
+          sliderPercentLabel.innerHTML = '<span class="text-amber-400 font-semibold">100% Stone Render Active</span>';
+        }
+      };
+
+      baseRoomImg.onload = function() {
+        this.dataset.triedShowcase = '';
+        const currentVal = parseInt(compareSliderRange?.value || 50, 10);
+        applyComparisonSplit(currentVal);
+      };
+
       if (baseRoomImg.getAttribute('src') !== room.image) {
+        baseRoomImg.dataset.triedShowcase = '';
         baseRoomImg.src = room.image;
         afterBaseRoomImg.src = room.image;
       }
@@ -1549,6 +2020,16 @@
 
       if (generatedMatch && generatedMatch.generated_preview) {
         // --- PRIMARY PHOTOREALISTIC RENDER ---
+        generatedRoomImg.onerror = function() {
+          console.warn('AI room render failed to load:', this.src);
+          // Graceful fallback to studio simulation
+          this.style.display = 'none';
+          surfaceOverlayContainer.style.display = 'block';
+          surfaceOverlayContainer.style.clipPath = surface.clipPath;
+          stoneTextureTile.style.backgroundImage = `url('${selectedMaterial.image}')`;
+          renderQualityText.textContent = 'Studio Architectural Simulation';
+        };
+
         if (generatedRoomImg.getAttribute('src') !== generatedMatch.generated_preview) {
           generatedRoomImg.src = generatedMatch.generated_preview;
         }
@@ -1611,9 +2092,19 @@
         }
       }
 
-      // 5. Update stage badges
+      // 5. Update stage badges with resilient thumbnail loading
       currentRoomBadge.textContent = room.name;
       currentSurfaceBadge.textContent = `Surface: ${surface.label}`;
+      
+      const thumbFallback = getVerifiedFallbackForMaterial(selectedMaterial);
+      activeStoneThumb.onerror = function() {
+        if (this.src !== thumbFallback) {
+          this.src = thumbFallback;
+        } else {
+          this.onerror = null;
+          this.src = getStoneFallbackSwatch(selectedMaterial);
+        }
+      };
       activeStoneThumb.src = selectedMaterial.image;
       activeMaterialTitle.textContent = selectedMaterial.name;
       activeCategoryLabel.textContent = selectedMaterial.category;
@@ -1720,6 +2211,15 @@
       } else {
         isComparingOriginal = false;
         afterLayer.style.display = 'block';
+
+        // If base room photo is missing on host, prevent clipping to black void
+        if (baseRoomImg.naturalWidth === 0 && !baseRoomImg.dataset.triedShowcase) {
+          afterLayer.style.clipPath = 'none';
+          if (splitDividerLine) splitDividerLine.classList.add('hidden');
+          sliderPercentLabel.innerHTML = '<span class="text-amber-400 font-semibold">100% Stone Render</span> (Upload rooms/ folder to enable Before/After split)';
+          return;
+        }
+
         afterLayer.style.clipPath = `inset(0 ${100 - val}% 0 0)`;
         if (splitDividerLine) {
           splitDividerLine.classList.remove('hidden');
@@ -1729,6 +2229,56 @@
         originalRoomIndicator.classList.add('hidden');
         compareModeText.textContent = 'Compare with Original';
       }
+    }
+
+    
+    // Direct Split Line & Viewport Dragging (Smooth & Non-Blocking)
+    let isDraggingDivider = false;
+
+    function handleSplitMove(clientX) {
+      if (!stageViewport) return;
+      const rect = stageViewport.getBoundingClientRect();
+      let percent = ((clientX - rect.left) / rect.width) * 100;
+      percent = Math.max(0, Math.min(100, Math.round(percent)));
+      if (compareSliderRange) compareSliderRange.value = percent;
+      applyComparisonSplit(percent);
+    }
+
+    if (stageViewport) {
+      stageViewport.addEventListener('pointerdown', (e) => {
+        // Do not intercept clicks on buttons, links, or info cards
+        if (e.target.closest('button, a, input, [data-no-drag], #simulationNoticeBanner')) return;
+        
+        // On touch screens, only initiate drag if touching near the handle or divider line
+        if (e.pointerType === 'touch') {
+          const rect = stageViewport.getBoundingClientRect();
+          const touchX = e.clientX - rect.left;
+          const currentSplitX = (parseInt(compareSliderRange?.value || 50, 10) / 100) * rect.width;
+          // Allow 45px margin around handle for easy thumb targeting
+          if (Math.abs(touchX - currentSplitX) > 45 && !e.target.closest('.split-divider-line, .split-handle-btn')) {
+            return; // Allow native vertical page scrolling
+          }
+        }
+
+        isDraggingDivider = true;
+        try { stageViewport.setPointerCapture(e.pointerId); } catch(err) {}
+        handleSplitMove(e.clientX);
+      });
+
+      stageViewport.addEventListener('pointermove', (e) => {
+        if (!isDraggingDivider) return;
+        handleSplitMove(e.clientX);
+      });
+
+      const stopDrag = (e) => {
+        if (isDraggingDivider) {
+          isDraggingDivider = false;
+          try { stageViewport.releasePointerCapture(e.pointerId); } catch(err) {}
+        }
+      };
+
+      stageViewport.addEventListener('pointerup', stopDrag);
+      stageViewport.addEventListener('pointercancel', stopDrag);
     }
 
     if (compareSliderRange) {
@@ -1751,13 +2301,13 @@
     // 12. Reset View to Default
     document.getElementById('resetVisualizerBtn').addEventListener('click', () => {
       isComparingOriginal = false;
-      currentRoomKey = 'living-room';
-      currentSurfaceKey = 'floor';
+      currentRoomKey = 'kitchen';
+      currentSurfaceKey = 'countertop';
       selectedMaterial = visualizerMaterials[0]; // River Black
 
       // Reset room buttons
       document.querySelectorAll('.room-btn').forEach(b => {
-        if (b.getAttribute('data-room') === 'living-room') {
+        if (b.getAttribute('data-room') === 'kitchen') {
           b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
           b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
         } else {
@@ -1777,8 +2327,8 @@
         }
       });
 
-      if (compareSliderRange) compareSliderRange.value = 100;
-      applyComparisonSplit(100);
+      if (compareSliderRange) compareSliderRange.value = 50;
+      applyComparisonSplit(50);
 
       renderSurfaceButtons();
       renderMaterialsList('all');
@@ -1798,6 +2348,11 @@
                  (clean.includes('statuario') && mName.includes('statuario')) ||
                  (clean.includes('galaxy') && m.id === 'river-black') ||
                  (clean.includes('alaska') && m.id === 'kashmir-white') ||
+                 (clean.includes('shiva') && m.id === 'marie-gold') ||
+                 (clean.includes('banswara') && m.id === 'statuario-marble') ||
+                 (clean.includes('flash') && m.id === 'emerald-onyx') ||
+                 (clean.includes('lavender') && m.id === 'blue-night') ||
+                 (clean.includes('pink') && m.id === 'marie-gold') ||
                  (clean.includes('onyx') && m.id === 'emerald-onyx') ||
                  (clean.includes('tan') && m.id === 'tan-brown') ||
                  (clean.includes('pearl') && m.id === 'black-pearl') ||
@@ -1809,8 +2364,8 @@
       }
 
       let roomParam = (urlParams.get('room') || '').toLowerCase().trim();
-      // Handle legacy aliases or removed rooms (kitchen, dining, staircase, foyer, lounge)
-      if (roomParam === 'kitchen' || roomParam === 'dining-room' || roomParam === 'staircase' || roomParam === 'foyer' || roomParam === 'lounge-wall') {
+      // Handle legacy aliases or removed rooms (dining, staircase, foyer, lounge)
+      if (roomParam === 'dining-room' || roomParam === 'staircase' || roomParam === 'foyer' || roomParam === 'lounge-wall') {
         roomParam = 'living-room';
       }
 
@@ -1847,6 +2402,51 @@
     renderMaterialsList('all');
     updateStage();
     updateInfoCard();
+  
+    // 15. Global 1-Click Preset Launcher (Triggers from Architectural Application Cards)
+    window.launchVisualizerPreset = function(roomId, surfaceId, stoneId) {
+      if (roomConfigs[roomId]) {
+        currentRoomKey = roomId;
+        const room = roomConfigs[roomId];
+        currentSurfaceKey = surfaceId || room.defaultSurface;
+
+        // Update room switcher buttons
+        document.querySelectorAll('.room-btn').forEach(b => {
+          if (b.getAttribute('data-room') === roomId) {
+            b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+            b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
+          } else {
+            b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+            b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
+          }
+        });
+
+        // Set stone if provided
+        if (stoneId) {
+          const found = visualizerMaterials.find(m => m.id === stoneId || m.name.toLowerCase().includes(stoneId));
+          if (found) {
+            selectedMaterial = found;
+          }
+        }
+
+        // Set split to 50% for instant reveal
+        if (compareSliderRange) compareSliderRange.value = 50;
+        applyComparisonSplit(50);
+
+        renderSurfaceButtons();
+        renderMaterialsList('all');
+        updateStage();
+        updateInfoCard();
+
+        // Smooth scroll up to stage viewport
+        const stage = document.getElementById('stageViewport');
+        if (stage) {
+          stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    };
+
   </script>
+<script src="assets/js/site-config-sync.js"></script>
 </body>
 </html>

@@ -328,7 +328,8 @@
 
         <div id="formAlertBox"></div>
 
-        <form id="quotationForm" onsubmit="handleQuotationSubmit(event)">
+        <form id="quotationForm" novalidate>
+            <div style="display:none;" aria-hidden="true"><input type="text" id="custHoneypot" name="customer_hp" tabindex="-1" autocomplete="off"/></div> onsubmit="handleQuotationSubmit(event)">
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="custName">Your Name <span>*</span></label>
@@ -428,6 +429,8 @@
             <li><a href="products.html">Stone Collection</a></li>
             <li><a href="stone-analysis.html">Geological Specs</a></li>
             <li><a href="faq.html">FAQ</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Supply</a></li>
           </ul>
         </div>
         <div>
@@ -501,8 +504,28 @@
     });
 
     // Smart Form Submission Handler
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
     window.handleQuotationSubmit = function(e) {
       e.preventDefault();
+
+      // Anti-Spam: Honeypot check
+      const hp = document.getElementById('custHoneypot') ? document.getElementById('custHoneypot').value : '';
+      if (hp) {
+        console.warn('Bot submission blocked.');
+        return;
+      }
+
+      // Rate Limiting: Minimum 10 seconds between submissions
+      const lastSubmit = parseInt(sessionStorage.getItem('murali_last_quote_submit') || '0', 10);
+      if (Date.now() - lastSubmit < 10000) {
+        alert('Please wait a few seconds before submitting another request.');
+        return;
+      }
+      sessionStorage.setItem('murali_last_quote_submit', Date.now().toString());
 
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
@@ -570,7 +593,7 @@
           Quotation Request Successfully Submitted!
         </div>
         <div style="margin-bottom: 0.8rem;">
-          Thank you, <strong>${name}</strong>. Our stone specialist will review your request for <em>${material || 'your project'}</em> and call you at <strong>${phone}</strong> shortly.
+          Thank you, <strong>${escapeHtml(name)}</strong>. Our stone specialist will review your request for <em>${escapeHtml(material || 'your project')}</em> and call you at <strong>${escapeHtml(phone)}</strong> shortly.
         </div>
         <a href="${waUrl}" target="_blank" rel="noreferrer" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 6px; background: #128C7E; color: #fff; font-weight: 600; font-size: 0.82rem; text-decoration: none;">
           <span>Send Details to WhatsApp Now &rarr;</span>
@@ -582,5 +605,6 @@
       submitBtn.textContent = 'Request Received';
     };
   </script>
+<script src="assets/js/site-config-sync.js"></script>
 </body>
 </html>

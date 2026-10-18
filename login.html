@@ -604,6 +604,11 @@
   (function() {
     'use strict';
 
+    // Frame-busting clickjacking protection
+    if (window.top !== window.self) {
+      window.top.location = window.self.location;
+    }
+
     const emailInput = document.getElementById('adminEmail');
     const pwdInput = document.getElementById('adminPassword');
     const togglePwdBtn = document.getElementById('togglePwdBtn');
@@ -614,19 +619,46 @@
     const logoutCurrentBtn = document.getElementById('logoutCurrentBtn');
     const submitBtn = document.getElementById('loginSubmitBtn');
 
-    // 1. Check existing session
-    const isAuth = localStorage.getItem('murali_admin_auth') === 'true';
+    const LOCKOUT_KEY = 'murali_login_lockout_until';
+    const FAILS_KEY = 'murali_login_fails';
+
+    function checkLockout() {
+      const lockoutUntil = parseInt(localStorage.getItem(LOCKOUT_KEY) || '0', 10);
+      const now = Date.now();
+      if (now < lockoutUntil) {
+        const remainingSec = Math.ceil((lockoutUntil - now) / 1000);
+        const remainingMin = Math.ceil(remainingSec / 60);
+        showStatus(`Security Protection: Portal is temporarily locked due to repeated failed attempts. Retry in ${remainingMin}m (${remainingSec}s).`, 'error');
+        if (submitBtn) submitBtn.disabled = true;
+        return true;
+      }
+      if (submitBtn) submitBtn.disabled = false;
+      return false;
+    }
+
+    // 1. Check existing session and lease expiration
+    let isAuth = localStorage.getItem('murali_admin_auth') === 'true';
     if (isAuth) {
-      activeSessionBox.style.display = 'block';
       try {
-        const user = JSON.parse(localStorage.getItem('murali_admin_user') || '{}');
-        if (user.email) activeUserLabel.textContent = user.name || user.email;
+        const sess = JSON.parse(localStorage.getItem('murali_admin_session') || '{}');
+        if (sess.expiresAt && Date.now() > sess.expiresAt) {
+          // Session expired
+          localStorage.removeItem('murali_admin_auth');
+          localStorage.removeItem('murali_admin_session');
+          localStorage.removeItem('murali_admin_user');
+          isAuth = false;
+          showStatus('Previous session expired. Please authenticate again.', 'error');
+        } else {
+          activeSessionBox.style.display = 'block';
+          if (sess.name || sess.email) activeUserLabel.textContent = sess.name || sess.email;
+        }
       } catch(e) {}
     }
 
     if (logoutCurrentBtn) {
       logoutCurrentBtn.addEventListener('click', () => {
         localStorage.removeItem('murali_admin_auth');
+        localStorage.removeItem('murali_admin_session');
         localStorage.removeItem('murali_admin_user');
         activeSessionBox.style.display = 'none';
         showStatus('Signed out successfully.', 'success');
@@ -646,11 +678,13 @@
       });
     }
 
-    // 3. One-Click Demo Auto-Fill & Instant Submit
+    // 3. Demo Auto-Fill (Local Demonstration Mode)
     if (autofillBtn) {
       autofillBtn.addEventListener('click', () => {
-        emailInput.value = 'admin@muraligranites.com';
-        pwdInput.value = 'admin123';
+        let customCreds = null;
+        try { customCreds = JSON.parse(localStorage.getItem('murali_admin_credentials') || 'null'); } catch(e) {}
+        emailInput.value = (customCreds?.email || 'admin@muraligranites.com');
+        pwdInput.value = (customCreds?.password || 'admin123');
         submitForm();
       });
     }
@@ -662,6 +696,8 @@
     }
 
     function submitForm() {
+      if (checkLockout()) return;
+
       const email = emailInput.value.trim().toLowerCase();
       const pwd = pwdInput.value;
 
@@ -670,26 +706,54 @@
         return;
       }
 
-      // Validating admin credentials
-      // Standard demo: admin@muraligranites.com / admin123
-      // Also allows admin logins from staff
-      const isValid = (email === 'admin@muraligranites.com' && pwd === 'admin123') ||
-                      (email.startsWith('admin') && pwd.length >= 6);
+      // Validating admin credentials without insecure wildcards
+      let customCreds = null;
+      try {
+        customCreds = JSON.parse(localStorage.getItem('murali_admin_credentials') || 'null');
+      } catch(e) {}
+      
+      const configuredEmail = (customCreds?.email || 'admin@muraligranites.com').toLowerCase();
+      const configuredPwd = customCreds?.password || 'admin123';
+      const configuredName = customCreds?.name || 'Chanakya Murali';
+
+      const isValid = (email === configuredEmail && pwd === configuredPwd) ||
+                      (email === 'admin@muraligranites.com' && pwd === 'admin123');
 
       if (!isValid) {
-        showStatus('Invalid credentials. Use the Demo Credentials (admin@muraligranites.com / admin123) to access the dashboard.', 'error');
+        let fails = parseInt(localStorage.getItem(FAILS_KEY) || '0', 10) + 1;
+        if (fails >= 5) {
+          localStorage.setItem(LOCKOUT_KEY, (Date.now() + 15 * 60 * 1000).toString());
+          localStorage.setItem(FAILS_KEY, '0');
+          showStatus('Security Lockout: 5 consecutive failed attempts. Portal is locked for 15 minutes.', 'error');
+          if (submitBtn) submitBtn.disabled = true;
+        } else {
+          localStorage.setItem(FAILS_KEY, fails.toString());
+          showStatus(`Invalid credentials. Attempt ${fails} of 5 before 15-minute security lockout.`, 'error');
+        }
         return;
       }
 
-      // Successful authentication
+      // Successful authentication: Reset fail counters
+      localStorage.removeItem(FAILS_KEY);
+      localStorage.removeItem(LOCKOUT_KEY);
+
       submitBtn.disabled = true;
       submitBtn.innerHTML = '<span>Verifying Credentials...</span>';
       
       localStorage.setItem('murali_admin_auth', 'true');
+      const sessionData = {
+        token: 'sess_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9),
+        email: email,
+        name: email === configuredEmail ? configuredName : 'Chanakya Murali',
+        role: 'Chief Curator & Admin',
+        issuedAt: Date.now(),
+        expiresAt: Date.now() + (4 * 60 * 60 * 1000) // 4 hours lease
+      };
+      localStorage.setItem('murali_admin_session', JSON.stringify(sessionData));
       localStorage.setItem('murali_admin_user', JSON.stringify({
         email: email,
-        name: 'Chanakya Murali',
-        role: 'Chief Curator & Admin',
+        name: sessionData.name,
+        role: sessionData.role,
         loginTime: new Date().toISOString()
       }));
 
@@ -704,6 +768,9 @@
       e.preventDefault();
       submitForm();
     };
+
+    // Check lockout status on initial load
+    checkLockout();
   })();
 </script>
 </body>

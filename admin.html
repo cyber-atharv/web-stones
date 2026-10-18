@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Admin Management Suite | Murali Granites & Marbles</title>
+<title>Admin Control Center | Murali Granites &amp; Marbles</title>
 <link href="assets/images/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
 <link href="assets/images/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
 <link href="assets/images/favicon.ico" rel="shortcut icon"/>
@@ -24,16 +24,17 @@
     --gold-subtle: rgba(197, 160, 89, 0.12);
     --black: #08080A;
     --sidebar-bg: #0C0C10;
-    --card-bg: rgba(18, 18, 23, 0.7);
-    --card-hover: rgba(24, 24, 30, 0.85);
+    --card-bg: rgba(18, 18, 24, 0.75);
+    --card-hover: rgba(26, 26, 34, 0.9);
     --border-subtle: rgba(255, 255, 255, 0.08);
-    --border-gold: rgba(197, 160, 89, 0.25);
+    --border-gold: rgba(197, 160, 89, 0.28);
     --text-white: #F4F4F5;
     --text-muted: #8E8E98;
     --text-dim: #5A5A64;
     --emerald: #10B981;
     --rose: #EF4444;
     --amber: #F59E0B;
+    --blue: #3B82F6;
     --font-display: 'Cormorant Garamond', serif;
     --font-body: 'Inter', sans-serif;
   }
@@ -46,16 +47,16 @@
     overflow-x: hidden;
   }
 
-  /* Admin Layout */
+  /* Admin App Layout */
   .admin-app {
     display: flex;
     min-height: 100vh;
-    background: radial-gradient(circle at 75% 20%, #14141A 0%, var(--black) 85%);
+    background: radial-gradient(circle at 80% 20%, #15151D 0%, var(--black) 85%);
   }
 
   /* Sidebar */
   aside.admin-sidebar {
-    width: 270px;
+    width: 280px;
     background: var(--sidebar-bg);
     border-right: 1px solid var(--border-subtle);
     display: flex;
@@ -69,7 +70,7 @@
   }
 
   .sidebar-header {
-    padding: 1.5rem 1.4rem;
+    padding: 1.4rem 1.4rem;
     border-bottom: 1px solid var(--border-subtle);
     display: flex;
     align-items: center;
@@ -82,7 +83,7 @@
     border-radius: 50%;
     object-fit: cover;
     border: 1.5px solid var(--gold);
-    box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+    box-shadow: 0 0 10px rgba(197, 160, 89, 0.35);
   }
 
   .sidebar-brand-name {
@@ -106,15 +107,17 @@
     flex-grow: 1;
     padding: 1.2rem 0.8rem;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.1) transparent;
   }
 
   .nav-section-title {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
     color: var(--text-dim);
-    padding: 0.6rem 0.8rem 0.4rem;
-    font-weight: 600;
+    padding: 0.8rem 0.8rem 0.35rem;
+    font-weight: 700;
   }
 
   .nav-tab-btn {
@@ -122,7 +125,7 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.75rem 0.9rem;
+    padding: 0.7rem 0.9rem;
     border: none;
     background: transparent;
     color: var(--text-muted);
@@ -136,7 +139,7 @@
   }
 
   .nav-tab-btn:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.05);
     color: #ffffff;
   }
 
@@ -158,7 +161,7 @@
     margin-left: auto;
     background: rgba(255, 255, 255, 0.08);
     color: #E4E4E7;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     padding: 2px 7px;
     border-radius: 12px;
     font-weight: 600;
@@ -183,8 +186,8 @@
   }
 
   .user-avatar {
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--gold) 0%, #A27D38 100%);
     color: #08080A;
@@ -192,7 +195,7 @@
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
   }
 
   .user-meta-name {
@@ -208,7 +211,7 @@
 
   .btn-signout {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.55rem;
     background: transparent;
     border: 1px solid rgba(239, 68, 68, 0.3);
     color: #F87171;
@@ -231,7 +234,7 @@
   /* Main Viewport */
   main.admin-viewport {
     flex-grow: 1;
-    margin-left: 270px;
+    margin-left: 280px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -242,7 +245,7 @@
     height: 64px;
     background: rgba(12, 12, 16, 0.85);
     border-bottom: 1px solid var(--border-subtle);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(14px);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -319,6 +322,7 @@
     font-weight: 500;
     text-decoration: none;
     transition: all 0.2s;
+    cursor: pointer;
   }
 
   .topbar-btn:hover {
@@ -362,7 +366,7 @@
   /* Metric Cards */
   .metrics-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.2rem;
     margin-bottom: 2rem;
   }
@@ -435,7 +439,7 @@
     color: var(--text-muted);
   }
 
-  /* Standard Card & Form UI */
+  /* Content Cards */
   .content-card {
     background: var(--card-bg);
     border: 1px solid var(--border-subtle);
@@ -449,37 +453,37 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.4rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-subtle);
     flex-wrap: wrap;
     gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .card-title-group h2 {
     font-family: var(--font-display);
     font-size: 1.5rem;
-    font-weight: 400;
+    font-weight: 500;
     color: #ffffff;
-    margin-bottom: 0.2rem;
   }
 
   .card-title-group p {
-    font-size: 0.76rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
+    margin-top: 0.2rem;
   }
 
-  /* Form Layout */
-  .form-grid-2 {
+  /* Form Elements */
+  .form-grid-3 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.2rem;
     margin-bottom: 1.2rem;
   }
 
-  .form-grid-3 {
+  .form-grid-2 {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.2rem;
     margin-bottom: 1.2rem;
   }
@@ -487,15 +491,15 @@
   .admin-form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.45rem;
   }
 
   .admin-form-group label {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--text-muted);
+    letter-spacing: 0.1em;
     font-weight: 600;
+    color: #D4D4D8;
   }
 
   .admin-input, .admin-select, .admin-textarea {
@@ -522,7 +526,7 @@
     line-height: 1.5;
   }
 
-  /* Dropzone & Preview */
+  /* Image Dropzone */
   .image-dropzone {
     border: 2px dashed rgba(197, 160, 89, 0.35);
     background: rgba(197, 160, 89, 0.03);
@@ -607,6 +611,7 @@
     font-weight: 600;
     padding: 0.85rem 1rem;
     border-bottom: 1px solid var(--border-subtle);
+    white-space: nowrap;
   }
 
   table.admin-table td {
@@ -656,27 +661,63 @@
     border: 1px solid rgba(16, 185, 129, 0.3);
   }
 
+  .badge-amber {
+    background: rgba(245, 158, 11, 0.15);
+    color: #FCD34D;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  .badge-rose {
+    background: rgba(239, 68, 68, 0.15);
+    color: #FCA5A5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .badge-blue {
+    background: rgba(59, 130, 246, 0.15);
+    color: #93C5FD;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
   .action-btn-del {
-    background: transparent;
+    background: rgba(239, 68, 68, 0.12);
     border: 1px solid rgba(239, 68, 68, 0.3);
     color: #F87171;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 0.72rem;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
   }
 
   .action-btn-del:hover {
-    background: rgba(239, 68, 68, 0.15);
-    border-color: #EF4444;
+    background: #EF4444;
+    color: #ffffff;
+  }
+
+  .action-btn-edit {
+    background: rgba(197, 160, 89, 0.12);
+    border: 1px solid var(--border-gold);
+    color: var(--gold-light);
+    padding: 4px 10px;
+    border-radius: 5px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .action-btn-edit:hover {
+    background: var(--gold);
+    color: #08080A;
   }
 
   /* Toast Notification */
   #adminToast {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: 2rem;
+    right: 2rem;
     background: #111116;
     border: 1px solid var(--gold);
     color: #ffffff;
@@ -696,7 +737,11 @@
     to { transform: translateY(0); opacity: 1; }
   }
 
-  /* Responsive Media Queries */
+  /* Responsive Queries */
+  @media (max-width: 1024px) {
+    .form-grid-3 { grid-template-columns: 1fr 1fr; }
+  }
+
   @media (max-width: 900px) {
     aside.admin-sidebar {
       transform: translateX(-100%);
@@ -713,6 +758,9 @@
     .admin-content {
       padding: 1.2rem;
     }
+    .form-grid-3, .form-grid-2 {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </head>
@@ -725,22 +773,39 @@
       <img src="assets/images/logo.png" alt="Murali Granites Medallion" class="admin-logo-img"/>
       <div>
         <div class="sidebar-brand-name">Murali Granites</div>
-        <span class="sidebar-badge">Admin Management Suite</span>
+        <span class="sidebar-badge">Master Control Center</span>
       </div>
     </div>
 
     <div class="sidebar-nav">
-      <div class="nav-section-title">Navigation Hub</div>
+      <div class="nav-section-title">Core Operations</div>
       <button class="nav-tab-btn active" data-tab="tab-overview">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        <span>Overview &amp; Stats</span>
+        <span>Overview &amp; KPIs</span>
       </button>
 
-      <div class="nav-section-title">Catalog Operations</div>
+      <button class="nav-tab-btn" data-tab="tab-analytics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Demand Analytics</span>
+      </button>
+
+      <div class="nav-section-title">Brand &amp; Marketing</div>
+      <button class="nav-tab-btn" data-tab="tab-hero">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <span>Hero &amp; Banners</span>
+      </button>
+
+      <div class="nav-section-title">Catalog &amp; Inventory</div>
       <button class="nav-tab-btn" data-tab="tab-stones">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
         <span>Granites &amp; Marbles</span>
         <span class="nav-pill-count" id="countStonesBadge">0</span>
+      </button>
+
+      <button class="nav-tab-btn" data-tab="tab-pricing">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        <span>Price Book &amp; Stock</span>
+        <span class="nav-pill-count" id="countPricingBadge">0</span>
       </button>
 
       <button class="nav-tab-btn" data-tab="tab-visualizer">
@@ -749,17 +814,58 @@
         <span class="nav-pill-count" id="countVisBadge">0</span>
       </button>
 
+      <div class="nav-section-title">Content &amp; Knowledge</div>
+      <button class="nav-tab-btn" data-tab="tab-analysis">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        <span>Stone Diagnostics (ASTM)</span>
+        <span class="nav-pill-count" id="countDiagBadge">0</span>
+      </button>
+
+      <button class="nav-tab-btn" data-tab="tab-projects">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Projects Portfolio</span>
+        <span class="nav-pill-count" id="countProjectsBadge">0</span>
+      </button>
+
       <button class="nav-tab-btn" data-tab="tab-blogs">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        <span>Blog &amp; Guides</span>
+        <span>Design Journal &amp; Guides</span>
         <span class="nav-pill-count" id="countBlogsBadge">0</span>
       </button>
 
-      <div class="nav-section-title">Client Relationships</div>
+      <button class="nav-tab-btn" data-tab="tab-testimonials">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span>Client Testimonials</span>
+        <span class="nav-pill-count" id="countReviewsBadge">0</span>
+      </button>
+
+      <button class="nav-tab-btn" data-tab="tab-faqs">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>FAQ Knowledge Base</span>
+        <span class="nav-pill-count" id="countFaqsBadge">0</span>
+      </button>
+
+      <div class="nav-section-title">Sales &amp; Pipeline</div>
       <button class="nav-tab-btn" data-tab="tab-leads">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        <span>Quote Inquiries</span>
+        <span>Quotation Leads</span>
         <span class="nav-pill-count" id="countLeadsBadge">0</span>
+      </button>
+
+      <div class="nav-section-title">System &amp; Total Control</div>
+      <button class="nav-tab-btn" data-tab="tab-settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Global Site Settings</span>
+      </button>
+
+      <button class="nav-tab-btn" data-tab="tab-security">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>Security &amp; Password</span>
+      </button>
+
+      <button class="nav-tab-btn" data-tab="tab-backup">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Backup &amp; Migration</span>
       </button>
     </div>
 
@@ -768,7 +874,7 @@
         <div class="user-avatar" id="avatarInitials">CM</div>
         <div>
           <div class="user-meta-name" id="sidebarUserName">Chanakya Murali</div>
-          <div class="user-meta-role">Chief Curator &amp; Admin</div>
+          <div class="user-meta-role">Chief Administrator</div>
         </div>
       </div>
       <button class="btn-signout" id="adminSignOutBtn">
@@ -785,10 +891,10 @@
         <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle navigation">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
-        <h1 class="topbar-title" id="pageTitleHeading">Executive Overview</h1>
+        <h1 class="topbar-title" id="pageTitleHeading">Executive Overview &amp; Control</h1>
         <span class="system-live-pill">
           <span class="live-dot"></span>
-          <span>Online • LocalStorage Sync</span>
+          <span>Live Synchronized &bull; Full Storage</span>
         </span>
       </div>
 
@@ -797,8 +903,17 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           <span>Live Site</span>
         </a>
-        <a href="visualizer.html" class="topbar-btn" target="_blank" title="Test Room Visualizer">
+        <a href="visualizer.html" class="topbar-btn" target="_blank" title="Open Room Visualizer">
           <span>Visualizer</span>
+        </a>
+        <a href="products.html" class="topbar-btn" target="_blank" title="Open Catalog Collection">
+          <span>Catalog</span>
+        </a>
+        <a href="stone-analysis.html" class="topbar-btn" target="_blank" title="Open Diagnostics Portal">
+          <span>Diagnostics</span>
+        </a>
+        <a href="contact.html" class="topbar-btn" target="_blank" title="Open Contact Page">
+          <span>Contact</span>
         </a>
       </div>
     </header>
@@ -821,90 +936,283 @@
 
           <div class="metric-card">
             <div class="metric-header">
-              <span>Visualizer Renders</span>
+              <span>Visualizer AI Previews</span>
               <div class="metric-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
               </div>
             </div>
             <div class="metric-value" id="statTotalVis">0</div>
-            <div class="metric-sub" id="statCustomVisSub">Living, Bathroom &amp; Bedroom</div>
+            <div class="metric-sub">Across 4 Verified Rooms</div>
           </div>
 
           <div class="metric-card">
             <div class="metric-header">
-              <span>Blog Articles</span>
-              <div class="metric-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-              </div>
-            </div>
-            <div class="metric-value" id="statTotalBlogs">0</div>
-            <div class="metric-sub" id="statCustomBlogsSub">Published knowledge guides</div>
-          </div>
-
-          <div class="metric-card">
-            <div class="metric-header">
-              <span>Client Inquiries</span>
+              <span>Lead Pipeline</span>
               <div class="metric-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
               </div>
             </div>
             <div class="metric-value" id="statTotalLeads">0</div>
-            <div class="metric-sub">Direct slab quote requests</div>
+            <div class="metric-sub" id="statNewLeadsSub">0 pending inquiry follow-ups</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span>Estimated Yard Stock</span>
+              <div class="metric-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              </div>
+            </div>
+            <div class="metric-value">64,200</div>
+            <div class="metric-sub">Sq.Ft available in Krishnagiri</div>
           </div>
         </div>
 
-        <!-- Quick Actions & System Info -->
+        <!-- Quick Launch Console -->
         <div class="content-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h2>Quick Actions &amp; Content Management</h2>
-              <p>Direct shortcuts to update your website in real-time</p>
+              <h2>Quick Management Shortcuts</h2>
+              <p>Direct triggers to manage content and update live pages instantly</p>
             </div>
           </div>
           <div style="display:flex; gap:0.9rem; flex-wrap:wrap;">
             <button class="btn-submit-action" onclick="switchToTab('tab-stones')">
-              <span>+ Add Granite / Stone</span>
+              <span>+ Add Natural Stone</span>
+            </button>
+            <button class="btn-submit-action" onclick="switchToTab('tab-pricing')" style="background:rgba(255,255,255,0.08); color:#ffffff; border:1px solid rgba(255,255,255,0.2);">
+              <span>Manage Price List &amp; Stock</span>
             </button>
             <button class="btn-submit-action" onclick="switchToTab('tab-visualizer')" style="background:rgba(255,255,255,0.08); color:#ffffff; border:1px solid rgba(255,255,255,0.2);">
-              <span>+ Upload Room Render</span>
-            </button>
-            <button class="btn-submit-action" onclick="switchToTab('tab-blogs')" style="background:rgba(255,255,255,0.08); color:#ffffff; border:1px solid rgba(255,255,255,0.2);">
-              <span>+ Publish Blog Guide</span>
+              <span>Upload Room AI Render</span>
             </button>
             <button class="btn-submit-action" onclick="switchToTab('tab-leads')" style="background:rgba(255,255,255,0.08); color:#ffffff; border:1px solid rgba(255,255,255,0.2);">
-              <span>Inspect Leads &amp; Quotes</span>
+              <span>Inspect Lead CRM</span>
+            </button>
+            <button class="btn-submit-action" onclick="switchToTab('tab-settings')" style="background:rgba(255,255,255,0.08); color:#ffffff; border:1px solid rgba(255,255,255,0.2);">
+              <span>Edit Site Settings &amp; Banner</span>
             </button>
           </div>
         </div>
 
-        <!-- Database Storage & Backup Center -->
+        <!-- Recent Inquiries Teaser -->
         <div class="content-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h2>Data Persistence &amp; Backup Suite</h2>
-              <p>Everything you create is saved in your browser's persistent storage</p>
+              <h2>Recent Customer Quotation Inquiries</h2>
+              <p>Latest requests submitted through the 3D Homepage and Visualizer</p>
             </div>
+            <button class="topbar-btn" onclick="switchToTab('tab-leads')">View All Leads &rarr;</button>
           </div>
-          <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.6; margin-bottom:1.2rem;">
-            All custom stones, room visualizer previews, and journal articles are synchronized across all pages (<a href="products.html" style="color:var(--gold);">Products</a>, <a href="visualizer.html" style="color:var(--gold);">Visualizer</a>, and <a href="blog.html" style="color:var(--gold);">Blog</a>).
-          </p>
-          <div style="display:flex; gap:0.8rem; flex-wrap:wrap;">
-            <button type="button" class="topbar-btn" onclick="exportDataBackup()">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              <span>Export JSON Backup</span>
-            </button>
-            <button type="button" class="topbar-btn" onclick="seedDemoData()">
-              <span>Seed Sample Showcase Data</span>
-            </button>
-            <button type="button" class="action-btn-del" style="padding:0.5rem 1rem;" onclick="resetAllCustomData()">
-              <span>Reset Custom Data to Factory Defaults</span>
-            </button>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Phone</th>
+                  <th>Requirement</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="overviewRecentLeadsBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
 
-      <!-- ================= TAB 2: GRANITE & STONE MANAGER ================= -->
-      <section class="tab-pane" id="tab-stones">
+      <!-- ================= TAB 2: DEMAND ANALYTICS ================= -->
+      <section class="tab-pane" id="tab-analytics">
+        <div class="content-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h2>Website Traffic &amp; Stone Demand Analytics</h2>
+              <p>Real-time client behavior metrics and most-requested stone varieties</p>
+            </div>
+            <button class="topbar-btn" onclick="resetAnalyticsCounters()">Reset Metrics</button>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-header"><span>Total Visits</span></div>
+              <div class="metric-value" id="analyticVisits">1,428</div>
+              <div class="metric-sub">+18% this week</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-header"><span>Visualizer Runs</span></div>
+              <div class="metric-value" id="analyticVisualizerRuns">942</div>
+              <div class="metric-sub">Split comparisons executed</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-header"><span>WhatsApp Clicks</span></div>
+              <div class="metric-value" id="analyticWhatsAppClicks">315</div>
+              <div class="metric-sub">Direct chat engagements</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-header"><span>Quotation Conversion</span></div>
+              <div class="metric-value">22.1%</div>
+              <div class="metric-sub">High buyer intent</div>
+            </div>
+          </div>
+
+          <!-- Stone Interest Distribution -->
+          <h3 style="font-family:var(--font-display); font-size:1.3rem; margin:1.5rem 0 1rem;">Most-Requested Stone Varieties</h3>
+          <div style="display:flex; flex-direction:column; gap:0.9rem;">
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:0.3rem;">
+                <span>River Black / Black Galaxy Granite</span>
+                <span style="font-weight:700; color:var(--gold);">38%</span>
+              </div>
+              <div style="height:6px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden;">
+                <div style="width:38%; height:100%; background:var(--gold);"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:0.3rem;">
+                <span>Italian Statuario / Banswara Marble</span>
+                <span style="font-weight:700; color:var(--gold);">26%</span>
+              </div>
+              <div style="height:6px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden;">
+                <div style="width:26%; height:100%; background:#10B981;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:0.3rem;">
+                <span>Blue in the Night (Norwegian Exotic)</span>
+                <span style="font-weight:700; color:var(--gold);">18%</span>
+              </div>
+              <div style="height:6px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden;">
+                <div style="width:18%; height:100%; background:#3B82F6;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:0.3rem;">
+                <span>Tan Brown &bull; Shiva Gold &bull; Marie Gold</span>
+                <span style="font-weight:700; color:var(--gold);">12%</span>
+              </div>
+              <div style="height:6px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden;">
+                <div style="width:12%; height:100%; background:#F59E0B;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:0.3rem;">
+                <span>Translucent Emerald Onyx &amp; Quartzite</span>
+                <span style="font-weight:700; color:var(--gold);">6%</span>
+              </div>
+              <div style="height:6px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden;">
+                <div style="width:6%; height:100%; background:#EC4899;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: GRANITE & STONE MANAGER ================= -->
+            <!-- ================= TAB: HERO & BANNERS ================= -->
+      <section class="tab-pane" id="tab-hero">
+        <div class="content-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h2>Homepage Hero &amp; Announcement Customizer</h2>
+              <p>Direct real-time control over homepage messaging, primary CTAs, and promotional announcement banners</p>
+            </div>
+            <a href="index.html" target="_blank" class="topbar-btn">Preview Live Homepage &rarr;</a>
+          </div>
+
+          <form id="heroConfigForm" onsubmit="handleSaveHeroConfig(event)">
+            <!-- Hero Typography -->
+            <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem; color:var(--gold);">1. Hero Storytelling Messaging</h3>
+            <div class="form-grid-2">
+              <div class="admin-form-group">
+                <label>Main Headline</label>
+                <input class="admin-input" id="cfgHeroTitle" placeholder="e.g. From Mountain to Living Room." required/>
+                <small style="font-size:0.7rem; color:var(--text-muted); margin-top:3px; display:block;">Rendered with luxury serif display typography on the 3D scroll homepage.</small>
+              </div>
+              <div class="admin-form-group">
+                <label>Sub-Headline / Tagline</label>
+                <input class="admin-input" id="cfgHeroSubtitle" placeholder="e.g. Quarry Direct Luxury Natural Stone, Calibrated for Generations." required/>
+                <small style="font-size:0.7rem; color:var(--text-muted); margin-top:3px; display:block;">Provides immediate architectural context under the main title.</small>
+              </div>
+            </div>
+
+            <!-- Call to Actions -->
+            <h3 style="font-family:var(--font-display); font-size:1.3rem; margin:1.8rem 0 1rem; color:var(--gold);">2. Primary &amp; Secondary Action Buttons</h3>
+            <div class="form-grid-2">
+              <div class="admin-form-group">
+                <label>Primary Button Label</label>
+                <input class="admin-input" id="cfgHeroCta1Text" placeholder="e.g. Experience 3D Journey" required/>
+              </div>
+              <div class="admin-form-group">
+                <label>Primary Button URL / Target</label>
+                <input class="admin-input" id="cfgHeroCta1Link" placeholder="e.g. #c0 or visualizer.html" required/>
+              </div>
+              <div class="admin-form-group">
+                <label>Secondary Button Label</label>
+                <input class="admin-input" id="cfgHeroCta2Text" placeholder="e.g. AI Room Visualizer" required/>
+              </div>
+              <div class="admin-form-group">
+                <label>Secondary Button URL / Target</label>
+                <input class="admin-input" id="cfgHeroCta2Link" placeholder="e.g. visualizer.html or products.html" required/>
+              </div>
+            </div>
+
+            <!-- Top Announcement Bar -->
+            <h3 style="font-family:var(--font-display); font-size:1.3rem; margin:1.8rem 0 1rem; color:var(--gold);">3. Top Notification / Announcement Bar</h3>
+            <div class="form-grid-3">
+              <div class="admin-form-group">
+                <label>Status</label>
+                <select class="admin-select" id="cfgHeroBannerEnabled">
+                  <option value="true">Active (Displayed at top of website)</option>
+                  <option value="false">Hidden / Inactive</option>
+                </select>
+              </div>
+              <div class="admin-form-group" style="grid-column: span 2;">
+                <label>Announcement Text</label>
+                <input class="admin-input" id="cfgHeroBannerText" placeholder="e.g. Direct Quarry Supply: New Lot of Italian Statuario &amp; River Black Slabs Arrived at Bargur Hub!"/>
+              </div>
+            </div>
+            <div class="admin-form-group" style="margin-top:0.8rem;">
+              <label>Banner Action Link</label>
+              <input class="admin-input" id="cfgHeroBannerLink" placeholder="e.g. contact.html or products.html" value="contact.html"/>
+            </div>
+
+            <!-- Festive / Seasonal Promo Banner -->
+            <h3 style="font-family:var(--font-display); font-size:1.3rem; margin:1.8rem 0 1rem; color:var(--gold);">4. Festive / Seasonal Promotional Advantage Box</h3>
+            <div class="form-grid-2">
+              <div class="admin-form-group">
+                <label>Promotional Box Status</label>
+                <select class="admin-select" id="cfgPromoEnabled">
+                  <option value="true">Active on Homepage</option>
+                  <option value="false">Disabled</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label>Promotion Headline</label>
+                <input class="admin-input" id="cfgPromoTitle" placeholder="e.g. Quarry Direct Festive Wholesale Advantage"/>
+              </div>
+            </div>
+            <div class="admin-form-group" style="margin-top:0.8rem;">
+              <label>Promotion Details / Terms</label>
+              <textarea class="admin-textarea" id="cfgPromoText" placeholder="Explain the discount or advantage (e.g. Direct factory wholesale pricing, zero broker markup, and free diamond-chamfered edge sampling for bulk bookings)..."></textarea>
+            </div>
+            <div class="admin-form-group" style="margin-top:0.8rem;">
+              <label>Direct WhatsApp Inquiry Message for Promo</label>
+              <input class="admin-input" id="cfgPromoWaMsg" placeholder="e.g. Hello Murali Granites, I would like to inquire about your Quarry Direct Wholesale advantage."/>
+            </div>
+
+            <div style="margin-top:1.8rem;">
+              <button type="submit" class="btn-submit-action">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Save &amp; Publish Hero Settings</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+<section class="tab-pane" id="tab-stones">
         <div class="content-card">
           <div class="card-header-bar">
             <div class="card-title-group">
@@ -979,7 +1287,7 @@
               <div class="image-dropzone" onclick="document.getElementById('stFileInput').click()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--gold);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                 <span style="font-size:0.78rem; color:#E4E4E7;">Click to select slab image from device</span>
-                <span style="font-size:0.68rem; color:var(--text-muted);">(Auto-converts to high-res preview)</span>
+                <span style="font-size:0.68rem; color:var(--text-muted);">(Auto-converts to optimized preview)</span>
                 <input type="file" id="stFileInput" accept="image/*" style="display:none" onchange="handleImageFileUpload(event, 'stImageUrl', 'stPreviewBox', 'stPreviewImg')"/>
               </div>
               <div class="preview-thumbnail-box" id="stPreviewBox">
@@ -989,7 +1297,7 @@
 
             <div class="admin-form-group" style="margin-bottom:1.5rem;">
               <label>Description &amp; Geological Profile</label>
-              <textarea class="admin-textarea" id="stDesc" placeholder="Describe the crystalline grain, mineral veins, and aesthetic qualities..."></textarea>
+              <textarea class="admin-textarea" id="stDesc" placeholder="Describe crystalline grain, mineral veins, and aesthetic qualities..."></textarea>
             </div>
 
             <button type="submit" class="btn-submit-action">
@@ -998,7 +1306,7 @@
           </form>
         </div>
 
-        <!-- Slabs List Table -->
+        <!-- Active Stones List -->
         <div class="content-card">
           <div class="card-header-bar">
             <div class="card-title-group">
@@ -1030,13 +1338,51 @@
         </div>
       </section>
 
-      <!-- ================= TAB 3: VISUALIZER STUDIO MANAGER ================= -->
+      <!-- ================= TAB 4: PRICE BOOK & STOCK LEVEL MATRIX ================= -->
+      <section class="tab-pane" id="tab-pricing">
+        <div class="content-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h2>Price Book &amp; Sizing Quotation Matrix</h2>
+              <p>Manage real-time per sq.ft wholesale pricing, stock availability, and finish charges</p>
+            </div>
+            <div style="display:flex; gap:0.6rem;">
+              <button class="topbar-btn" onclick="exportPricingCSV()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export Price Sheet (CSV)</span>
+              </button>
+              <button class="topbar-btn topbar-btn-primary" onclick="showAddPriceModal()">+ Add Stone Price</button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Material</th>
+                  <th>Category</th>
+                  <th>Base Rate (/Sq.Ft)</th>
+                  <th>Stock Availability</th>
+                  <th>Thickness</th>
+                  <th>Available Lots</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="pricingTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 5: VISUALIZER STUDIO ================= -->
       <section class="tab-pane" id="tab-visualizer">
         <div class="content-card">
           <div class="card-header-bar">
             <div class="card-title-group">
               <h2>Register Room Visualizer Render</h2>
-              <p>Add photorealistic room installation renders for Living Room, Bathroom, or Bedroom</p>
+              <p>Add photorealistic installation renders for Kitchen, Living Room, Bathroom, or Bedroom</p>
             </div>
           </div>
 
@@ -1045,6 +1391,7 @@
               <div class="admin-form-group">
                 <label>Room Space *</label>
                 <select class="admin-select" id="visRoom" required>
+                  <option value="kitchen">Kitchen</option>
                   <option value="living-room">Living Room</option>
                   <option value="bathroom">Bathroom</option>
                   <option value="bedroom">Bedroom</option>
@@ -1053,6 +1400,7 @@
               <div class="admin-form-group">
                 <label>Surface Application *</label>
                 <select class="admin-select" id="visSurface" required>
+                  <option value="countertop">Countertop &amp; Island</option>
                   <option value="floor">Flooring</option>
                   <option value="wall">Accent / Feature Wall</option>
                 </select>
@@ -1067,7 +1415,7 @@
 
             <div class="admin-form-group" style="margin-bottom:1.2rem;">
               <label>Photorealistic Room Render (Upload Render File or URL) *</label>
-              <input class="admin-input" id="visRenderUrl" placeholder="assets/visualizer_generated/... or image URL" required type="text"/>
+              <input class="admin-input" id="visRenderUrl" placeholder="assets/images/ai images/... or image URL" required type="text"/>
             </div>
 
             <div class="admin-form-group" style="margin-bottom:1.4rem;">
@@ -1094,7 +1442,7 @@
           <div class="card-header-bar">
             <div class="card-title-group">
               <h2>Registered Visualizer Previews</h2>
-              <p>Photorealistic room previews linked to stones in the 3D visualizer</p>
+              <p>Photorealistic room previews linked to stones in the visualizer</p>
             </div>
           </div>
           <div class="table-responsive">
@@ -1117,8 +1465,143 @@
         </div>
       </section>
 
-      <!-- ================= TAB 4: BLOGS & ARTICLES MANAGER ================= -->
-      <section class="tab-pane" id="tab-blogs">
+      <!-- ================= TAB 6: STONE DIAGNOSTICS (ASTM) ================= -->
+      <section class="tab-pane" id="tab-analysis">
+        <div class="content-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h2>Geological Diagnostics &amp; ASTM Standards Configurator</h2>
+              <p>Configure material testing ratings displayed on the Stone Analysis portal</p>
+            </div>
+            <button class="topbar-btn topbar-btn-primary" onclick="showAddDiagModal()">+ Add Stone Test Report</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Stone Name</th>
+                  <th>Mohs Hardness</th>
+                  <th>Compressive (MPa)</th>
+                  <th>Water Porosity</th>
+                  <th>Thermal Limit</th>
+                  <th>Acid Resistance</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="diagnosticsTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 7: BLOG & GUIDES ================= -->
+            <!-- ================= TAB: PROJECTS PORTFOLIO ================= -->
+      <section class="tab-pane" id="tab-projects">
+        <div class="content-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h2>Architectural Projects &amp; Installations Portfolio</h2>
+              <p>Showcase completed private villas, corporate landmarks, and luxury hospitality stone works</p>
+            </div>
+            <div style="display:flex; gap:0.6rem;">
+              <button type="button" class="topbar-btn" onclick="exportProjectsCSV()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Add Project Form -->
+          <form id="projectForm" onsubmit="handleSaveProject(event)" style="background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:10px; padding:1.4rem; margin-bottom:2rem;">
+            <h3 style="font-family:var(--font-display); font-size:1.25rem; color:var(--gold); margin-bottom:1rem;">Add New Project Showcase</h3>
+            <div class="form-grid-3">
+              <div class="admin-form-group">
+                <label>Project Name / Title</label>
+                <input class="admin-input" id="projTitle" placeholder="e.g. The White Villa, Sarjapur" required/>
+              </div>
+              <div class="admin-form-group">
+                <label>Client / Architect / Studio</label>
+                <input class="admin-input" id="projClient" placeholder="e.g. Ar. Rajesh Verma &amp; Associates" required/>
+              </div>
+              <div class="admin-form-group">
+                <label>Location / City</label>
+                <input class="admin-input" id="projCity" placeholder="e.g. Bangalore" required/>
+              </div>
+            </div>
+
+            <div class="form-grid-3" style="margin-top:0.8rem;">
+              <div class="admin-form-group">
+                <label>Material(s) Deployed</label>
+                <input class="admin-input" id="projMaterial" placeholder="e.g. Statuario Marble &amp; River Black" required/>
+              </div>
+              <div class="admin-form-group">
+                <label>Installation Scope (Sq.Ft)</label>
+                <input class="admin-input" id="projArea" placeholder="e.g. 14,000 sq.ft" value="10,000 sq.ft"/>
+              </div>
+              <div class="admin-form-group">
+                <label>Completion Year</label>
+                <input class="admin-input" id="projYear" placeholder="e.g. 2025" value="2025"/>
+              </div>
+            </div>
+
+            <div class="admin-form-group" style="margin-top:0.8rem;">
+              <label>Project Photo (Upload or Paste URL)</label>
+              <div class="form-grid-2">
+                <div class="image-dropzone" onclick="document.getElementById('projFileInput').click()">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--gold);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <span style="font-size:0.75rem; font-weight:600;">Upload Project Photograph</span>
+                  <span style="font-size:0.65rem; color:var(--text-muted);">Auto-optimized to lightweight web standard</span>
+                  <input type="file" id="projFileInput" accept="image/*" style="display:none" onchange="handleImageFileUpload(event, 'projImageUrl', 'projPreviewBox', 'projPreviewImg')"/>
+                </div>
+                <div>
+                  <input class="admin-input" id="projImageUrl" placeholder="Or enter image URL..." value="assets/images/ai images/living room floor/Gemini_Generated_ImageStatuario Banswara Marble.png" required/>
+                  <div class="preview-thumbnail-box" id="projPreviewBox">
+                    <img id="projPreviewImg" src="" alt="Project Preview"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-form-group" style="margin-top:0.8rem;">
+              <label>Architectural Case Study / Scope Notes</label>
+              <textarea class="admin-textarea" id="projNotes" placeholder="Describe the installation details (e.g. Bookmatched 18mm calibrated marble for main living area, full bullnose staircase treads, and diamond mirror polish kitchen countertop)..."></textarea>
+            </div>
+
+            <div style="margin-top:1.2rem;">
+              <button type="submit" class="btn-submit-action">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Publish Project to Website</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Projects Table -->
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Preview</th>
+                  <th>Project Name</th>
+                  <th>Architect / Client</th>
+                  <th>City</th>
+                  <th>Material Used</th>
+                  <th>Scope</th>
+                  <th>Year</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="projectsTableBody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+<section class="tab-pane" id="tab-blogs">
         <div class="content-card">
           <div class="card-header-bar">
             <div class="card-title-group">
@@ -1188,7 +1671,7 @@
           </form>
         </div>
 
-        <!-- Articles Table -->
+        <!-- Articles Registry -->
         <div class="content-card">
           <div class="card-header-bar">
             <div class="card-title-group">
@@ -1216,15 +1699,79 @@
         </div>
       </section>
 
-      <!-- ================= TAB 5: LEADS & INQUIRIES ================= -->
+      <!-- ================= TAB 8: CLIENT TESTIMONIALS ================= -->
+      <section class="tab-pane" id="tab-testimonials">
+        <div class="content-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h2>Client &amp; Architect Endorsements</h2>
+              <p>Manage project reviews and testimonials featured across the website</p>
+            </div>
+            <button class="topbar-btn topbar-btn-primary" onclick="showAddReviewModal()">+ Add New Testimonial</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Client / Architect</th>
+                  <th>Studio / Location</th>
+                  <th>Rating</th>
+                  <th>Stone Used</th>
+                  <th>Testimonial Preview</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="testimonialsTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 9: FAQ KNOWLEDGE BASE ================= -->
+      <section class="tab-pane" id="tab-faqs">
+        <div class="content-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h2>FAQ &amp; Knowledge Base Manager</h2>
+              <p>Add and edit answers to common architectural and client inquiries</p>
+            </div>
+            <button class="topbar-btn topbar-btn-primary" onclick="showAddFaqModal()">+ Add New FAQ</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Question</th>
+                  <th>Answer Summary</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="faqsTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 10: LEADS & CRM PIPELINE ================= -->
       <section class="tab-pane" id="tab-leads">
         <div class="content-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h2>Quotation Requests &amp; Inquiries</h2>
-              <p>Customer submissions from contact forms and room visualizer quotes</p>
+              <h2>Quotation Inquiries &amp; Customer CRM</h2>
+              <p>Track client leads, update discussion status, and reply via WhatsApp</p>
             </div>
-            <div style="display:flex; gap:0.6rem;">
+            <div style="display:flex; gap:0.6rem; flex-wrap:wrap;">
+              <button class="topbar-btn" onclick="exportLeadsCSV()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Export Leads (CSV)</span>
+              </button>
               <button class="topbar-btn" onclick="seedSampleInquiry()">+ Add Test Inquiry</button>
               <button class="action-btn-del" onclick="clearAllLeads()">Clear All</button>
             </div>
@@ -1237,8 +1784,8 @@
                   <th>Date</th>
                   <th>Client Name</th>
                   <th>Phone</th>
-                  <th>Stone / Room</th>
-                  <th>Area (Sq Ft)</th>
+                  <th>Requirement</th>
+                  <th>Status</th>
                   <th>Notes</th>
                   <th>Direct Contact</th>
                 </tr>
@@ -1251,8 +1798,160 @@
         </div>
       </section>
 
+      <!-- ================= TAB 11: GLOBAL SITE SETTINGS ================= -->
+      <section class="tab-pane" id="tab-settings">
+        <div class="content-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h2>Global Site Configuration &amp; Contact Details</h2>
+              <p>Update phone numbers, showroom operating hours, and announcement alerts</p>
+            </div>
+          </div>
+
+          <form id="settingsForm" onsubmit="handleSaveSettings(event)">
+            <h3 style="font-family:var(--font-display); font-size:1.3rem; margin-bottom:1rem; color:var(--gold);">Company Contact &amp; Hotline</h3>
+            <div class="form-grid-3">
+              <div class="admin-form-group">
+                <label>Official Phone Number</label>
+                <input class="admin-input" id="cfgPhone" value="+91 6366380051" required type="text"/>
+              </div>
+              <div class="admin-form-group">
+                <label>WhatsApp Hotline Number</label>
+                <input class="admin-input" id="cfgWhatsApp" value="+916366380051" required type="text"/>
+              </div>
+              <div class="admin-form-group">
+                <label>Official Email Address</label>
+                <input class="admin-input" id="cfgEmail" value="chanakya@muraligranites.com" required type="email"/>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="admin-form-group">
+                <label>Showroom &amp; Stockyard Address</label>
+                <input class="admin-input" id="cfgAddress" value="4/197 C Kottavur Village, Bargur Tk, Krishnagiri - 635104" required type="text"/>
+              </div>
+              <div class="admin-form-group">
+                <label>Yard Operating Hours</label>
+                <input class="admin-input" id="cfgHours" value="Open everyday: 7:00 AM – 11:00 PM" required type="text"/>
+              </div>
+            </div>
+
+            <h3 style="font-family:var(--font-display); font-size:1.3rem; margin:1.8rem 0 1rem; color:var(--gold);">Homepage Announcement Banner</h3>
+            <div class="form-grid-2">
+              <div class="admin-form-group">
+                <label>Enable Top Banner</label>
+                <select class="admin-select" id="cfgBannerEnabled">
+                  <option value="true">Enabled (Show on all pages)</option>
+                  <option value="false">Disabled</option>
+                </select>
+              </div>
+              <div class="admin-form-group">
+                <label>Banner Text / Offer Message</label>
+                <input class="admin-input" id="cfgBannerText" value="Quarry Direct Supply: New Lot of Italian Statuario & River Black Slabs Arrived at Bargur Hub!" type="text"/>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit-action" style="margin-top:1rem;">
+              <span>Save Site Configuration</span>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ================= TAB: SECURITY & CREDENTIALS ================= -->
+      <section class="tab-pane" id="tab-security">
+        <div class="content-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h2>Admin Security &amp; Access Credentials</h2>
+              <p>Manage administrative login email, secure password, and active session credentials</p>
+            </div>
+          </div>
+
+          <form id="securityForm" onsubmit="handleSaveSecurity(event)" style="max-width:650px;">
+            <div class="admin-form-group" style="margin-bottom:1rem;">
+              <label>Administrator Display Name</label>
+              <input class="admin-input" id="secAdminName" value="Chanakya Murali" required/>
+            </div>
+
+            <div class="admin-form-group" style="margin-bottom:1rem;">
+              <label>Administrator Login Email</label>
+              <input class="admin-input" id="secAdminEmail" type="email" value="admin@muraligranites.com" required/>
+              <small style="font-size:0.7rem; color:var(--text-muted); margin-top:3px; display:block;">This email is used to log in at login.html.</small>
+            </div>
+
+            <div class="form-grid-2" style="margin-bottom:1.4rem;">
+              <div class="admin-form-group">
+                <label>New Password</label>
+                <input class="admin-input" id="secNewPassword" type="password" placeholder="Enter new password (min. 6 chars)"/>
+              </div>
+              <div class="admin-form-group">
+                <label>Confirm New Password</label>
+                <input class="admin-input" id="secConfirmPassword" type="password" placeholder="Re-type new password"/>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:center;">
+              <button type="submit" class="btn-submit-action">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Update Credentials</span>
+              </button>
+              <button type="button" class="topbar-btn" onclick="resetAdminCredentials()">
+                <span>Reset to Factory Demo (admin123)</span>
+              </button>
+            </div>
+          </form>
+
+          <div style="margin-top:2.5rem; padding:1.2rem; background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:8px; max-width:650px;">
+            <div style="font-size:0.75rem; font-weight:700; color:var(--gold); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.5rem;">Current Session Status</div>
+            <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.6;" id="sessionStatusInfo">
+              Authenticated Session &bull; Role: Chief Curator &amp; Admin &bull; Local Storage Protection Active
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 12: BACKUP & DATA MIGRATION ================= -->
+      <section class="tab-pane" id="tab-backup">
+        <div class="content-card">
+          <div class="card-header-bar">
+            <div class="card-title-group">
+              <h2>Data Persistence &amp; System Backup Suite</h2>
+              <p>Export entire website records, restore from file, or reset to factory defaults</p>
+            </div>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.6; margin-bottom:1.4rem;">
+            All custom stones, price catalogs, room visualizer previews, testimonials, FAQs, and client leads can be exported as a portable JSON file for offline backups or migration.
+          </p>
+          <div style="display:flex; gap:0.9rem; flex-wrap:wrap;">
+            <button type="button" class="btn-submit-action" onclick="exportDataBackup()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Download Complete Backup (.JSON)</span>
+            </button>
+            <button type="button" class="topbar-btn" onclick="document.getElementById('importBackupInput').click()">
+              <span>Restore from Backup File</span>
+              <input type="file" id="importBackupInput" accept=".json" style="display:none" onchange="handleRestoreBackup(event)"/>
+            </button>
+            <button type="button" class="topbar-btn" onclick="seedDemoData()">
+              <span>Seed Comprehensive Showcase Data</span>
+            </button>
+            <button type="button" class="action-btn-del" style="padding:0.6rem 1.2rem;" onclick="resetAllCustomData()">
+              <span>Reset Entire Site to Factory Defaults</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
     </div>
   </main>
+</div>
+
+<!-- Modal Container for In-Place Actions -->
+<div id="adminModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); z-index:10000; align-items:center; justify-content:center; padding:1.5rem;">
+  <div style="background:#131318; border:1px solid var(--border-gold); border-radius:14px; width:100%; max-width:550px; padding:2rem; box-shadow:0 20px 50px rgba(0,0,0,0.9); position:relative;">
+    <button onclick="closeModal()" style="position:absolute; top:1.2rem; right:1.2rem; background:none; border:none; color:#8E8E98; font-size:1.4rem; cursor:pointer;">&times;</button>
+    <div id="modalContent"></div>
+  </div>
 </div>
 
 <!-- Toast Box -->
@@ -1266,10 +1965,45 @@
 (function() {
   'use strict';
 
-  // 1. Session Verification Guard
+  // Security: Frame-busting clickjacking protection
+  if (window.top !== window.self) {
+    window.top.location = window.self.location;
+  }
+
+  // Security: HTML entity encoding to prevent stored/reflected XSS
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function sanitizeUrl(url) {
+    if (!url) return '';
+    const clean = String(url).trim();
+    if (/^(https?:|\/|assets\/|data:image\/)/i.test(clean)) {
+      return clean;
+    }
+    return 'assets/images/favicon.png';
+  }
+
+  // 1. Session Verification Guard with Lease Expiration
   const isAuth = localStorage.getItem('murali_admin_auth') === 'true';
-  if (!isAuth) {
-    // If not authenticated, redirect to login
+  let sessionValid = isAuth;
+  try {
+    const sess = JSON.parse(localStorage.getItem('murali_admin_session') || '{}');
+    if (sess.expiresAt && Date.now() > sess.expiresAt) {
+      sessionValid = false;
+    }
+  } catch(e) {}
+
+  if (!sessionValid) {
+    localStorage.removeItem('murali_admin_auth');
+    localStorage.removeItem('murali_admin_session');
+    localStorage.removeItem('murali_admin_user');
     window.location.href = 'login.html';
     return;
   }
@@ -1287,6 +2021,7 @@
   // Sign out listener
   document.getElementById('adminSignOutBtn').addEventListener('click', () => {
     localStorage.removeItem('murali_admin_auth');
+    localStorage.removeItem('murali_admin_session');
     localStorage.removeItem('murali_admin_user');
     window.location.href = 'login.html';
   });
@@ -1306,11 +2041,21 @@
   const pageTitle = document.getElementById('pageTitleHeading');
 
   const titles = {
-    'tab-overview': 'Executive Overview',
+    'tab-overview': 'Executive Overview & Control',
+    'tab-analytics': 'Demand Analytics & Traffic',
+    'tab-hero': 'Homepage Hero & Announcement Banners',
+    'tab-projects': 'Architectural Projects & Installations Portfolio',
     'tab-stones': 'Granites & Marbles Catalog Manager',
+    'tab-pricing': 'Price Book & Stock Sizing Matrix',
     'tab-visualizer': 'Visualizer Studio Manager',
+    'tab-analysis': 'Geological Diagnostics (ASTM Standards)',
     'tab-blogs': 'Journal & Guides Manager',
-    'tab-leads': 'Client Inquiries & Quotations'
+    'tab-testimonials': 'Client & Architect Testimonials',
+    'tab-faqs': 'FAQ Knowledge Base Manager',
+    'tab-leads': 'Client Inquiries & CRM Pipeline',
+    'tab-settings': 'Global Site Configuration & Branding',
+    'tab-security': 'Admin Security & Access Credentials',
+    'tab-backup': 'System Backup & Data Migration'
   };
 
   window.switchToTab = function(tabId) {
@@ -1337,16 +2082,36 @@
     }, 3200);
   };
 
-  // 4. File Upload Handler (Optimized Base64 DataURL converter with client-side downscaling)
+  // 4. Modal Controller
+  window.showModal = function(html) {
+    const modal = document.getElementById('adminModal');
+    document.getElementById('modalContent').innerHTML = html;
+    modal.style.display = 'flex';
+  };
+  window.closeModal = function() {
+    document.getElementById('adminModal').style.display = 'none';
+  };
+
+  // 5. File Upload Handler (Optimized Base64 DataURL converter)
   window.handleImageFileUpload = function(e, targetInputId, previewBoxId, previewImgId) {
     const file = e.target.files[0];
     if (!file) return;
 
+    // Security: Validate file type and size before processing
+    if (!file.type.match(/^image\/(jpeg|png|webp)$/i)) {
+      alert('Security Notice: Only valid JPEG, PNG, and WebP image formats are permitted.');
+      e.target.value = '';
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Security Notice: Maximum allowed upload file size is 5MB.');
+      e.target.value = '';
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = function(evt) {
       const rawDataUrl = evt.target.result;
-      
-      // Downscale image through canvas to keep localStorage well within quota (~60KB)
       const img = new Image();
       img.onload = function() {
         const maxDim = 960;
@@ -1381,27 +2146,107 @@
     reader.readAsDataURL(file);
   };
 
-  // 5. Initial Data Setup & Registries
+  // 6. DEFAULT DATA REPOSITORIES
+  const DEFAULT_HERO = {
+    headline: 'From Mountain to Living Room.',
+    subtitle: 'Quarry Direct Luxury Natural Stone, Calibrated for Generations.',
+    ctaPrimaryText: 'Experience 3D Journey',
+    ctaPrimaryLink: '#c0',
+    ctaSecondaryText: 'AI Room Visualizer',
+    ctaSecondaryLink: 'visualizer.html',
+    bannerEnabled: true,
+    bannerText: 'Direct Quarry Supply: New Lot of Italian Statuario & River Black Slabs Arrived at Bargur Hub!',
+    bannerLink: 'contact.html',
+    promoEnabled: true,
+    promoTitle: 'Quarry Direct Festive Advantage',
+    promoText: 'Direct factory wholesale pricing and zero broker markup on full bundle bookings this month. Triple hand-inspected under sunlight.',
+    promoWaMsg: 'Hello Murali Granites, I would like to inquire about your Quarry Direct Wholesale advantage for my project.'
+  };
+
+  const DEFAULT_PROJECTS = [
+    {
+      id: 'proj_1',
+      title: 'The White Villa, Sarjapur',
+      client: 'Ar. Rajesh Verma & Associates',
+      city: 'Bangalore',
+      material: 'Statuario Marble & River Black Granite',
+      area: '14,000 sq.ft',
+      image: 'assets/images/ai images/living room floor/Gemini_Generated_ImageStatuario Banswara Marble.png',
+      year: '2025',
+      notes: 'Bookmatched 18mm calibrated marble for main atrium with diamond mirror finish River Black kitchen countertops.'
+    },
+    {
+      id: 'proj_2',
+      title: 'Boutique Coastal Retreat, ECR',
+      client: 'Studio Linea Architects',
+      city: 'Chennai',
+      material: 'Blue in the Night & Kashmir White',
+      area: '8,500 sq.ft',
+      image: 'assets/images/ai images/bathroom floor/Gemini_Generated_Image_Blue in the Night.png',
+      year: '2025',
+      notes: 'High-density igneous granite resisting saline coastal air and humidity across 12 ocean-facing suites.'
+    },
+    {
+      id: 'proj_3',
+      title: 'Vertex Horizon Commercial Tower',
+      client: 'Mehra Constructions',
+      city: 'Hyderabad',
+      material: 'Tan Brown & Black Pearl Granite',
+      area: '26,000 sq.ft',
+      image: 'assets/images/ai images/kitchen countertop/Gemini_Generated_Image_River Black.png',
+      year: '2024',
+      notes: 'Heavy footfall lobby entrance flooring and double-bullnose staircase step treads.'
+    }
+  ];
+
   const DEFAULT_STONES = [
     { id: 'river-black', name: 'River Black', category: 'Granite', origin: 'Rajasthan', finish: 'Polished', color: 'Black', image_url: 'assets/images/products/product-1783138465-6a4888a145274.jpg', isDefault: true },
     { id: 'black-pearl', name: 'Black Pearl', category: 'Granite', origin: 'Rajasthan', finish: 'Polished', color: 'Black', image_url: 'assets/images/products/product-1783138424-6a488878abc22.jpg', isDefault: true },
     { id: 'marie-gold', name: 'Marie Gold', category: 'Granite', origin: 'Tamil Nadu', finish: 'Polished', color: 'Gold', image_url: 'assets/images/products/product-1783085317-6a47b9058f71e.jpg', isDefault: true },
     { id: 'blue-night', name: 'Blue in the Night', category: 'Imported Granite', origin: 'Norway', finish: 'Polished', color: 'Black', image_url: 'assets/images/products/product-1783085244-6a47b8bcd330d.png', isDefault: true },
     { id: 'statuario-marble', name: 'Statuario / Banswara Marble', category: 'Marble', origin: 'Rajasthan', finish: 'Polished', color: 'White', image_url: 'assets/images/products/product-1783085208-6a47b8986af97.png', isDefault: true },
-    { id: 'onyx-emerald', name: 'Emerald Onyx Marble', category: 'Marble', origin: 'Rajasthan', finish: 'Polished', color: 'White', image_url: 'assets/images/products/product-1783085161-6a47b869e0448.jpg', isDefault: true },
+    { id: 'emerald-onyx', name: 'Emerald Onyx Marble', category: 'Marble', origin: 'Rajasthan', finish: 'Polished', color: 'White', image_url: 'assets/images/products/product-1783085161-6a47b869e0448.jpg', isDefault: true },
     { id: 'kashmir-white', name: 'Kashmir White', category: 'Granite', origin: 'Tamil Nadu', finish: 'Polished', color: 'White', image_url: 'assets/images/products/product-1783084356-6a47b5441b767.jpg', isDefault: true },
     { id: 'tan-brown', name: 'Tan Brown', category: 'Granite', origin: 'Telangana', finish: 'Polished', color: 'Brown', image_url: 'assets/images/products/product-1783084011-6a47b3eb20cf0.jpg', isDefault: true },
     { id: 'black-forest', name: 'Black Forest', category: 'Granite', origin: 'Rajasthan', finish: 'Polished', color: 'Black', image_url: 'assets/images/products/product-1783083657-6a47b289a4a40.jpg', isDefault: true },
-    { id: 'titanium-black', name: 'Titanium Black', category: 'Granite', origin: 'Rajasthan', finish: 'Polished', color: 'Black', image_url: 'assets/images/products/product-1783083560-6a47b228132ac.webp', isDefault: true },
+    { id: 'titanium-black', name: 'Titanium Black', category: 'Granite', origin: 'Rajasthan', finish: 'Polished', color: 'Black', image_url: 'assets/images/products/product-1783083560-6a47b228132ac.jpg', isDefault: true },
     { id: 'moon-white', name: 'Moon White', category: 'Granite', origin: 'Odisha', finish: 'Polished', color: 'White', image_url: 'assets/images/products/product-1783079448-6a47a218632fd.jpg', isDefault: true },
     { id: 'river-white', name: 'River White', category: 'Granite', origin: 'Odisha', finish: 'Polished', color: 'White', image_url: 'assets/images/products/product-1783078831-6a479faf4fcbd.jpg', isDefault: true }
   ];
 
+  const DEFAULT_PRICING = [
+    { id: 'p1', name: 'River Black Granite', category: 'Granite', rate: '₹140', status: 'In Stock', thickness: '18mm', lots: '12,500 sq.ft' },
+    { id: 'p2', name: 'Statuario / Banswara Marble', category: 'Marble', rate: '₹280', status: 'In Stock', thickness: '18mm', lots: '8,400 sq.ft' },
+    { id: 'p3', name: 'Blue in the Night', category: 'Imported Granite', rate: '₹460', status: 'Low Stock', thickness: '20mm', lots: '1,800 sq.ft' },
+    { id: 'p4', name: 'Tan Brown Granite', category: 'Granite', rate: '₹125', status: 'In Stock', thickness: '18mm', lots: '15,000 sq.ft' },
+    { id: 'p5', name: 'Emerald Onyx Marble', category: 'Onyx / Marble', rate: '₹550', status: 'Reserved', thickness: '16mm', lots: '950 sq.ft' },
+    { id: 'p6', name: 'Shiva Gold / Marie Gold', category: 'Granite', rate: '₹165', status: 'In Stock', thickness: '18mm', lots: '6,200 sq.ft' }
+  ];
+
   const DEFAULT_VISUALIZERS = [
-    { room_id: 'living-room', surface_id: 'floor', product_id: 'river-black', product_name: 'River Black', generated_preview: 'assets/visualizer_generated/living-room/river-black-floor.jpg', isDefault: true },
+    { room_id: 'kitchen', surface_id: 'countertop', product_id: 'river-black', product_name: 'River Black', generated_preview: 'assets/images/ai images/kitchen countertop/Gemini_Generated_Image_River Black.png', isDefault: true },
     { room_id: 'living-room', surface_id: 'floor', product_id: 'statuario-marble', product_name: 'Statuario Marble', generated_preview: 'assets/images/ai images/living room floor/Gemini_Generated_ImageStatuario Banswara Marble.png', isDefault: true },
-    { room_id: 'bathroom', surface_id: 'floor', product_id: 'moon-white', product_name: 'Moon White', generated_preview: 'assets/images/ai images/bathroom floor/Gemini_Generated_Image_Moon Whitepng.png', isDefault: true },
-    { room_id: 'bedroom', surface_id: 'floor', product_id: 'marie-gold', product_name: 'Marie Gold', generated_preview: 'assets/images/ai images/bedroom floor/Gemini_Generated_ImageMarie Gold.png', isDefault: true }
+    { room_id: 'bathroom', surface_id: 'floor', product_id: 'blue-night', product_name: 'Blue in the Night', generated_preview: 'assets/images/ai images/bathroom floor/Gemini_Generated_Image_Blue in the Night.png', isDefault: true },
+    { room_id: 'bedroom', surface_id: 'floor', product_id: 'black-forest', product_name: 'Black Forest', generated_preview: 'assets/images/ai images/bedroom floor/Gemini_Generated_Image_Black Forest.png', isDefault: true }
+  ];
+
+  const DEFAULT_DIAGNOSTICS = [
+    { id: 'd1', name: 'River Black Granite', hardness: '6.5 Mohs', compressive: '210 MPa', porosity: '0.12%', thermal: '480°C', acid: 'High (Class A)' },
+    { id: 'd2', name: 'Statuario White Marble', hardness: '3.5 Mohs', compressive: '115 MPa', porosity: '0.28%', thermal: '200°C', acid: 'Moderate (Class B)' },
+    { id: 'd3', name: 'Blue in the Night', hardness: '6.8 Mohs', compressive: '235 MPa', porosity: '0.08%', thermal: '520°C', acid: 'High (Class A)' },
+    { id: 'd4', name: 'Emerald Onyx', hardness: '3.0 Mohs', compressive: '88 MPa', porosity: '0.35%', thermal: 'Ambient LED', acid: 'Sensitive' }
+  ];
+
+  const DEFAULT_TESTIMONIALS = [
+    { id: 't1', name: 'Ar. Rajesh Verma', studio: 'Verma & Associates, Bangalore', rating: 5, stone: 'River Black Granite', text: 'Supplied 14,000 sq.ft of uniform 18mm River Black for our luxury villa community in Sarjapur. Zero breakage and immaculate mirror gloss.' },
+    { id: 't2', name: 'Kavitha Sundaram', studio: 'Boutique Residence, Chennai', rating: 5, stone: 'Statuario Marble', text: 'The bookmatched Banswara marble in our living room looks like a 7-star resort. Direct factory rates without broker markup.' },
+    { id: 't3', name: 'Mohammed Farhan', studio: 'Vertex Horizon Commercial, Hyderabad', rating: 5, stone: 'Tan Brown Granite', text: 'Fast dispatch from Krishnagiri. Slabs delivered in reinforced A-frame wooden crates on schedule.' }
+  ];
+
+  const DEFAULT_FAQS = [
+    { id: 'q1', cat: 'Inspection & Booking', question: 'Can I inspect the physical slab lots before booking?', answer: 'Yes, absolutely. We welcome homeowners and architects to our Bargur, Krishnagiri stockyard to hand-inspect full bundles under natural daylight.' },
+    { id: 'q2', cat: 'Material Durability', question: 'What is the difference between granite and marble durability?', answer: 'Granite is volcanic igneous stone, practically scratch-proof and impervious to lemon acids. Marble is metamorphic calcium carbonate, prized for luminous veining.' },
+    { id: 'q3', cat: 'Logistics', question: 'What are your delivery timelines across South India?', answer: 'In-stock slabs dispatch within 24 to 48 hours from Krishnagiri. Transit is typically next-day to Bangalore, Chennai, and Salem.' }
   ];
 
   const DEFAULT_BLOGS = [
@@ -1410,38 +2255,272 @@
     { id: 3, title: 'The Flooring Showdown: Granite vs. Italian Marble vs. Tiles', category: 'Comparative Analysis', readTime: '6 Min Read', image: 'assets/images/products/product-1783085208-6a47b8986af97.png', isDefault: true }
   ];
 
-  // Helper getters
-  function getCustomStones() {
-    try { return JSON.parse(localStorage.getItem('murali_custom_products') || '[]'); } catch(e) { return []; }
-  }
-  function saveCustomStones(arr) {
-    localStorage.setItem('murali_custom_products', JSON.stringify(arr));
-  }
+  // Helper getters/setters
+  const getStorage = (key, fallback) => {
+    try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch(e) { return fallback; }
+  };
+  const setStorage = (key, val) => localStorage.setItem(key, JSON.stringify(val));
 
-  function getCustomVisualizers() {
-    try { return JSON.parse(localStorage.getItem('murali_custom_visualizers') || '[]'); } catch(e) { return []; }
-  }
-  function saveCustomVisualizers(arr) {
-    localStorage.setItem('murali_custom_visualizers', JSON.stringify(arr));
-  }
+  function getHeroConfig() { return getStorage('murali_hero_config', DEFAULT_HERO); }
+  function saveHeroConfig(cfg) { setStorage('murali_hero_config', cfg); }
 
-  function getCustomBlogs() {
-    try { return JSON.parse(localStorage.getItem('murali_custom_articles') || '[]'); } catch(e) { return []; }
+  function getProjects() { return getStorage('murali_projects', DEFAULT_PROJECTS); }
+  function saveProjects(arr) { setStorage('murali_projects', arr); }
+
+  function getAdminCredentials() {
+    return getStorage('murali_admin_credentials', {
+      email: 'admin@muraligranites.com',
+      password: 'admin123',
+      name: 'Chanakya Murali'
+    });
   }
-  function saveCustomBlogs(arr) {
-    localStorage.setItem('murali_custom_articles', JSON.stringify(arr));
-  }
+  function saveAdminCredentials(creds) { setStorage('murali_admin_credentials', creds); }
+
+  function getCustomStones() { return getStorage('murali_custom_products', []); }
+  function saveCustomStones(arr) { setStorage('murali_custom_products', arr); }
+
+  function getCustomVisualizers() { return getStorage('murali_custom_visualizers', []); }
+  function saveCustomVisualizers(arr) { setStorage('murali_custom_visualizers', arr); }
+
+  function getCustomBlogs() { return getStorage('murali_custom_articles', []); }
+  function saveCustomBlogs(arr) { setStorage('murali_custom_articles', arr); }
 
   function getLeads() {
-    try { return JSON.parse(localStorage.getItem('murali_quotation_requests') || '[]'); } catch(e) { return []; }
+    // Read from both keys for backwards compatibility
+    const l1 = getStorage('murali_enquiries', []);
+    const l2 = getStorage('murali_quotation_requests', []);
+    return [...l1, ...l2.filter(b => !l1.some(a => a.id === b.id))];
   }
   function saveLeads(arr) {
-    localStorage.setItem('murali_quotation_requests', JSON.stringify(arr));
+    setStorage('murali_enquiries', arr);
+    setStorage('murali_quotation_requests', arr);
   }
 
-  // 6. RENDER LOGIC
+  function getPricing() { return getStorage('murali_pricing_catalog', DEFAULT_PRICING); }
+  function savePricing(arr) { setStorage('murali_pricing_catalog', arr); }
 
-  // RENDER STONES
+  function getDiagnostics() { return getStorage('murali_stone_diagnostics', DEFAULT_DIAGNOSTICS); }
+  function saveDiagnostics(arr) { setStorage('murali_stone_diagnostics', arr); }
+
+  function getTestimonials() { return getStorage('murali_testimonials', DEFAULT_TESTIMONIALS); }
+  function saveTestimonials(arr) { setStorage('murali_testimonials', arr); }
+
+  function getFaqs() { return getStorage('murali_faqs', DEFAULT_FAQS); }
+  function saveFaqs(arr) { setStorage('murali_faqs', arr); }
+
+  // 7. RENDER LOGIC
+
+  // RENDER HERO CONFIG
+  window.renderHeroConfigForm = function() {
+    const cfg = getHeroConfig();
+    document.getElementById('cfgHeroTitle').value = cfg.headline || '';
+    document.getElementById('cfgHeroSubtitle').value = cfg.subtitle || '';
+    document.getElementById('cfgHeroCta1Text').value = cfg.ctaPrimaryText || '';
+    document.getElementById('cfgHeroCta1Link').value = cfg.ctaPrimaryLink || '';
+    document.getElementById('cfgHeroCta2Text').value = cfg.ctaSecondaryText || '';
+    document.getElementById('cfgHeroCta2Link').value = cfg.ctaSecondaryLink || '';
+    document.getElementById('cfgHeroBannerEnabled').value = cfg.bannerEnabled ? 'true' : 'false';
+    document.getElementById('cfgHeroBannerText').value = cfg.bannerText || '';
+    document.getElementById('cfgHeroBannerLink').value = cfg.bannerLink || 'contact.html';
+    document.getElementById('cfgPromoEnabled').value = cfg.promoEnabled ? 'true' : 'false';
+    document.getElementById('cfgPromoTitle').value = cfg.promoTitle || '';
+    document.getElementById('cfgPromoText').value = cfg.promoText || '';
+    document.getElementById('cfgPromoWaMsg').value = cfg.promoWaMsg || '';
+  };
+
+  window.handleSaveHeroConfig = function(e) {
+    e.preventDefault();
+    const cfg = {
+      headline: document.getElementById('cfgHeroTitle').value.trim(),
+      subtitle: document.getElementById('cfgHeroSubtitle').value.trim(),
+      ctaPrimaryText: document.getElementById('cfgHeroCta1Text').value.trim(),
+      ctaPrimaryLink: document.getElementById('cfgHeroCta1Link').value.trim(),
+      ctaSecondaryText: document.getElementById('cfgHeroCta2Text').value.trim(),
+      ctaSecondaryLink: document.getElementById('cfgHeroCta2Link').value.trim(),
+      bannerEnabled: document.getElementById('cfgHeroBannerEnabled').value === 'true',
+      bannerText: document.getElementById('cfgHeroBannerText').value.trim(),
+      bannerLink: document.getElementById('cfgHeroBannerLink').value.trim() || 'contact.html',
+      promoEnabled: document.getElementById('cfgPromoEnabled').value === 'true',
+      promoTitle: document.getElementById('cfgPromoTitle').value.trim(),
+      promoText: document.getElementById('cfgPromoText').value.trim(),
+      promoWaMsg: document.getElementById('cfgPromoWaMsg').value.trim(),
+      updated_at: new Date().toISOString()
+    };
+    saveHeroConfig(cfg);
+    // Also sync to murali_site_settings banner for backwards compatibility
+    const siteSettings = getStorage('murali_site_settings', {});
+    siteSettings.bannerEnabled = cfg.bannerEnabled;
+    siteSettings.bannerText = cfg.bannerText;
+    setStorage('murali_site_settings', siteSettings);
+    showToast('✓ Hero & Announcement Banners published to live website!');
+  };
+
+  // RENDER PROJECTS PORTFOLIO
+  window.renderProjectsTable = function() {
+    const list = getProjects();
+    const tbody = document.getElementById('projectsTableBody');
+    tbody.innerHTML = '';
+
+    list.forEach((p, idx) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><img src="${sanitizeUrl(p.image)}" alt="${escapeHtml(p.title)}" class="table-stone-preview" onerror="this.src='assets/images/favicon.png'"/></td>
+        <td><strong>${escapeHtml(p.title)}</strong></td>
+        <td>${escapeHtml(p.client)}</td>
+        <td><span class="badge-tag badge-custom">${escapeHtml(p.city)}</span></td>
+        <td>${escapeHtml(p.material)}</td>
+        <td><strong style="color:var(--gold);">${escapeHtml(p.area)}</strong></td>
+        <td>${escapeHtml(p.year)}</td>
+        <td><button class="action-btn-del" onclick="deleteProject(${idx})">&times; Remove</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('countProjectsBadge').textContent = list.length;
+  };
+
+  window.handleSaveProject = function(e) {
+    e.preventDefault();
+    const title = document.getElementById('projTitle').value.trim();
+    const client = document.getElementById('projClient').value.trim();
+    const city = document.getElementById('projCity').value.trim();
+    const material = document.getElementById('projMaterial').value.trim();
+    const area = document.getElementById('projArea').value.trim();
+    const year = document.getElementById('projYear').value.trim();
+    const image = document.getElementById('projImageUrl').value.trim();
+    const notes = document.getElementById('projNotes').value.trim();
+
+    if (!title || !image) {
+      alert('Please fill in title and image.');
+      return;
+    }
+
+    const list = getProjects();
+    list.unshift({
+      id: 'proj_' + Date.now(),
+      title: title,
+      client: client,
+      city: city,
+      material: material,
+      area: area || 'Project Installation',
+      year: year || new Date().getFullYear().toString(),
+      image: image,
+      notes: notes
+    });
+    saveProjects(list);
+
+    document.getElementById('projectForm').reset();
+    document.getElementById('projPreviewBox').style.display = 'none';
+    renderProjectsTable();
+    showToast(`✓ Project "${title}" published live!`);
+  };
+
+  window.deleteProject = function(idx) {
+    if (!confirm('Remove this project from portfolio?')) return;
+    const list = getProjects();
+    list.splice(idx, 1);
+    saveProjects(list);
+    renderProjectsTable();
+    showToast('Project removed.');
+  };
+
+  window.exportProjectsCSV = function() {
+    const list = getProjects();
+    let csv = 'Title,Client,City,Material,Scope,Year,ImageURL,Notes\n';
+    list.forEach(p => {
+      csv += `"${p.title}","${p.client}","${p.city}","${p.material}","${p.area}","${p.year}","${p.image}","${(p.notes || '').replace(/"/g, '""')}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Murali_Granites_Projects_${Date.now()}.csv`;
+    a.click();
+    showToast('✓ Projects exported to CSV!');
+  };
+
+  // RENDER SECURITY FORM
+  window.renderSecurityForm = function() {
+    const creds = getAdminCredentials();
+    document.getElementById('secAdminName').value = creds.name || 'Chanakya Murali';
+    document.getElementById('secAdminEmail').value = creds.email || 'admin@muraligranites.com';
+    document.getElementById('secNewPassword').value = '';
+    document.getElementById('secConfirmPassword').value = '';
+  };
+
+  window.handleSaveSecurity = function(e) {
+    e.preventDefault();
+    const name = document.getElementById('secAdminName').value.trim();
+    const email = document.getElementById('secAdminEmail').value.trim().toLowerCase();
+    const newPwd = document.getElementById('secNewPassword').value;
+    const confirmPwd = document.getElementById('secConfirmPassword').value;
+
+    const creds = getAdminCredentials();
+    creds.name = name;
+    creds.email = email;
+
+    if (newPwd) {
+      if (newPwd.length < 6) {
+        alert('Password must be at least 6 characters long.');
+        return;
+      }
+      if (newPwd !== confirmPwd) {
+        alert('New password and confirm password do not match.');
+        return;
+      }
+      creds.password = newPwd;
+    }
+
+    saveAdminCredentials(creds);
+    // Update active session info
+    setStorage('murali_admin_user', {
+      email: creds.email,
+      name: creds.name,
+      role: 'Chief Curator & Admin',
+      loginTime: new Date().toISOString()
+    });
+    document.getElementById('sidebarUserName').textContent = creds.name;
+    const initials = creds.name.split(' ').map(w => w[0]).join('').slice(0, 2);
+    document.getElementById('avatarInitials').textContent = initials;
+    showToast('✓ Administrator credentials updated successfully!');
+  };
+
+  window.resetAdminCredentials = function() {
+    if (!confirm('Reset login credentials back to demo defaults (admin@muraligranites.com / admin123)?')) return;
+    saveAdminCredentials({
+      email: 'admin@muraligranites.com',
+      password: 'admin123',
+      name: 'Chanakya Murali'
+    });
+    renderSecurityForm();
+    showToast('Credentials reset to demo defaults.');
+  };
+
+  // RENDER OVERVIEW RECENT LEADS
+  window.renderOverviewLeads = function() {
+    const leads = getLeads();
+    const tbody = document.getElementById('overviewRecentLeadsBody');
+    tbody.innerHTML = '';
+    const slice = leads.slice(0, 5);
+    if (!slice.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:1.5rem; color:var(--text-muted);">No inquiries yet.</td></tr>';
+      return;
+    }
+    slice.forEach(l => {
+      const tr = document.createElement('tr');
+      const stClass = l.status === 'Order Confirmed' ? 'badge-emerald' : (l.status === 'Quotation Sent' ? 'badge-amber' : 'badge-custom');
+      tr.innerHTML = `
+        <td><strong>${escapeHtml(l.name || 'Client')}</strong></td>
+        <td><a href="tel:${escapeHtml(l.phone)}" style="color:var(--gold);">${escapeHtml(l.phone || 'N/A')}</a></td>
+        <td>${escapeHtml(l.project || l.material || 'Natural Stone')}</td>
+        <td><span class="badge-tag ${stClass}">${escapeHtml(l.status || 'New')}</span></td>
+        <td><button class="action-btn-edit" onclick="switchToTab('tab-leads')">View</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  };
+
+  // RENDER STONES TABLE
   window.renderStonesTable = function() {
     const custom = getCustomStones();
     const all = [...custom, ...DEFAULT_STONES];
@@ -1455,14 +2534,14 @@
       const isCust = !s.isDefault;
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><img src="${s.image_url}" alt="${s.name}" class="table-stone-preview" onerror="this.src='assets/images/favicon.png'"/></td>
-        <td><strong>${s.name}</strong></td>
-        <td>${s.category}</td>
-        <td>${s.origin || 'India'}</td>
-        <td>${s.finish || 'Polished'}</td>
+        <td><img src="${sanitizeUrl(s.image_url)}" alt="${escapeHtml(s.name)}" class="table-stone-preview" onerror="this.src='assets/images/favicon.png'"/></td>
+        <td><strong>${escapeHtml(s.name)}</strong></td>
+        <td>${escapeHtml(s.category)}</td>
+        <td>${escapeHtml(s.origin || 'India')}</td>
+        <td>${escapeHtml(s.finish || 'Polished')}</td>
         <td><span class="badge-tag ${isCust ? 'badge-custom' : 'badge-system'}">${isCust ? 'Custom / Live' : 'Verified'}</span></td>
         <td>
-          ${isCust ? `<button class="action-btn-del" onclick="deleteCustomStone('${s.id}')">Delete</button>` : `<span style="font-size:0.7rem; color:var(--text-dim);">Built-in</span>`}
+          ${isCust ? `<button class="action-btn-del" onclick="deleteCustomStone('${escapeHtml(s.id)}')">Delete</button>` : `<span style="font-size:0.7rem; color:var(--text-dim);">Core</span>`}
         </td>
       `;
       tbody.appendChild(tr);
@@ -1480,7 +2559,6 @@
       });
     }
 
-    // Update counts
     document.getElementById('countStonesBadge').textContent = all.length;
     document.getElementById('statTotalStones').textContent = all.length;
     document.getElementById('statCustomStonesSub').textContent = `${custom.length} custom slabs added`;
@@ -1504,9 +2582,7 @@
       return;
     }
 
-    const id = 'stone_' + Date.now();
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-
     const newStone = {
       id: slug,
       name: name,
@@ -1527,34 +2603,10 @@
     custom.unshift(newStone);
     saveCustomStones(custom);
 
-    // Auto-link photorealistic visualizer pairings for all 3 rooms
-    const customVis = getCustomVisualizers();
-    const visPairs = [
-      { room_id: 'living-room', surface_id: 'floor' },
-      { room_id: 'living-room', surface_id: 'wall' },
-      { room_id: 'bathroom', surface_id: 'floor' },
-      { room_id: 'bathroom', surface_id: 'wall' },
-      { room_id: 'bedroom', surface_id: 'floor' }
-    ];
-    visPairs.forEach(vp => {
-      customVis.unshift({
-        product_id: slug,
-        product_name: name,
-        room_id: vp.room_id,
-        surface_id: vp.surface_id,
-        generated_preview: imageUrl,
-        status: 'photorealistic_admin_registered',
-        review_status: 'verified',
-        isDefault: false
-      });
-    });
-    saveCustomVisualizers(customVis);
-
     document.getElementById('stoneForm').reset();
     document.getElementById('stPreviewBox').style.display = 'none';
     renderStonesTable();
-    renderVisualizerTable();
-    showToast(`✓ "${name}" added to live catalog & room visualizer!`);
+    showToast(`✓ "${name}" added to live catalog!`);
   };
 
   window.deleteCustomStone = function(id) {
@@ -1562,15 +2614,166 @@
     let custom = getCustomStones();
     custom = custom.filter(s => s.id !== id && s.slug !== id);
     saveCustomStones(custom);
-
-    // Also remove paired visualizers
-    let customVis = getCustomVisualizers();
-    customVis = customVis.filter(v => v.product_id !== id);
-    saveCustomVisualizers(customVis);
-
     renderStonesTable();
-    renderVisualizerTable();
     showToast('Stone removed from catalog.');
+  };
+
+  // RENDER PRICING
+  window.renderPricingTable = function() {
+    const pricing = getPricing();
+    const tbody = document.getElementById('pricingTableBody');
+    tbody.innerHTML = '';
+
+    pricing.forEach((p, idx) => {
+      const tr = document.createElement('tr');
+      const stClass = p.status === 'In Stock' ? 'badge-emerald' : (p.status === 'Low Stock' ? 'badge-amber' : 'badge-rose');
+      tr.innerHTML = `
+        <td><strong>${escapeHtml(p.name)}</strong></td>
+        <td>${escapeHtml(p.category)}</td>
+        <td><strong style="color:var(--gold);">${escapeHtml(p.rate)}</strong></td>
+        <td><span class="badge-tag ${stClass}">${escapeHtml(p.status)}</span></td>
+        <td>${escapeHtml(p.thickness)}</td>
+        <td>${escapeHtml(p.lots)}</td>
+        <td>
+          <div style="display:flex; gap:0.4rem;">
+            <button class="action-btn-edit" onclick="editPriceItem(${idx})">Edit</button>
+            <button class="action-btn-del" onclick="deletePriceItem(${idx})">&times;</button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('countPricingBadge').textContent = pricing.length;
+  };
+
+  window.showAddPriceModal = function() {
+    showModal(`
+      <h3 style="font-family:var(--font-display); font-size:1.4rem; color:var(--gold); margin-bottom:1rem;">Add Stone to Price Book</h3>
+      <div class="admin-form-group" style="margin-bottom:0.8rem;">
+        <label>Material Name</label>
+        <input class="admin-input" id="mRateName" placeholder="e.g. Black Galaxy Granite" required/>
+      </div>
+      <div class="admin-form-group" style="margin-bottom:0.8rem;">
+        <label>Category</label>
+        <input class="admin-input" id="mRateCat" placeholder="e.g. Granite" value="Granite"/>
+      </div>
+      <div class="form-grid-2" style="margin-bottom:0.8rem;">
+        <div class="admin-form-group">
+          <label>Base Price (/Sq.Ft)</label>
+          <input class="admin-input" id="mRatePrice" placeholder="e.g. ₹165" required/>
+        </div>
+        <div class="admin-form-group">
+          <label>Stock Status</label>
+          <select class="admin-select" id="mRateStatus">
+            <option>In Stock</option>
+            <option>Low Stock</option>
+            <option>Reserved</option>
+            <option>Out of Stock</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid-2" style="margin-bottom:1.4rem;">
+        <div class="admin-form-group">
+          <label>Thickness</label>
+          <input class="admin-input" id="mRateThick" value="18mm"/>
+        </div>
+        <div class="admin-form-group">
+          <label>Available Quantity</label>
+          <input class="admin-input" id="mRateLots" placeholder="e.g. 5,000 sq.ft" value="5,000 sq.ft"/>
+        </div>
+      </div>
+      <button class="btn-submit-action" onclick="saveNewPriceItem()" style="width:100%; justify-content:center;">Save to Price Book</button>
+    `);
+  };
+
+  window.saveNewPriceItem = function() {
+    const name = document.getElementById('mRateName').value.trim();
+    const cat = document.getElementById('mRateCat').value.trim();
+    const price = document.getElementById('mRatePrice').value.trim();
+    const status = document.getElementById('mRateStatus').value;
+    const thick = document.getElementById('mRateThick').value.trim();
+    const lots = document.getElementById('mRateLots').value.trim();
+
+    if (!name || !price) {
+      alert('Please fill out name and rate.');
+      return;
+    }
+
+    const pricing = getPricing();
+    pricing.unshift({
+      id: 'p_' + Date.now(),
+      name: name,
+      category: cat || 'Granite',
+      rate: price.startsWith('₹') ? price : '₹' + price,
+      status: status,
+      thickness: thick || '18mm',
+      lots: lots || 'In Yard'
+    });
+    savePricing(pricing);
+    closeModal();
+    renderPricingTable();
+    showToast(`✓ Added ${name} to price book!`);
+  };
+
+  window.editPriceItem = function(index) {
+    const pricing = getPricing();
+    const item = pricing[index];
+    showModal(`
+      <h3 style="font-family:var(--font-display); font-size:1.4rem; color:var(--gold); margin-bottom:1rem;">Update ${item.name}</h3>
+      <div class="admin-form-group" style="margin-bottom:0.8rem;">
+        <label>Base Price (/Sq.Ft)</label>
+        <input class="admin-input" id="mEditRate" value="${item.rate}" required/>
+      </div>
+      <div class="admin-form-group" style="margin-bottom:0.8rem;">
+        <label>Stock Status</label>
+        <select class="admin-select" id="mEditStatus">
+          <option ${item.status === 'In Stock' ? 'selected' : ''}>In Stock</option>
+          <option ${item.status === 'Low Stock' ? 'selected' : ''}>Low Stock</option>
+          <option ${item.status === 'Reserved' ? 'selected' : ''}>Reserved</option>
+          <option ${item.status === 'Out of Stock' ? 'selected' : ''}>Out of Stock</option>
+        </select>
+      </div>
+      <div class="admin-form-group" style="margin-bottom:1.4rem;">
+        <label>Available Yard Slabs</label>
+        <input class="admin-input" id="mEditLots" value="${item.lots}"/>
+      </div>
+      <button class="btn-submit-action" onclick="saveEditedPriceItem(${index})" style="width:100%; justify-content:center;">Update Price &amp; Stock</button>
+    `);
+  };
+
+  window.saveEditedPriceItem = function(index) {
+    const pricing = getPricing();
+    pricing[index].rate = document.getElementById('mEditRate').value.trim();
+    pricing[index].status = document.getElementById('mEditStatus').value;
+    pricing[index].lots = document.getElementById('mEditLots').value.trim();
+    savePricing(pricing);
+    closeModal();
+    renderPricingTable();
+    showToast('✓ Price book updated!');
+  };
+
+  window.deletePriceItem = function(index) {
+    if (!confirm('Remove this stone from price book?')) return;
+    const pricing = getPricing();
+    pricing.splice(index, 1);
+    savePricing(pricing);
+    renderPricingTable();
+  };
+
+  window.exportPricingCSV = function() {
+    const pricing = getPricing();
+    let csv = 'Material,Category,Rate Per SqFt,Stock Status,Thickness,Available Stock\n';
+    pricing.forEach(p => {
+      csv += `"${p.name}","${p.category}","${p.rate}","${p.status}","${p.thickness}","${p.lots}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Murali_Granites_Price_List_${Date.now()}.csv`;
+    a.click();
+    showToast('✓ Price sheet exported to CSV!');
   };
 
   // RENDER VISUALIZERS
@@ -1600,7 +2803,6 @@
     document.getElementById('statTotalVis').textContent = all.length;
   };
 
-  // SAVE VISUALIZER
   window.handleSaveVisualizer = function(e) {
     e.preventDefault();
     const room = document.getElementById('visRoom').value;
@@ -1645,6 +2847,86 @@
     showToast('Visualizer render removed.');
   };
 
+  // RENDER DIAGNOSTICS (ASTM)
+  window.renderDiagnosticsTable = function() {
+    const list = getDiagnostics();
+    const tbody = document.getElementById('diagnosticsTableBody');
+    tbody.innerHTML = '';
+
+    list.forEach((d, idx) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${escapeHtml(d.name)}</strong></td>
+        <td><strong style="color:var(--emerald);">${escapeHtml(d.hardness)}</strong></td>
+        <td>${escapeHtml(d.compressive)}</td>
+        <td>${escapeHtml(d.porosity)}</td>
+        <td>${escapeHtml(d.thermal)}</td>
+        <td><span class="badge-tag badge-custom">${escapeHtml(d.acid)}</span></td>
+        <td><button class="action-btn-del" onclick="deleteDiagnostic(${idx})">&times;</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('countDiagBadge').textContent = list.length;
+  };
+
+  window.showAddDiagModal = function() {
+    showModal(`
+      <h3 style="font-family:var(--font-display); font-size:1.4rem; color:var(--gold); margin-bottom:1rem;">Add Geological Lab Test Report</h3>
+      <div class="admin-form-group" style="margin-bottom:0.8rem;">
+        <label>Stone Variety Name</label>
+        <input class="admin-input" id="mDiagName" placeholder="e.g. Kashmir White Granite" required/>
+      </div>
+      <div class="form-grid-2" style="margin-bottom:0.8rem;">
+        <div class="admin-form-group">
+          <label>Mohs Hardness</label>
+          <input class="admin-input" id="mDiagHardness" value="6.5 Mohs"/>
+        </div>
+        <div class="admin-form-group">
+          <label>Compressive Strength</label>
+          <input class="admin-input" id="mDiagCompressive" value="195 MPa"/>
+        </div>
+      </div>
+      <div class="form-grid-2" style="margin-bottom:1.4rem;">
+        <div class="admin-form-group">
+          <label>Water Porosity</label>
+          <input class="admin-input" id="mDiagPorosity" value="0.14%"/>
+        </div>
+        <div class="admin-form-group">
+          <label>Thermal Resistance</label>
+          <input class="admin-input" id="mDiagThermal" value="480°C"/>
+        </div>
+      </div>
+      <button class="btn-submit-action" onclick="saveNewDiagnostic()" style="width:100%; justify-content:center;">Save Test Report</button>
+    `);
+  };
+
+  window.saveNewDiagnostic = function() {
+    const name = document.getElementById('mDiagName').value.trim();
+    if (!name) return;
+    const list = getDiagnostics();
+    list.unshift({
+      id: 'd_' + Date.now(),
+      name: name,
+      hardness: document.getElementById('mDiagHardness').value.trim(),
+      compressive: document.getElementById('mDiagCompressive').value.trim(),
+      porosity: document.getElementById('mDiagPorosity').value.trim(),
+      thermal: document.getElementById('mDiagThermal').value.trim(),
+      acid: 'High (Class A)'
+    });
+    saveDiagnostics(list);
+    closeModal();
+    renderDiagnosticsTable();
+    showToast('✓ Geological report added to Stone Analysis!');
+  };
+
+  window.deleteDiagnostic = function(index) {
+    const list = getDiagnostics();
+    list.splice(index, 1);
+    saveDiagnostics(list);
+    renderDiagnosticsTable();
+  };
+
   // RENDER BLOGS
   window.renderBlogsTable = function() {
     const custom = getCustomBlogs();
@@ -1656,13 +2938,13 @@
       const isCust = !b.isDefault;
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td><img src="${b.image}" alt="${b.title}" class="table-stone-preview" onerror="this.src='assets/images/favicon.png'"/></td>
-        <td><strong>${b.title}</strong></td>
-        <td><span class="badge-tag badge-custom">${b.category}</span></td>
-        <td>${b.readTime || '4 Min Read'}</td>
+        <td><img src="${sanitizeUrl(b.image)}" alt="${escapeHtml(b.title)}" class="table-stone-preview" onerror="this.src='assets/images/favicon.png'"/></td>
+        <td><strong>${escapeHtml(b.title)}</strong></td>
+        <td><span class="badge-tag badge-custom">${escapeHtml(b.category)}</span></td>
+        <td>${escapeHtml(b.readTime || '4 Min Read')}</td>
         <td><span class="badge-tag ${isCust ? 'badge-custom' : 'badge-system'}">${isCust ? 'Custom Article' : 'Curated'}</span></td>
         <td>
-          ${isCust ? `<button class="action-btn-del" onclick="deleteCustomBlog('${b.id}')">Delete</button>` : `<span style="font-size:0.7rem; color:var(--text-dim);">Editorial</span>`}
+          ${isCust ? `<button class="action-btn-del" onclick="deleteCustomBlog('${escapeHtml(b.id)}')">Delete</button>` : `<span style="font-size:0.7rem; color:var(--text-dim);">Editorial</span>`}
         </td>
       `;
       tbody.appendChild(tr);
@@ -1672,7 +2954,6 @@
     document.getElementById('statTotalBlogs').textContent = all.length;
   };
 
-  // SAVE BLOG
   window.handleSaveBlog = function(e) {
     e.preventDefault();
     const title = document.getElementById('blogTitle').value.trim();
@@ -1688,9 +2969,7 @@
       return;
     }
 
-    // Format paragraphs
     const formattedBody = body.split('\n\n').map(p => `<p style="margin-bottom:1rem;">${p.replace(/\n/g, '<br>')}</p>`).join('');
-
     const newArticle = {
       id: 'art_' + Date.now(),
       title: title,
@@ -1723,6 +3002,152 @@
     showToast('Article deleted from blog.');
   };
 
+  // RENDER TESTIMONIALS
+  window.renderTestimonialsTable = function() {
+    const list = getTestimonials();
+    const tbody = document.getElementById('testimonialsTableBody');
+    tbody.innerHTML = '';
+
+    list.forEach((t, idx) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${escapeHtml(t.name)}</strong></td>
+        <td>${escapeHtml(t.studio)}</td>
+        <td><strong style="color:var(--gold);">★ ${escapeHtml(t.rating)}.0</strong></td>
+        <td>${escapeHtml(t.stone)}</td>
+        <td style="max-width:260px; font-size:0.75rem; color:#D4D4D8;">"${escapeHtml(t.text)}"</td>
+        <td><button class="action-btn-del" onclick="deleteTestimonial(${idx})">&times;</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('countReviewsBadge').textContent = list.length;
+  };
+
+  window.showAddReviewModal = function() {
+    showModal(`
+      <h3 style="font-family:var(--font-display); font-size:1.4rem; color:var(--gold); margin-bottom:1rem;">Add Client Testimonial</h3>
+      <div class="form-grid-2" style="margin-bottom:0.8rem;">
+        <div class="admin-form-group">
+          <label>Client Name</label>
+          <input class="admin-input" id="mRevName" placeholder="e.g. Senthil Nathan" required/>
+        </div>
+        <div class="admin-form-group">
+          <label>Designation / Studio / City</label>
+          <input class="admin-input" id="mRevStudio" placeholder="e.g. Villa Owner, Bangalore" required/>
+        </div>
+      </div>
+      <div class="form-grid-2" style="margin-bottom:0.8rem;">
+        <div class="admin-form-group">
+          <label>Stone Variety Used</label>
+          <input class="admin-input" id="mRevStone" placeholder="e.g. Blue in the Night" value="River Black Granite"/>
+        </div>
+        <div class="admin-form-group">
+          <label>Star Rating</label>
+          <select class="admin-select" id="mRevRating">
+            <option value="5">★★★★★ (5 Stars)</option>
+            <option value="4">★★★★☆ (4 Stars)</option>
+          </select>
+        </div>
+      </div>
+      <div class="admin-form-group" style="margin-bottom:1.4rem;">
+        <label>Client Review Text</label>
+        <textarea class="admin-textarea" id="mRevText" placeholder="Quote from the client regarding slab quality, transit, or polish..." required></textarea>
+      </div>
+      <button class="btn-submit-action" onclick="saveNewTestimonial()" style="width:100%; justify-content:center;">Publish Testimonial</button>
+    `);
+  };
+
+  window.saveNewTestimonial = function() {
+    const name = document.getElementById('mRevName').value.trim();
+    const studio = document.getElementById('mRevStudio').value.trim();
+    const text = document.getElementById('mRevText').value.trim();
+    if (!name || !text) return;
+    const list = getTestimonials();
+    list.unshift({
+      id: 't_' + Date.now(),
+      name: name,
+      studio: studio || 'Bengaluru Project',
+      stone: document.getElementById('mRevStone').value.trim() || 'Natural Stone',
+      rating: parseInt(document.getElementById('mRevRating').value, 10) || 5,
+      text: text
+    });
+    saveTestimonials(list);
+    closeModal();
+    renderTestimonialsTable();
+    showToast('✓ Testimonial published live!');
+  };
+
+  window.deleteTestimonial = function(index) {
+    const list = getTestimonials();
+    list.splice(index, 1);
+    saveTestimonials(list);
+    renderTestimonialsTable();
+  };
+
+  // RENDER FAQS
+  window.renderFaqsTable = function() {
+    const list = getFaqs();
+    const tbody = document.getElementById('faqsTableBody');
+    tbody.innerHTML = '';
+
+    list.forEach((q, idx) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><span class="badge-tag badge-custom">${escapeHtml(q.cat || 'General')}</span></td>
+        <td><strong>${escapeHtml(q.question)}</strong></td>
+        <td style="max-width:320px; font-size:0.75rem; color:#D4D4D8;">${escapeHtml(q.answer)}</td>
+        <td><button class="action-btn-del" onclick="deleteFaq(${idx})">&times;</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('countFaqsBadge').textContent = list.length;
+  };
+
+  window.showAddFaqModal = function() {
+    showModal(`
+      <h3 style="font-family:var(--font-display); font-size:1.4rem; color:var(--gold); margin-bottom:1rem;">Add FAQ to Knowledge Base</h3>
+      <div class="admin-form-group" style="margin-bottom:0.8rem;">
+        <label>Category</label>
+        <input class="admin-input" id="mFaqCat" placeholder="e.g. Sizing &amp; Finishing" value="Quarry &amp; Quality"/>
+      </div>
+      <div class="admin-form-group" style="margin-bottom:0.8rem;">
+        <label>Question</label>
+        <input class="admin-input" id="mFaqQ" placeholder="e.g. Can we inspect full bundles under sunlight?" required/>
+      </div>
+      <div class="admin-form-group" style="margin-bottom:1.4rem;">
+        <label>Answer</label>
+        <textarea class="admin-textarea" id="mFaqA" placeholder="Detailed architectural answer..." required></textarea>
+      </div>
+      <button class="btn-submit-action" onclick="saveNewFaq()" style="width:100%; justify-content:center;">Save Question to Live Site</button>
+    `);
+  };
+
+  window.saveNewFaq = function() {
+    const q = document.getElementById('mFaqQ').value.trim();
+    const a = document.getElementById('mFaqA').value.trim();
+    if (!q || !a) return;
+    const list = getFaqs();
+    list.unshift({
+      id: 'q_' + Date.now(),
+      cat: document.getElementById('mFaqCat').value.trim() || 'General',
+      question: q,
+      answer: a
+    });
+    saveFaqs(list);
+    closeModal();
+    renderFaqsTable();
+    showToast('✓ FAQ added to live website!');
+  };
+
+  window.deleteFaq = function(index) {
+    const list = getFaqs();
+    list.splice(index, 1);
+    saveFaqs(list);
+    renderFaqsTable();
+  };
+
   // RENDER LEADS
   window.renderLeadsTable = function() {
     const leads = getLeads();
@@ -1733,26 +3158,39 @@
       tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--text-muted);">No quotation inquiries received yet. Submissions from Contact Us or Room Visualizer appear here.</td></tr>`;
       document.getElementById('countLeadsBadge').textContent = '0';
       document.getElementById('statTotalLeads').textContent = '0';
+      document.getElementById('statNewLeadsSub').textContent = '0 pending inquiry follow-ups';
       return;
     }
 
+    let pendingCount = 0;
     leads.forEach((l, idx) => {
-      const d = l.date ? new Date(l.date).toLocaleDateString() : 'Recent';
+      const d = l.date ? (typeof l.date === 'string' && l.date.includes(',') ? l.date : new Date(l.date).toLocaleDateString()) : 'Recent';
       const cleanPhone = (l.phone || '').replace(/[^0-9]/g, '');
-      const waUrl = `https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${encodeURIComponent('Hello ' + l.name + ', reaching out from Murali Granites regarding your quotation request.')}`;
+      const waUrl = `https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}?text=${encodeURIComponent('Hello ' + (l.name || 'Valued Client') + ', reaching out from Murali Granites & Marbles regarding your quotation request.')}`;
+      const status = l.status || 'New';
+      if (status === 'New') pendingCount++;
 
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td style="font-size:0.75rem; color:var(--text-muted);">${d}</td>
-        <td><strong>${l.name || 'Valued Client'}</strong><br><span style="font-size:0.7rem; color:var(--text-muted);">${l.email || ''}</span></td>
-        <td><a href="tel:${l.phone}" style="color:var(--gold); font-weight:600; text-decoration:none;">${l.phone || 'N/A'}</a></td>
-        <td><span class="badge-tag badge-custom">${l.material || 'Natural Stone'}</span><br><span style="font-size:0.7rem; color:var(--text-muted);">${l.room || ''}</span></td>
-        <td>${l.area || 'On Request'}</td>
-        <td style="max-width:200px; font-size:0.75rem; color:#D4D4D8;">${l.notes || '—'}</td>
+        <td style="font-size:0.75rem; color:var(--text-muted);">${escapeHtml(d)}</td>
+        <td><strong>${escapeHtml(l.name || 'Valued Client')}</strong><br><span style="font-size:0.7rem; color:var(--text-muted);">${escapeHtml(l.email || '')}</span></td>
+        <td><a href="tel:${escapeHtml(l.phone)}" style="color:var(--gold); font-weight:600; text-decoration:none;">${escapeHtml(l.phone || 'N/A')}</a></td>
+        <td><span class="badge-tag badge-custom">${escapeHtml(l.project || l.material || 'Natural Stone')}</span><br><span style="font-size:0.7rem; color:var(--text-muted);">${escapeHtml(l.room || '')}</span></td>
+        <td>
+          <select class="admin-select" style="padding:2px 6px; font-size:0.72rem; width:130px;" onchange="updateLeadStatus(${idx}, this.value)">
+            <option ${status === 'New' ? 'selected' : ''}>New</option>
+            <option ${status === 'Contacted' ? 'selected' : ''}>Contacted</option>
+            <option ${status === 'Quotation Sent' ? 'selected' : ''}>Quotation Sent</option>
+            <option ${status === 'Site Visited' ? 'selected' : ''}>Site Visited</option>
+            <option ${status === 'Order Confirmed' ? 'selected' : ''}>Order Confirmed</option>
+            <option ${status === 'Closed' ? 'selected' : ''}>Closed</option>
+          </select>
+        </td>
+        <td style="max-width:180px; font-size:0.75rem; color:#D4D4D8;">${escapeHtml(l.message || l.notes || '—')}</td>
         <td>
           <div style="display:flex; gap:0.4rem;">
             ${cleanPhone ? `<a href="${waUrl}" target="_blank" class="topbar-btn" style="padding:3px 8px; font-size:0.68rem; background:rgba(16,185,129,0.15); color:#6EE7B7; border-color:rgba(16,185,129,0.3);">WhatsApp</a>` : ''}
-            <button class="action-btn-del" onclick="deleteLead(${idx})">Dismiss</button>
+            <button class="action-btn-del" onclick="deleteLead(${idx})">&times;</button>
           </div>
         </td>
       `;
@@ -1761,6 +3199,15 @@
 
     document.getElementById('countLeadsBadge').textContent = leads.length;
     document.getElementById('statTotalLeads').textContent = leads.length;
+    document.getElementById('statNewLeadsSub').textContent = `${pendingCount} pending inquiry follow-ups`;
+  };
+
+  window.updateLeadStatus = function(idx, val) {
+    const leads = getLeads();
+    leads[idx].status = val;
+    saveLeads(leads);
+    renderOverviewLeads();
+    showToast(`✓ Lead status updated to ${val}`);
   };
 
   window.deleteLead = function(index) {
@@ -1768,51 +3215,124 @@
     leads.splice(index, 1);
     saveLeads(leads);
     renderLeadsTable();
+    renderOverviewLeads();
   };
 
   window.clearAllLeads = function() {
     if (!confirm('Clear all client leads from inbox?')) return;
     saveLeads([]);
     renderLeadsTable();
+    renderOverviewLeads();
     showToast('Inquiries inbox cleared.');
   };
 
   window.seedSampleInquiry = function() {
     const sample = {
       id: 'REQ_' + Date.now(),
-      date: new Date().toISOString(),
+      date: new Date().toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
       name: 'Architect Rajesh Verma',
       phone: '+919876543210',
       email: 'rajesh.verma@studioarch.in',
-      location: 'Bangalore Villa Project',
+      project: 'Residential Villa',
       material: 'River Black Granite',
       room: 'Living Room Flooring',
       area: '1,850 sq.ft',
-      notes: 'Requesting bookmatched 20mm calibrated slabs with diamond mirror finish for luxury villa entrance.'
+      message: 'Requesting bookmatched 20mm calibrated slabs with diamond mirror finish for luxury villa entrance.',
+      status: 'New'
     };
     const leads = getLeads();
     leads.unshift(sample);
     saveLeads(leads);
     renderLeadsTable();
-    showToast('✓ Sample client inquiry added to inbox!');
+    renderOverviewLeads();
+    showToast('✓ Sample client inquiry added to CRM!');
+  };
+
+  window.exportLeadsCSV = function() {
+    const leads = getLeads();
+    let csv = 'Date,Client Name,Phone,Email,Project Scope,Material,Status,Message\n';
+    leads.forEach(l => {
+      csv += `"${l.date || ''}","${l.name || ''}","${l.phone || ''}","${l.email || ''}","${l.project || ''}","${l.material || ''}","${l.status || 'New'}","${(l.message || l.notes || '').replace(/"/g, '""')}"\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Murali_Granites_Leads_${Date.now()}.csv`;
+    a.click();
+    showToast('✓ Leads exported to CSV!');
+  };
+
+  // SETTINGS HANDLER
+  window.handleSaveSettings = function(e) {
+    e.preventDefault();
+    const cfg = {
+      phone: document.getElementById('cfgPhone').value.trim(),
+      whatsapp: document.getElementById('cfgWhatsApp').value.trim(),
+      email: document.getElementById('cfgEmail').value.trim(),
+      address: document.getElementById('cfgAddress').value.trim(),
+      hours: document.getElementById('cfgHours').value.trim(),
+      bannerEnabled: document.getElementById('cfgBannerEnabled').value === 'true',
+      bannerText: document.getElementById('cfgBannerText').value.trim(),
+      updated_at: new Date().toISOString()
+    };
+    setStorage('murali_site_settings', cfg);
+    showToast('✓ Site configuration saved & applied across live pages!');
   };
 
   // BACKUP & RESET TOOLS
   window.exportDataBackup = function() {
     const backup = {
+      hero: getHeroConfig(),
+      projects: getProjects(),
+      credentials: getAdminCredentials(),
       stones: getCustomStones(),
+      pricing: getPricing(),
       visualizers: getCustomVisualizers(),
+      diagnostics: getDiagnostics(),
       blogs: getCustomBlogs(),
+      testimonials: getTestimonials(),
+      faqs: getFaqs(),
       leads: getLeads(),
+      settings: getStorage('murali_site_settings', null),
       exported_at: new Date().toISOString()
     };
     const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `murali_granites_backup_${Date.now()}.json`;
+    a.download = `murali_granites_master_backup_${Date.now()}.json`;
     a.click();
-    showToast('✓ Backup file downloaded!');
+    showToast('✓ Complete website backup file downloaded!');
+  };
+
+  window.handleRestoreBackup = function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      try {
+        const data = JSON.parse(evt.target.result);
+        if (data.hero) saveHeroConfig(data.hero);
+        if (data.projects) saveProjects(data.projects);
+        if (data.credentials) saveAdminCredentials(data.credentials);
+        if (data.stones) saveCustomStones(data.stones);
+        if (data.pricing) savePricing(data.pricing);
+        if (data.visualizers) saveCustomVisualizers(data.visualizers);
+        if (data.diagnostics) saveDiagnostics(data.diagnostics);
+        if (data.blogs) saveCustomBlogs(data.blogs);
+        if (data.testimonials) saveTestimonials(data.testimonials);
+        if (data.faqs) saveFaqs(data.faqs);
+        if (data.leads) saveLeads(data.leads);
+        if (data.settings) setStorage('murali_site_settings', data.settings);
+
+        renderAllPanels();
+        showToast('✓ Backup restored successfully into live site!');
+      } catch(err) {
+        alert('Invalid backup JSON file.');
+      }
+    };
+    reader.readAsText(file);
   };
 
   window.seedDemoData = function() {
@@ -1834,44 +3354,50 @@
     });
     saveCustomStones(customStones);
 
-    // Add sample blog
-    const customBlogs = getCustomBlogs();
-    customBlogs.unshift({
-      id: 'art_demo_1',
-      title: 'The Architectural Superiority of Indian Granites in Modern Villas',
-      category: 'Architectural Insights',
-      readTime: '4 Min Read',
-      date: 'Published — Today',
-      image: 'assets/images/products/product-1783138465-6a4888a145274.jpg',
-      material: 'River Black',
-      excerpt: 'Why top architects prioritize South Indian granites over composite quartz for tropical heat resilience.',
-      body: '<p style="margin-bottom:1rem;">Natural Indian granite offers high thermal insulation, preventing the slab curling often observed in synthetic polymer stones under sunlight.</p>',
-      isDefault: false
-    });
-    saveCustomBlogs(customBlogs);
-
-    renderStonesTable();
-    renderBlogsTable();
-    showToast('✓ Sample showcase data added successfully!');
+    seedSampleInquiry();
+    renderAllPanels();
+    showToast('✓ Comprehensive showcase data seeded successfully!');
   };
 
   window.resetAllCustomData = function() {
-    if (!confirm('This will remove all custom added stones, visualizers, and blog posts. Continue?')) return;
+    if (!confirm('This will reset custom stones, pricing, visualizers, and blog posts to factory defaults. Continue?')) return;
+    localStorage.removeItem('murali_hero_config');
+    localStorage.removeItem('murali_projects');
     localStorage.removeItem('murali_custom_products');
     localStorage.removeItem('murali_custom_visualizers');
     localStorage.removeItem('murali_custom_articles');
-    renderStonesTable();
-    renderVisualizerTable();
-    renderBlogsTable();
-    renderLeadsTable();
+    localStorage.removeItem('murali_pricing_catalog');
+    localStorage.removeItem('murali_stone_diagnostics');
+    localStorage.removeItem('murali_testimonials');
+    localStorage.removeItem('murali_faqs');
+    renderAllPanels();
     showToast('Reset to factory defaults.');
   };
 
+  window.resetAnalyticsCounters = function() {
+    document.getElementById('analyticVisits').textContent = '1,450';
+    document.getElementById('analyticVisualizerRuns').textContent = '960';
+    document.getElementById('analyticWhatsAppClicks').textContent = '320';
+    showToast('Analytics counters refreshed.');
+  };
+
+  function renderAllPanels() {
+    renderHeroConfigForm();
+    renderProjectsTable();
+    renderSecurityForm();
+    renderOverviewLeads();
+    renderStonesTable();
+    renderPricingTable();
+    renderVisualizerTable();
+    renderDiagnosticsTable();
+    renderBlogsTable();
+    renderTestimonialsTable();
+    renderFaqsTable();
+    renderLeadsTable();
+  }
+
   // INITIAL LOAD
-  renderStonesTable();
-  renderVisualizerTable();
-  renderBlogsTable();
-  renderLeadsTable();
+  renderAllPanels();
 
 })();
 </script>

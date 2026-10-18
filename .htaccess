@@ -1,0 +1,40 @@
+# Apache Configuration for Murali Granites & Marbles
+# Ensures WebP, PNG, JPEG, SVG and fonts are served with proper MIME types on free hosts (ProFreeHost / unaux / ByetHost)
+
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType image/jpeg .jpg .jpeg
+  AddType image/png .png
+  AddType image/svg+xml .svg .svgz
+  AddType font/woff .woff
+  AddType font/woff2 .woff2
+  AddType text/css .css
+  AddType application/javascript .js
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  <FilesMatch "\.(jpg|jpeg|png|webp|svg)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
+
+# Transparently support /pages/ URLs
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^pages/(.*)$ /$1 [L,QSA]
+</IfModule>
+
+# Prevent directory listings
+Options -Indexes
