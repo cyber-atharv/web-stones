@@ -151,6 +151,14 @@ FOLDER_MAPPINGS = {
         'surface_name': 'Driveway & Porch Paving',
         'base_image': 'assets/images/rooms/parking.webp',
         'normalized_folder': 'parking-paving'
+    },
+    'balcony flooring': {
+        'room_id': 'balcony',
+        'room_name': 'Balcony',
+        'surface_id': 'flooring',
+        'surface_name': 'Balcony Flooring',
+        'base_image': 'assets/images/rooms/balcony.webp',
+        'normalized_folder': 'balcony-flooring'
     }
 }
 

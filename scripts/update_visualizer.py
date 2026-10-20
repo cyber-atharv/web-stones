@@ -155,7 +155,7 @@ new_script = f"""<script>
         image: 'assets/images/rooms/parking.webp',
         defaultSurface: 'paving',
         designs: [
-          {{ id: 'design-1', name: 'Design 1: Luxury Villa Driveway & Porch', image: 'assets/images/rooms/parking.webp', rendersCount: 3 }}
+          {{ id: 'design-1', name: 'Design 1: Luxury Villa Driveway & Porch', image: 'assets/images/rooms/parking.webp', rendersCount: 12 }}
         ],
         surfaces: {{
           'paving': {{
@@ -169,9 +169,9 @@ new_script = f"""<script>
         name: 'Balcony',
         image: 'assets/images/rooms/balcony.webp',
         defaultSurface: 'flooring',
-        isUpcoming: True,
+        isUpcoming: False,
         designs: [
-          {{ id: 'design-1', name: 'Design 1: Contemporary Covered Balcony', image: 'assets/images/rooms/balcony.webp', rendersCount: 0 }}
+          {{ id: 'design-1', name: 'Design 1: Contemporary Covered Balcony', image: 'assets/images/rooms/balcony.webp', rendersCount: 4 }}
         ],
         surfaces: {{
           'flooring': {{
