@@ -169,7 +169,6 @@ new_script = f"""<script>
         name: 'Balcony',
         image: 'assets/images/rooms/balcony.webp',
         defaultSurface: 'flooring',
-        isUpcoming: False,
         designs: [
           {{ id: 'design-1', name: 'Design 1: Contemporary Covered Balcony', image: 'assets/images/rooms/balcony.webp', rendersCount: 4 }}
         ],
@@ -648,12 +647,19 @@ new_script = f"""<script>
         if (renderPendingToast) renderPendingToast.classList.add('hidden');
         generatedRoomImg.style.display = 'block';
 
-        if (generatedRoomImg.getAttribute('src') !== generatedMatch.generated_preview) {{
+        const targetSrc = generatedMatch.generated_preview;
+        if (generatedRoomImg.getAttribute('src') !== targetSrc) {{
           generatedRoomImg.classList.add('opacity-0');
-          generatedRoomImg.src = generatedMatch.generated_preview;
           generatedRoomImg.onload = function() {{
             this.classList.remove('opacity-0');
           }};
+          generatedRoomImg.onerror = function() {{
+            this.classList.remove('opacity-0');
+          }};
+          generatedRoomImg.src = targetSrc;
+          if (generatedRoomImg.complete) {{
+            generatedRoomImg.classList.remove('opacity-0');
+          }}
         }} else {{
           generatedRoomImg.classList.remove('opacity-0');
         }}
@@ -794,6 +800,7 @@ new_script = f"""<script>
           const activeCat = document.querySelector('.mat-tab.active')?.getAttribute('data-cat') || 'all';
           renderMaterialsList(activeCat);
           updateStage();
+          updateInfoCard();
         }}
       }});
     }});
@@ -1132,51 +1139,32 @@ new_script = f"""<script>
       }}
     }}
 
-    // 17b. Number-Key Navigation for Quick Access to Environments
-    function initNumberKeyNav() {{
-      const toast = document.getElementById('quickKeyNavToast');
-      const toastText = document.getElementById('quickKeyNavText');
-      let toastTimeout = null;
-
-      function showToast(text) {{
-        if (!toast || !toastText) return;
-        toastText.textContent = text;
-        toast.classList.remove('opacity-0', 'translate-y-3');
-        toast.classList.add('opacity-100', 'translate-y-0');
-        if (toastTimeout) clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {{
-          toast.classList.remove('opacity-100', 'translate-y-0');
-          toast.classList.add('opacity-0', 'translate-y-3');
-        }}, 1400);
-      }}
-
-      const roomKeyMap = {{
-        '1': {{ key: 'kitchen', name: 'Kitchen' }},
-        '2': {{ key: 'living-room', name: 'Living Room' }},
-        '3': {{ key: 'bathroom', name: 'Bathroom' }},
-        '4': {{ key: 'bedroom', name: 'Bedroom' }},
-        '5': {{ key: 'staircase', name: 'Staircase' }},
-        '6': {{ key: 'dining-room', name: 'Dining Room' }},
-        '7': {{ key: 'parking', name: 'Outdoor Parking' }},
-        '8': {{ key: 'balcony', name: 'Balcony (Upcoming)' }}
-      }};
-
+    // 17b. Modal Accessibility & Shortcuts (No Number Key Room Hijacking)
+    function initKeyboardShortcuts() {{
       window.addEventListener('keydown', (e) => {{
         if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
 
-        // Check Number Keys 1-7
-        if (roomKeyMap[e.key]) {{
-          e.preventDefault();
-          const item = roomKeyMap[e.key];
-          const targetBtn = document.querySelector(`.room-btn[data-room="${{item.key}}"]`);
-          if (targetBtn) {{
-            targetBtn.click();
-            showToast(`[${{e.key}}] Switched to ${{item.name}}`);
+        // Escape: Close any active modal
+        if (e.key === 'Escape') {{
+          const compareModal = document.getElementById('slabCompareModal');
+          const zoomModal = document.getElementById('textureZoomModal');
+          const calibModal = document.getElementById('areaCalibrationModal');
+          if (compareModal && !compareModal.classList.contains('hidden')) {{
+            compareModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }}
+          if (zoomModal && !zoomModal.classList.contains('hidden')) {{
+            zoomModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }}
+          if (calibModal && !calibModal.classList.contains('hidden')) {{
+            calibModal.classList.add('hidden');
+            document.body.style.overflow = '';
           }}
           return;
         }}
 
-        // Hotkey 'c' for Stone Compare
+        // Hotkey 'c' for Stone Compare Modal
         if (e.key.toLowerCase() === 'c' && !e.ctrlKey && !e.metaKey) {{
           const compareBtn = document.getElementById('openSlabCompareBtn');
           if (compareBtn) {{
@@ -1367,7 +1355,7 @@ new_script = f"""<script>
     initTextureZoom();
     initBacklightToggle();
     initUnactivatedAreaNotices();
-    initNumberKeyNav();
+    initKeyboardShortcuts();
     initSlabComparator();
   
     // 19. Global 1-Click Preset Launcher
@@ -1561,50 +1549,42 @@ main_html = f"""  <!-- Main Visualizer App Container -->
           </div>
         </div>
 
-        <!-- Room Selector Pills with Number-Key Navigation Badges -->
+        <!-- Room Selector Pills -->
         <div class="p-4 rounded-2xl bg-[#141418] border border-white/10 space-y-3">
           <div class="flex items-center justify-between text-xs text-stone-400 font-medium px-1">
             <span class="flex items-center gap-2">
-              <span>Select Interior Space:</span>
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300/90 hidden sm:inline-flex items-center gap-1">
-                <kbd class="font-mono bg-black/40 px-1 rounded text-[9px] border border-white/10">1</kbd>&ndash;<kbd class="font-mono bg-black/40 px-1 rounded text-[9px] border border-white/10">8</kbd> Hotkeys
+              <span class="text-stone-300 font-semibold flex items-center gap-1.5">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-400"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                <span>Select Interior Space:</span>
               </span>
             </span>
-            <span class="text-[11px] text-amber-400/80 font-medium" id="roomEnvCountLabel">8 Environments (Balcony Upcoming)</span>
+            <span class="text-[11px] text-amber-400 font-medium" id="roomEnvCountLabel">8 Architectural Spaces Available</span>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-2.5" id="roomSelectorGrid">
-            <button class="room-btn active px-3 py-2.5 rounded-xl text-xs font-semibold text-center bg-stone-900 border border-amber-500/60 text-amber-300 transition cursor-pointer flex items-center justify-center gap-1.5" data-room="kitchen" data-key="1">
-              <span class="w-4 h-4 rounded bg-white/10 text-[10px] font-mono text-amber-400/90 flex items-center justify-center border border-white/10 shrink-0">1</span>
+            <button class="room-btn active px-3.5 py-2.5 rounded-xl text-xs font-semibold text-center bg-stone-900 border border-amber-500/60 text-amber-300 transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm" data-room="kitchen">
               <span>Kitchen</span>
             </button>
-            <button class="room-btn px-3 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 transition cursor-pointer flex items-center justify-center gap-1.5" data-room="living-room" data-key="2">
-              <span class="w-4 h-4 rounded bg-white/10 text-[10px] font-mono text-amber-400/90 flex items-center justify-center border border-white/10 shrink-0">2</span>
+            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="living-room">
               <span>Living Room</span>
             </button>
-            <button class="room-btn px-3 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 transition cursor-pointer flex items-center justify-center gap-1.5" data-room="bathroom" data-key="3">
-              <span class="w-4 h-4 rounded bg-white/10 text-[10px] font-mono text-amber-400/90 flex items-center justify-center border border-white/10 shrink-0">3</span>
+            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="bathroom">
               <span>Bathroom</span>
             </button>
-            <button class="room-btn px-3 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 transition cursor-pointer flex items-center justify-center gap-1.5" data-room="bedroom" data-key="4">
-              <span class="w-4 h-4 rounded bg-white/10 text-[10px] font-mono text-amber-400/90 flex items-center justify-center border border-white/10 shrink-0">4</span>
+            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="bedroom">
               <span>Bedroom</span>
             </button>
-            <button class="room-btn px-3 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 transition cursor-pointer flex items-center justify-center gap-1.5" data-room="staircase" data-key="5">
-              <span class="w-4 h-4 rounded bg-white/10 text-[10px] font-mono text-amber-400/90 flex items-center justify-center border border-white/10 shrink-0">5</span>
+            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="staircase">
               <span>Staircase</span>
             </button>
-            <button class="room-btn px-3 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 transition cursor-pointer flex items-center justify-center gap-1.5" data-room="dining-room" data-key="6">
-              <span class="w-4 h-4 rounded bg-white/10 text-[10px] font-mono text-amber-400/90 flex items-center justify-center border border-white/10 shrink-0">6</span>
+            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="dining-room">
               <span>Dining Room</span>
             </button>
-            <button class="room-btn px-3 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 transition cursor-pointer flex items-center justify-center gap-1.5" data-room="parking" data-key="7">
-              <span class="w-4 h-4 rounded bg-white/10 text-[10px] font-mono text-amber-400/90 flex items-center justify-center border border-white/10 shrink-0">7</span>
+            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="parking">
               <span>Outdoor Parking</span>
             </button>
-            <button class="room-btn px-2.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 transition cursor-pointer flex items-center justify-center gap-1 relative overflow-hidden" data-room="balcony" data-key="8">
-              <span class="w-4 h-4 rounded bg-white/10 text-[10px] font-mono text-amber-400/90 flex items-center justify-center border border-white/10 shrink-0">8</span>
+            <button class="room-btn px-2.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1 relative overflow-hidden" data-room="balcony">
               <span>Balcony</span>
-              <span class="text-[8px] px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase font-bold tracking-wider ml-0.5">Upcoming</span>
+              <span class="text-[8px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 uppercase font-bold tracking-wider ml-0.5">Live</span>
             </button>
           </div>
 
@@ -1746,11 +1726,6 @@ main_html = f"""  <!-- Main Visualizer App Container -->
       </div>
     </div>
 
-    <!-- FLOATING KEYBOARD SHORTCUT HUD TOAST -->
-    <div id="quickKeyNavToast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-black/90 border border-amber-500/50 text-white px-5 py-2.5 rounded-full shadow-2xl backdrop-blur-md text-xs font-medium flex items-center gap-2 pointer-events-none transition-all duration-300 opacity-0 translate-y-3">
-      <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-      <span id="quickKeyNavText">Switched to Kitchen [1]</span>
-    </div>
 
     <!-- SIDE-BY-SIDE STONE COMPARISON MODAL -->
     <div id="slabCompareModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
