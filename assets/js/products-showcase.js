@@ -83,17 +83,17 @@ document.addEventListener('DOMContentLoaded', () => {
   },
   {
     "id": 72,
-    "name": "Onyx",
-    "slug": "onyx",
-    "category": "Onyx",
-    "description": "",
+    "name": "Emerald Onyx Marble",
+    "slug": "emerald-onyx-marble",
+    "category": "Onyx Marble",
+    "description": "Luminescent translucent emerald and golden onyx marble, highly prized for backlit accent walls, luxury flooring, and architectural features.",
     "image_url": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
     "finish": "Polished",
     "origin": "Rajasthan",
-    "color": "White",
+    "color": "Green",
     "thickness": "20mm",
-    "usage_area": "Flooring",
-    "featured_section": "tile_texture"
+    "usage_area": "Wall Mount, Flooring",
+    "featured_section": "our_collection,tile_texture"
   },
   {
     "id": 71,
@@ -768,39 +768,71 @@ document.addEventListener('DOMContentLoaded', () => {
     const color = (colorFilter?.value || 'all').toLowerCase();
     const finish = (finishFilter?.value || 'all').toLowerCase();
 
+    const INDIAN_REGIONS = ['rajasthan', 'tamil nadu', 'karnataka', 'andhra pradesh', 'odisha', 'gujarat', 'india', 'makrana', 'kishangarh', 'bangalore'];
+
     const filtered = allProducts.filter(p => {
-      // Category
+      const cat = (p.category || '').toLowerCase();
+      const name = (p.name || '').toLowerCase();
+      const desc = (p.description || '').toLowerCase();
+      const orig = (p.origin || '').toLowerCase();
+      const col = (p.color || '').toLowerCase();
+      const fin = (p.finish || '').toLowerCase();
+      const feat = (p.featured_section || '').toLowerCase();
+      const usage = (p.usage_area || '').toLowerCase();
+
+      // Category Tabs
       if (currentCategory !== 'all') {
-        const cat = (p.category || '').toLowerCase();
-        if (!cat.includes(currentCategory)) return false;
+        if (currentCategory === 'granite') {
+          if (!cat.includes('granite')) return false;
+        } else if (currentCategory === 'marble') {
+          if (!cat.includes('marble') && !name.includes('marble')) return false;
+        } else if (currentCategory === 'tiles') {
+          // Matches tile category, tile textures, or products suitable for floor/wall tiles
+          const isTile = cat.includes('tile') || 
+                         feat.includes('tile') || 
+                         usage.includes('tile') || 
+                         usage.includes('flooring') ||
+                         cat.includes('sandstone') ||
+                         cat.includes('sand stone');
+          if (!isTile) return false;
+        } else if (currentCategory === 'onyx') {
+          // Matches onyx category or onyx in name/description
+          const isOnyx = cat.includes('onyx') || 
+                         name.includes('onyx') || 
+                         desc.includes('onyx');
+          if (!isOnyx) return false;
+        } else {
+          if (!cat.includes(currentCategory)) return false;
+        }
       }
 
       // Origin
       if (origin !== 'all') {
-        const orig = (p.origin || '').toLowerCase();
-        if (!orig.includes(origin)) return false;
+        if (origin === 'india') {
+          const isIndian = INDIAN_REGIONS.some(reg => orig.includes(reg));
+          if (!isIndian) return false;
+        } else {
+          if (!orig.includes(origin)) return false;
+        }
       }
 
       // Color
       if (color !== 'all') {
-        const col = (p.color || '').toLowerCase();
-        if (!col.includes(color)) return false;
+        if (color === 'gold') {
+          if (!col.includes('gold') && !col.includes('amber') && !name.includes('gold')) return false;
+        } else {
+          if (!col.includes(color) && !name.includes(color)) return false;
+        }
       }
 
       // Finish
       if (finish !== 'all') {
-        const fin = (p.finish || '').toLowerCase();
         if (!fin.includes(finish)) return false;
       }
 
       // Search Query
       if (query) {
-        const name = (p.name || '').toLowerCase();
-        const cat = (p.category || '').toLowerCase();
-        const orig = (p.origin || '').toLowerCase();
-        const col = (p.color || '').toLowerCase();
-        const usage = (p.usage_area || '').toLowerCase();
-        if (!name.includes(query) && !cat.includes(query) && !orig.includes(query) && !col.includes(query) && !usage.includes(query)) {
+        if (!name.includes(query) && !cat.includes(query) && !orig.includes(query) && !col.includes(query) && !usage.includes(query) && !desc.includes(query)) {
           return false;
         }
       }

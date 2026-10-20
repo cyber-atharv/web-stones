@@ -71,17 +71,17 @@
   },
   {
     "id": 72,
-    "name": "Onyx",
-    "slug": "onyx",
-    "category": "Marble",
-    "description": "",
+    "name": "Emerald Onyx Marble",
+    "slug": "emerald-onyx-marble",
+    "category": "Onyx Marble",
+    "description": "Luminescent translucent emerald and golden onyx marble, highly prized for backlit accent walls, luxury flooring, and architectural features.",
     "image_url": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
     "finish": "Polished",
     "origin": "Rajasthan",
-    "color": "White",
+    "color": "Green",
     "thickness": "20mm",
-    "usage_area": "Flooring",
-    "featured_section": "tile_texture"
+    "usage_area": "Wall Mount, Flooring",
+    "featured_section": "our_collection,tile_texture"
   },
   {
     "id": 71,
