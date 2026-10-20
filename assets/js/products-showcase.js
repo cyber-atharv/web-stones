@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "id": 72,
     "name": "Onyx",
     "slug": "onyx",
-    "category": "Marble",
+    "category": "Onyx",
     "description": "",
     "image_url": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
     "finish": "Polished",

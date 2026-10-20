@@ -278,4 +278,43 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // ── NUMBER-KEY NAVIGATION FOR QUICK ACCESS TO THE VISUALIZER (KEYS 1-8) ──
+  // Keys 1-8 instantly launch or switch the Visualizer environments:
+  // [1] Kitchen, [2] Living Room, [3] Bathroom, [4] Bedroom, [5] Staircase, [6] Dining Room, [7] Outdoor Parking, [8] Balcony (Upcoming)
+  const numRoomMap = {
+    '1': 'kitchen',
+    '2': 'living-room',
+    '3': 'bathroom',
+    '4': 'bedroom',
+    '5': 'staircase',
+    '6': 'dining-room',
+    '7': 'parking',
+    '8': 'balcony'
+  };
+
+  window.addEventListener('keydown', (e) => {
+    // 1. Guard against text-entry controls
+    const active = document.activeElement;
+    const target = e.target;
+    const tagName = (target && target.tagName) ? target.tagName.toUpperCase() : (active ? active.tagName.toUpperCase() : '');
+    const isInput = tagName === 'INPUT' || tagName === 'TEXTAREA' || tagName === 'SELECT' || target?.isContentEditable || active?.isContentEditable;
+    if (isInput) return;
+
+    // 2. Guard against modifier combinations (Ctrl, Alt, Meta/Cmd, Shift)
+    if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+
+    // 3. Trigger on number keys 1-7
+    const targetRoom = numRoomMap[e.key];
+    if (targetRoom) {
+      const isVisualizerPage = window.location.pathname.endsWith('visualizer.html') || window.location.pathname.includes('visualizer');
+      if (isVisualizerPage) {
+        // Handled in visualizer.html's initNumberKeyNav()
+        return;
+      } else {
+        e.preventDefault();
+        window.location.href = `visualizer.html?room=${targetRoom}`;
+      }
+    }
+  });
 });
