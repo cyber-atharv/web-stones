@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """
 Full updater for visualizer.html
+Incorporates:
+1. Living room design variations (Design 1 & Design 2: Panorama Poolside Hall)
+2. Washroom design variations (Design 1, Design 2: Bathtub Suite, Design 3: Indian Luxury Washroom)
+3. Building Elevation architectural space with portico pillars & cladding
+4. Kitchen countertop macro zoom feature with 4 edge profiles and culinary specs
+5. Three appearance options (Normal, Dark, Highlight) for washroom, elevation, and all architectural spaces
 """
 
 import os
@@ -18,12 +24,43 @@ manifest_json_str = json.dumps(manifest_data, indent=2)
 with open(HTML_PATH, 'r', encoding='utf-8') as f:
     original_html = f.read()
 
-# Let's write the complete, clean visualizer.html
-# We preserve everything above the stage and everything below the main section (footer, nav, etc.)
-
+# Extract head and header
 head_and_header = original_html[:original_html.find('<main class="max-w-7xl')]
 
-# Fix head styles to force strict 16:9 on all screens
+# Fix head styles to force strict 16:9 on all screens and inject Atmospheric Lighting styles
+atmosphere_styles = """
+    /* Stage Appearance Atmospheric Lighting Modes */
+    .stage-atmosphere-normal #baseRoomImg,
+    .stage-atmosphere-normal #afterBaseRoomImg,
+    .stage-atmosphere-normal #generatedRoomImg {
+      filter: none;
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+
+    .stage-atmosphere-dark #baseRoomImg,
+    .stage-atmosphere-dark #afterBaseRoomImg,
+    .stage-atmosphere-dark #generatedRoomImg {
+      filter: brightness(0.78) contrast(1.24) saturate(1.08);
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+    .stage-atmosphere-dark .ambient-depth-vignette {
+      background: radial-gradient(circle at 50% 35%, rgba(15, 23, 42, 0.45) 0%, rgba(3, 4, 8, 0.92) 100%) !important;
+    }
+
+    .stage-atmosphere-highlight #baseRoomImg,
+    .stage-atmosphere-highlight #afterBaseRoomImg,
+    .stage-atmosphere-highlight #generatedRoomImg {
+      filter: brightness(1.15) contrast(1.10) saturate(1.14) drop-shadow(0 0 25px rgba(212, 175, 55, 0.45));
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+    .stage-atmosphere-highlight .ambient-depth-vignette {
+      background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.25) 0%, rgba(0, 0, 0, 0.45) 100%) !important;
+    }
+"""
+
+if '/* Stage Appearance Atmospheric Lighting Modes */' not in head_and_header:
+    head_and_header = head_and_header.replace('</style>', atmosphere_styles + '\n  </style>')
+
 head_and_header = head_and_header.replace(
 """    .room-stage {
       aspect-ratio: 16 / 9;
@@ -49,141 +86,163 @@ head_and_header = head_and_header.replace(
 # Footer and scripts ending
 footer_start = original_html.find('<!-- Footer -->')
 footer_and_closing = original_html[footer_start:]
-
-# Inside footer_and_closing, replace the script block with the clean, honest visualizer engine
 script_start = footer_and_closing.find('<script>')
 footer_html_only = footer_and_closing[:script_start]
 
-new_script = f"""<script>
+# Visualizer Script
+script_template = """<script>
     // 1. Authenticated Room Configurations (Strictly Pre-Rendered, No Overlays)
-    const roomConfigs = {{
-      'kitchen': {{
+    const roomConfigs = {
+      'kitchen': {
         name: 'Kitchen',
         image: 'assets/images/rooms/kitchen.jpg',
         defaultSurface: 'countertop',
         designs: [
-          {{ id: 'design-1', name: 'Design 1: Obsidian Island', image: 'assets/images/rooms/kitchen.jpg', rendersCount: 12 }}
+          { id: 'design-1', name: 'Design 1: Obsidian Island', image: 'assets/images/rooms/kitchen.jpg', rendersCount: 12 }
         ],
-        surfaces: {{
-          'countertop': {{
+        surfaces: {
+          'countertop': {
             key: 'countertop',
             label: 'Countertop & Island'
-          }}
-          // Note: Kitchen flooring has 0 pre-renders and is excluded from the UI until assets exist
-        }}
-      }},
+          }
+        }
+      },
 
-      'living-room': {{
+      'living-room': {
         name: 'Living Room',
         image: 'assets/images/rooms/living-room.jpg',
         defaultSurface: 'floor',
         designs: [
-          {{ id: 'design-1', name: 'Design 1: Contemporary Villa Hall', image: 'assets/images/rooms/living-room.jpg', rendersCount: 24 }}
+          { id: 'design-1', name: 'Design 1: Contemporary Villa Hall', image: 'assets/images/rooms/living-room.jpg', rendersCount: 24 },
+          { id: 'design-2', name: 'Design 2: Panorama Poolside Hall', image: 'assets/images/rooms/living-room-2.jpg', rendersCount: 1 }
         ],
-        surfaces: {{
-          'floor': {{
+        surfaces: {
+          'floor': {
             key: 'floor',
             label: 'Flooring'
-          }},
-          'wall': {{
+          },
+          'wall': {
             key: 'wall',
             label: 'Accent Wall'
-          }}
-        }}
-      }},
+          }
+        }
+      },
 
-      'bathroom': {{
+      'bathroom': {
         name: 'Bathroom',
         image: 'assets/images/rooms/bathroom.jpg',
         defaultSurface: 'floor',
-        surfaces: {{
-          'floor': {{
+        designs: [
+          { id: 'design-1', name: 'Design 1: Master Marble Spa', image: 'assets/images/rooms/bathroom.jpg', rendersCount: 24 },
+          { id: 'design-2', name: 'Design 2: Freestanding Bathtub Suite', image: 'assets/images/rooms/washroom-suite.jpg', rendersCount: 1 },
+          { id: 'design-3', name: 'Design 3: Indian Heritage Luxury Suite', image: 'assets/images/rooms/washroom-indian.jpg', rendersCount: 1 }
+        ],
+        surfaces: {
+          'floor': {
             key: 'floor',
             label: 'Bathroom Flooring'
-          }},
-          'wall': {{
+          },
+          'wall': {
             key: 'wall',
             label: 'Feature Wall'
-          }}
-        }}
-      }},
+          }
+        }
+      },
 
-      'bedroom': {{
+      'bedroom': {
         name: 'Bedroom',
         image: 'assets/images/rooms/bedroom.jpg',
         defaultSurface: 'floor',
-        surfaces: {{
-          'floor': {{
+        designs: [
+          { id: 'design-1', name: 'Design 1: Master Suite', image: 'assets/images/rooms/bedroom.jpg', rendersCount: 12 }
+        ],
+        surfaces: {
+          'floor': {
             key: 'floor',
             label: 'Bedroom Flooring'
-          }}
-        }}
-      }},
+          }
+        }
+      },
 
-      'staircase': {{
+      'staircase': {
         name: 'Staircase',
         image: 'assets/images/rooms/staircase.jpg',
         defaultSurface: 'stairs',
         designs: [
-          {{ id: 'design-1', name: 'Design 1: Grand Architectural Foyer', image: 'assets/images/rooms/staircase.jpg', rendersCount: 12 }}
+          { id: 'design-1', name: 'Design 1: Grand Architectural Foyer', image: 'assets/images/rooms/staircase.jpg', rendersCount: 12 }
         ],
-        surfaces: {{
-          'stairs': {{
+        surfaces: {
+          'stairs': {
             key: 'stairs',
             label: 'Stair Treads & Risers'
-          }}
-        }}
-      }},
+          }
+        }
+      },
 
-      'dining-room': {{
+      'dining-room': {
         name: 'Dining Room',
         image: 'assets/images/rooms/dining-room.jpg',
         defaultSurface: 'floor',
         designs: [
-          {{ id: 'design-1', name: 'Design 1: Banquet Grand Hall', image: 'assets/images/rooms/dining-room.jpg', rendersCount: 12 }}
+          { id: 'design-1', name: 'Design 1: Banquet Grand Hall', image: 'assets/images/rooms/dining-room.jpg', rendersCount: 12 }
         ],
-        surfaces: {{
-          'floor': {{
+        surfaces: {
+          'floor': {
             key: 'floor',
             label: 'Dining Room Flooring'
-          }}
-        }}
-      }},
+          }
+        }
+      },
 
-      'parking': {{
+      'parking': {
         name: 'Outdoor Parking',
         image: 'assets/images/rooms/parking.webp',
         defaultSurface: 'paving',
         designs: [
-          {{ id: 'design-1', name: 'Design 1: Luxury Villa Driveway & Porch', image: 'assets/images/rooms/parking.webp', rendersCount: 12 }}
+          { id: 'design-1', name: 'Design 1: Luxury Villa Driveway & Porch', image: 'assets/images/rooms/parking.webp', rendersCount: 12 }
         ],
-        surfaces: {{
-          'paving': {{
+        surfaces: {
+          'paving': {
             key: 'paving',
             label: 'Driveway & Porch Paving'
-          }}
-        }}
-      }},
+          }
+        }
+      },
 
-      'balcony': {{
+      'balcony': {
         name: 'Balcony',
         image: 'assets/images/rooms/balcony.webp',
         defaultSurface: 'flooring',
         designs: [
-          {{ id: 'design-1', name: 'Design 1: Contemporary Covered Balcony', image: 'assets/images/rooms/balcony.webp', rendersCount: 12 }}
+          { id: 'design-1', name: 'Design 1: Contemporary Covered Balcony', image: 'assets/images/rooms/balcony.webp', rendersCount: 12 }
         ],
-        surfaces: {{
-          'flooring': {{
+        surfaces: {
+          'flooring': {
             key: 'flooring',
             label: 'Balcony Flooring'
-          }}
-        }}
-      }}
-    }};
+          }
+        }
+      },
+
+      'elevation': {
+        name: 'Building Elevation',
+        image: 'assets/images/rooms/elevation.jpg',
+        defaultSurface: 'facade',
+        designs: [
+          { id: 'design-1', name: 'Design 1: Contemporary Villa Elevation', image: 'assets/images/rooms/elevation.jpg', rendersCount: 1 }
+        ],
+        surfaces: {
+          'facade': {
+            key: 'facade',
+            label: 'Portico Pillars & Cladding Wall'
+          }
+        }
+      }
+    };
 
     // 2. Verified Authentic Stone Materials Catalog (12 Canonical Stones)
     const visualizerMaterials = [
-      {{
+      {
         id: 'river-black',
         name: 'River Black',
         category: 'Granite',
@@ -193,8 +252,8 @@ new_script = f"""<script>
         usage: 'Kitchen Countertops, High-Traffic Flooring, Wall Cladding',
         image: 'assets/images/products/product-1783138465-6a4888a145274.jpg',
         description: 'Deep jet black granite with crystalline wave patterns and high density. Highly resilient against heat, stains, and scratches.'
-      }},
-      {{
+      },
+      {
         id: 'black-pearl',
         name: 'Black Pearl',
         category: 'Granite',
@@ -204,8 +263,8 @@ new_script = f"""<script>
         usage: 'Kitchen Countertops, Bathroom Vanities, Interior Flooring',
         image: 'assets/images/products/product-1783138424-6a488878abc22.jpg',
         description: 'Semi-solid dark granite with uniform speckles of black, silver, and gold minerals. Uniform and exceptionally durable.'
-      }},
-      {{
+      },
+      {
         id: 'tan-brown',
         name: 'Tan Brown',
         category: 'Granite',
@@ -215,8 +274,8 @@ new_script = f"""<script>
         usage: 'Kitchen Islands, Exterior Steps, Grand Hall Flooring',
         image: 'assets/images/products/product-1783084011-6a47b3eb20cf0.jpg',
         description: 'Rich dark granite characterized by warm brown, chocolate, and copper floral mineral clusters. Highly resistant to staining.'
-      }},
-      {{
+      },
+      {
         id: 'statuario-marble',
         name: 'Statuario / Banswara Marble',
         category: 'Marble',
@@ -226,8 +285,8 @@ new_script = f"""<script>
         usage: 'Living Room Flooring, Master Bedroom Suites, Luxury Bathrooms',
         image: 'assets/images/products/product-1783085208-6a47b8986af97.png',
         description: 'Classic white marble accented by delicate grey and subtle gold veins. Creates an opulent, luminous atmosphere.'
-      }},
-      {{
+      },
+      {
         id: 'kashmir-white',
         name: 'Kashmir / Alaska White',
         category: 'Granite',
@@ -237,8 +296,8 @@ new_script = f"""<script>
         usage: 'Kitchen Worktops, Wide Format Flooring, Backsplashes',
         image: 'assets/images/products/product-1783084356-6a47b5441b767.jpg',
         description: 'Luminous pale backdrop enriched with neutral grey veins and garnet flecks. Brightens large interior spaces.'
-      }},
-      {{
+      },
+      {
         id: 'emerald-onyx',
         name: 'Emerald Onyx Marble',
         category: 'Onyx',
@@ -248,8 +307,8 @@ new_script = f"""<script>
         usage: 'Feature Accent Walls, Backlit Vanity Walls, Bar Counters',
         image: 'assets/images/products/product-1783085161-6a47b869e0448.jpg',
         description: 'Translucent banded onyx featuring crystalline jade green and amber honey veining. Striking when backlit.'
-      }},
-      {{
+      },
+      {
         id: 'marie-gold',
         name: 'Marie Gold',
         category: 'Granite',
@@ -259,8 +318,8 @@ new_script = f"""<script>
         usage: 'Living Flooring, Stair Treads, Dining Room Flooring',
         image: 'assets/images/products/product-1783085317-6a47b9058f71e.jpg',
         description: 'Warm golden-beige mineral background with fine brown and caramel grains. Adds natural warmth and light.'
-      }},
-      {{
+      },
+      {
         id: 'blue-night',
         name: 'Blue in the Night',
         category: 'Granite',
@@ -270,8 +329,8 @@ new_script = f"""<script>
         usage: 'Statement Countertops, Luxury Vanities, Accent Inlays',
         image: 'assets/images/products/product-1783085244-6a47b8bcd330d.png',
         description: 'Exotic midnight black granite studded with iridescent blue labradorite crystals that gleam in light.'
-      }},
-      {{
+      },
+      {
         id: 'moon-white',
         name: 'Moon White',
         category: 'Granite',
@@ -281,8 +340,8 @@ new_script = f"""<script>
         usage: 'Modern Kitchen Counters, Vanity Tops, Hallway Flooring',
         image: 'assets/images/products/product-1783079448-6a47a218632fd.jpg',
         description: 'Fine-grained ivory and pale grey granite with miniature burgundy mineral specks. Crisp, clean contemporary look.'
-      }},
-      {{
+      },
+      {
         id: 'river-white',
         name: 'River White',
         category: 'Granite',
@@ -292,8 +351,8 @@ new_script = f"""<script>
         usage: 'Kitchen Islands, Waterfall Countertops, Living Flooring',
         image: 'assets/images/products/product-1783078831-6a479faf4fcbd.jpg',
         description: 'Crisp white base with flowing grey rivers and small deep red mineral crystals. Elegant movement across slabs.'
-      }},
-      {{
+      },
+      {
         id: 'black-forest',
         name: 'Black Forest',
         category: 'Granite',
@@ -303,8 +362,8 @@ new_script = f"""<script>
         usage: 'Feature Walls, Kitchen Countertops, Staircase Treads',
         image: 'assets/images/products/product-1783083657-6a47b289a4a40.jpg',
         description: 'Dramatic black granite intersected by bold white and silver streaks resembling forest branches.'
-      }},
-      {{
+      },
+      {
         id: 'titanium-black',
         name: 'Titanium Black',
         category: 'Granite',
@@ -314,15 +373,15 @@ new_script = f"""<script>
         usage: 'Luxury Countertops, Backsplashes, Accent Flooring',
         image: 'assets/images/products/product-1783083560-6a47b228132ac.jpg',
         description: 'Deep charcoal black with undulating cream and quartz veins creating dramatic organic patterns.'
-      }}
+      }
     ];
 
     // Incorporate custom stones added via Admin Dashboard
-    try {{
+    try {
       const customProducts = JSON.parse(localStorage.getItem('murali_custom_products') || '[]');
-      if (Array.isArray(customProducts)) {{
-        customProducts.forEach(cp => {{
-          visualizerMaterials.unshift({{
+      if (Array.isArray(customProducts)) {
+        customProducts.forEach(cp => {
+          visualizerMaterials.unshift({
             id: cp.id || cp.slug || cp.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
             name: cp.name,
             color: cp.color || 'Black',
@@ -332,11 +391,11 @@ new_script = f"""<script>
             thickness: cp.thickness || '18mm',
             usage: cp.usage_area || 'Flooring, Feature Walls',
             image: cp.image_url,
-            description: cp.description || `${{cp.name}} - Premium natural stone slab.`
-          }});
-        }});
-      }}
-    }} catch (e) {{}}
+            description: cp.description || `${cp.name} - Premium natural stone slab.`
+          });
+        });
+      }
+    } catch (e) {}
 
     // 3. Central Application State
     let currentRoomKey = 'kitchen';
@@ -363,136 +422,138 @@ new_script = f"""<script>
     const whatsappShareBtn = document.getElementById('whatsappShareBtn');
 
     // 4. Manifest Data Engine (Script-Generated Previews)
-    let GENERATED_PREVIEWS_MANIFEST = {manifest_json_str};
+    let GENERATED_PREVIEWS_MANIFEST = __MANIFEST_JSON_PLACEHOLDER__;
 
     // Load visualizer-manifest.json at runtime (keeping admin custom entries taking priority)
     fetch('assets/data/visualizer-manifest.json')
       .then(res => res.json())
-      .then(data => {{
-        if (Array.isArray(data) && data.length > 0) {{
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
           GENERATED_PREVIEWS_MANIFEST = data;
           renderSurfaceButtons();
           const activeCat = document.querySelector('.mat-tab.active')?.getAttribute('data-cat') || 'all';
           renderMaterialsList(activeCat);
           updateStage();
-        }}
-      }})
-      .catch(err => {{
+        }
+      })
+      .catch(err => {
         console.log('Manifest loaded from embedded store.');
-      }});
+      });
 
     // Exact Match Resolver - STRICTLY HONEST, NO PROXYING, NO FAKING
-    function findGeneratedPreview(roomId, matId, surfaceId) {{
+    function findGeneratedPreview(roomId, matId, surfaceId) {
       const rKey = (roomId || '').toLowerCase().trim();
       const mKey = (matId || '').toLowerCase().trim();
       const sKey = (surfaceId || '').toLowerCase().trim();
 
       // Check custom visualizers uploaded via Admin Dashboard first
-      try {{
+      try {
         const customVis = JSON.parse(localStorage.getItem('murali_custom_visualizers') || '[]');
-        if (Array.isArray(customVis)) {{
-          const customMatch = customVis.find(item => {{
+        if (Array.isArray(customVis)) {
+          const customMatch = customVis.find(item => {
             const matchRoom = (item.room_id || '').toLowerCase().trim() === rKey;
             const matchSurface = (item.surface_id || '').toLowerCase().trim() === sKey;
             const matchProd = (item.product_id || '').toLowerCase().trim() === mKey || 
                               (item.product_name || '').toLowerCase().trim() === mKey;
             return matchRoom && matchSurface && matchProd;
-          }});
-          if (customMatch && customMatch.generated_preview) {{
+          });
+          if (customMatch && customMatch.generated_preview) {
             return customMatch;
-          }}
-        }}
-      }} catch (e) {{}}
+          }
+        }
+      } catch (e) {}
 
       // Direct manifest exact match only
-      return GENERATED_PREVIEWS_MANIFEST.find(item => {{
+      return GENERATED_PREVIEWS_MANIFEST.find(item => {
         return item.room_id === rKey && 
                item.product_id === mKey && 
                item.surface_id === sKey;
-      }}) || null;
-    }}
+      }) || null;
+    }
 
     // Find alternative room where this stone has a verified render
-    function findAlternativeRoomForMaterial(matId, currentRoom) {{
+    function findAlternativeRoomForMaterial(matId, currentRoom) {
       const mKey = (matId || '').toLowerCase().trim();
-      return GENERATED_PREVIEWS_MANIFEST.find(item => {{
+      return GENERATED_PREVIEWS_MANIFEST.find(item => {
         return item.product_id === mKey && item.room_id !== currentRoom;
-      }}) || null;
-    }}
+      }) || null;
+    }
 
     // 5. Render Surface Controls Dynamically for Current Room
-    // Shows ONLY surfaces that have at least one verified render
-    function renderSurfaceButtons() {{
+    function renderSurfaceButtons() {
       surfaceSelectorContainer.innerHTML = '';
       const room = roomConfigs[currentRoomKey];
       if (!room) return;
-      surfaceContextLabel.textContent = `${{room.name}} Plane`;
+      surfaceContextLabel.textContent = `${room.name} Plane`;
 
-      // Render Room Design Variations (only if multiple verified designs exist)
+      // Render Room Design Variations (active if multiple designs exist)
       const designBar = document.getElementById('roomDesignVariationBar');
       const designContainer = document.getElementById('roomDesignButtonsContainer');
-      if (designBar && designContainer) {{
-        const validDesigns = (room.designs || []).filter(d => (d.rendersCount || 0) > 0);
-        if (validDesigns.length > 1) {{
+      if (designBar && designContainer) {
+        const validDesigns = (room.designs || []);
+        if (validDesigns.length > 1) {
           designBar.classList.remove('hidden');
           designContainer.innerHTML = '';
-          validDesigns.forEach(d => {{
+          validDesigns.forEach(d => {
             const dBtn = document.createElement('button');
-            const isDActive = d.id === (room.activeDesignId || 'design-1');
+            const isDActive = d.id === (room.activeDesignId || validDesigns[0].id);
             dBtn.type = 'button';
-            dBtn.className = `px-3 py-1.5 rounded-lg text-xs transition cursor-pointer ${{
+            dBtn.className = `px-3 py-1.5 rounded-lg text-xs transition cursor-pointer ${
               isDActive 
                 ? 'bg-amber-500 text-stone-950 font-bold shadow' 
                 : 'bg-stone-900 text-stone-300 border border-white/10 hover:border-amber-400'
-            }}`;
+            }`;
             dBtn.textContent = d.name;
-            dBtn.addEventListener('click', () => {{
+            dBtn.addEventListener('click', () => {
               room.activeDesignId = d.id;
               room.image = d.image;
               renderSurfaceButtons();
               updateStage();
-            }});
+            });
             designContainer.appendChild(dBtn);
-          }});
-        }} else {{
+          });
+        } else {
           designBar.classList.add('hidden');
-        }}
-      }}
+        }
+      }
 
-      // Filter to surfaces that have >= 1 render in this room
-      const availableSurfaces = Object.values(room.surfaces).filter(surf => {{
+      // Filter to surfaces that have >= 1 render in this room, or fall back to configured surfaces
+      let availableSurfaces = Object.values(room.surfaces).filter(surf => {
         return GENERATED_PREVIEWS_MANIFEST.some(item => item.room_id === currentRoomKey && item.surface_id === surf.key);
-      }});
+      });
+      if (availableSurfaces.length === 0) {
+        availableSurfaces = Object.values(room.surfaces);
+      }
 
-      if (availableSurfaces.length > 0 && !availableSurfaces.some(s => s.key === currentSurfaceKey)) {{
+      if (availableSurfaces.length > 0 && !availableSurfaces.some(s => s.key === currentSurfaceKey)) {
         currentSurfaceKey = availableSurfaces[0].key;
-      }}
+      }
 
-      availableSurfaces.forEach(surf => {{
+      availableSurfaces.forEach(surf => {
         const btn = document.createElement('button');
         const isActive = surf.key === currentSurfaceKey;
-        btn.className = `surface-btn py-2 px-3 rounded-xl text-xs text-center transition font-semibold ${{
+        btn.className = `surface-btn py-2 px-3 rounded-xl text-xs text-center transition font-semibold ${
           isActive 
             ? 'active bg-amber-500 text-stone-950 font-bold shadow-md' 
             : 'bg-stone-900 text-stone-300 border border-white/10 hover:border-amber-400'
-        }}`;
+        }`;
         btn.setAttribute('data-surface', surf.key);
         btn.textContent = surf.label;
 
-        btn.addEventListener('click', () => {{
+        btn.addEventListener('click', () => {
           currentSurfaceKey = surf.key;
           renderSurfaceButtons();
           const activeCat = document.querySelector('.mat-tab.active')?.getAttribute('data-cat') || 'all';
           renderMaterialsList(activeCat);
           updateStage();
-        }});
+        });
 
         surfaceSelectorContainer.appendChild(btn);
-      }});
-    }}
+      });
+    }
 
     // Fallback Image Map for Verified Working Slabs
-    const VERIFIED_SLAB_FALLBACKS = {{
+    const VERIFIED_SLAB_FALLBACKS = {
       'river-black': 'assets/images/products/product-1783138465-6a4888a145274.jpg',
       'black-pearl': 'assets/images/products/product-1783138424-6a488878abc22.jpg',
       'tan-brown': 'assets/images/products/product-1783084011-6a47b3eb20cf0.jpg',
@@ -505,257 +566,285 @@ new_script = f"""<script>
       'river-white': 'assets/images/products/product-1783078831-6a479faf4fcbd.jpg',
       'black-forest': 'assets/images/products/product-1783083657-6a47b289a4a40.jpg',
       'titanium-black': 'assets/images/products/product-1783083560-6a47b228132ac.jpg'
-    }};
+    };
 
-    function getStoneFallbackSwatch(mat) {{
+    function getStoneFallbackSwatch(mat) {
       if (!mat) return '';
       const name = (mat.name || '').toLowerCase();
       const cat = (mat.category || '').toLowerCase();
       let c1 = '#1a1a20', c2 = '#363740', vein = '#666675';
-      if (name.includes('white') || name.includes('statuario') || cat.includes('marble') || name.includes('moon') || name.includes('river white')) {{
+      if (name.includes('white') || name.includes('statuario') || cat.includes('marble') || name.includes('moon') || name.includes('river white')) {
         c1 = '#f5f5f7'; c2 = '#dcdde2'; vein = '#8a8b94';
-      }} else if (name.includes('gold') || name.includes('marie') || name.includes('amber')) {{
+      } else if (name.includes('gold') || name.includes('marie') || name.includes('amber')) {
         c1 = '#d4af37'; c2 = '#996515'; vein = '#ffd700';
-      }} else if (name.includes('brown') || name.includes('tan')) {{
+      } else if (name.includes('brown') || name.includes('tan')) {
         c1 = '#4a2f23'; c2 = '#2e1c15'; vein = '#825945';
-      }} else if (name.includes('onyx') || name.includes('emerald') || name.includes('green') || cat.includes('onyx')) {{
+      } else if (name.includes('onyx') || name.includes('emerald') || name.includes('green') || cat.includes('onyx')) {
         c1 = '#174036'; c2 = '#0d241e'; vein = '#38a385';
-      }} else if (name.includes('blue')) {{
+      } else if (name.includes('blue')) {
         c1 = '#121f38'; c2 = '#0a101d'; vein = '#3b67b0';
-      }}
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${{c1}}"/><stop offset="100%" stop-color="${{c2}}"/></linearGradient></defs><rect width="80" height="80" fill="url(#g)"/><path d="M0 20 Q30 35 45 15 T80 30" stroke="${{vein}}" stroke-width="1.8" fill="none" opacity="0.6"/><path d="M10 70 Q40 50 60 75 T80 60" stroke="${{vein}}" stroke-width="1.4" fill="none" opacity="0.5"/><circle cx="20" cy="40" r="1.5" fill="${{vein}}" opacity="0.7"/><circle cx="65" cy="25" r="1.5" fill="${{vein}}" opacity="0.7"/></svg>`;
+      }
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs><rect width="80" height="80" fill="url(#g)"/><path d="M0 20 Q30 35 45 15 T80 30" stroke="${vein}" stroke-width="1.8" fill="none" opacity="0.6"/><path d="M10 70 Q40 50 60 75 T80 60" stroke="${vein}" stroke-width="1.4" fill="none" opacity="0.5"/><circle cx="20" cy="40" r="1.5" fill="${vein}" opacity="0.7"/><circle cx="65" cy="25" r="1.5" fill="${vein}" opacity="0.7"/></svg>`;
       return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-    }}
+    }
 
-    function getVerifiedFallbackForMaterial(mat) {{
+    function getVerifiedFallbackForMaterial(mat) {
       if (!mat) return '';
       return VERIFIED_SLAB_FALLBACKS[mat.id] || VERIFIED_SLAB_FALLBACKS['river-black'];
-    }}
+    }
 
     // 6. Render Materials List
-    // Adds "Preview coming soon" tag for stones unrendered in active space
-    function renderMaterialsList(filterCat = 'all') {{
+    function renderMaterialsList(filterCat = 'all') {
       materialsGrid.innerHTML = '';
       const cleanCat = (filterCat || 'all').toLowerCase();
 
       let list = visualizerMaterials;
-      if (cleanCat !== 'all') {{
-        list = visualizerMaterials.filter(m => {{
+      if (cleanCat !== 'all') {
+        list = visualizerMaterials.filter(m => {
           const mCat = (m.category || '').toLowerCase();
           if (cleanCat === 'tiles') return mCat === 'tiles';
           if (cleanCat === 'onyx') return mCat === 'onyx' || m.id.includes('onyx');
           if (cleanCat === 'marble') return mCat.includes('marble') && !mCat.includes('onyx');
           if (cleanCat === 'granite') return mCat.includes('granite');
           return mCat.includes(cleanCat);
-        }});
-      }}
+        });
+      }
 
-      document.getElementById('materialCountLabel').textContent = `${{list.length}} Verified Slabs`;
+      document.getElementById('materialCountLabel').textContent = `${list.length} Verified Slabs`;
 
-      list.forEach(mat => {{
+      list.forEach(mat => {
         const btn = document.createElement('button');
         const isActive = mat.id === selectedMaterial.id;
         const hasRenderInCurrent = !!findGeneratedPreview(currentRoomKey, mat.id, currentSurfaceKey);
 
-        btn.className = `texture-pill p-2 rounded-2xl bg-stone-900 flex items-center justify-between text-left transition ${{
+        btn.className = `texture-pill p-2 rounded-2xl bg-stone-900 flex items-center justify-between text-left transition ${
           isActive ? 'active border-amber-400' : ''
-        }}`;
+        }`;
         btn.setAttribute('data-id', mat.id);
 
         const fallbackSrc = getVerifiedFallbackForMaterial(mat);
         btn.innerHTML = `
           <div class="flex items-center gap-2.5 overflow-hidden">
             <div class="w-10 h-10 rounded-xl overflow-hidden bg-black shrink-0 border border-white/10 shadow-inner">
-              <img src="${{mat.image}}" 
-                   alt="${{mat.name}}" 
+              <img src="${mat.image}" 
+                   alt="${mat.name}" 
                    class="w-full h-full object-cover" 
-                   onerror="if(this.dataset.triedFallback!=='1'){{this.dataset.triedFallback='1';this.src='${{fallbackSrc}}';}}else{{this.onerror=null;this.src=getStoneFallbackSwatch(selectedMaterial);}}"
+                   onerror="if(this.dataset.triedFallback!=='1'){this.dataset.triedFallback='1';this.src='${fallbackSrc}';}else{this.onerror=null;this.src=getStoneFallbackSwatch(selectedMaterial);}"
                    loading="lazy"/>
             </div>
             <div class="overflow-hidden">
-              <div class="text-[11px] font-bold text-white truncate">${{mat.name}}</div>
-              <div class="text-[9px] text-stone-400 truncate">${{mat.category}} &bull; ${{mat.origin.split('/')[0].trim()}}</div>
+              <div class="text-[11px] font-bold text-white truncate">${mat.name}</div>
+              <div class="text-[9px] text-stone-400 truncate">${mat.category} &bull; ${mat.origin.split('/')[0].trim()}</div>
             </div>
           </div>
-          ${{!hasRenderInCurrent ? '<span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300/90 border border-amber-500/20 font-medium shrink-0 ml-1">Coming soon</span>' : ''}}
+          ${!hasRenderInCurrent ? '<span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300/90 border border-amber-500/20 font-medium shrink-0 ml-1">Coming soon</span>' : ''}
         `;
 
-        btn.addEventListener('click', () => {{
+        btn.addEventListener('click', () => {
           selectMaterial(mat);
-        }});
+        });
 
         materialsGrid.appendChild(btn);
-      }});
-    }}
+      });
+    }
 
-    function selectMaterial(mat) {{
+    function selectMaterial(mat) {
       selectedMaterial = mat;
       updateStage();
       updateInfoCard();
       const activeCat = document.querySelector('.mat-tab.active')?.getAttribute('data-cat') || 'all';
       renderMaterialsList(activeCat);
-    }}
+    }
 
     // Preload neighboring renders for instant transitions
-    function preloadNextRenders(currentMatId) {{
+    function preloadNextRenders(currentMatId) {
       const currentIdx = visualizerMaterials.findIndex(m => m.id === currentMatId);
       if (currentIdx === -1) return;
       const nextIndices = [(currentIdx + 1) % visualizerMaterials.length, (currentIdx + 2) % visualizerMaterials.length];
-      nextIndices.forEach(idx => {{
+      nextIndices.forEach(idx => {
         const nextMat = visualizerMaterials[idx];
         const match = findGeneratedPreview(currentRoomKey, nextMat.id, currentSurfaceKey);
-        if (match && match.generated_preview) {{
+        if (match && match.generated_preview) {
           const img = new Image();
           img.src = match.generated_preview;
-        }}
-      }});
-    }}
+        }
+      });
+    }
 
     // 7. Update Stage (Room, Surface, Material, and Comparison)
-    function updateStage() {{
+    function updateStage() {
       const room = roomConfigs[currentRoomKey];
       let surface = room.surfaces[currentSurfaceKey];
 
-      if (!surface) {{
+      if (!surface) {
         currentSurfaceKey = room.defaultSurface;
         surface = room.surfaces[currentSurfaceKey];
         renderSurfaceButtons();
-      }}
+      }
 
       // 1. Resilient Base Room Loading
-      baseRoomImg.onerror = function() {{
+      baseRoomImg.onerror = function() {
         console.warn('Base room photo missing on host:', this.src);
         this.style.opacity = '0.5';
-      }};
+      };
 
-      if (baseRoomImg.getAttribute('src') !== room.image) {{
+      if (baseRoomImg.getAttribute('src') !== room.image) {
         baseRoomImg.src = room.image;
         afterBaseRoomImg.src = room.image;
-      }}
+      }
 
       // 2. Resolve Photorealistic Preview from Manifest
-      const generatedMatch = findGeneratedPreview(currentRoomKey, selectedMaterial.id, currentSurfaceKey);
+      const isDesign1 = !room.activeDesignId || room.activeDesignId === 'design-1';
+      const generatedMatch = isDesign1 ? findGeneratedPreview(currentRoomKey, selectedMaterial.id, currentSurfaceKey) : null;
       const generatedRoomImg = document.getElementById('generatedRoomImg');
       const renderQualityBadge = document.getElementById('renderQualityBadge');
       const renderQualityText = document.getElementById('renderQualityText');
       const renderPendingToast = document.getElementById('renderPendingToast');
       const renderPendingToastText = document.getElementById('renderPendingToastText');
       const viewInOtherRoomBtn = document.getElementById('viewInOtherRoomBtn');
+      const zoomCountertopBtn = document.getElementById('zoomCountertopBtn');
 
-      if (generatedMatch && generatedMatch.generated_preview) {{
+      // Kitchen Countertop Zoom action button visibility
+      if (zoomCountertopBtn) {
+        if (currentRoomKey === 'kitchen') {
+          zoomCountertopBtn.classList.remove('hidden');
+        } else {
+          zoomCountertopBtn.classList.add('hidden');
+        }
+      }
+
+      if (generatedMatch && generatedMatch.generated_preview) {
         // EXACT PREVIEW EXISTS: Render it authentically
         if (renderPendingToast) renderPendingToast.classList.add('hidden');
         generatedRoomImg.style.display = 'block';
 
         const targetSrc = generatedMatch.generated_preview;
-        if (generatedRoomImg.getAttribute('src') !== targetSrc) {{
+        if (generatedRoomImg.getAttribute('src') !== targetSrc) {
           generatedRoomImg.classList.add('opacity-0');
-          generatedRoomImg.onload = function() {{
+          generatedRoomImg.onload = function() {
             this.classList.remove('opacity-0');
-          }};
-          generatedRoomImg.onerror = function() {{
+          };
+          generatedRoomImg.onerror = function() {
             this.classList.remove('opacity-0');
-          }};
+          };
           generatedRoomImg.src = targetSrc;
-          if (generatedRoomImg.complete) {{
+          if (generatedRoomImg.complete) {
             generatedRoomImg.classList.remove('opacity-0');
-          }}
-        }} else {{
+          }
+        } else {
           generatedRoomImg.classList.remove('opacity-0');
-        }}
+        }
 
         renderQualityText.textContent = 'Verified Render';
-        renderQualityBadge.className = 'text-xs px-3 py-1 rounded-full bg-emerald-500/25 text-emerald-300 font-medium border border-emerald-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5';
+        renderQualityBadge.className = 'text-xs px-3 py-1 rounded-full bg-emerald-500/25 text-emerald-300 font-medium border border-emerald-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5 pointer-events-auto';
 
-        // Preload next stone render
         preloadNextRenders(selectedMaterial.id);
-      }} else {{
-        // UNRENDERED COMBINATION: Keep previously valid render active (do not show fake stone)
-        // Show honest informative toast with option to view in another room
-        if (renderPendingToast && renderPendingToastText) {{
-          renderPendingToast.classList.remove('hidden');
-          renderPendingToastText.innerHTML = `Preview for <strong class="text-amber-300">${{selectedMaterial.name}}</strong> in this space is being prepared.`;
+      } else {
+        // Alternate design variation or elevation:
+        // Hide overlay so the high-resolution architectural base scene photo is completely visible
+        generatedRoomImg.style.display = 'none';
 
-          const alt = findAlternativeRoomForMaterial(selectedMaterial.id, currentRoomKey);
-          if (alt && viewInOtherRoomBtn) {{
-            const altRoomName = roomConfigs[alt.room_id]?.name || alt.room_id;
-            viewInOtherRoomBtn.textContent = `View in ${{altRoomName}} \u2192`;
-            viewInOtherRoomBtn.classList.remove('hidden');
-            viewInOtherRoomBtn.onclick = () => {{
-              currentRoomKey = alt.room_id;
-              currentSurfaceKey = alt.surface_id;
-              document.querySelectorAll('.room-btn').forEach(b => {{
-                if (b.getAttribute('data-room') === currentRoomKey) {{
-                  b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
-                  b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
-                }} else {{
-                  b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
-                  b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
-                }}
-              }});
-              renderSurfaceButtons();
-              const activeCat = document.querySelector('.mat-tab.active')?.getAttribute('data-cat') || 'all';
-              renderMaterialsList(activeCat);
-              updateStage();
-              updateInfoCard();
-            }};
-          }} else if (viewInOtherRoomBtn) {{
-            viewInOtherRoomBtn.classList.add('hidden');
-          }}
-        }}
-      }}
+        if (room.designs && room.designs.length > 1 && !isDesign1) {
+          const activeDesign = room.designs.find(d => d.id === room.activeDesignId) || room.designs[0];
+          if (renderPendingToast && renderPendingToastText) {
+            renderPendingToast.classList.remove('hidden');
+            renderPendingToastText.innerHTML = `Viewing <strong>${activeDesign.name}</strong>. Selected Stone: <strong class="text-amber-300">${selectedMaterial.name}</strong> (${selectedMaterial.category}).`;
+            if (viewInOtherRoomBtn) viewInOtherRoomBtn.classList.add('hidden');
+          }
+          renderQualityText.textContent = 'Design Scene View';
+          renderQualityBadge.className = 'text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5 pointer-events-auto';
+        } else if (currentRoomKey === 'elevation') {
+          if (renderPendingToast && renderPendingToastText) {
+            renderPendingToast.classList.remove('hidden');
+            renderPendingToastText.innerHTML = `Viewing <strong>Building Elevation (Portico & Facade)</strong>. Selected Stone: <strong class="text-amber-300">${selectedMaterial.name}</strong>.`;
+            if (viewInOtherRoomBtn) viewInOtherRoomBtn.classList.add('hidden');
+          }
+          renderQualityText.textContent = 'Architectural Elevation';
+          renderQualityBadge.className = 'text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5 pointer-events-auto';
+        } else {
+          // Unrendered stone in a standard pre-rendered room
+          if (renderPendingToast && renderPendingToastText) {
+            renderPendingToast.classList.remove('hidden');
+            renderPendingToastText.innerHTML = `Preview for <strong class="text-amber-300">${selectedMaterial.name}</strong> in this space is being prepared.`;
+
+            const alt = findAlternativeRoomForMaterial(selectedMaterial.id, currentRoomKey);
+            if (alt && viewInOtherRoomBtn) {
+              const altRoomName = roomConfigs[alt.room_id]?.name || alt.room_id;
+              viewInOtherRoomBtn.textContent = `View in ${altRoomName} \u2192`;
+              viewInOtherRoomBtn.classList.remove('hidden');
+              viewInOtherRoomBtn.onclick = () => {
+                currentRoomKey = alt.room_id;
+                currentSurfaceKey = alt.surface_id;
+                document.querySelectorAll('.room-btn').forEach(b => {
+                  if (b.getAttribute('data-room') === currentRoomKey) {
+                    b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+                    b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
+                  } else {
+                    b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+                    b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
+                  }
+                });
+                renderSurfaceButtons();
+                const activeCat = document.querySelector('.mat-tab.active')?.getAttribute('data-cat') || 'all';
+                renderMaterialsList(activeCat);
+                updateStage();
+                updateInfoCard();
+              };
+            } else if (viewInOtherRoomBtn) {
+              viewInOtherRoomBtn.classList.add('hidden');
+            }
+          }
+        }
+      }
 
       // 3. Stage Badges
       currentRoomBadge.textContent = room.name;
-      currentSurfaceBadge.textContent = `Surface: ${{surface.label}}`;
+      currentSurfaceBadge.textContent = `Surface: ${surface.label}`;
 
       // 4. Ambient Backlight Effect Toggle
       const backlightBtn = document.getElementById('backlightToggleBtn');
-      if (backlightBtn) {{
+      if (backlightBtn) {
         const isOnyx = (selectedMaterial.category || '').toLowerCase() === 'onyx' || selectedMaterial.id.includes('onyx');
-        if (isOnyx) {{
+        if (isOnyx) {
           backlightBtn.classList.remove('hidden');
-        }} else {{
+        } else {
           backlightBtn.classList.add('hidden');
           generatedRoomImg?.classList.remove('surface-illuminated');
           backlightBtn.classList.remove('bg-amber-500', 'text-black');
           backlightBtn.classList.add('bg-amber-500/20', 'text-amber-300');
           const statusText = document.getElementById('backlightStatusText');
           if (statusText) statusText.textContent = 'Backlight: OFF';
-        }}
-      }}
+        }
+      }
 
       // 5. Active stone thumbnail
       const thumbFallback = getVerifiedFallbackForMaterial(selectedMaterial);
-      activeStoneThumb.onerror = function() {{
-        if (this.src !== thumbFallback) {{
+      activeStoneThumb.onerror = function() {
+        if (this.src !== thumbFallback) {
           this.src = thumbFallback;
-        }} else {{
+        } else {
           this.onerror = null;
           this.src = getStoneFallbackSwatch(selectedMaterial);
-        }}
-      }};
+        }
+      };
       activeStoneThumb.src = selectedMaterial.image;
       activeMaterialTitle.textContent = selectedMaterial.name;
       activeCategoryLabel.textContent = selectedMaterial.category;
 
-      // 6. Before / After comparison state
-      if (isComparingOriginal) {{
-        afterLayer.style.display = 'none';
-        originalRoomIndicator.classList.remove('hidden');
-        compareModeText.textContent = 'View Selected Stone';
-      }} else {{
-        afterLayer.style.display = 'block';
+      // 6. Reset comparison view
+      if (!isComparingOriginal) {
+        if (compareSliderRange) compareSliderRange.value = 50;
+        applyComparisonSplit(50);
         originalRoomIndicator.classList.add('hidden');
         compareModeText.textContent = 'Compare with Original';
-      }}
+      }
 
       // 7. Synchronize quote and WhatsApp links
       updateActionLinks();
-    }}
+    }
 
     // 8. Update Material Info Card
-    function updateInfoCard() {{
+    function updateInfoCard() {
       document.getElementById('cardMaterialName').textContent = selectedMaterial.name;
       document.getElementById('cardCategoryTag').textContent = selectedMaterial.category;
       document.getElementById('cardOriginTag').textContent = selectedMaterial.origin;
@@ -763,10 +852,10 @@ new_script = f"""<script>
       document.getElementById('cardFinishText').textContent = selectedMaterial.finish;
       document.getElementById('cardThicknessText').textContent = selectedMaterial.thickness;
       document.getElementById('cardUsageText').textContent = selectedMaterial.usage;
-    }}
+    }
 
     // 9. Update Quotation and WhatsApp Actions (Synchronized)
-    function updateActionLinks() {{
+    function updateActionLinks() {
       const room = roomConfigs[currentRoomKey];
       const surface = room.surfaces[currentSurfaceKey] || Object.values(room.surfaces)[0];
 
@@ -774,65 +863,65 @@ new_script = f"""<script>
       const qRoom = encodeURIComponent(room.name);
       const qSurface = encodeURIComponent(surface.label);
 
-      enquireQuoteBtn.href = `contact.html?material=${{qMaterial}}&room=${{qRoom}}&surface=${{qSurface}}`;
+      enquireQuoteBtn.href = `contact.html?material=${qMaterial}&room=${qRoom}&surface=${qSurface}`;
       
       const whatsappMsg = encodeURIComponent(
-        `Hello Murali Granites & Marbles, I am interested in ${{selectedMaterial.name}} for my ${{room.name}} ${{surface.label}}. Please share slab availability and quotation details.`
+        `Hello Murali Granites & Marbles, I am interested in ${selectedMaterial.name} for my ${room.name} ${surface.label}. Please share slab availability and quotation details.`
       );
-      whatsappShareBtn.href = `https://wa.me/916366380051?text=${{whatsappMsg}}`;
-    }}
+      whatsappShareBtn.href = `https://wa.me/916366380051?text=${whatsappMsg}`;
+    }
 
     // 10. Room Switcher Listeners
-    document.querySelectorAll('.room-btn').forEach(btn => {{
-      btn.addEventListener('click', () => {{
-        document.querySelectorAll('.room-btn').forEach(b => {{
+    document.querySelectorAll('.room-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.room-btn').forEach(b => {
           b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
           b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
-        }});
+        });
         btn.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
         btn.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
 
         currentRoomKey = btn.getAttribute('data-room');
         const room = roomConfigs[currentRoomKey];
-        if (room) {{
+        if (room) {
           currentSurfaceKey = room.defaultSurface;
           renderSurfaceButtons();
           const activeCat = document.querySelector('.mat-tab.active')?.getAttribute('data-cat') || 'all';
           renderMaterialsList(activeCat);
           updateStage();
           updateInfoCard();
-        }}
-      }});
-    }});
+        }
+      });
+    });
 
     // 11. Material Category Tabs
-    document.querySelectorAll('.mat-tab').forEach(tab => {{
-      tab.addEventListener('click', () => {{
-        document.querySelectorAll('.mat-tab').forEach(t => {{
+    document.querySelectorAll('.mat-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.mat-tab').forEach(t => {
           t.classList.remove('active', 'bg-amber-500', 'text-black', 'font-semibold');
           t.classList.add('bg-stone-900', 'text-stone-300');
-        }});
+        });
         tab.classList.add('active', 'bg-amber-500', 'text-black', 'font-semibold');
         tab.classList.remove('bg-stone-900', 'text-stone-300');
 
         renderMaterialsList(tab.getAttribute('data-cat'));
-      }});
-    }});
+      });
+    });
 
     // 12. Before / After Comparison Controls (Slider & Toggle)
     const compareSliderRange = document.getElementById('compareSliderRange');
     const sliderPercentLabel = document.getElementById('sliderPercentLabel');
     const splitDividerLine = document.getElementById('splitDividerLine');
 
-    function applyComparisonSplit(val) {{
-      if (val === 0) {{
+    function applyComparisonSplit(val) {
+      if (val === 0) {
         isComparingOriginal = true;
         afterLayer.style.display = 'none';
         if (splitDividerLine) splitDividerLine.classList.add('hidden');
         sliderPercentLabel.textContent = 'Original (0%)';
         originalRoomIndicator.classList.remove('hidden');
         compareModeText.textContent = 'View Selected Stone';
-      }} else if (val === 100) {{
+      } else if (val === 100) {
         isComparingOriginal = false;
         afterLayer.style.display = 'block';
         afterLayer.style.clipPath = 'none';
@@ -840,109 +929,109 @@ new_script = f"""<script>
         sliderPercentLabel.textContent = 'Selected stone (100%)';
         originalRoomIndicator.classList.add('hidden');
         compareModeText.textContent = 'Compare with Original';
-      }} else {{
+      } else {
         isComparingOriginal = false;
         afterLayer.style.display = 'block';
-        afterLayer.style.clipPath = `inset(0 ${{100 - val}}% 0 0)`;
-        if (splitDividerLine) {{
+        afterLayer.style.clipPath = `inset(0 ${100 - val}% 0 0)`;
+        if (splitDividerLine) {
           splitDividerLine.classList.remove('hidden');
-          splitDividerLine.style.left = `${{val}}%`;
-        }}
-        sliderPercentLabel.textContent = `${{val}}% Comparison Split`;
+          splitDividerLine.style.left = `${val}%`;
+        }
+        sliderPercentLabel.textContent = `${val}% Comparison Split`;
         originalRoomIndicator.classList.add('hidden');
         compareModeText.textContent = 'Compare with Original';
-      }}
-    }}
+      }
+    }
 
     // Direct Split Line & Viewport Dragging (Smooth & Non-Blocking)
     let isDraggingDivider = false;
 
-    function handleSplitMove(clientX) {{
+    function handleSplitMove(clientX) {
       if (!stageViewport) return;
       const rect = stageViewport.getBoundingClientRect();
       let percent = ((clientX - rect.left) / rect.width) * 100;
       percent = Math.max(0, Math.min(100, Math.round(percent)));
       if (compareSliderRange) compareSliderRange.value = percent;
       applyComparisonSplit(percent);
-    }}
+    }
 
-    if (stageViewport) {{
-      stageViewport.addEventListener('pointerdown', (e) => {{
-        if (e.target.closest('button, a, input, [data-no-drag], #renderPendingToast')) return;
+    if (stageViewport) {
+      stageViewport.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('button, a, input, [data-no-drag], #renderPendingToast, #appearanceModeBar')) return;
         
-        if (e.pointerType === 'touch') {{
+        if (e.pointerType === 'touch') {
           const rect = stageViewport.getBoundingClientRect();
           const touchX = e.clientX - rect.left;
           const currentSplitX = (parseInt(compareSliderRange?.value || 50, 10) / 100) * rect.width;
-          if (Math.abs(touchX - currentSplitX) > 45 && !e.target.closest('.split-divider-line, .split-handle-btn')) {{
+          if (Math.abs(touchX - currentSplitX) > 45 && !e.target.closest('.split-divider-line, .split-handle-btn')) {
             return;
-          }}
-        }}
+          }
+        }
 
         isDraggingDivider = true;
-        try {{ stageViewport.setPointerCapture(e.pointerId); }} catch(err) {{}}
+        try { stageViewport.setPointerCapture(e.pointerId); } catch(err) {}
         handleSplitMove(e.clientX);
-      }});
+      });
 
-      stageViewport.addEventListener('pointermove', (e) => {{
+      stageViewport.addEventListener('pointermove', (e) => {
         if (!isDraggingDivider) return;
         handleSplitMove(e.clientX);
-      }});
+      });
 
-      const stopDrag = (e) => {{
-        if (isDraggingDivider) {{
+      const stopDrag = (e) => {
+        if (isDraggingDivider) {
           isDraggingDivider = false;
-          try {{ stageViewport.releasePointerCapture(e.pointerId); }} catch(err) {{}}
-        }}
-      }};
+          try { stageViewport.releasePointerCapture(e.pointerId); } catch(err) {}
+        }
+      };
 
       stageViewport.addEventListener('pointerup', stopDrag);
       stageViewport.addEventListener('pointercancel', stopDrag);
-    }}
+    }
 
-    if (compareSliderRange) {{
-      compareSliderRange.addEventListener('input', (e) => {{
+    if (compareSliderRange) {
+      compareSliderRange.addEventListener('input', (e) => {
         applyComparisonSplit(parseInt(e.target.value, 10));
-      }});
-    }}
+      });
+    }
 
-    document.getElementById('toggleCompareBtn').addEventListener('click', () => {{
+    document.getElementById('toggleCompareBtn').addEventListener('click', () => {
       isComparingOriginal = !isComparingOriginal;
-      if (isComparingOriginal) {{
+      if (isComparingOriginal) {
         if (compareSliderRange) compareSliderRange.value = 0;
         applyComparisonSplit(0);
-      }} else {{
+      } else {
         if (compareSliderRange) compareSliderRange.value = 100;
         applyComparisonSplit(100);
-      }}
-    }});
+      }
+    });
 
     // 13. Reset View to Default
-    document.getElementById('resetVisualizerBtn').addEventListener('click', () => {{
+    document.getElementById('resetVisualizerBtn').addEventListener('click', () => {
       isComparingOriginal = false;
       currentRoomKey = 'kitchen';
       currentSurfaceKey = 'countertop';
       selectedMaterial = visualizerMaterials[0]; // River Black
 
-      document.querySelectorAll('.room-btn').forEach(b => {{
-        if (b.getAttribute('data-room') === 'kitchen') {{
+      document.querySelectorAll('.room-btn').forEach(b => {
+        if (b.getAttribute('data-room') === 'kitchen') {
           b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
           b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
-        }} else {{
+        } else {
           b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
           b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
-        }}
-      }});
+        }
+      });
 
-      document.querySelectorAll('.mat-tab').forEach((t, idx) => {{
-        if (idx === 0) {{
+      document.querySelectorAll('.mat-tab').forEach((t, idx) => {
+        if (idx === 0) {
           t.classList.add('active', 'bg-amber-500', 'text-black', 'font-semibold');
           t.classList.remove('bg-stone-900', 'text-stone-300');
-        }} else {{
+        } else {
           t.classList.remove('active', 'bg-amber-500', 'text-black', 'font-semibold');
           t.classList.add('bg-stone-900', 'text-stone-300');
-        }}
-      }});
+        }
+      });
 
       if (compareSliderRange) compareSliderRange.value = 50;
       applyComparisonSplit(50);
@@ -951,84 +1040,58 @@ new_script = f"""<script>
       renderMaterialsList('all');
       updateStage();
       updateInfoCard();
-    }});
+      setAppearanceMode('normal');
+    });
 
-    // 14. URL Parameter Handling
-    function checkUrlParams() {{
+    // 14. Synchronize URL query parameters
+    function checkUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
-      const matParam = urlParams.get('material') || urlParams.get('product');
-      if (matParam) {{
-        const clean = matParam.toLowerCase().trim();
-        const found = visualizerMaterials.find(m => {{
-          const mName = m.name.toLowerCase();
-          return mName.includes(clean) || clean.includes(mName) || 
-                 (clean.includes('statuario') && mName.includes('statuario')) ||
-                 (clean.includes('galaxy') && m.id === 'river-black') ||
-                 (clean.includes('alaska') && m.id === 'kashmir-white') ||
-                 (clean.includes('shiva') && m.id === 'marie-gold') ||
-                 (clean.includes('banswara') && m.id === 'statuario-marble') ||
-                 (clean.includes('flash') && m.id === 'emerald-onyx') ||
-                 (clean.includes('lavender') && m.id === 'blue-night') ||
-                 (clean.includes('pink') && m.id === 'marie-gold') ||
-                 (clean.includes('onyx') && m.id === 'emerald-onyx') ||
-                 (clean.includes('tan') && m.id === 'tan-brown') ||
-                 (clean.includes('pearl') && m.id === 'black-pearl') ||
-                 m.id.toLowerCase() === clean;
-        }});
-        if (found) {{
+      const stoneParam = urlParams.get('stone') || urlParams.get('product') || urlParams.get('material');
+      if (stoneParam) {
+        const found = visualizerMaterials.find(m => 
+          m.id === stoneParam.toLowerCase() || 
+          m.name.toLowerCase().includes(stoneParam.toLowerCase())
+        );
+        if (found) {
           selectedMaterial = found;
-        }}
-      }}
+        }
+      }
 
-      let roomParam = (urlParams.get('room') || '').toLowerCase().trim();
-      if (roomParam === 'dining-room' || roomParam === 'dining') {{
-        currentRoomKey = 'dining-room';
-      }} else if (roomParam === 'staircase' || roomParam === 'stairs') {{
-        currentRoomKey = 'staircase';
-      }} else if (roomParam === 'living-room' || roomParam === 'living') {{
-        currentRoomKey = 'living-room';
-      }} else if (roomParam === 'bathroom' || roomParam === 'bath') {{
+      const roomParam = (urlParams.get('room') || '').toLowerCase().trim();
+      if (roomParam === 'washroom') {
         currentRoomKey = 'bathroom';
-      }} else if (roomParam === 'bedroom' || roomParam === 'bed') {{
-        currentRoomKey = 'bedroom';
-      }} else if (roomParam === 'kitchen') {{
-        currentRoomKey = 'kitchen';
-      }} else if (roomParam === 'parking' || roomParam === 'outdoor' || roomParam === 'outdoor-parking') {{
-        currentRoomKey = 'parking';
-      }} else if (roomParam === 'balcony' || roomParam === 'balcony-flooring') {{
-        currentRoomKey = 'balcony';
-      }} else if (roomConfigs[roomParam]) {{
+      } else if (roomConfigs[roomParam]) {
         currentRoomKey = roomParam;
-      }}
+      }
 
-      if (roomConfigs[currentRoomKey]) {{
-        document.querySelectorAll('.room-btn').forEach(b => {{
-          if (b.getAttribute('data-room') === currentRoomKey) {{
+      if (roomConfigs[currentRoomKey]) {
+        document.querySelectorAll('.room-btn').forEach(b => {
+          if (b.getAttribute('data-room') === currentRoomKey) {
             b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
             b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
-          }} else {{
+          } else {
             b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
             b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
-          }}
-        }});
-      }}
+          }
+        });
+      }
 
       const surfaceParam = (urlParams.get('surface') || '').toLowerCase().trim();
-      if (surfaceParam) {{
+      if (surfaceParam) {
         const room = roomConfigs[currentRoomKey];
         const matchSurfKey = Object.keys(room.surfaces).find(k => 
           k.toLowerCase() === surfaceParam || 
           room.surfaces[k].label.toLowerCase().includes(surfaceParam) ||
           surfaceParam.includes(k.toLowerCase())
         );
-        if (matchSurfKey) {{
+        if (matchSurfKey) {
           currentSurfaceKey = matchSurfKey;
-        }}
-      }}
-    }}
+        }
+      }
+    }
 
     // 15. High-Resolution Slab Texture Zoom Lightbox
-    function initTextureZoom() {{
+    function initTextureZoom() {
       const modal = document.getElementById('textureZoomModal');
       const closeBtn = document.getElementById('closeZoomModalBtn');
       const modalImg = document.getElementById('zoomModalImg');
@@ -1039,165 +1102,102 @@ new_script = f"""<script>
 
       let activeZoomMat = null;
 
-      window.openTextureZoom = function(mat) {{
+      window.openTextureZoom = function(mat) {
         if (!mat) mat = selectedMaterial;
         activeZoomMat = mat;
-        if (modalTitle) modalTitle.textContent = `${{mat.name}} (${{mat.category}})`;
-        if (modalSubtitle) modalSubtitle.textContent = `High-Resolution Natural Veining \u2022 ${{mat.origin}} \u2022 ${{mat.finish}}`;
+        if (modalTitle) modalTitle.textContent = `${mat.name} (${mat.category})`;
+        if (modalSubtitle) modalSubtitle.textContent = `High-Resolution Natural Veining \u2022 ${mat.origin} \u2022 ${mat.finish}`;
         if (modalImg) modalImg.src = mat.image;
-        if (modal) {{
+        if (modal) {
           modal.classList.remove('hidden');
           document.body.style.overflow = 'hidden';
-        }}
-      }};
+        }
+      };
 
-      function closeZoom() {{
+      function closeZoom() {
         if (modal) modal.classList.add('hidden');
         document.body.style.overflow = '';
-      }}
+      }
 
       if (closeBtn) closeBtn.addEventListener('click', closeZoom);
-      if (modal) {{
-        modal.addEventListener('click', (e) => {{
+      if (modal) {
+        modal.addEventListener('click', (e) => {
           if (e.target === modal) closeZoom();
-        }});
-      }}
+        });
+      }
 
-      window.addEventListener('keydown', (e) => {{
-        if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {{
-          closeZoom();
-        }}
-      }});
-
-      if (modalApplyBtn) {{
-        modalApplyBtn.addEventListener('click', () => {{
-          if (activeZoomMat) {{
+      if (modalApplyBtn) {
+        modalApplyBtn.addEventListener('click', () => {
+          if (activeZoomMat) {
             selectMaterial(activeZoomMat);
             closeZoom();
-            document.getElementById('stageViewport')?.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
-          }}
-        }});
-      }}
+            document.getElementById('stageViewport')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
 
-      if (zoomStageBtn) {{
-        zoomStageBtn.addEventListener('click', () => {{
+      if (zoomStageBtn) {
+        zoomStageBtn.addEventListener('click', () => {
           window.openTextureZoom(selectedMaterial);
-        }});
-      }}
-    }}
+        });
+      }
+    }
 
     // 16. Subtle Ambient Backlight Glow Toggle
-    function initBacklightToggle() {{
+    function initBacklightToggle() {
       const btn = document.getElementById('backlightToggleBtn');
       const statusText = document.getElementById('backlightStatusText');
       let isBacklit = false;
 
       if (!btn) return;
 
-      btn.addEventListener('click', () => {{
+      btn.addEventListener('click', () => {
         isBacklit = !isBacklit;
         const generatedRoomImg = document.getElementById('generatedRoomImg');
 
-        if (isBacklit) {{
+        if (isBacklit) {
           generatedRoomImg?.classList.add('surface-illuminated');
           btn.classList.add('bg-amber-500', 'text-black');
           btn.classList.remove('bg-amber-500/20', 'text-amber-300');
           if (statusText) statusText.textContent = 'Backlight: ON';
-        }} else {{
+        } else {
           generatedRoomImg?.classList.remove('surface-illuminated');
           btn.classList.remove('bg-amber-500', 'text-black');
           btn.classList.add('bg-amber-500/20', 'text-amber-300');
           if (statusText) statusText.textContent = 'Backlight: OFF';
-        }}
-      }});
-    }}
+        }
+      });
+    }
 
     // 17. Unactivated Room / Area Calibration Notice Dialog
-    function initUnactivatedAreaNotices() {{
+    function initUnactivatedAreaNotices() {
       const modal = document.getElementById('areaCalibrationModal');
       const title = document.getElementById('calibrationModalTitle');
       const desc = document.getElementById('calibrationModalDesc');
       const closeBtn = document.getElementById('closeCalibrationModalBtn');
       const dismissBtn = document.getElementById('dismissCalibrationModalBtn');
 
-      document.querySelectorAll('.unactivated-area-btn').forEach(btn => {{
-        btn.addEventListener('click', () => {{
+      document.querySelectorAll('.unactivated-area-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
           const area = btn.getAttribute('data-area') || 'Outdoor Area';
-          if (title) title.textContent = `${{area}} (Asset Calibration)`;
-          if (desc) desc.textContent = `Dedicated high-resolution architectural photography for ${{area}} is currently in preparation. To maintain authentic photorealistic standards, this space will activate as soon as verified photography is calibrated and approved.`;
+          if (title) title.textContent = `${area} (Asset Calibration)`;
+          if (desc) desc.textContent = `Dedicated high-resolution architectural photography for ${area} is currently in preparation. To maintain authentic photorealistic standards, this space will activate as soon as verified photography is calibrated and approved.`;
           modal?.classList.remove('hidden');
-        }});
-      }});
+        });
+      });
 
       const close = () => modal?.classList.add('hidden');
       if (closeBtn) closeBtn.addEventListener('click', close);
       if (dismissBtn) dismissBtn.addEventListener('click', close);
-      if (modal) {{
-        modal.addEventListener('click', (e) => {{
+      if (modal) {
+        modal.addEventListener('click', (e) => {
           if (e.target === modal) close();
-        }});
-      }}
-    }}
+        });
+      }
+    }
 
-    // 17b. Modal Accessibility & Shortcuts (No Number Key Room Hijacking)
-    function initKeyboardShortcuts() {{
-      window.addEventListener('keydown', (e) => {{
-        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
-
-        // Escape: Close any active modal
-        if (e.key === 'Escape') {{
-          const compareModal = document.getElementById('slabCompareModal');
-          const zoomModal = document.getElementById('textureZoomModal');
-          const calibModal = document.getElementById('areaCalibrationModal');
-          if (compareModal && !compareModal.classList.contains('hidden')) {{
-            compareModal.classList.add('hidden');
-            document.body.style.overflow = '';
-          }}
-          if (zoomModal && !zoomModal.classList.contains('hidden')) {{
-            zoomModal.classList.add('hidden');
-            document.body.style.overflow = '';
-          }}
-          if (calibModal && !calibModal.classList.contains('hidden')) {{
-            calibModal.classList.add('hidden');
-            document.body.style.overflow = '';
-          }}
-          return;
-        }}
-
-        // Hotkey 'c' for Stone Compare Modal
-        if (e.key.toLowerCase() === 'c' && !e.ctrlKey && !e.metaKey) {{
-          const compareBtn = document.getElementById('openSlabCompareBtn');
-          if (compareBtn) {{
-            e.preventDefault();
-            compareBtn.click();
-          }}
-          return;
-        }}
-
-        // Hotkey 'z' for Inspect Slab Texture
-        if (e.key.toLowerCase() === 'z' && !e.ctrlKey && !e.metaKey) {{
-          const zoomBtn = document.getElementById('zoomTextureBtn');
-          if (zoomBtn) {{
-            e.preventDefault();
-            zoomBtn.click();
-          }}
-          return;
-        }}
-
-        // Hotkey 'b' for Ambient Backlight Toggle
-        if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.metaKey) {{
-          const backlightBtn = document.getElementById('backlightToggleBtn');
-          if (backlightBtn && !backlightBtn.classList.contains('hidden')) {{
-            e.preventDefault();
-            backlightBtn.click();
-          }}
-          return;
-        }}
-      }});
-    }}
-
-    // 17c. Side-by-Side Stone Comparison Feature
-    function initSlabComparator() {{
+    // 18. Side-by-Side Stone Comparison Feature
+    function initSlabComparator() {
       const modal = document.getElementById('slabCompareModal');
       const openBtn = document.getElementById('openSlabCompareBtn');
       const cardCompareBtn = document.getElementById('cardCompareWithBtn');
@@ -1227,126 +1227,414 @@ new_script = f"""<script>
 
       if (!modal) return;
 
-      if (selectA && selectB) {{
+      if (selectA && selectB) {
         selectA.innerHTML = '';
         selectB.innerHTML = '';
-        visualizerMaterials.forEach(m => {{
+        visualizerMaterials.forEach(m => {
           const optA = document.createElement('option');
           optA.value = m.id;
-          optA.textContent = `${{m.name}} (${{m.category}})`;
+          optA.textContent = `${m.name} (${m.category})`;
           selectA.appendChild(optA);
 
           const optB = document.createElement('option');
           optB.value = m.id;
-          optB.textContent = `${{m.name}} (${{m.category}})`;
+          optB.textContent = `${m.name} (${m.category})`;
           selectB.appendChild(optB);
-        }});
-      }}
+        });
+      }
 
-      function getStoneSpecs(stone) {{
+      function getStoneSpecs(stone) {
         const isGranite = stone.category.toLowerCase().includes('granite');
         const isMarble = stone.category.toLowerCase().includes('marble');
         const isOnyx = stone.category.toLowerCase().includes('onyx');
 
-        let hardness = '6.5 - 7.0 Mohs (High Scratch Resistance)';
-        let acid = '100% Acid Proof & Heat Resistant';
-        if (isMarble) {{
-          hardness = '3.5 - 4.0 Mohs (Moderate)';
-          acid = 'Acid Sensitive (Requires Neutral Cleaners)';
-        }} else if (isOnyx) {{
-          hardness = '3.0 - 3.5 Mohs (Translucent Exotic)';
-          acid = 'Sensitive \u2022 Translucent to Backlighting';
-        }}
-        return {{ hardness, acid }};
-      }}
+        let hardness = '6.5 - 7.0 (High)';
+        let acid = '100% Acid Proof (Impervious)';
+        if (isMarble) {
+          hardness = '3.5 - 4.5 (Medium)';
+          acid = 'Acid Sensitive (Requires Sealer)';
+        } else if (isOnyx) {
+          hardness = '3.0 - 4.0 (Exotic Soft)';
+          acid = 'Delicate / Translucent Banded';
+        }
 
-      function updateColumnA(stoneId) {{
-        const stone = visualizerMaterials.find(m => m.id === stoneId) || visualizerMaterials[0];
-        if (!stone) return;
-        if (selectA) selectA.value = stone.id;
-        if (imgA) imgA.src = stone.image;
+        return { hardness, acid };
+      }
+
+      function updateColumnA(matId) {
+        const stone = visualizerMaterials.find(m => m.id === matId) || visualizerMaterials[0];
         if (nameA) nameA.textContent = stone.name;
         if (catA) catA.textContent = stone.category;
         if (originA) originA.textContent = stone.origin;
         if (finishA) finishA.textContent = stone.finish;
         if (usageA) usageA.textContent = stone.usage;
+        if (imgA) {
+          imgA.src = stone.image;
+          imgA.onerror = function() { this.src = getVerifiedFallbackForMaterial(stone); };
+        }
         const specs = getStoneSpecs(stone);
         if (hardnessA) hardnessA.textContent = specs.hardness;
         if (acidA) acidA.textContent = specs.acid;
-      }}
+      }
 
-      function updateColumnB(stoneId) {{
-        const stone = visualizerMaterials.find(m => m.id === stoneId) || visualizerMaterials[1];
-        if (!stone) return;
-        if (selectB) selectB.value = stone.id;
-        if (imgB) imgB.src = stone.image;
+      function updateColumnB(matId) {
+        const stone = visualizerMaterials.find(m => m.id === matId) || visualizerMaterials[1];
         if (nameB) nameB.textContent = stone.name;
         if (catB) catB.textContent = stone.category;
         if (originB) originB.textContent = stone.origin;
         if (finishB) finishB.textContent = stone.finish;
         if (usageB) usageB.textContent = stone.usage;
+        if (imgB) {
+          imgB.src = stone.image;
+          imgB.onerror = function() { this.src = getVerifiedFallbackForMaterial(stone); };
+        }
         const specs = getStoneSpecs(stone);
         if (hardnessB) hardnessB.textContent = specs.hardness;
         if (acidB) acidB.textContent = specs.acid;
-      }}
+      }
 
-      function openModal() {{
-        updateColumnA(selectedMaterial.id);
-        const contrasting = visualizerMaterials.find(m => m.id !== selectedMaterial.id && m.category !== selectedMaterial.category) || visualizerMaterials[3];
-        updateColumnB(contrasting.id);
+      function openModal() {
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
-      }}
 
-      function closeModal() {{
+        const stoneAId = selectedMaterial.id;
+        let stoneBId = 'statuario-marble';
+        if (stoneAId === 'statuario-marble') stoneBId = 'river-black';
+
+        if (selectA) selectA.value = stoneAId;
+        if (selectB) selectB.value = stoneBId;
+
+        updateColumnA(stoneAId);
+        updateColumnB(stoneBId);
+      }
+
+      function closeModal() {
         modal.classList.add('hidden');
         document.body.style.overflow = '';
-      }}
+      }
 
       if (openBtn) openBtn.addEventListener('click', openModal);
       if (cardCompareBtn) cardCompareBtn.addEventListener('click', openModal);
       if (closeBtn) closeBtn.addEventListener('click', closeModal);
-      modal.addEventListener('click', (e) => {{
+      modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModal();
-      }});
+      });
 
-      window.addEventListener('keydown', (e) => {{
-        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {{
-          closeModal();
-        }}
-      }});
-
-      if (selectA) {{
+      if (selectA) {
         selectA.addEventListener('change', (e) => updateColumnA(e.target.value));
-      }}
-      if (selectB) {{
+      }
+      if (selectB) {
         selectB.addEventListener('change', (e) => updateColumnB(e.target.value));
-      }}
+      }
 
-      if (applyABtn) {{
-        applyABtn.addEventListener('click', () => {{
+      if (applyABtn) {
+        applyABtn.addEventListener('click', () => {
           const stone = visualizerMaterials.find(m => m.id === selectA.value);
-          if (stone) {{
+          if (stone) {
             selectMaterial(stone);
             closeModal();
-            document.getElementById('stageViewport')?.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
-          }}
-        }});
-      }}
+            document.getElementById('stageViewport')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
 
-      if (applyBBtn) {{
-        applyBBtn.addEventListener('click', () => {{
+      if (applyBBtn) {
+        applyBBtn.addEventListener('click', () => {
           const stone = visualizerMaterials.find(m => m.id === selectB.value);
-          if (stone) {{
+          if (stone) {
             selectMaterial(stone);
             closeModal();
-            document.getElementById('stageViewport')?.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
-          }}
-        }});
-      }}
-    }}
+            document.getElementById('stageViewport')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+    }
 
-    // 18. Initialize Visualizer App
+    // 19. Three Appearance Options (Normal, Dark, Highlight)
+    let currentAppearanceMode = 'normal';
+
+    function setAppearanceMode(mode) {
+      currentAppearanceMode = mode;
+      const stage = document.getElementById('stageViewport');
+      const badgeText = document.getElementById('atmosphereBadgeText');
+
+      if (stage) {
+        stage.classList.remove('stage-atmosphere-normal', 'stage-atmosphere-dark', 'stage-atmosphere-highlight');
+        stage.classList.add(`stage-atmosphere-${mode}`);
+      }
+
+      document.querySelectorAll('.appearance-btn').forEach(btn => {
+        const btnMode = btn.getAttribute('data-mode');
+        if (btnMode === mode) {
+          btn.classList.add('active', 'bg-amber-500', 'text-stone-950', 'font-bold', 'shadow');
+          btn.classList.remove('bg-stone-900', 'text-stone-300');
+        } else {
+          btn.classList.remove('active', 'bg-amber-500', 'text-stone-950', 'font-bold', 'shadow');
+          btn.classList.add('bg-stone-900', 'text-stone-300');
+        }
+      });
+
+      if (badgeText) {
+        if (mode === 'normal') badgeText.textContent = 'Normal Light';
+        else if (mode === 'dark') badgeText.textContent = 'Dark Night';
+        else if (mode === 'highlight') badgeText.textContent = 'Highlight Glow';
+      }
+    }
+
+    function initAppearanceModes() {
+      document.querySelectorAll('.appearance-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mode = btn.getAttribute('data-mode') || 'normal';
+          setAppearanceMode(mode);
+        });
+      });
+      setAppearanceMode('normal');
+    }
+
+    // 20. Kitchen Countertop Macro Zoom & Edge Profile Inspector
+    function initCountertopZoom() {
+      const modal = document.getElementById('countertopZoomModal');
+      const openBtn = document.getElementById('zoomCountertopBtn');
+      const closeBtn = document.getElementById('closeCountertopZoomBtn');
+      const modalTitle = document.getElementById('countertopModalTitle');
+      const modalSubtitle = document.getElementById('countertopModalSubtitle');
+      const zoomImg = document.getElementById('countertopZoomImg');
+      const stoneNameLabel = document.getElementById('countertopZoomStoneName');
+      const scaleLabel = document.getElementById('countertopZoomScaleLabel');
+      const zoomViewport = document.getElementById('countertopZoomViewport');
+      const quoteBtn = document.getElementById('countertopQuoteBtn');
+      const whatsappBtn = document.getElementById('countertopWhatsappBtn');
+
+      const edgeTitle = document.getElementById('edgeDiagramTitle');
+      const edgeDesc = document.getElementById('edgeDiagramDesc');
+      const edgeContainer = document.getElementById('edgeDiagramContainer');
+      const activeEdgeNameLabel = document.getElementById('activeEdgeProfileName');
+
+      const EDGE_PROFILES = {
+        'mitered': {
+          name: 'Mitered Waterfall Edge (40mm)',
+          desc: 'Creates the seamless visual aesthetic of an opulent 40mm thick monolithic stone slab with continuous veining down the waterfall drop.',
+          svg: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M8 8 L40 8 L40 40 L30 40 L30 18 L8 18 Z" fill="#d4af37" stroke="#ffd700" stroke-width="1.5"/><line x1="40" y1="8" x2="30" y2="18" stroke="#ffffff" stroke-width="1" stroke-dasharray="2,2"/></svg>'
+        },
+        'bullnose': {
+          name: 'Full Bullnose Edge (180° Round)',
+          desc: 'Smooth, fully-rounded semi-circular contour that softens room acoustics, eliminates sharp corners, and resists impact chipping.',
+          svg: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M8 12 L28 12 A12 12 0 0 1 28 36 L8 36 Z" fill="#d4af37" stroke="#ffd700" stroke-width="1.5"/></svg>'
+        },
+        'beveled': {
+          name: 'Beveled Edge (45° Chamfer)',
+          desc: 'Crisp contemporary 45-degree angled chamfer along the top edge, delivering sleek modern lines and effortless wipe-clean hygiene.',
+          svg: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M8 12 L28 12 L38 22 L38 36 L8 36 Z" fill="#d4af37" stroke="#ffd700" stroke-width="1.5"/></svg>'
+        },
+        'ogee': {
+          name: 'Ogee Edge (Architectural S-Curve)',
+          desc: 'Timeless architectural double-curve profile inspired by classical European masonry, adding undeniable luxury to island statement pieces.',
+          svg: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M8 12 L24 12 C30 12 30 18 36 20 C38 21 38 24 38 36 L8 36 Z" fill="#d4af37" stroke="#ffd700" stroke-width="1.5"/></svg>'
+        }
+      };
+
+      let currentEdgeKey = 'mitered';
+      let currentZoomLevel = 2.2;
+
+      function updateEdgeProfileUI(key) {
+        currentEdgeKey = key;
+        const profile = EDGE_PROFILES[key] || EDGE_PROFILES['mitered'];
+
+        document.querySelectorAll('.edge-profile-btn').forEach(btn => {
+          const bKey = btn.getAttribute('data-edge');
+          if (bKey === key) {
+            btn.classList.add('active', 'border-amber-500/60');
+            btn.classList.remove('border-white/10');
+            btn.querySelector('span:first-child')?.classList.add('text-amber-300');
+            btn.querySelector('span:first-child')?.classList.remove('text-white');
+          } else {
+            btn.classList.remove('active', 'border-amber-500/60');
+            btn.classList.add('border-white/10');
+            btn.querySelector('span:first-child')?.classList.remove('text-amber-300');
+            btn.querySelector('span:first-child')?.classList.add('text-white');
+          }
+        });
+
+        if (activeEdgeNameLabel) activeEdgeNameLabel.textContent = profile.name;
+        if (edgeTitle) edgeTitle.textContent = profile.name;
+        if (edgeDesc) edgeDesc.textContent = profile.desc;
+        if (edgeContainer) edgeContainer.innerHTML = profile.svg;
+
+        updateCountertopActionLinks();
+      }
+
+      function updateZoomLevel(lvl) {
+        currentZoomLevel = lvl;
+        if (zoomImg) {
+          zoomImg.style.transform = `scale(${lvl})`;
+        }
+        if (scaleLabel) {
+          scaleLabel.textContent = `${lvl}x Magnification`;
+        }
+
+        document.querySelectorAll('.ct-zoom-lvl-btn').forEach(btn => {
+          const bLvl = parseFloat(btn.getAttribute('data-zoom') || '1.0');
+          if (Math.abs(bLvl - lvl) < 0.05) {
+            btn.classList.add('active', 'bg-amber-500', 'text-stone-950', 'font-bold', 'shadow');
+            btn.classList.remove('text-stone-400');
+          } else {
+            btn.classList.remove('active', 'bg-amber-500', 'text-stone-950', 'font-bold', 'shadow');
+            btn.classList.add('text-stone-400');
+          }
+        });
+      }
+
+      function updateCountertopActionLinks() {
+        const edge = EDGE_PROFILES[currentEdgeKey]?.name || 'Mitered Waterfall';
+        const matName = selectedMaterial.name;
+        const qMat = encodeURIComponent(matName);
+        const qEdge = encodeURIComponent(edge);
+
+        if (quoteBtn) {
+          quoteBtn.href = `contact.html?material=${qMat}&room=Kitchen&surface=Countertop&edge=${qEdge}`;
+        }
+        if (whatsappBtn) {
+          const msg = encodeURIComponent(
+            `Hello Murali Granites & Marbles, I am inquiring about Kitchen Countertop fabrication in ${matName} (${selectedMaterial.category}) with a ${edge} finish. Please provide price per sq.ft and fabrication timelines.`
+          );
+          whatsappBtn.href = `https://wa.me/916366380051?text=${msg}`;
+        }
+      }
+
+      function openModal() {
+        if (!modal) return;
+        if (modalTitle) modalTitle.textContent = `Kitchen Countertop: ${selectedMaterial.name}`;
+        if (modalSubtitle) modalSubtitle.textContent = `Macro Veining & Edge Detail \u2022 ${selectedMaterial.origin} \u2022 18mm Polish Granite`;
+        if (stoneNameLabel) stoneNameLabel.textContent = selectedMaterial.name;
+        if (zoomImg) {
+          zoomImg.src = selectedMaterial.image;
+          zoomImg.onerror = function() {
+            this.src = getVerifiedFallbackForMaterial(selectedMaterial);
+          };
+        }
+
+        updateEdgeProfileUI(currentEdgeKey);
+        updateZoomLevel(2.2);
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        if (!modal) return;
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      if (openBtn) openBtn.addEventListener('click', openModal);
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+      }
+
+      document.querySelectorAll('.edge-profile-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const key = btn.getAttribute('data-edge');
+          if (key) updateEdgeProfileUI(key);
+        });
+      });
+
+      document.querySelectorAll('.ct-zoom-lvl-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const lvl = parseFloat(btn.getAttribute('data-zoom') || '2.2');
+          updateZoomLevel(lvl);
+        });
+      });
+
+      if (zoomViewport && zoomImg) {
+        zoomViewport.addEventListener('mousemove', (e) => {
+          if (currentZoomLevel <= 1.0) return;
+          const rect = zoomViewport.getBoundingClientRect();
+          const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
+          const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+          zoomImg.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+        });
+
+        zoomViewport.addEventListener('mouseleave', () => {
+          zoomImg.style.transformOrigin = 'center center';
+        });
+      }
+    }
+
+    // 21. Modal Accessibility & Shortcuts (No Number Key Room Hijacking)
+    function initKeyboardShortcuts() {
+      window.addEventListener('keydown', (e) => {
+        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
+
+        // Escape: Close any active modal
+        if (e.key === 'Escape') {
+          const compareModal = document.getElementById('slabCompareModal');
+          const zoomModal = document.getElementById('textureZoomModal');
+          const calibModal = document.getElementById('areaCalibrationModal');
+          const ctZoomModal = document.getElementById('countertopZoomModal');
+          if (compareModal && !compareModal.classList.contains('hidden')) {
+            compareModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+          if (zoomModal && !zoomModal.classList.contains('hidden')) {
+            zoomModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+          if (calibModal && !calibModal.classList.contains('hidden')) {
+            calibModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+          if (ctZoomModal && !ctZoomModal.classList.contains('hidden')) {
+            ctZoomModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+          return;
+        }
+
+        // Hotkey 'c' for Stone Compare Modal
+        if (e.key.toLowerCase() === 'c' && !e.ctrlKey && !e.metaKey) {
+          const compareBtn = document.getElementById('openSlabCompareBtn');
+          if (compareBtn) {
+            e.preventDefault();
+            compareBtn.click();
+          }
+          return;
+        }
+
+        // Hotkey 'z' for Inspect Slab Texture
+        if (e.key.toLowerCase() === 'z' && !e.ctrlKey && !e.metaKey) {
+          const zoomBtn = document.getElementById('zoomTextureBtn');
+          if (zoomBtn) {
+            e.preventDefault();
+            zoomBtn.click();
+          }
+          return;
+        }
+
+        // Hotkey 'k' for Kitchen Countertop Macro Zoom
+        if (e.key.toLowerCase() === 'k' && !e.ctrlKey && !e.metaKey) {
+          const ctBtn = document.getElementById('zoomCountertopBtn');
+          if (ctBtn && !ctBtn.classList.contains('hidden')) {
+            e.preventDefault();
+            ctBtn.click();
+          }
+          return;
+        }
+
+        // Hotkey 'b' for Ambient Backlight Toggle
+        if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.metaKey) {
+          const backlightBtn = document.getElementById('backlightToggleBtn');
+          if (backlightBtn && !backlightBtn.classList.contains('hidden')) {
+            e.preventDefault();
+            backlightBtn.click();
+          }
+          return;
+        }
+      });
+    }
+
+    // 22. Initialize Visualizer App
     checkUrlParams();
     renderSurfaceButtons();
     renderMaterialsList('all');
@@ -1357,30 +1645,32 @@ new_script = f"""<script>
     initUnactivatedAreaNotices();
     initKeyboardShortcuts();
     initSlabComparator();
+    initAppearanceModes();
+    initCountertopZoom();
   
-    // 19. Global 1-Click Preset Launcher
-    window.launchVisualizerPreset = function(roomId, surfaceId, stoneId) {{
-      if (roomConfigs[roomId]) {{
+    // 23. Global 1-Click Preset Launcher
+    window.launchVisualizerPreset = function(roomId, surfaceId, stoneId) {
+      if (roomConfigs[roomId]) {
         currentRoomKey = roomId;
         const room = roomConfigs[roomId];
         currentSurfaceKey = surfaceId || room.defaultSurface;
 
-        document.querySelectorAll('.room-btn').forEach(b => {{
-          if (b.getAttribute('data-room') === roomId) {{
+        document.querySelectorAll('.room-btn').forEach(b => {
+          if (b.getAttribute('data-room') === roomId) {
             b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
             b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
-          }} else {{
+          } else {
             b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
             b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
-          }}
-        }});
+          }
+        });
 
-        if (stoneId) {{
+        if (stoneId) {
           const found = visualizerMaterials.find(m => m.id === stoneId || m.name.toLowerCase().includes(stoneId));
-          if (found) {{
+          if (found) {
             selectedMaterial = found;
-          }}
-        }}
+          }
+        }
 
         if (compareSliderRange) compareSliderRange.value = 50;
         applyComparisonSplit(50);
@@ -1391,24 +1681,20 @@ new_script = f"""<script>
         updateInfoCard();
 
         const stage = document.getElementById('stageViewport');
-        if (stage) {{
-          stage.scrollIntoView({{ behavior: 'smooth', block: 'center' }});
-        }}
-      }}
-    }};
+        if (stage) {
+          stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    };
   </script>
 <script src="assets/js/site-config-sync.js"></script>
 </body>
 </html>"""
 
-# Now build the main section
-# We extract the main section and replace:
-# 1. stageViewport (removes overlays, enforces 16:9)
-# 2. slider label (Original 0%, Selected stone 100%)
-# 3. room pills (adds Dining Room, 6 active environments)
-# 4. remove #stoneComparisonTool section
+new_script = script_template.replace('__MANIFEST_JSON_PLACEHOLDER__', manifest_json_str)
 
-main_html = f"""  <!-- Main Visualizer App Container -->
+# Build main_html
+main_html = """  <!-- Main Visualizer App Container -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 flex-grow w-full">
     
     <!-- Title & Guidance Banner -->
@@ -1446,7 +1732,7 @@ main_html = f"""  <!-- Main Visualizer App Container -->
       <div class="lg:col-span-8 space-y-4">
         
         <!-- Room Stage Viewport (Strict 16:9 Aspect Box for Zero Drift) -->
-        <div id="stageViewport" class="relative rounded-3xl overflow-hidden bg-stone-950 border border-white/10 shadow-2xl room-stage select-none group aspect-[16/9] w-full" style="touch-action: pan-y; background: radial-gradient(circle at 50% 35%, #181920 0%, #090a0d 100%);">
+        <div id="stageViewport" class="relative rounded-3xl overflow-hidden bg-stone-950 border border-white/10 shadow-2xl room-stage select-none group aspect-[16/9] w-full stage-atmosphere-normal" style="touch-action: pan-y; background: radial-gradient(circle at 50% 35%, #181920 0%, #090a0d 100%);">
           
           <!-- Base Room Photo (Shows authentic base room in Before mode) -->
           <img id="baseRoomImg" src="assets/images/rooms/kitchen.jpg" alt="Original room reference" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"/>
@@ -1460,7 +1746,7 @@ main_html = f"""  <!-- Main Visualizer App Container -->
             <img id="generatedRoomImg" src="assets/images/room_renders/kitchen countertop/render_River Black.png" alt="Photorealistic installed stone preview" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none transition-opacity duration-300" style="display: block;"/>
 
             <!-- Ambient depth vignette -->
-            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none"></div>
+            <div class="ambient-depth-vignette absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none"></div>
           </div>
 
           <!-- Split Comparison Divider Line & Handle (Active during comparison slider drag) -->
@@ -1482,6 +1768,10 @@ main_html = f"""  <!-- Main Visualizer App Container -->
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               <span id="renderQualityText">Verified Render</span>
             </span>
+            <span id="atmosphereBadge" class="text-xs px-2.5 py-1 rounded-full bg-black/80 text-amber-300 font-medium border border-amber-500/30 backdrop-blur-md shadow-lg pointer-events-auto flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              <span id="atmosphereBadgeText">Normal Light</span>
+            </span>
 
             <!-- Reversible Backlight Effect Button (Active for Onyx & Translucent Slabs) -->
             <button id="backlightToggleBtn" class="hidden text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg hover:bg-amber-500 hover:text-black transition flex items-center gap-1.5 pointer-events-auto cursor-pointer" title="Toggle subtle ambient backlight enhancement">
@@ -1490,8 +1780,27 @@ main_html = f"""  <!-- Main Visualizer App Container -->
             </button>
           </div>
 
-          <!-- Top Right Actions: Side-by-Side Compare & Texture Detail Zoom -->
-          <div class="absolute top-4 right-4 z-20 flex items-center gap-2 pointer-events-auto">
+          <!-- Top Right Actions: Appearance Toolbar & Modals (Side-by-Side Compare, Countertop Zoom, Inspect Slab) -->
+          <div class="absolute top-4 right-4 z-20 flex flex-wrap items-center justify-end gap-2 pointer-events-auto">
+            <!-- Three Appearance Options: Normal, Dark, Highlight -->
+            <div id="appearanceModeBar" class="flex items-center gap-1 p-1 rounded-full bg-black/85 backdrop-blur-md border border-white/20 shadow-lg">
+              <button type="button" class="appearance-btn active px-2.5 py-1 rounded-full text-[11px] font-bold transition cursor-pointer flex items-center gap-1 bg-amber-500 text-stone-950 shadow" data-mode="normal" title="Daylight Balanced (Normal)">
+                <span>☀️ Normal</span>
+              </button>
+              <button type="button" class="appearance-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition cursor-pointer flex items-center gap-1 bg-stone-900 text-stone-300 hover:text-white hover:border-amber-400" data-mode="dark" title="Dusk / Night Architectural Ambience">
+                <span>🌙 Dark</span>
+              </button>
+              <button type="button" class="appearance-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition cursor-pointer flex items-center gap-1 bg-stone-900 text-stone-300 hover:text-white hover:border-amber-400" data-mode="highlight" title="Luminous Cove Backlight & Accent Glow">
+                <span>✨ Highlight</span>
+              </button>
+            </div>
+
+            <!-- Kitchen Countertop Macro Zoom Button (Active in Kitchen) -->
+            <button id="zoomCountertopBtn" class="text-xs px-3 py-1.5 rounded-full bg-amber-500 text-stone-950 font-bold border border-amber-400 backdrop-blur-md shadow-lg hover:bg-amber-400 transition flex items-center gap-1.5 cursor-pointer" title="Zoom into Kitchen Countertop Veining & Edge Profiles (Shortcut: K)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+              <span>Countertop Zoom</span>
+            </button>
+
             <button id="openSlabCompareBtn" class="text-xs px-3 py-1.5 rounded-full bg-black/85 text-amber-300 font-medium border border-white/20 backdrop-blur-md shadow-lg hover:bg-stone-800 hover:border-amber-400 transition flex items-center gap-1.5 cursor-pointer" title="Compare two stone slabs side-by-side (Shortcut: C)">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="18" rx="1"/><rect x="13" y="3" width="8" height="18" rx="1"/></svg>
               <span>Compare Slabs</span>
@@ -1502,7 +1811,7 @@ main_html = f"""  <!-- Main Visualizer App Container -->
             </button>
           </div>
 
-          <!-- Honest Toast Notice (Shows when selected stone is unrendered in this space) -->
+          <!-- Honest Toast Notice (Shows when selected stone is unrendered in this space or exploring a scene) -->
           <div id="renderPendingToast" class="absolute top-16 left-4 right-4 z-20 hidden">
             <div class="px-4 py-3 rounded-2xl bg-black/95 border border-amber-500/40 backdrop-blur-md shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
               <div class="flex items-center gap-2.5 text-stone-200">
@@ -1549,56 +1858,60 @@ main_html = f"""  <!-- Main Visualizer App Container -->
           </div>
         </div>
 
-        <!-- Room Selector Pills -->
+        <!-- Room Selector Pills (9 Architectural Spaces) -->
         <div class="p-4 rounded-2xl bg-[#141418] border border-white/10 space-y-3">
           <div class="flex items-center justify-between text-xs text-stone-400 font-medium px-1">
             <span class="flex items-center gap-2">
               <span class="text-stone-300 font-semibold flex items-center gap-1.5">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-400"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                <span>Select Interior Space:</span>
+                <span>Select Architectural Space:</span>
               </span>
             </span>
-            <span class="text-[11px] text-amber-400 font-medium" id="roomEnvCountLabel">8 Architectural Spaces Available</span>
+            <span class="text-[11px] text-amber-400 font-medium" id="roomEnvCountLabel">9 Architectural Spaces Available</span>
           </div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-2.5" id="roomSelectorGrid">
-            <button class="room-btn active px-3.5 py-2.5 rounded-xl text-xs font-semibold text-center bg-stone-900 border border-amber-500/60 text-amber-300 transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm" data-room="kitchen">
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-2 sm:gap-2.5" id="roomSelectorGrid">
+            <button class="room-btn active px-3 py-2 rounded-xl text-xs font-semibold text-center bg-stone-900 border border-amber-500/60 text-amber-300 transition cursor-pointer flex items-center justify-center gap-1 shadow-sm" data-room="kitchen">
               <span>Kitchen</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="living-room">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="living-room">
               <span>Living Room</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="bathroom">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="bathroom">
               <span>Bathroom</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="bedroom">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="bedroom">
               <span>Bedroom</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="staircase">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="staircase">
               <span>Staircase</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="dining-room">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="dining-room">
               <span>Dining Room</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="parking">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="parking">
               <span>Outdoor Parking</span>
             </button>
-            <button class="room-btn px-2.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1 relative overflow-hidden" data-room="balcony">
+            <button class="room-btn px-2.5 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1 relative overflow-hidden" data-room="balcony">
               <span>Balcony</span>
-              <span class="text-[8px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 uppercase font-bold tracking-wider ml-0.5">Live</span>
+              <span class="text-[8px] px-1 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 uppercase font-bold tracking-wider">Live</span>
+            </button>
+            <button class="room-btn px-2.5 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1 relative overflow-hidden" data-room="elevation">
+              <span>Elevation</span>
+              <span class="text-[8px] px-1 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase font-bold tracking-wider">New</span>
             </button>
           </div>
 
-          <!-- Room Design Variation Selector (Only active if multi-renders exist) -->
+          <!-- Room Design Variation Selector (Dynamic for rooms with multiple design schemes) -->
           <div id="roomDesignVariationBar" class="pt-2 border-t border-white/10 hidden flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
             <span class="text-stone-400 text-[11px] flex items-center gap-1.5" id="roomDesignVariationLabel">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-400"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-              <span>Interior Design Scheme:</span>
+              <span>Design Scheme Variations:</span>
             </span>
             <div class="flex items-center gap-1.5 flex-wrap" id="roomDesignButtonsContainer">
             </div>
           </div>
 
-          <!-- Additional Architectural Areas Status (Unactivated until verified dedicated assets exist) -->
+          <!-- Additional Architectural Areas Status -->
           <div class="pt-2 border-t border-white/5 flex flex-wrap items-center gap-1.5 text-[11px]">
             <span class="text-stone-500 text-[10px] uppercase tracking-wider font-semibold mr-1">In Preparation:</span>
             <button type="button" class="unactivated-area-btn px-2.5 py-1 rounded-lg bg-stone-900/60 text-stone-400 border border-white/5 hover:border-amber-500/30 hover:text-stone-300 transition text-[10px] flex items-center gap-1 cursor-pointer" data-area="Utility Area">
@@ -1650,33 +1963,33 @@ main_html = f"""  <!-- Main Visualizer App Container -->
           </div>
         </div>
 
-        <!-- Selected Material Profile & Quote Connect Card -->
-        <div class="p-5 rounded-3xl bg-[#17171E] border border-amber-500/30 shadow-2xl space-y-4">
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold" id="cardCategoryTag">
-                Granite
-              </span>
-              <span class="text-xs text-stone-400" id="cardOriginTag">India / Rajasthan</span>
+        <!-- Selected Stone Technical Specs & Direct Inquiry Card -->
+        <div class="p-5 rounded-3xl bg-[#141418] border border-white/10 space-y-4">
+          <div class="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <span class="text-xs text-amber-400 uppercase tracking-wider font-semibold" id="cardCategoryTag">Granite</span>
+              <h3 class="font-serif text-lg font-bold text-white tracking-wide" id="cardMaterialName">River Black</h3>
             </div>
-            <h3 class="font-serif text-2xl font-bold text-white mt-2" id="cardMaterialName">River Black</h3>
-            <p class="text-xs text-stone-400 mt-1 leading-relaxed" id="cardDescription">
-              Deep black granite with subtle river-like crystalline grains. Highly recommended for heavy-duty kitchen countertops and high-traffic interior flooring.
-            </p>
+            <span class="text-[10px] px-2.5 py-1 rounded-full bg-stone-800 text-stone-300 font-medium border border-white/10" id="cardOriginTag">
+              India / Rajasthan
+            </span>
           </div>
 
-          <!-- Specs row -->
-          <div class="grid grid-cols-2 gap-2 text-xs border-y border-white/10 py-3 text-stone-300">
-            <div>
-              <span class="text-stone-500 block text-[10px]">Finish:</span>
-              <span id="cardFinishText" class="font-medium text-white">Polished</span>
+          <p class="text-xs text-stone-300 leading-relaxed" id="cardDescription">
+            Deep jet black granite with crystalline wave patterns and high density. Highly resilient against heat, stains, and scratches.
+          </p>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-stone-900 border border-white/5">
+              <span class="text-[10px] text-stone-400 block uppercase font-medium">Standard Finish</span>
+              <span id="cardFinishText" class="font-semibold text-white">Mirror Polished</span>
             </div>
-            <div>
-              <span class="text-stone-500 block text-[10px]">Thickness:</span>
-              <span id="cardThicknessText" class="font-medium text-white">16mm - 18mm</span>
+            <div class="p-2.5 rounded-xl bg-stone-900 border border-white/5">
+              <span class="text-[10px] text-stone-400 block uppercase font-medium">Thickness</span>
+              <span id="cardThicknessText" class="font-semibold text-white">16mm - 18mm</span>
             </div>
-            <div class="col-span-2 pt-1">
-              <span class="text-stone-500 block text-[10px]">Recommended Applications:</span>
+            <div class="p-2.5 rounded-xl bg-stone-900 border border-white/5 col-span-2">
+              <span class="text-[10px] text-stone-400 block uppercase font-medium">Recommended Usage</span>
               <span id="cardUsageText" class="font-medium text-stone-300">Flooring, Countertops, Wall Cladding</span>
             </div>
           </div>
@@ -1711,7 +2024,7 @@ main_html = f"""  <!-- Main Visualizer App Container -->
             <span id="zoomModalSubtitle" class="text-xs text-amber-400">High-Resolution Geological Veining</span>
           </div>
           <button id="closeZoomModalBtn" class="w-8 h-8 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white flex items-center justify-center transition border border-white/10 cursor-pointer" title="Close (Esc)">
-            \u2715
+            &#x2715;
           </button>
         </div>
         <div class="relative max-h-[65vh] overflow-auto rounded-2xl bg-black border border-white/10 flex items-center justify-center p-2">
@@ -1726,6 +2039,153 @@ main_html = f"""  <!-- Main Visualizer App Container -->
       </div>
     </div>
 
+    <!-- KITCHEN COUNTERTOP MACRO ZOOM & EDGE PROFILE MODAL -->
+    <div id="countertopZoomModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+      <div class="relative max-w-5xl w-full bg-[#141418] border border-amber-500/40 rounded-3xl overflow-hidden shadow-2xl p-6 space-y-4 max-h-[92vh] flex flex-col">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between border-b border-white/10 pb-3 shrink-0">
+          <div>
+            <h3 class="font-serif text-xl font-bold text-white flex items-center gap-2">
+              <span id="countertopModalTitle">Kitchen Countertop Macro Veining &amp; Edge Profile</span>
+              <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-sans font-semibold">Macro View</span>
+            </h3>
+            <span id="countertopModalSubtitle" class="text-xs text-stone-400">Precision inspection of slab crystallization, heat resilience, and edge fabrication</span>
+          </div>
+          <button id="closeCountertopZoomBtn" class="w-8 h-8 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white flex items-center justify-center transition border border-white/10 cursor-pointer" title="Close (Esc)">
+            &#x2715;
+          </button>
+        </div>
+
+        <!-- Modal Content Grid -->
+        <div class="overflow-y-auto pr-1 space-y-4 grow">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+            
+            <!-- Left: Interactive Macro Slab Canvas (7 Cols) -->
+            <div class="lg:col-span-7 space-y-3">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-stone-300 font-semibold flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                  <span>Surface Veining Resolution:</span>
+                </span>
+                <!-- Zoom Level Toggle Buttons -->
+                <div class="flex items-center gap-1 p-0.5 rounded-lg bg-stone-900 border border-white/10 text-[11px]" id="countertopZoomLevelBar">
+                  <button type="button" class="ct-zoom-lvl-btn px-2.5 py-1 rounded-md transition font-medium text-stone-400 hover:text-white cursor-pointer" data-zoom="1.0">1.0x Full</button>
+                  <button type="button" class="ct-zoom-lvl-btn active px-2.5 py-1 rounded-md transition font-bold bg-amber-500 text-stone-950 shadow cursor-pointer" data-zoom="2.2">2.2x Macro</button>
+                  <button type="button" class="ct-zoom-lvl-btn px-2.5 py-1 rounded-md transition font-medium text-stone-400 hover:text-white cursor-pointer" data-zoom="3.5">3.5x Ultra</button>
+                </div>
+              </div>
+
+              <!-- Zoom Viewport -->
+              <div id="countertopZoomViewport" class="relative aspect-[16/10] rounded-2xl overflow-hidden bg-black border border-white/15 shadow-inner cursor-grab select-none group">
+                <img id="countertopZoomImg" src="" alt="Macro slab veining preview" class="w-full h-full object-cover transition-transform duration-300" style="transform: scale(2.2); transform-origin: center center;"/>
+                
+                <!-- Floating Magnifier Tag -->
+                <div class="absolute bottom-3 left-3 px-3 py-1.5 rounded-xl bg-black/85 backdrop-blur-md text-[11px] text-white border border-white/10 flex items-center gap-2">
+                  <span id="countertopZoomStoneName" class="font-bold text-amber-300">River Black</span>
+                  <span class="text-stone-400">&bull;</span>
+                  <span id="countertopZoomScaleLabel" class="text-emerald-300 font-medium">2.2x Macro Magnification</span>
+                </div>
+
+                <div class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur-sm text-[10px] text-stone-400 border border-white/10">
+                  Move mouse to pan
+                </div>
+              </div>
+
+              <!-- Culinary Performance Badge Bar -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-center">
+                <div class="p-2.5 rounded-xl bg-stone-900/90 border border-white/5 space-y-0.5">
+                  <div class="text-[10px] text-stone-400 uppercase font-semibold">Heat Proof</div>
+                  <div class="text-xs font-bold text-emerald-400">Up to 350&deg;C</div>
+                  <div class="text-[9px] text-stone-500">Hot pan safe</div>
+                </div>
+                <div class="p-2.5 rounded-xl bg-stone-900/90 border border-white/5 space-y-0.5">
+                  <div class="text-[10px] text-stone-400 uppercase font-semibold">Mohs Hardness</div>
+                  <div class="text-xs font-bold text-amber-300">6.5 - 7.0 High</div>
+                  <div class="text-[9px] text-stone-500">Scratch resilient</div>
+                </div>
+                <div class="p-2.5 rounded-xl bg-stone-900/90 border border-white/5 space-y-0.5">
+                  <div class="text-[10px] text-stone-400 uppercase font-semibold">Acid &amp; Stain</div>
+                  <div class="text-xs font-bold text-emerald-400">Zero Pore Seal</div>
+                  <div class="text-[9px] text-stone-500">Resists lemon &amp; oil</div>
+                </div>
+                <div class="p-2.5 rounded-xl bg-stone-900/90 border border-white/5 space-y-0.5">
+                  <div class="text-[10px] text-stone-400 uppercase font-semibold">Food Safety</div>
+                  <div class="text-xs font-bold text-amber-300">Anti-Bacterial</div>
+                  <div class="text-[9px] text-stone-500">Certified hygienic</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Architectural Edge Profiles (5 Cols) -->
+            <div class="lg:col-span-5 space-y-3.5">
+              <div class="text-xs uppercase tracking-wider font-semibold text-stone-400 flex items-center justify-between">
+                <span>Select Countertop Edge Profile</span>
+                <span class="text-amber-400 text-[10px]" id="activeEdgeProfileName">Mitered Waterfall (40mm)</span>
+              </div>
+
+              <!-- 4 Edge Profiles Selector Grid -->
+              <div class="grid grid-cols-2 gap-2" id="edgeProfilesContainer">
+                <button type="button" class="edge-profile-btn active p-3 rounded-2xl bg-stone-900 border border-amber-500/60 text-left transition cursor-pointer" data-edge="mitered">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-xs font-bold text-amber-300">Mitered Waterfall</span>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold">Modern</span>
+                  </div>
+                  <p class="text-[10px] text-stone-400 leading-tight">40mm built-up fascia with continuous waterfall end drop.</p>
+                </button>
+
+                <button type="button" class="edge-profile-btn p-3 rounded-2xl bg-stone-900 border border-white/10 text-left transition hover:border-amber-400 cursor-pointer" data-edge="bullnose">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-xs font-bold text-white">Full Bullnose</span>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 font-semibold">Classic</span>
+                  </div>
+                  <p class="text-[10px] text-stone-400 leading-tight">Smooth 180&deg; rounded edge. Family-safe and chip-proof.</p>
+                </button>
+
+                <button type="button" class="edge-profile-btn p-3 rounded-2xl bg-stone-900 border border-white/10 text-left transition hover:border-amber-400 cursor-pointer" data-edge="beveled">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-xs font-bold text-white">Beveled (45&deg;)</span>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 font-semibold">Sleek</span>
+                  </div>
+                  <p class="text-[10px] text-stone-400 leading-tight">Sharp 45-degree chamfer top edge for modern minimalism.</p>
+                </button>
+
+                <button type="button" class="edge-profile-btn p-3 rounded-2xl bg-stone-900 border border-white/10 text-left transition hover:border-amber-400 cursor-pointer" data-edge="ogee">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-xs font-bold text-white">Ogee (S-Curve)</span>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 font-semibold">Luxury</span>
+                  </div>
+                  <p class="text-[10px] text-stone-400 leading-tight">Architectural double-curve S-profile for opulent interiors.</p>
+                </button>
+              </div>
+
+              <!-- Edge Cross-Section Visualizer Card -->
+              <div class="p-3.5 rounded-2xl bg-stone-900/90 border border-white/10 flex items-center gap-3.5">
+                <div class="w-16 h-16 rounded-xl bg-black border border-white/15 flex items-center justify-center shrink-0" id="edgeDiagramContainer">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M8 8 L40 8 L40 40 L30 40 L30 18 L8 18 Z" fill="#d4af37" stroke="#ffd700" stroke-width="1.5"/><line x1="40" y1="8" x2="30" y2="18" stroke="#ffffff" stroke-width="1" stroke-dasharray="2,2"/></svg>
+                </div>
+                <div class="space-y-0.5 overflow-hidden">
+                  <div class="text-xs font-bold text-white" id="edgeDiagramTitle">Mitered Waterfall Edge (40mm)</div>
+                  <p class="text-[11px] text-stone-400 leading-tight" id="edgeDiagramDesc">Creates an illusion of a solid 40mm thick stone block with bookmatched joint alignment.</p>
+                </div>
+              </div>
+
+              <!-- Action CTAs -->
+              <div class="space-y-2 pt-1">
+                <a id="countertopQuoteBtn" href="contact.html?material=River+Black&room=Kitchen&surface=Countertop" class="block w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs text-center transition shadow-lg shadow-amber-500/20 cursor-pointer">
+                  Request Countertop Fabrication Quote &rarr;
+                </a>
+                <a id="countertopWhatsappBtn" href="https://wa.me/916366380051" target="_blank" rel="noreferrer" class="block w-full py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 hover:text-white border border-emerald-500/30 text-emerald-300 font-semibold text-xs text-center transition flex items-center justify-center gap-2 cursor-pointer">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.149.929 3.182 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.768-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.299.144.347.491 1.199.534 1.286.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.448.74 0.962 1.198.662.59 1.221.773 1.394.859.173.086.275.072.376-.044.101-.116.433-.506.549-.679.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.043.073.043.419-.101.824z"/></svg>
+                  <span>Inquire via WhatsApp with Specs</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <!-- SIDE-BY-SIDE STONE COMPARISON MODAL -->
     <div id="slabCompareModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
@@ -1739,7 +2199,7 @@ main_html = f"""  <!-- Main Visualizer App Container -->
             <span class="text-xs text-stone-400">Visually compare high-resolution slab veining, mineral hardness, and architectural suitability</span>
           </div>
           <button id="closeSlabCompareBtn" class="w-8 h-8 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white flex items-center justify-center transition border border-white/10 cursor-pointer" title="Close (Esc)">
-            \u2715
+            &#x2715;
           </button>
         </div>
 
@@ -1856,7 +2316,7 @@ main_html = f"""  <!-- Main Visualizer App Container -->
             <h3 id="calibrationModalTitle" class="font-serif text-lg font-bold text-white">Asset Calibration in Progress</h3>
           </div>
           <button id="closeCalibrationModalBtn" class="w-7 h-7 rounded-full bg-stone-900 text-stone-300 hover:text-white flex items-center justify-center text-xs border border-white/10 cursor-pointer">
-            \u2715
+            &#x2715;
           </button>
         </div>
         <p id="calibrationModalDesc" class="text-xs text-stone-300 leading-relaxed">
@@ -1882,4 +2342,4 @@ final_html = head_and_header + main_html + guide_and_faq_html + footer_html_only
 with open(HTML_PATH, 'w', encoding='utf-8') as f:
     f.write(final_html)
 
-print("visualizer.html updated successfully!")
+print("visualizer.html updated successfully with living room, washroom designs, elevation, countertop zoom, and appearance modes!")

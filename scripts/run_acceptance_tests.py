@@ -64,14 +64,19 @@ def run_tests():
         if not entry.get('aspect_ratio_match', True):
             ar_offenders.append(entry)
 
-    # Also verify parking and balcony base photos
-    park_resp = urllib.request.urlopen(BASE_URL + 'assets/images/rooms/parking.webp')
-    if park_resp.status == 200:
-        bases_ok.add('assets/images/rooms/parking.webp')
-
-    balc_resp = urllib.request.urlopen(BASE_URL + 'assets/images/rooms/balcony.webp')
-    if balc_resp.status == 200:
-        bases_ok.add('assets/images/rooms/balcony.webp')
+    # Also verify parking, balcony, and new room base photos
+    new_bases = [
+        'assets/images/rooms/parking.webp',
+        'assets/images/rooms/balcony.webp',
+        'assets/images/rooms/living-room-2.jpg',
+        'assets/images/rooms/washroom-suite.jpg',
+        'assets/images/rooms/washroom-indian.jpg',
+        'assets/images/rooms/elevation.jpg'
+    ]
+    for nb in new_bases:
+        resp = urllib.request.urlopen(BASE_URL + nb)
+        if resp.status == 200:
+            bases_ok.add(nb)
 
     print(f"Test 2: All {renders_ok}/{len(manifest)} render files return HTTP 200 OK.")
     print(f"Test 3: All {len(bases_ok)} base room images return HTTP 200 OK.")
@@ -152,9 +157,23 @@ def run_tests():
     assert 'viewInOtherRoomBtn' in html, "viewInOtherRoomBtn element not found"
     print("Test 10: Honest pending toast and 'View in other room' button verified: PASS")
 
+    # 8. Check New Client Deliverables
+    assert 'living-room-2.jpg' in html, "living-room-2.jpg not referenced in visualizer.html"
+    assert 'washroom-suite.jpg' in html, "washroom-suite.jpg not referenced in visualizer.html"
+    assert 'washroom-indian.jpg' in html, "washroom-indian.jpg not referenced in visualizer.html"
+    assert 'elevation.jpg' in html, "elevation.jpg not referenced in visualizer.html"
+    assert 'Building Elevation' in html, "Building Elevation not found in visualizer.html"
+    assert 'countertopZoomModal' in html, "countertopZoomModal element not found in visualizer.html"
+    assert 'zoomCountertopBtn' in html, "zoomCountertopBtn element not found in visualizer.html"
+    assert 'appearanceModeBar' in html, "appearanceModeBar element not found in visualizer.html"
+    assert 'stage-atmosphere-dark' in html, "stage-atmosphere-dark style not found in visualizer.html"
+    assert 'stage-atmosphere-highlight' in html, "stage-atmosphere-highlight style not found in visualizer.html"
+    print("Test 11: All new client features (Living room 2, Washroom variations, Elevation, Countertop Zoom, 3 Appearance Modes): PASS")
+
     print("\n" + "=" * 75)
-    print("ALL 10 ACCEPTANCE TESTS PASSED SUCCESSFULLY (100%)")
+    print("ALL 11 ACCEPTANCE TESTS PASSED SUCCESSFULLY (100%)")
     print("=" * 75)
 
 if __name__ == '__main__':
     run_tests()
+

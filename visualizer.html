@@ -97,6 +97,35 @@
       filter: brightness(1.08) contrast(1.04) drop-shadow(0 0 20px rgba(232, 201, 138, 0.32)) !important;
       transition: filter 0.35s ease;
     }
+  
+    /* Stage Appearance Atmospheric Lighting Modes */
+    .stage-atmosphere-normal #baseRoomImg,
+    .stage-atmosphere-normal #afterBaseRoomImg,
+    .stage-atmosphere-normal #generatedRoomImg {
+      filter: none;
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+
+    .stage-atmosphere-dark #baseRoomImg,
+    .stage-atmosphere-dark #afterBaseRoomImg,
+    .stage-atmosphere-dark #generatedRoomImg {
+      filter: brightness(0.78) contrast(1.24) saturate(1.08);
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+    .stage-atmosphere-dark .ambient-depth-vignette {
+      background: radial-gradient(circle at 50% 35%, rgba(15, 23, 42, 0.45) 0%, rgba(3, 4, 8, 0.92) 100%) !important;
+    }
+
+    .stage-atmosphere-highlight #baseRoomImg,
+    .stage-atmosphere-highlight #afterBaseRoomImg,
+    .stage-atmosphere-highlight #generatedRoomImg {
+      filter: brightness(1.15) contrast(1.10) saturate(1.14) drop-shadow(0 0 25px rgba(212, 175, 55, 0.45));
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+    .stage-atmosphere-highlight .ambient-depth-vignette {
+      background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.25) 0%, rgba(0, 0, 0, 0.45) 100%) !important;
+    }
+
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
@@ -161,6 +190,7 @@
     <!-- Main Visualizer App Container -->
     <!-- Main Visualizer App Container -->
     <!-- Main Visualizer App Container -->
+    <!-- Main Visualizer App Container -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 flex-grow w-full">
     
     <!-- Title & Guidance Banner -->
@@ -198,7 +228,7 @@
       <div class="lg:col-span-8 space-y-4">
         
         <!-- Room Stage Viewport (Strict 16:9 Aspect Box for Zero Drift) -->
-        <div id="stageViewport" class="relative rounded-3xl overflow-hidden bg-stone-950 border border-white/10 shadow-2xl room-stage select-none group aspect-[16/9] w-full" style="touch-action: pan-y; background: radial-gradient(circle at 50% 35%, #181920 0%, #090a0d 100%);">
+        <div id="stageViewport" class="relative rounded-3xl overflow-hidden bg-stone-950 border border-white/10 shadow-2xl room-stage select-none group aspect-[16/9] w-full stage-atmosphere-normal" style="touch-action: pan-y; background: radial-gradient(circle at 50% 35%, #181920 0%, #090a0d 100%);">
           
           <!-- Base Room Photo (Shows authentic base room in Before mode) -->
           <img id="baseRoomImg" src="assets/images/rooms/kitchen.jpg" alt="Original room reference" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"/>
@@ -212,7 +242,7 @@
             <img id="generatedRoomImg" src="assets/images/room_renders/kitchen countertop/render_River Black.png" alt="Photorealistic installed stone preview" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none transition-opacity duration-300" style="display: block;"/>
 
             <!-- Ambient depth vignette -->
-            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none"></div>
+            <div class="ambient-depth-vignette absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none"></div>
           </div>
 
           <!-- Split Comparison Divider Line & Handle (Active during comparison slider drag) -->
@@ -234,6 +264,10 @@
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               <span id="renderQualityText">Verified Render</span>
             </span>
+            <span id="atmosphereBadge" class="text-xs px-2.5 py-1 rounded-full bg-black/80 text-amber-300 font-medium border border-amber-500/30 backdrop-blur-md shadow-lg pointer-events-auto flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              <span id="atmosphereBadgeText">Normal Light</span>
+            </span>
 
             <!-- Reversible Backlight Effect Button (Active for Onyx & Translucent Slabs) -->
             <button id="backlightToggleBtn" class="hidden text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg hover:bg-amber-500 hover:text-black transition flex items-center gap-1.5 pointer-events-auto cursor-pointer" title="Toggle subtle ambient backlight enhancement">
@@ -242,8 +276,27 @@
             </button>
           </div>
 
-          <!-- Top Right Actions: Side-by-Side Compare & Texture Detail Zoom -->
-          <div class="absolute top-4 right-4 z-20 flex items-center gap-2 pointer-events-auto">
+          <!-- Top Right Actions: Appearance Toolbar & Modals (Side-by-Side Compare, Countertop Zoom, Inspect Slab) -->
+          <div class="absolute top-4 right-4 z-20 flex flex-wrap items-center justify-end gap-2 pointer-events-auto">
+            <!-- Three Appearance Options: Normal, Dark, Highlight -->
+            <div id="appearanceModeBar" class="flex items-center gap-1 p-1 rounded-full bg-black/85 backdrop-blur-md border border-white/20 shadow-lg">
+              <button type="button" class="appearance-btn active px-2.5 py-1 rounded-full text-[11px] font-bold transition cursor-pointer flex items-center gap-1 bg-amber-500 text-stone-950 shadow" data-mode="normal" title="Daylight Balanced (Normal)">
+                <span>☀️ Normal</span>
+              </button>
+              <button type="button" class="appearance-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition cursor-pointer flex items-center gap-1 bg-stone-900 text-stone-300 hover:text-white hover:border-amber-400" data-mode="dark" title="Dusk / Night Architectural Ambience">
+                <span>🌙 Dark</span>
+              </button>
+              <button type="button" class="appearance-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition cursor-pointer flex items-center gap-1 bg-stone-900 text-stone-300 hover:text-white hover:border-amber-400" data-mode="highlight" title="Luminous Cove Backlight & Accent Glow">
+                <span>✨ Highlight</span>
+              </button>
+            </div>
+
+            <!-- Kitchen Countertop Macro Zoom Button (Active in Kitchen) -->
+            <button id="zoomCountertopBtn" class="text-xs px-3 py-1.5 rounded-full bg-amber-500 text-stone-950 font-bold border border-amber-400 backdrop-blur-md shadow-lg hover:bg-amber-400 transition flex items-center gap-1.5 cursor-pointer" title="Zoom into Kitchen Countertop Veining & Edge Profiles (Shortcut: K)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+              <span>Countertop Zoom</span>
+            </button>
+
             <button id="openSlabCompareBtn" class="text-xs px-3 py-1.5 rounded-full bg-black/85 text-amber-300 font-medium border border-white/20 backdrop-blur-md shadow-lg hover:bg-stone-800 hover:border-amber-400 transition flex items-center gap-1.5 cursor-pointer" title="Compare two stone slabs side-by-side (Shortcut: C)">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="18" rx="1"/><rect x="13" y="3" width="8" height="18" rx="1"/></svg>
               <span>Compare Slabs</span>
@@ -254,7 +307,7 @@
             </button>
           </div>
 
-          <!-- Honest Toast Notice (Shows when selected stone is unrendered in this space) -->
+          <!-- Honest Toast Notice (Shows when selected stone is unrendered in this space or exploring a scene) -->
           <div id="renderPendingToast" class="absolute top-16 left-4 right-4 z-20 hidden">
             <div class="px-4 py-3 rounded-2xl bg-black/95 border border-amber-500/40 backdrop-blur-md shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
               <div class="flex items-center gap-2.5 text-stone-200">
@@ -301,56 +354,60 @@
           </div>
         </div>
 
-        <!-- Room Selector Pills -->
+        <!-- Room Selector Pills (9 Architectural Spaces) -->
         <div class="p-4 rounded-2xl bg-[#141418] border border-white/10 space-y-3">
           <div class="flex items-center justify-between text-xs text-stone-400 font-medium px-1">
             <span class="flex items-center gap-2">
               <span class="text-stone-300 font-semibold flex items-center gap-1.5">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-400"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                <span>Select Interior Space:</span>
+                <span>Select Architectural Space:</span>
               </span>
             </span>
-            <span class="text-[11px] text-amber-400 font-medium" id="roomEnvCountLabel">8 Architectural Spaces Available</span>
+            <span class="text-[11px] text-amber-400 font-medium" id="roomEnvCountLabel">9 Architectural Spaces Available</span>
           </div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-2.5" id="roomSelectorGrid">
-            <button class="room-btn active px-3.5 py-2.5 rounded-xl text-xs font-semibold text-center bg-stone-900 border border-amber-500/60 text-amber-300 transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm" data-room="kitchen">
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-2 sm:gap-2.5" id="roomSelectorGrid">
+            <button class="room-btn active px-3 py-2 rounded-xl text-xs font-semibold text-center bg-stone-900 border border-amber-500/60 text-amber-300 transition cursor-pointer flex items-center justify-center gap-1 shadow-sm" data-room="kitchen">
               <span>Kitchen</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="living-room">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="living-room">
               <span>Living Room</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="bathroom">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="bathroom">
               <span>Bathroom</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="bedroom">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="bedroom">
               <span>Bedroom</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="staircase">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="staircase">
               <span>Staircase</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="dining-room">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="dining-room">
               <span>Dining Room</span>
             </button>
-            <button class="room-btn px-3.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5" data-room="parking">
+            <button class="room-btn px-3 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1" data-room="parking">
               <span>Outdoor Parking</span>
             </button>
-            <button class="room-btn px-2.5 py-2.5 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1 relative overflow-hidden" data-room="balcony">
+            <button class="room-btn px-2.5 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1 relative overflow-hidden" data-room="balcony">
               <span>Balcony</span>
-              <span class="text-[8px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 uppercase font-bold tracking-wider ml-0.5">Live</span>
+              <span class="text-[8px] px-1 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 uppercase font-bold tracking-wider">Live</span>
+            </button>
+            <button class="room-btn px-2.5 py-2 rounded-xl text-xs font-medium text-center bg-stone-900 border border-white/10 text-stone-300 hover:border-amber-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1 relative overflow-hidden" data-room="elevation">
+              <span>Elevation</span>
+              <span class="text-[8px] px-1 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 uppercase font-bold tracking-wider">New</span>
             </button>
           </div>
 
-          <!-- Room Design Variation Selector (Only active if multi-renders exist) -->
+          <!-- Room Design Variation Selector (Dynamic for rooms with multiple design schemes) -->
           <div id="roomDesignVariationBar" class="pt-2 border-t border-white/10 hidden flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
             <span class="text-stone-400 text-[11px] flex items-center gap-1.5" id="roomDesignVariationLabel">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-400"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
-              <span>Interior Design Scheme:</span>
+              <span>Design Scheme Variations:</span>
             </span>
             <div class="flex items-center gap-1.5 flex-wrap" id="roomDesignButtonsContainer">
             </div>
           </div>
 
-          <!-- Additional Architectural Areas Status (Unactivated until verified dedicated assets exist) -->
+          <!-- Additional Architectural Areas Status -->
           <div class="pt-2 border-t border-white/5 flex flex-wrap items-center gap-1.5 text-[11px]">
             <span class="text-stone-500 text-[10px] uppercase tracking-wider font-semibold mr-1">In Preparation:</span>
             <button type="button" class="unactivated-area-btn px-2.5 py-1 rounded-lg bg-stone-900/60 text-stone-400 border border-white/5 hover:border-amber-500/30 hover:text-stone-300 transition text-[10px] flex items-center gap-1 cursor-pointer" data-area="Utility Area">
@@ -402,33 +459,33 @@
           </div>
         </div>
 
-        <!-- Selected Material Profile & Quote Connect Card -->
-        <div class="p-5 rounded-3xl bg-[#17171E] border border-amber-500/30 shadow-2xl space-y-4">
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold" id="cardCategoryTag">
-                Granite
-              </span>
-              <span class="text-xs text-stone-400" id="cardOriginTag">India / Rajasthan</span>
+        <!-- Selected Stone Technical Specs & Direct Inquiry Card -->
+        <div class="p-5 rounded-3xl bg-[#141418] border border-white/10 space-y-4">
+          <div class="flex items-center justify-between border-b border-white/10 pb-3">
+            <div>
+              <span class="text-xs text-amber-400 uppercase tracking-wider font-semibold" id="cardCategoryTag">Granite</span>
+              <h3 class="font-serif text-lg font-bold text-white tracking-wide" id="cardMaterialName">River Black</h3>
             </div>
-            <h3 class="font-serif text-2xl font-bold text-white mt-2" id="cardMaterialName">River Black</h3>
-            <p class="text-xs text-stone-400 mt-1 leading-relaxed" id="cardDescription">
-              Deep black granite with subtle river-like crystalline grains. Highly recommended for heavy-duty kitchen countertops and high-traffic interior flooring.
-            </p>
+            <span class="text-[10px] px-2.5 py-1 rounded-full bg-stone-800 text-stone-300 font-medium border border-white/10" id="cardOriginTag">
+              India / Rajasthan
+            </span>
           </div>
 
-          <!-- Specs row -->
-          <div class="grid grid-cols-2 gap-2 text-xs border-y border-white/10 py-3 text-stone-300">
-            <div>
-              <span class="text-stone-500 block text-[10px]">Finish:</span>
-              <span id="cardFinishText" class="font-medium text-white">Polished</span>
+          <p class="text-xs text-stone-300 leading-relaxed" id="cardDescription">
+            Deep jet black granite with crystalline wave patterns and high density. Highly resilient against heat, stains, and scratches.
+          </p>
+
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-stone-900 border border-white/5">
+              <span class="text-[10px] text-stone-400 block uppercase font-medium">Standard Finish</span>
+              <span id="cardFinishText" class="font-semibold text-white">Mirror Polished</span>
             </div>
-            <div>
-              <span class="text-stone-500 block text-[10px]">Thickness:</span>
-              <span id="cardThicknessText" class="font-medium text-white">16mm - 18mm</span>
+            <div class="p-2.5 rounded-xl bg-stone-900 border border-white/5">
+              <span class="text-[10px] text-stone-400 block uppercase font-medium">Thickness</span>
+              <span id="cardThicknessText" class="font-semibold text-white">16mm - 18mm</span>
             </div>
-            <div class="col-span-2 pt-1">
-              <span class="text-stone-500 block text-[10px]">Recommended Applications:</span>
+            <div class="p-2.5 rounded-xl bg-stone-900 border border-white/5 col-span-2">
+              <span class="text-[10px] text-stone-400 block uppercase font-medium">Recommended Usage</span>
               <span id="cardUsageText" class="font-medium text-stone-300">Flooring, Countertops, Wall Cladding</span>
             </div>
           </div>
@@ -463,7 +520,7 @@
             <span id="zoomModalSubtitle" class="text-xs text-amber-400">High-Resolution Geological Veining</span>
           </div>
           <button id="closeZoomModalBtn" class="w-8 h-8 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white flex items-center justify-center transition border border-white/10 cursor-pointer" title="Close (Esc)">
-            ✕
+            &#x2715;
           </button>
         </div>
         <div class="relative max-h-[65vh] overflow-auto rounded-2xl bg-black border border-white/10 flex items-center justify-center p-2">
@@ -478,6 +535,153 @@
       </div>
     </div>
 
+    <!-- KITCHEN COUNTERTOP MACRO ZOOM & EDGE PROFILE MODAL -->
+    <div id="countertopZoomModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+      <div class="relative max-w-5xl w-full bg-[#141418] border border-amber-500/40 rounded-3xl overflow-hidden shadow-2xl p-6 space-y-4 max-h-[92vh] flex flex-col">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between border-b border-white/10 pb-3 shrink-0">
+          <div>
+            <h3 class="font-serif text-xl font-bold text-white flex items-center gap-2">
+              <span id="countertopModalTitle">Kitchen Countertop Macro Veining &amp; Edge Profile</span>
+              <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-sans font-semibold">Macro View</span>
+            </h3>
+            <span id="countertopModalSubtitle" class="text-xs text-stone-400">Precision inspection of slab crystallization, heat resilience, and edge fabrication</span>
+          </div>
+          <button id="closeCountertopZoomBtn" class="w-8 h-8 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white flex items-center justify-center transition border border-white/10 cursor-pointer" title="Close (Esc)">
+            &#x2715;
+          </button>
+        </div>
+
+        <!-- Modal Content Grid -->
+        <div class="overflow-y-auto pr-1 space-y-4 grow">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+            
+            <!-- Left: Interactive Macro Slab Canvas (7 Cols) -->
+            <div class="lg:col-span-7 space-y-3">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-stone-300 font-semibold flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                  <span>Surface Veining Resolution:</span>
+                </span>
+                <!-- Zoom Level Toggle Buttons -->
+                <div class="flex items-center gap-1 p-0.5 rounded-lg bg-stone-900 border border-white/10 text-[11px]" id="countertopZoomLevelBar">
+                  <button type="button" class="ct-zoom-lvl-btn px-2.5 py-1 rounded-md transition font-medium text-stone-400 hover:text-white cursor-pointer" data-zoom="1.0">1.0x Full</button>
+                  <button type="button" class="ct-zoom-lvl-btn active px-2.5 py-1 rounded-md transition font-bold bg-amber-500 text-stone-950 shadow cursor-pointer" data-zoom="2.2">2.2x Macro</button>
+                  <button type="button" class="ct-zoom-lvl-btn px-2.5 py-1 rounded-md transition font-medium text-stone-400 hover:text-white cursor-pointer" data-zoom="3.5">3.5x Ultra</button>
+                </div>
+              </div>
+
+              <!-- Zoom Viewport -->
+              <div id="countertopZoomViewport" class="relative aspect-[16/10] rounded-2xl overflow-hidden bg-black border border-white/15 shadow-inner cursor-grab select-none group">
+                <img id="countertopZoomImg" src="" alt="Macro slab veining preview" class="w-full h-full object-cover transition-transform duration-300" style="transform: scale(2.2); transform-origin: center center;"/>
+                
+                <!-- Floating Magnifier Tag -->
+                <div class="absolute bottom-3 left-3 px-3 py-1.5 rounded-xl bg-black/85 backdrop-blur-md text-[11px] text-white border border-white/10 flex items-center gap-2">
+                  <span id="countertopZoomStoneName" class="font-bold text-amber-300">River Black</span>
+                  <span class="text-stone-400">&bull;</span>
+                  <span id="countertopZoomScaleLabel" class="text-emerald-300 font-medium">2.2x Macro Magnification</span>
+                </div>
+
+                <div class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur-sm text-[10px] text-stone-400 border border-white/10">
+                  Move mouse to pan
+                </div>
+              </div>
+
+              <!-- Culinary Performance Badge Bar -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-center">
+                <div class="p-2.5 rounded-xl bg-stone-900/90 border border-white/5 space-y-0.5">
+                  <div class="text-[10px] text-stone-400 uppercase font-semibold">Heat Proof</div>
+                  <div class="text-xs font-bold text-emerald-400">Up to 350&deg;C</div>
+                  <div class="text-[9px] text-stone-500">Hot pan safe</div>
+                </div>
+                <div class="p-2.5 rounded-xl bg-stone-900/90 border border-white/5 space-y-0.5">
+                  <div class="text-[10px] text-stone-400 uppercase font-semibold">Mohs Hardness</div>
+                  <div class="text-xs font-bold text-amber-300">6.5 - 7.0 High</div>
+                  <div class="text-[9px] text-stone-500">Scratch resilient</div>
+                </div>
+                <div class="p-2.5 rounded-xl bg-stone-900/90 border border-white/5 space-y-0.5">
+                  <div class="text-[10px] text-stone-400 uppercase font-semibold">Acid &amp; Stain</div>
+                  <div class="text-xs font-bold text-emerald-400">Zero Pore Seal</div>
+                  <div class="text-[9px] text-stone-500">Resists lemon &amp; oil</div>
+                </div>
+                <div class="p-2.5 rounded-xl bg-stone-900/90 border border-white/5 space-y-0.5">
+                  <div class="text-[10px] text-stone-400 uppercase font-semibold">Food Safety</div>
+                  <div class="text-xs font-bold text-amber-300">Anti-Bacterial</div>
+                  <div class="text-[9px] text-stone-500">Certified hygienic</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Architectural Edge Profiles (5 Cols) -->
+            <div class="lg:col-span-5 space-y-3.5">
+              <div class="text-xs uppercase tracking-wider font-semibold text-stone-400 flex items-center justify-between">
+                <span>Select Countertop Edge Profile</span>
+                <span class="text-amber-400 text-[10px]" id="activeEdgeProfileName">Mitered Waterfall (40mm)</span>
+              </div>
+
+              <!-- 4 Edge Profiles Selector Grid -->
+              <div class="grid grid-cols-2 gap-2" id="edgeProfilesContainer">
+                <button type="button" class="edge-profile-btn active p-3 rounded-2xl bg-stone-900 border border-amber-500/60 text-left transition cursor-pointer" data-edge="mitered">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-xs font-bold text-amber-300">Mitered Waterfall</span>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold">Modern</span>
+                  </div>
+                  <p class="text-[10px] text-stone-400 leading-tight">40mm built-up fascia with continuous waterfall end drop.</p>
+                </button>
+
+                <button type="button" class="edge-profile-btn p-3 rounded-2xl bg-stone-900 border border-white/10 text-left transition hover:border-amber-400 cursor-pointer" data-edge="bullnose">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-xs font-bold text-white">Full Bullnose</span>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 font-semibold">Classic</span>
+                  </div>
+                  <p class="text-[10px] text-stone-400 leading-tight">Smooth 180&deg; rounded edge. Family-safe and chip-proof.</p>
+                </button>
+
+                <button type="button" class="edge-profile-btn p-3 rounded-2xl bg-stone-900 border border-white/10 text-left transition hover:border-amber-400 cursor-pointer" data-edge="beveled">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-xs font-bold text-white">Beveled (45&deg;)</span>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 font-semibold">Sleek</span>
+                  </div>
+                  <p class="text-[10px] text-stone-400 leading-tight">Sharp 45-degree chamfer top edge for modern minimalism.</p>
+                </button>
+
+                <button type="button" class="edge-profile-btn p-3 rounded-2xl bg-stone-900 border border-white/10 text-left transition hover:border-amber-400 cursor-pointer" data-edge="ogee">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-xs font-bold text-white">Ogee (S-Curve)</span>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 font-semibold">Luxury</span>
+                  </div>
+                  <p class="text-[10px] text-stone-400 leading-tight">Architectural double-curve S-profile for opulent interiors.</p>
+                </button>
+              </div>
+
+              <!-- Edge Cross-Section Visualizer Card -->
+              <div class="p-3.5 rounded-2xl bg-stone-900/90 border border-white/10 flex items-center gap-3.5">
+                <div class="w-16 h-16 rounded-xl bg-black border border-white/15 flex items-center justify-center shrink-0" id="edgeDiagramContainer">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M8 8 L40 8 L40 40 L30 40 L30 18 L8 18 Z" fill="#d4af37" stroke="#ffd700" stroke-width="1.5"/><line x1="40" y1="8" x2="30" y2="18" stroke="#ffffff" stroke-width="1" stroke-dasharray="2,2"/></svg>
+                </div>
+                <div class="space-y-0.5 overflow-hidden">
+                  <div class="text-xs font-bold text-white" id="edgeDiagramTitle">Mitered Waterfall Edge (40mm)</div>
+                  <p class="text-[11px] text-stone-400 leading-tight" id="edgeDiagramDesc">Creates an illusion of a solid 40mm thick stone block with bookmatched joint alignment.</p>
+                </div>
+              </div>
+
+              <!-- Action CTAs -->
+              <div class="space-y-2 pt-1">
+                <a id="countertopQuoteBtn" href="contact.html?material=River+Black&room=Kitchen&surface=Countertop" class="block w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs text-center transition shadow-lg shadow-amber-500/20 cursor-pointer">
+                  Request Countertop Fabrication Quote &rarr;
+                </a>
+                <a id="countertopWhatsappBtn" href="https://wa.me/916366380051" target="_blank" rel="noreferrer" class="block w-full py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 hover:text-white border border-emerald-500/30 text-emerald-300 font-semibold text-xs text-center transition flex items-center justify-center gap-2 cursor-pointer">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.149.929 3.182 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.768-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.299.144.347.491 1.199.534 1.286.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.353.101.173.448.74 0.962 1.198.662.59 1.221.773 1.394.859.173.086.275.072.376-.044.101-.116.433-.506.549-.679.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.043.073.043.419-.101.824z"/></svg>
+                  <span>Inquire via WhatsApp with Specs</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <!-- SIDE-BY-SIDE STONE COMPARISON MODAL -->
     <div id="slabCompareModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4">
@@ -491,7 +695,7 @@
             <span class="text-xs text-stone-400">Visually compare high-resolution slab veining, mineral hardness, and architectural suitability</span>
           </div>
           <button id="closeSlabCompareBtn" class="w-8 h-8 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white flex items-center justify-center transition border border-white/10 cursor-pointer" title="Close (Esc)">
-            ✕
+            &#x2715;
           </button>
         </div>
 
@@ -608,7 +812,7 @@
             <h3 id="calibrationModalTitle" class="font-serif text-lg font-bold text-white">Asset Calibration in Progress</h3>
           </div>
           <button id="closeCalibrationModalBtn" class="w-7 h-7 rounded-full bg-stone-900 text-stone-300 hover:text-white flex items-center justify-center text-xs border border-white/10 cursor-pointer">
-            ✕
+            &#x2715;
           </button>
         </div>
         <p id="calibrationModalDesc" class="text-xs text-stone-300 leading-relaxed">
@@ -891,7 +1095,6 @@
             key: 'countertop',
             label: 'Countertop & Island'
           }
-          // Note: Kitchen flooring has 0 pre-renders and is excluded from the UI until assets exist
         }
       },
 
@@ -900,7 +1103,8 @@
         image: 'assets/images/rooms/living-room.jpg',
         defaultSurface: 'floor',
         designs: [
-          { id: 'design-1', name: 'Design 1: Contemporary Villa Hall', image: 'assets/images/rooms/living-room.jpg', rendersCount: 24 }
+          { id: 'design-1', name: 'Design 1: Contemporary Villa Hall', image: 'assets/images/rooms/living-room.jpg', rendersCount: 24 },
+          { id: 'design-2', name: 'Design 2: Panorama Poolside Hall', image: 'assets/images/rooms/living-room-2.jpg', rendersCount: 1 }
         ],
         surfaces: {
           'floor': {
@@ -918,6 +1122,11 @@
         name: 'Bathroom',
         image: 'assets/images/rooms/bathroom.jpg',
         defaultSurface: 'floor',
+        designs: [
+          { id: 'design-1', name: 'Design 1: Master Marble Spa', image: 'assets/images/rooms/bathroom.jpg', rendersCount: 24 },
+          { id: 'design-2', name: 'Design 2: Freestanding Bathtub Suite', image: 'assets/images/rooms/washroom-suite.jpg', rendersCount: 1 },
+          { id: 'design-3', name: 'Design 3: Indian Heritage Luxury Suite', image: 'assets/images/rooms/washroom-indian.jpg', rendersCount: 1 }
+        ],
         surfaces: {
           'floor': {
             key: 'floor',
@@ -934,6 +1143,9 @@
         name: 'Bedroom',
         image: 'assets/images/rooms/bedroom.jpg',
         defaultSurface: 'floor',
+        designs: [
+          { id: 'design-1', name: 'Design 1: Master Suite', image: 'assets/images/rooms/bedroom.jpg', rendersCount: 12 }
+        ],
         surfaces: {
           'floor': {
             key: 'floor',
@@ -998,6 +1210,21 @@
           'flooring': {
             key: 'flooring',
             label: 'Balcony Flooring'
+          }
+        }
+      },
+
+      'elevation': {
+        name: 'Building Elevation',
+        image: 'assets/images/rooms/elevation.jpg',
+        defaultSurface: 'facade',
+        designs: [
+          { id: 'design-1', name: 'Design 1: Contemporary Villa Elevation', image: 'assets/images/rooms/elevation.jpg', rendersCount: 1 }
+        ],
+        surfaces: {
+          'facade': {
+            key: 'facade',
+            label: 'Portico Pillars & Cladding Wall'
           }
         }
       }
@@ -3524,24 +3751,23 @@
     }
 
     // 5. Render Surface Controls Dynamically for Current Room
-    // Shows ONLY surfaces that have at least one verified render
     function renderSurfaceButtons() {
       surfaceSelectorContainer.innerHTML = '';
       const room = roomConfigs[currentRoomKey];
       if (!room) return;
       surfaceContextLabel.textContent = `${room.name} Plane`;
 
-      // Render Room Design Variations (only if multiple verified designs exist)
+      // Render Room Design Variations (active if multiple designs exist)
       const designBar = document.getElementById('roomDesignVariationBar');
       const designContainer = document.getElementById('roomDesignButtonsContainer');
       if (designBar && designContainer) {
-        const validDesigns = (room.designs || []).filter(d => (d.rendersCount || 0) > 0);
+        const validDesigns = (room.designs || []);
         if (validDesigns.length > 1) {
           designBar.classList.remove('hidden');
           designContainer.innerHTML = '';
           validDesigns.forEach(d => {
             const dBtn = document.createElement('button');
-            const isDActive = d.id === (room.activeDesignId || 'design-1');
+            const isDActive = d.id === (room.activeDesignId || validDesigns[0].id);
             dBtn.type = 'button';
             dBtn.className = `px-3 py-1.5 rounded-lg text-xs transition cursor-pointer ${
               isDActive 
@@ -3562,10 +3788,13 @@
         }
       }
 
-      // Filter to surfaces that have >= 1 render in this room
-      const availableSurfaces = Object.values(room.surfaces).filter(surf => {
+      // Filter to surfaces that have >= 1 render in this room, or fall back to configured surfaces
+      let availableSurfaces = Object.values(room.surfaces).filter(surf => {
         return GENERATED_PREVIEWS_MANIFEST.some(item => item.room_id === currentRoomKey && item.surface_id === surf.key);
       });
+      if (availableSurfaces.length === 0) {
+        availableSurfaces = Object.values(room.surfaces);
+      }
 
       if (availableSurfaces.length > 0 && !availableSurfaces.some(s => s.key === currentSurfaceKey)) {
         currentSurfaceKey = availableSurfaces[0].key;
@@ -3636,7 +3865,6 @@
     }
 
     // 6. Render Materials List
-    // Adds "Preview coming soon" tag for stones unrendered in active space
     function renderMaterialsList(filterCat = 'all') {
       materialsGrid.innerHTML = '';
       const cleanCat = (filterCat || 'all').toLowerCase();
@@ -3737,13 +3965,24 @@
       }
 
       // 2. Resolve Photorealistic Preview from Manifest
-      const generatedMatch = findGeneratedPreview(currentRoomKey, selectedMaterial.id, currentSurfaceKey);
+      const isDesign1 = !room.activeDesignId || room.activeDesignId === 'design-1';
+      const generatedMatch = isDesign1 ? findGeneratedPreview(currentRoomKey, selectedMaterial.id, currentSurfaceKey) : null;
       const generatedRoomImg = document.getElementById('generatedRoomImg');
       const renderQualityBadge = document.getElementById('renderQualityBadge');
       const renderQualityText = document.getElementById('renderQualityText');
       const renderPendingToast = document.getElementById('renderPendingToast');
       const renderPendingToastText = document.getElementById('renderPendingToastText');
       const viewInOtherRoomBtn = document.getElementById('viewInOtherRoomBtn');
+      const zoomCountertopBtn = document.getElementById('zoomCountertopBtn');
+
+      // Kitchen Countertop Zoom action button visibility
+      if (zoomCountertopBtn) {
+        if (currentRoomKey === 'kitchen') {
+          zoomCountertopBtn.classList.remove('hidden');
+        } else {
+          zoomCountertopBtn.classList.add('hidden');
+        }
+      }
 
       if (generatedMatch && generatedMatch.generated_preview) {
         // EXACT PREVIEW EXISTS: Render it authentically
@@ -3768,42 +4007,63 @@
         }
 
         renderQualityText.textContent = 'Verified Render';
-        renderQualityBadge.className = 'text-xs px-3 py-1 rounded-full bg-emerald-500/25 text-emerald-300 font-medium border border-emerald-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5';
+        renderQualityBadge.className = 'text-xs px-3 py-1 rounded-full bg-emerald-500/25 text-emerald-300 font-medium border border-emerald-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5 pointer-events-auto';
 
-        // Preload next stone render
         preloadNextRenders(selectedMaterial.id);
       } else {
-        // UNRENDERED COMBINATION: Keep previously valid render active (do not show fake stone)
-        // Show honest informative toast with option to view in another room
-        if (renderPendingToast && renderPendingToastText) {
-          renderPendingToast.classList.remove('hidden');
-          renderPendingToastText.innerHTML = `Preview for <strong class="text-amber-300">${selectedMaterial.name}</strong> in this space is being prepared.`;
+        // Alternate design variation or elevation:
+        // Hide overlay so the high-resolution architectural base scene photo is completely visible
+        generatedRoomImg.style.display = 'none';
 
-          const alt = findAlternativeRoomForMaterial(selectedMaterial.id, currentRoomKey);
-          if (alt && viewInOtherRoomBtn) {
-            const altRoomName = roomConfigs[alt.room_id]?.name || alt.room_id;
-            viewInOtherRoomBtn.textContent = `View in ${altRoomName} →`;
-            viewInOtherRoomBtn.classList.remove('hidden');
-            viewInOtherRoomBtn.onclick = () => {
-              currentRoomKey = alt.room_id;
-              currentSurfaceKey = alt.surface_id;
-              document.querySelectorAll('.room-btn').forEach(b => {
-                if (b.getAttribute('data-room') === currentRoomKey) {
-                  b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
-                  b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
-                } else {
-                  b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
-                  b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
-                }
-              });
-              renderSurfaceButtons();
-              const activeCat = document.querySelector('.mat-tab.active')?.getAttribute('data-cat') || 'all';
-              renderMaterialsList(activeCat);
-              updateStage();
-              updateInfoCard();
-            };
-          } else if (viewInOtherRoomBtn) {
-            viewInOtherRoomBtn.classList.add('hidden');
+        if (room.designs && room.designs.length > 1 && !isDesign1) {
+          const activeDesign = room.designs.find(d => d.id === room.activeDesignId) || room.designs[0];
+          if (renderPendingToast && renderPendingToastText) {
+            renderPendingToast.classList.remove('hidden');
+            renderPendingToastText.innerHTML = `Viewing <strong>${activeDesign.name}</strong>. Selected Stone: <strong class="text-amber-300">${selectedMaterial.name}</strong> (${selectedMaterial.category}).`;
+            if (viewInOtherRoomBtn) viewInOtherRoomBtn.classList.add('hidden');
+          }
+          renderQualityText.textContent = 'Design Scene View';
+          renderQualityBadge.className = 'text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5 pointer-events-auto';
+        } else if (currentRoomKey === 'elevation') {
+          if (renderPendingToast && renderPendingToastText) {
+            renderPendingToast.classList.remove('hidden');
+            renderPendingToastText.innerHTML = `Viewing <strong>Building Elevation (Portico & Facade)</strong>. Selected Stone: <strong class="text-amber-300">${selectedMaterial.name}</strong>.`;
+            if (viewInOtherRoomBtn) viewInOtherRoomBtn.classList.add('hidden');
+          }
+          renderQualityText.textContent = 'Architectural Elevation';
+          renderQualityBadge.className = 'text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5 pointer-events-auto';
+        } else {
+          // Unrendered stone in a standard pre-rendered room
+          if (renderPendingToast && renderPendingToastText) {
+            renderPendingToast.classList.remove('hidden');
+            renderPendingToastText.innerHTML = `Preview for <strong class="text-amber-300">${selectedMaterial.name}</strong> in this space is being prepared.`;
+
+            const alt = findAlternativeRoomForMaterial(selectedMaterial.id, currentRoomKey);
+            if (alt && viewInOtherRoomBtn) {
+              const altRoomName = roomConfigs[alt.room_id]?.name || alt.room_id;
+              viewInOtherRoomBtn.textContent = `View in ${altRoomName} →`;
+              viewInOtherRoomBtn.classList.remove('hidden');
+              viewInOtherRoomBtn.onclick = () => {
+                currentRoomKey = alt.room_id;
+                currentSurfaceKey = alt.surface_id;
+                document.querySelectorAll('.room-btn').forEach(b => {
+                  if (b.getAttribute('data-room') === currentRoomKey) {
+                    b.classList.add('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+                    b.classList.remove('border-white/10', 'text-stone-300', 'font-medium');
+                  } else {
+                    b.classList.remove('active', 'border-amber-500/60', 'text-amber-300', 'font-semibold');
+                    b.classList.add('border-white/10', 'text-stone-300', 'font-medium');
+                  }
+                });
+                renderSurfaceButtons();
+                const activeCat = document.querySelector('.mat-tab.active')?.getAttribute('data-cat') || 'all';
+                renderMaterialsList(activeCat);
+                updateStage();
+                updateInfoCard();
+              };
+            } else if (viewInOtherRoomBtn) {
+              viewInOtherRoomBtn.classList.add('hidden');
+            }
           }
         }
       }
@@ -3842,13 +4102,10 @@
       activeMaterialTitle.textContent = selectedMaterial.name;
       activeCategoryLabel.textContent = selectedMaterial.category;
 
-      // 6. Before / After comparison state
-      if (isComparingOriginal) {
-        afterLayer.style.display = 'none';
-        originalRoomIndicator.classList.remove('hidden');
-        compareModeText.textContent = 'View Selected Stone';
-      } else {
-        afterLayer.style.display = 'block';
+      // 6. Reset comparison view
+      if (!isComparingOriginal) {
+        if (compareSliderRange) compareSliderRange.value = 50;
+        applyComparisonSplit(50);
         originalRoomIndicator.classList.add('hidden');
         compareModeText.textContent = 'Compare with Original';
       }
@@ -3971,7 +4228,7 @@
 
     if (stageViewport) {
       stageViewport.addEventListener('pointerdown', (e) => {
-        if (e.target.closest('button, a, input, [data-no-drag], #renderPendingToast')) return;
+        if (e.target.closest('button, a, input, [data-no-drag], #renderPendingToast, #appearanceModeBar')) return;
         
         if (e.pointerType === 'touch') {
           const rect = stageViewport.getBoundingClientRect();
@@ -4054,52 +4311,26 @@
       renderMaterialsList('all');
       updateStage();
       updateInfoCard();
+      setAppearanceMode('normal');
     });
 
-    // 14. URL Parameter Handling
+    // 14. Synchronize URL query parameters
     function checkUrlParams() {
       const urlParams = new URLSearchParams(window.location.search);
-      const matParam = urlParams.get('material') || urlParams.get('product');
-      if (matParam) {
-        const clean = matParam.toLowerCase().trim();
-        const found = visualizerMaterials.find(m => {
-          const mName = m.name.toLowerCase();
-          return mName.includes(clean) || clean.includes(mName) || 
-                 (clean.includes('statuario') && mName.includes('statuario')) ||
-                 (clean.includes('galaxy') && m.id === 'river-black') ||
-                 (clean.includes('alaska') && m.id === 'kashmir-white') ||
-                 (clean.includes('shiva') && m.id === 'marie-gold') ||
-                 (clean.includes('banswara') && m.id === 'statuario-marble') ||
-                 (clean.includes('flash') && m.id === 'emerald-onyx') ||
-                 (clean.includes('lavender') && m.id === 'blue-night') ||
-                 (clean.includes('pink') && m.id === 'marie-gold') ||
-                 (clean.includes('onyx') && m.id === 'emerald-onyx') ||
-                 (clean.includes('tan') && m.id === 'tan-brown') ||
-                 (clean.includes('pearl') && m.id === 'black-pearl') ||
-                 m.id.toLowerCase() === clean;
-        });
+      const stoneParam = urlParams.get('stone') || urlParams.get('product') || urlParams.get('material');
+      if (stoneParam) {
+        const found = visualizerMaterials.find(m => 
+          m.id === stoneParam.toLowerCase() || 
+          m.name.toLowerCase().includes(stoneParam.toLowerCase())
+        );
         if (found) {
           selectedMaterial = found;
         }
       }
 
-      let roomParam = (urlParams.get('room') || '').toLowerCase().trim();
-      if (roomParam === 'dining-room' || roomParam === 'dining') {
-        currentRoomKey = 'dining-room';
-      } else if (roomParam === 'staircase' || roomParam === 'stairs') {
-        currentRoomKey = 'staircase';
-      } else if (roomParam === 'living-room' || roomParam === 'living') {
-        currentRoomKey = 'living-room';
-      } else if (roomParam === 'bathroom' || roomParam === 'bath') {
+      const roomParam = (urlParams.get('room') || '').toLowerCase().trim();
+      if (roomParam === 'washroom') {
         currentRoomKey = 'bathroom';
-      } else if (roomParam === 'bedroom' || roomParam === 'bed') {
-        currentRoomKey = 'bedroom';
-      } else if (roomParam === 'kitchen') {
-        currentRoomKey = 'kitchen';
-      } else if (roomParam === 'parking' || roomParam === 'outdoor' || roomParam === 'outdoor-parking') {
-        currentRoomKey = 'parking';
-      } else if (roomParam === 'balcony' || roomParam === 'balcony-flooring') {
-        currentRoomKey = 'balcony';
       } else if (roomConfigs[roomParam]) {
         currentRoomKey = roomParam;
       }
@@ -4165,12 +4396,6 @@
           if (e.target === modal) closeZoom();
         });
       }
-
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
-          closeZoom();
-        }
-      });
 
       if (modalApplyBtn) {
         modalApplyBtn.addEventListener('click', () => {
@@ -4242,64 +4467,7 @@
       }
     }
 
-    // 17b. Modal Accessibility & Shortcuts (No Number Key Room Hijacking)
-    function initKeyboardShortcuts() {
-      window.addEventListener('keydown', (e) => {
-        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
-
-        // Escape: Close any active modal
-        if (e.key === 'Escape') {
-          const compareModal = document.getElementById('slabCompareModal');
-          const zoomModal = document.getElementById('textureZoomModal');
-          const calibModal = document.getElementById('areaCalibrationModal');
-          if (compareModal && !compareModal.classList.contains('hidden')) {
-            compareModal.classList.add('hidden');
-            document.body.style.overflow = '';
-          }
-          if (zoomModal && !zoomModal.classList.contains('hidden')) {
-            zoomModal.classList.add('hidden');
-            document.body.style.overflow = '';
-          }
-          if (calibModal && !calibModal.classList.contains('hidden')) {
-            calibModal.classList.add('hidden');
-            document.body.style.overflow = '';
-          }
-          return;
-        }
-
-        // Hotkey 'c' for Stone Compare Modal
-        if (e.key.toLowerCase() === 'c' && !e.ctrlKey && !e.metaKey) {
-          const compareBtn = document.getElementById('openSlabCompareBtn');
-          if (compareBtn) {
-            e.preventDefault();
-            compareBtn.click();
-          }
-          return;
-        }
-
-        // Hotkey 'z' for Inspect Slab Texture
-        if (e.key.toLowerCase() === 'z' && !e.ctrlKey && !e.metaKey) {
-          const zoomBtn = document.getElementById('zoomTextureBtn');
-          if (zoomBtn) {
-            e.preventDefault();
-            zoomBtn.click();
-          }
-          return;
-        }
-
-        // Hotkey 'b' for Ambient Backlight Toggle
-        if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.metaKey) {
-          const backlightBtn = document.getElementById('backlightToggleBtn');
-          if (backlightBtn && !backlightBtn.classList.contains('hidden')) {
-            e.preventDefault();
-            backlightBtn.click();
-          }
-          return;
-        }
-      });
-    }
-
-    // 17c. Side-by-Side Stone Comparison Feature
+    // 18. Side-by-Side Stone Comparison Feature
     function initSlabComparator() {
       const modal = document.getElementById('slabCompareModal');
       const openBtn = document.getElementById('openSlabCompareBtn');
@@ -4351,54 +4519,64 @@
         const isMarble = stone.category.toLowerCase().includes('marble');
         const isOnyx = stone.category.toLowerCase().includes('onyx');
 
-        let hardness = '6.5 - 7.0 Mohs (High Scratch Resistance)';
-        let acid = '100% Acid Proof & Heat Resistant';
+        let hardness = '6.5 - 7.0 (High)';
+        let acid = '100% Acid Proof (Impervious)';
         if (isMarble) {
-          hardness = '3.5 - 4.0 Mohs (Moderate)';
-          acid = 'Acid Sensitive (Requires Neutral Cleaners)';
+          hardness = '3.5 - 4.5 (Medium)';
+          acid = 'Acid Sensitive (Requires Sealer)';
         } else if (isOnyx) {
-          hardness = '3.0 - 3.5 Mohs (Translucent Exotic)';
-          acid = 'Sensitive • Translucent to Backlighting';
+          hardness = '3.0 - 4.0 (Exotic Soft)';
+          acid = 'Delicate / Translucent Banded';
         }
+
         return { hardness, acid };
       }
 
-      function updateColumnA(stoneId) {
-        const stone = visualizerMaterials.find(m => m.id === stoneId) || visualizerMaterials[0];
-        if (!stone) return;
-        if (selectA) selectA.value = stone.id;
-        if (imgA) imgA.src = stone.image;
+      function updateColumnA(matId) {
+        const stone = visualizerMaterials.find(m => m.id === matId) || visualizerMaterials[0];
         if (nameA) nameA.textContent = stone.name;
         if (catA) catA.textContent = stone.category;
         if (originA) originA.textContent = stone.origin;
         if (finishA) finishA.textContent = stone.finish;
         if (usageA) usageA.textContent = stone.usage;
+        if (imgA) {
+          imgA.src = stone.image;
+          imgA.onerror = function() { this.src = getVerifiedFallbackForMaterial(stone); };
+        }
         const specs = getStoneSpecs(stone);
         if (hardnessA) hardnessA.textContent = specs.hardness;
         if (acidA) acidA.textContent = specs.acid;
       }
 
-      function updateColumnB(stoneId) {
-        const stone = visualizerMaterials.find(m => m.id === stoneId) || visualizerMaterials[1];
-        if (!stone) return;
-        if (selectB) selectB.value = stone.id;
-        if (imgB) imgB.src = stone.image;
+      function updateColumnB(matId) {
+        const stone = visualizerMaterials.find(m => m.id === matId) || visualizerMaterials[1];
         if (nameB) nameB.textContent = stone.name;
         if (catB) catB.textContent = stone.category;
         if (originB) originB.textContent = stone.origin;
         if (finishB) finishB.textContent = stone.finish;
         if (usageB) usageB.textContent = stone.usage;
+        if (imgB) {
+          imgB.src = stone.image;
+          imgB.onerror = function() { this.src = getVerifiedFallbackForMaterial(stone); };
+        }
         const specs = getStoneSpecs(stone);
         if (hardnessB) hardnessB.textContent = specs.hardness;
         if (acidB) acidB.textContent = specs.acid;
       }
 
       function openModal() {
-        updateColumnA(selectedMaterial.id);
-        const contrasting = visualizerMaterials.find(m => m.id !== selectedMaterial.id && m.category !== selectedMaterial.category) || visualizerMaterials[3];
-        updateColumnB(contrasting.id);
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
+
+        const stoneAId = selectedMaterial.id;
+        let stoneBId = 'statuario-marble';
+        if (stoneAId === 'statuario-marble') stoneBId = 'river-black';
+
+        if (selectA) selectA.value = stoneAId;
+        if (selectB) selectB.value = stoneBId;
+
+        updateColumnA(stoneAId);
+        updateColumnB(stoneBId);
       }
 
       function closeModal() {
@@ -4411,12 +4589,6 @@
       if (closeBtn) closeBtn.addEventListener('click', closeModal);
       modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModal();
-      });
-
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-          closeModal();
-        }
       });
 
       if (selectA) {
@@ -4449,7 +4621,291 @@
       }
     }
 
-    // 18. Initialize Visualizer App
+    // 19. Three Appearance Options (Normal, Dark, Highlight)
+    let currentAppearanceMode = 'normal';
+
+    function setAppearanceMode(mode) {
+      currentAppearanceMode = mode;
+      const stage = document.getElementById('stageViewport');
+      const badgeText = document.getElementById('atmosphereBadgeText');
+
+      if (stage) {
+        stage.classList.remove('stage-atmosphere-normal', 'stage-atmosphere-dark', 'stage-atmosphere-highlight');
+        stage.classList.add(`stage-atmosphere-${mode}`);
+      }
+
+      document.querySelectorAll('.appearance-btn').forEach(btn => {
+        const btnMode = btn.getAttribute('data-mode');
+        if (btnMode === mode) {
+          btn.classList.add('active', 'bg-amber-500', 'text-stone-950', 'font-bold', 'shadow');
+          btn.classList.remove('bg-stone-900', 'text-stone-300');
+        } else {
+          btn.classList.remove('active', 'bg-amber-500', 'text-stone-950', 'font-bold', 'shadow');
+          btn.classList.add('bg-stone-900', 'text-stone-300');
+        }
+      });
+
+      if (badgeText) {
+        if (mode === 'normal') badgeText.textContent = 'Normal Light';
+        else if (mode === 'dark') badgeText.textContent = 'Dark Night';
+        else if (mode === 'highlight') badgeText.textContent = 'Highlight Glow';
+      }
+    }
+
+    function initAppearanceModes() {
+      document.querySelectorAll('.appearance-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mode = btn.getAttribute('data-mode') || 'normal';
+          setAppearanceMode(mode);
+        });
+      });
+      setAppearanceMode('normal');
+    }
+
+    // 20. Kitchen Countertop Macro Zoom & Edge Profile Inspector
+    function initCountertopZoom() {
+      const modal = document.getElementById('countertopZoomModal');
+      const openBtn = document.getElementById('zoomCountertopBtn');
+      const closeBtn = document.getElementById('closeCountertopZoomBtn');
+      const modalTitle = document.getElementById('countertopModalTitle');
+      const modalSubtitle = document.getElementById('countertopModalSubtitle');
+      const zoomImg = document.getElementById('countertopZoomImg');
+      const stoneNameLabel = document.getElementById('countertopZoomStoneName');
+      const scaleLabel = document.getElementById('countertopZoomScaleLabel');
+      const zoomViewport = document.getElementById('countertopZoomViewport');
+      const quoteBtn = document.getElementById('countertopQuoteBtn');
+      const whatsappBtn = document.getElementById('countertopWhatsappBtn');
+
+      const edgeTitle = document.getElementById('edgeDiagramTitle');
+      const edgeDesc = document.getElementById('edgeDiagramDesc');
+      const edgeContainer = document.getElementById('edgeDiagramContainer');
+      const activeEdgeNameLabel = document.getElementById('activeEdgeProfileName');
+
+      const EDGE_PROFILES = {
+        'mitered': {
+          name: 'Mitered Waterfall Edge (40mm)',
+          desc: 'Creates the seamless visual aesthetic of an opulent 40mm thick monolithic stone slab with continuous veining down the waterfall drop.',
+          svg: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M8 8 L40 8 L40 40 L30 40 L30 18 L8 18 Z" fill="#d4af37" stroke="#ffd700" stroke-width="1.5"/><line x1="40" y1="8" x2="30" y2="18" stroke="#ffffff" stroke-width="1" stroke-dasharray="2,2"/></svg>'
+        },
+        'bullnose': {
+          name: 'Full Bullnose Edge (180° Round)',
+          desc: 'Smooth, fully-rounded semi-circular contour that softens room acoustics, eliminates sharp corners, and resists impact chipping.',
+          svg: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M8 12 L28 12 A12 12 0 0 1 28 36 L8 36 Z" fill="#d4af37" stroke="#ffd700" stroke-width="1.5"/></svg>'
+        },
+        'beveled': {
+          name: 'Beveled Edge (45° Chamfer)',
+          desc: 'Crisp contemporary 45-degree angled chamfer along the top edge, delivering sleek modern lines and effortless wipe-clean hygiene.',
+          svg: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M8 12 L28 12 L38 22 L38 36 L8 36 Z" fill="#d4af37" stroke="#ffd700" stroke-width="1.5"/></svg>'
+        },
+        'ogee': {
+          name: 'Ogee Edge (Architectural S-Curve)',
+          desc: 'Timeless architectural double-curve profile inspired by classical European masonry, adding undeniable luxury to island statement pieces.',
+          svg: '<svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M8 12 L24 12 C30 12 30 18 36 20 C38 21 38 24 38 36 L8 36 Z" fill="#d4af37" stroke="#ffd700" stroke-width="1.5"/></svg>'
+        }
+      };
+
+      let currentEdgeKey = 'mitered';
+      let currentZoomLevel = 2.2;
+
+      function updateEdgeProfileUI(key) {
+        currentEdgeKey = key;
+        const profile = EDGE_PROFILES[key] || EDGE_PROFILES['mitered'];
+
+        document.querySelectorAll('.edge-profile-btn').forEach(btn => {
+          const bKey = btn.getAttribute('data-edge');
+          if (bKey === key) {
+            btn.classList.add('active', 'border-amber-500/60');
+            btn.classList.remove('border-white/10');
+            btn.querySelector('span:first-child')?.classList.add('text-amber-300');
+            btn.querySelector('span:first-child')?.classList.remove('text-white');
+          } else {
+            btn.classList.remove('active', 'border-amber-500/60');
+            btn.classList.add('border-white/10');
+            btn.querySelector('span:first-child')?.classList.remove('text-amber-300');
+            btn.querySelector('span:first-child')?.classList.add('text-white');
+          }
+        });
+
+        if (activeEdgeNameLabel) activeEdgeNameLabel.textContent = profile.name;
+        if (edgeTitle) edgeTitle.textContent = profile.name;
+        if (edgeDesc) edgeDesc.textContent = profile.desc;
+        if (edgeContainer) edgeContainer.innerHTML = profile.svg;
+
+        updateCountertopActionLinks();
+      }
+
+      function updateZoomLevel(lvl) {
+        currentZoomLevel = lvl;
+        if (zoomImg) {
+          zoomImg.style.transform = `scale(${lvl})`;
+        }
+        if (scaleLabel) {
+          scaleLabel.textContent = `${lvl}x Magnification`;
+        }
+
+        document.querySelectorAll('.ct-zoom-lvl-btn').forEach(btn => {
+          const bLvl = parseFloat(btn.getAttribute('data-zoom') || '1.0');
+          if (Math.abs(bLvl - lvl) < 0.05) {
+            btn.classList.add('active', 'bg-amber-500', 'text-stone-950', 'font-bold', 'shadow');
+            btn.classList.remove('text-stone-400');
+          } else {
+            btn.classList.remove('active', 'bg-amber-500', 'text-stone-950', 'font-bold', 'shadow');
+            btn.classList.add('text-stone-400');
+          }
+        });
+      }
+
+      function updateCountertopActionLinks() {
+        const edge = EDGE_PROFILES[currentEdgeKey]?.name || 'Mitered Waterfall';
+        const matName = selectedMaterial.name;
+        const qMat = encodeURIComponent(matName);
+        const qEdge = encodeURIComponent(edge);
+
+        if (quoteBtn) {
+          quoteBtn.href = `contact.html?material=${qMat}&room=Kitchen&surface=Countertop&edge=${qEdge}`;
+        }
+        if (whatsappBtn) {
+          const msg = encodeURIComponent(
+            `Hello Murali Granites & Marbles, I am inquiring about Kitchen Countertop fabrication in ${matName} (${selectedMaterial.category}) with a ${edge} finish. Please provide price per sq.ft and fabrication timelines.`
+          );
+          whatsappBtn.href = `https://wa.me/916366380051?text=${msg}`;
+        }
+      }
+
+      function openModal() {
+        if (!modal) return;
+        if (modalTitle) modalTitle.textContent = `Kitchen Countertop: ${selectedMaterial.name}`;
+        if (modalSubtitle) modalSubtitle.textContent = `Macro Veining & Edge Detail • ${selectedMaterial.origin} • 18mm Polish Granite`;
+        if (stoneNameLabel) stoneNameLabel.textContent = selectedMaterial.name;
+        if (zoomImg) {
+          zoomImg.src = selectedMaterial.image;
+          zoomImg.onerror = function() {
+            this.src = getVerifiedFallbackForMaterial(selectedMaterial);
+          };
+        }
+
+        updateEdgeProfileUI(currentEdgeKey);
+        updateZoomLevel(2.2);
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        if (!modal) return;
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      if (openBtn) openBtn.addEventListener('click', openModal);
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+      }
+
+      document.querySelectorAll('.edge-profile-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const key = btn.getAttribute('data-edge');
+          if (key) updateEdgeProfileUI(key);
+        });
+      });
+
+      document.querySelectorAll('.ct-zoom-lvl-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const lvl = parseFloat(btn.getAttribute('data-zoom') || '2.2');
+          updateZoomLevel(lvl);
+        });
+      });
+
+      if (zoomViewport && zoomImg) {
+        zoomViewport.addEventListener('mousemove', (e) => {
+          if (currentZoomLevel <= 1.0) return;
+          const rect = zoomViewport.getBoundingClientRect();
+          const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
+          const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+          zoomImg.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+        });
+
+        zoomViewport.addEventListener('mouseleave', () => {
+          zoomImg.style.transformOrigin = 'center center';
+        });
+      }
+    }
+
+    // 21. Modal Accessibility & Shortcuts (No Number Key Room Hijacking)
+    function initKeyboardShortcuts() {
+      window.addEventListener('keydown', (e) => {
+        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) || e.target.isContentEditable) return;
+
+        // Escape: Close any active modal
+        if (e.key === 'Escape') {
+          const compareModal = document.getElementById('slabCompareModal');
+          const zoomModal = document.getElementById('textureZoomModal');
+          const calibModal = document.getElementById('areaCalibrationModal');
+          const ctZoomModal = document.getElementById('countertopZoomModal');
+          if (compareModal && !compareModal.classList.contains('hidden')) {
+            compareModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+          if (zoomModal && !zoomModal.classList.contains('hidden')) {
+            zoomModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+          if (calibModal && !calibModal.classList.contains('hidden')) {
+            calibModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+          if (ctZoomModal && !ctZoomModal.classList.contains('hidden')) {
+            ctZoomModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+          return;
+        }
+
+        // Hotkey 'c' for Stone Compare Modal
+        if (e.key.toLowerCase() === 'c' && !e.ctrlKey && !e.metaKey) {
+          const compareBtn = document.getElementById('openSlabCompareBtn');
+          if (compareBtn) {
+            e.preventDefault();
+            compareBtn.click();
+          }
+          return;
+        }
+
+        // Hotkey 'z' for Inspect Slab Texture
+        if (e.key.toLowerCase() === 'z' && !e.ctrlKey && !e.metaKey) {
+          const zoomBtn = document.getElementById('zoomTextureBtn');
+          if (zoomBtn) {
+            e.preventDefault();
+            zoomBtn.click();
+          }
+          return;
+        }
+
+        // Hotkey 'k' for Kitchen Countertop Macro Zoom
+        if (e.key.toLowerCase() === 'k' && !e.ctrlKey && !e.metaKey) {
+          const ctBtn = document.getElementById('zoomCountertopBtn');
+          if (ctBtn && !ctBtn.classList.contains('hidden')) {
+            e.preventDefault();
+            ctBtn.click();
+          }
+          return;
+        }
+
+        // Hotkey 'b' for Ambient Backlight Toggle
+        if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.metaKey) {
+          const backlightBtn = document.getElementById('backlightToggleBtn');
+          if (backlightBtn && !backlightBtn.classList.contains('hidden')) {
+            e.preventDefault();
+            backlightBtn.click();
+          }
+          return;
+        }
+      });
+    }
+
+    // 22. Initialize Visualizer App
     checkUrlParams();
     renderSurfaceButtons();
     renderMaterialsList('all');
@@ -4460,8 +4916,10 @@
     initUnactivatedAreaNotices();
     initKeyboardShortcuts();
     initSlabComparator();
+    initAppearanceModes();
+    initCountertopZoom();
   
-    // 19. Global 1-Click Preset Launcher
+    // 23. Global 1-Click Preset Launcher
     window.launchVisualizerPreset = function(roomId, surfaceId, stoneId) {
       if (roomConfigs[roomId]) {
         currentRoomKey = roomId;
