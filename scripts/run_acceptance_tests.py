@@ -98,7 +98,7 @@ def run_tests():
         ('staircase', 'stairs', 12, 0),
         ('dining-room', 'floor', 12, 0),
         ('parking', 'paving', 12, 0),
-        ('balcony', 'flooring', 4, 8)
+        ('balcony', 'flooring', 12, 0)
     ]
 
     print("\nTest 6: Validating Room x Surface x 12 Stones Matrix:")

@@ -170,7 +170,7 @@ new_script = f"""<script>
         image: 'assets/images/rooms/balcony.webp',
         defaultSurface: 'flooring',
         designs: [
-          {{ id: 'design-1', name: 'Design 1: Contemporary Covered Balcony', image: 'assets/images/rooms/balcony.webp', rendersCount: 4 }}
+          {{ id: 'design-1', name: 'Design 1: Contemporary Covered Balcony', image: 'assets/images/rooms/balcony.webp', rendersCount: 12 }}
         ],
         surfaces: {{
           'flooring': {{
