@@ -135,7 +135,7 @@ script_template = """<script>
         designs: [
           { id: 'design-1', name: 'Design 1: Master Marble Spa', image: 'assets/images/rooms/bathroom.jpg', rendersCount: 24 },
           { id: 'design-2', name: 'Design 2: Freestanding Bathtub Suite', image: 'assets/images/rooms/washroom-suite.jpg', rendersCount: 1 },
-          { id: 'design-3', name: 'Design 3: Indian Heritage Luxury Suite', image: 'assets/images/rooms/washroom-indian.jpg', rendersCount: 1 }
+          { id: 'design-3', name: 'Design 3: Indian Heritage Luxury Suite', image: 'assets/images/rooms/washroom-indian.jpg', rendersCount: 2 }
         ],
         surfaces: {
           'floor': {
