@@ -193,6 +193,7 @@
     <!-- Main Visualizer App Container -->
     <!-- Main Visualizer App Container -->
     <!-- Main Visualizer App Container -->
+    <!-- Main Visualizer App Container -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 flex-grow w-full">
     
     <!-- Title & Guidance Banner -->
@@ -254,59 +255,46 @@
             </div>
           </div>
 
-          <!-- Live Overlay Label (Top Left) -->
-          <div class="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2 pointer-events-none">
-            <span id="currentRoomBadge" class="text-xs px-3 py-1 rounded-full bg-black/80 text-white font-medium border border-white/20 backdrop-blur-md shadow-lg pointer-events-auto">
-              Kitchen
-            </span>
-            <span id="currentSurfaceBadge" class="text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg pointer-events-auto">
-              Surface: Countertop &amp; Island
-            </span>
-            <span id="renderQualityBadge" class="text-xs px-3 py-1 rounded-full bg-emerald-500/25 text-emerald-300 font-medium border border-emerald-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5 pointer-events-auto">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              <span id="renderQualityText">Verified Render</span>
-            </span>
-            <span id="atmosphereBadge" class="text-xs px-2.5 py-1 rounded-full bg-black/80 text-amber-300 font-medium border border-amber-500/30 backdrop-blur-md shadow-lg pointer-events-auto flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-              <span id="atmosphereBadgeText">Normal Light</span>
-            </span>
+          <!-- Top Overlay Bar (Unified Full-Width Flex Container: No Overlap, Perfectly Responsive) -->
+          <div class="absolute top-3.5 left-3.5 right-3.5 z-20 flex flex-wrap items-center justify-between gap-2.5 pointer-events-none">
+            <!-- Space & Surface Badges (Top Left) -->
+            <div class="flex items-center gap-2 flex-wrap pointer-events-auto">
+              <span id="currentRoomBadge" class="text-xs px-3 py-1.5 rounded-full bg-black/85 text-white font-medium border border-white/20 backdrop-blur-md shadow-lg">
+                Kitchen
+              </span>
+              <span id="currentSurfaceBadge" class="text-xs px-3 py-1.5 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg">
+                Surface: Countertop &amp; Island
+              </span>
+              <span id="renderQualityBadge" class="text-xs px-3 py-1.5 rounded-full bg-emerald-500/25 text-emerald-300 font-medium border border-emerald-500/40 backdrop-blur-md shadow-lg flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span id="renderQualityText">Verified Render</span>
+              </span>
+              <span id="atmosphereBadge" class="hidden text-xs px-2.5 py-1 rounded-full bg-black/80 text-amber-300 font-medium border border-amber-500/30 backdrop-blur-md shadow-lg pointer-events-auto flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                <span id="atmosphereBadgeText">Normal Light</span>
+              </span>
 
-            <!-- Reversible Backlight Effect Button (Active for Onyx & Translucent Slabs) -->
-            <button id="backlightToggleBtn" class="hidden text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg hover:bg-amber-500 hover:text-black transition flex items-center gap-1.5 pointer-events-auto cursor-pointer" title="Toggle subtle ambient backlight enhancement">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-              <span id="backlightStatusText">Backlight: OFF</span>
-            </button>
-          </div>
-
-          <!-- Top Right Actions: Appearance Toolbar & Modals (Side-by-Side Compare, Countertop Zoom, Inspect Slab) -->
-          <div class="absolute top-4 right-4 z-20 flex flex-wrap items-center justify-end gap-2 pointer-events-auto">
-            <!-- Three Appearance Options: Normal, Dark, Highlight -->
-            <div id="appearanceModeBar" class="flex items-center gap-1 p-1 rounded-full bg-black/85 backdrop-blur-md border border-white/20 shadow-lg">
-              <button type="button" class="appearance-btn active px-2.5 py-1 rounded-full text-[11px] font-bold transition cursor-pointer flex items-center gap-1 bg-amber-500 text-stone-950 shadow" data-mode="normal" title="Daylight Balanced (Normal)">
-                <span>☀️ Normal</span>
-              </button>
-              <button type="button" class="appearance-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition cursor-pointer flex items-center gap-1 bg-stone-900 text-stone-300 hover:text-white hover:border-amber-400" data-mode="dark" title="Dusk / Night Architectural Ambience">
-                <span>🌙 Dark</span>
-              </button>
-              <button type="button" class="appearance-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition cursor-pointer flex items-center gap-1 bg-stone-900 text-stone-300 hover:text-white hover:border-amber-400" data-mode="highlight" title="Luminous Cove Backlight & Accent Glow">
-                <span>✨ Highlight</span>
+              <!-- Reversible Backlight Effect Button (Active for Onyx & Translucent Slabs) -->
+              <button id="backlightToggleBtn" class="hidden text-xs px-3 py-1.5 rounded-full bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40 backdrop-blur-md shadow-lg hover:bg-amber-500 hover:text-black transition flex items-center gap-1.5 pointer-events-auto cursor-pointer" title="Toggle subtle ambient backlight enhancement">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                <span id="backlightStatusText">Backlight: OFF</span>
               </button>
             </div>
 
-            <!-- Kitchen Countertop Macro Zoom Button (Active in Kitchen) -->
-            <button id="zoomCountertopBtn" class="text-xs px-3 py-1.5 rounded-full bg-amber-500 text-stone-950 font-bold border border-amber-400 backdrop-blur-md shadow-lg hover:bg-amber-400 transition flex items-center gap-1.5 cursor-pointer" title="Zoom into Kitchen Countertop Veining & Edge Profiles (Shortcut: K)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
-              <span>Countertop Zoom</span>
-            </button>
-
-            <button id="openSlabCompareBtn" class="text-xs px-3 py-1.5 rounded-full bg-black/85 text-amber-300 font-medium border border-white/20 backdrop-blur-md shadow-lg hover:bg-stone-800 hover:border-amber-400 transition flex items-center gap-1.5 cursor-pointer" title="Compare two stone slabs side-by-side (Shortcut: C)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="18" rx="1"/><rect x="13" y="3" width="8" height="18" rx="1"/></svg>
-              <span>Compare Slabs</span>
-            </button>
-            <button id="zoomTextureBtn" class="text-xs px-3 py-1.5 rounded-full bg-black/85 text-amber-300 font-medium border border-white/20 backdrop-blur-md shadow-lg hover:bg-stone-800 hover:border-amber-400 transition flex items-center gap-1.5 cursor-pointer" title="Inspect full-resolution slab veining (Shortcut: Z)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-              <span>Inspect Slab</span>
-            </button>
+            <!-- Appearance Mode Bar (Top Right: Normal, Dark, Highlight) -->
+            <div class="flex items-center gap-2 pointer-events-auto ml-auto">
+              <div id="appearanceModeBar" class="flex items-center gap-1 p-1 rounded-full bg-black/85 backdrop-blur-md border border-white/20 shadow-xl">
+                <button type="button" class="appearance-btn active px-3 py-1 rounded-full text-[11px] font-bold transition cursor-pointer flex items-center gap-1 bg-amber-500 text-stone-950 shadow" data-mode="normal" title="Daylight Balanced (Normal)">
+                  <span>☀️ Normal</span>
+                </button>
+                <button type="button" class="appearance-btn px-3 py-1 rounded-full text-[11px] font-medium transition cursor-pointer flex items-center gap-1 bg-stone-900 text-stone-300 hover:text-white hover:border-amber-400" data-mode="dark" title="Dusk / Night Architectural Ambience">
+                  <span>🌙 Dark</span>
+                </button>
+                <button type="button" class="appearance-btn px-3 py-1 rounded-full text-[11px] font-medium transition cursor-pointer flex items-center gap-1 bg-stone-900 text-stone-300 hover:text-white hover:border-amber-400" data-mode="highlight" title="Luminous Cove Backlight & Accent Glow">
+                  <span>✨ Highlight</span>
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- Honest Toast Notice (Shows when selected stone is unrendered in this space or exploring a scene) -->
@@ -322,14 +310,36 @@
             </div>
           </div>
 
-          <!-- Active Stone Tag (Bottom Left) -->
-          <div class="absolute bottom-4 left-4 z-20 bg-black/85 backdrop-blur-md border border-white/20 rounded-2xl p-3 flex items-center gap-3 shadow-2xl pointer-events-auto">
-            <div class="w-11 h-11 rounded-xl overflow-hidden bg-black shrink-0 border border-white/25 shadow-inner">
-              <img id="activeStoneThumb" src="assets/images/products/product-1783138465-6a4888a145274.jpg" class="w-full h-full object-cover" alt="Active texture thumbnail"/>
+          <!-- Bottom Overlay Controls (Unified Flex Container: Active Stone Tag on Left, Action Tools on Right) -->
+          <div class="absolute bottom-3.5 left-3.5 right-3.5 z-20 flex flex-wrap items-end justify-between gap-3 pointer-events-none">
+            <!-- Active Stone Tag (Bottom Left) -->
+            <div class="bg-black/85 backdrop-blur-md border border-white/20 rounded-2xl p-2.5 sm:p-3 flex items-center gap-3 shadow-2xl pointer-events-auto">
+              <div class="w-11 h-11 rounded-xl overflow-hidden bg-black shrink-0 border border-white/25 shadow-inner">
+                <img id="activeStoneThumb" src="assets/images/products/product-1783138465-6a4888a145274.jpg" class="w-full h-full object-cover" alt="Active texture thumbnail"/>
+              </div>
+              <div>
+                <div class="text-[10px] uppercase tracking-wider text-amber-400 font-semibold" id="activeCategoryLabel">Premium Granite</div>
+                <div class="text-sm font-serif font-bold text-white tracking-wide" id="activeMaterialTitle">River Black</div>
+              </div>
             </div>
-            <div>
-              <div class="text-[10px] uppercase tracking-wider text-amber-400 font-semibold" id="activeCategoryLabel">Premium Granite</div>
-              <div class="text-sm font-serif font-bold text-white tracking-wide" id="activeMaterialTitle">River Black</div>
+
+            <!-- Action Inspection Tools (Bottom Right: Countertop Zoom, Compare Slabs, Inspect Slab) -->
+            <div class="flex items-center gap-2 pointer-events-auto flex-wrap justify-end ml-auto">
+              <!-- Kitchen Countertop Macro Zoom Button (Active in Kitchen) -->
+              <button id="zoomCountertopBtn" class="text-xs px-3.5 py-2 rounded-full bg-amber-500 text-stone-950 font-bold border border-amber-400 backdrop-blur-md shadow-xl hover:bg-amber-400 transition flex items-center gap-1.5 cursor-pointer" title="Zoom into Kitchen Countertop Veining & Edge Profiles (Shortcut: K)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+                <span>Countertop Zoom</span>
+              </button>
+
+              <button id="openSlabCompareBtn" class="text-xs px-3.5 py-2 rounded-full bg-black/85 text-amber-300 font-medium border border-white/20 backdrop-blur-md shadow-xl hover:bg-stone-800 hover:border-amber-400 transition flex items-center gap-1.5 cursor-pointer" title="Compare two stone slabs side-by-side (Shortcut: C)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="18" rx="1"/><rect x="13" y="3" width="8" height="18" rx="1"/></svg>
+                <span>Compare Slabs</span>
+              </button>
+
+              <button id="zoomTextureBtn" class="text-xs px-3.5 py-2 rounded-full bg-black/85 text-amber-300 font-medium border border-white/20 backdrop-blur-md shadow-xl hover:bg-stone-800 hover:border-amber-400 transition flex items-center gap-1.5 cursor-pointer" title="Inspect full-resolution slab veining (Shortcut: Z)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                <span>Inspect Slab</span>
+              </button>
             </div>
           </div>
 
