@@ -114,7 +114,7 @@ script_template = """<script>
         defaultSurface: 'floor',
         designs: [
           { id: 'design-1', name: 'Design 1: Contemporary Villa Hall', image: 'assets/images/rooms/living-room.jpg', rendersCount: 24 },
-          { id: 'design-2', name: 'Design 2: Panorama Poolside Hall', image: 'assets/images/rooms/living-room-2.jpg', rendersCount: 1 }
+          { id: 'design-2', name: 'Design 2: Panorama Poolside Hall', image: 'assets/images/rooms/living-room-2.jpg', rendersCount: 12 }
         ],
         surfaces: {
           'floor': {
@@ -441,10 +441,11 @@ script_template = """<script>
       });
 
     // Exact Match Resolver - STRICTLY HONEST, NO PROXYING, NO FAKING
-    function findGeneratedPreview(roomId, matId, surfaceId) {
+    function findGeneratedPreview(roomId, matId, surfaceId, designId) {
       const rKey = (roomId || '').toLowerCase().trim();
       const mKey = (matId || '').toLowerCase().trim();
       const sKey = (surfaceId || '').toLowerCase().trim();
+      const dKey = (designId || 'design-1').toLowerCase().trim();
 
       // Check custom visualizers uploaded via Admin Dashboard first
       try {
@@ -463,12 +464,18 @@ script_template = """<script>
         }
       } catch (e) {}
 
-      // Direct manifest exact match only
+      // Direct manifest exact match with design_id support
       return GENERATED_PREVIEWS_MANIFEST.find(item => {
+        const itemDesign = (item.design_id || 'design-1').toLowerCase().trim();
+        return item.room_id === rKey && 
+               item.product_id === mKey && 
+               item.surface_id === sKey &&
+               itemDesign === dKey;
+      }) || (dKey === 'design-1' ? GENERATED_PREVIEWS_MANIFEST.find(item => {
         return item.room_id === rKey && 
                item.product_id === mKey && 
                item.surface_id === sKey;
-      }) || null;
+      }) : null);
     }
 
     // Find alternative room where this stone has a verified render
@@ -517,10 +524,19 @@ script_template = """<script>
         }
       }
 
-      // Filter to surfaces that have >= 1 render in this room, or fall back to configured surfaces
+      // Filter to surfaces that have >= 1 render in this room and active design
+      const activeDesignId = room.activeDesignId || 'design-1';
       let availableSurfaces = Object.values(room.surfaces).filter(surf => {
-        return GENERATED_PREVIEWS_MANIFEST.some(item => item.room_id === currentRoomKey && item.surface_id === surf.key);
+        return GENERATED_PREVIEWS_MANIFEST.some(item => {
+          const itemDesign = (item.design_id || 'design-1').toLowerCase().trim();
+          return item.room_id === currentRoomKey && item.surface_id === surf.key && itemDesign === activeDesignId;
+        });
       });
+      if (availableSurfaces.length === 0) {
+        availableSurfaces = Object.values(room.surfaces).filter(surf => {
+          return GENERATED_PREVIEWS_MANIFEST.some(item => item.room_id === currentRoomKey && item.surface_id === surf.key);
+        });
+      }
       if (availableSurfaces.length === 0) {
         availableSurfaces = Object.values(room.surfaces);
       }
@@ -612,10 +628,13 @@ script_template = """<script>
 
       document.getElementById('materialCountLabel').textContent = `${list.length} Verified Slabs`;
 
+      const room = roomConfigs[currentRoomKey];
+      const activeDesignId = room?.activeDesignId || 'design-1';
+
       list.forEach(mat => {
         const btn = document.createElement('button');
         const isActive = mat.id === selectedMaterial.id;
-        const hasRenderInCurrent = !!findGeneratedPreview(currentRoomKey, mat.id, currentSurfaceKey);
+        const hasRenderInCurrent = !!findGeneratedPreview(currentRoomKey, mat.id, currentSurfaceKey, activeDesignId);
 
         btn.className = `texture-pill p-2 rounded-2xl bg-stone-900 flex items-center justify-between text-left transition ${
           isActive ? 'active border-amber-400' : ''
@@ -660,10 +679,12 @@ script_template = """<script>
     function preloadNextRenders(currentMatId) {
       const currentIdx = visualizerMaterials.findIndex(m => m.id === currentMatId);
       if (currentIdx === -1) return;
+      const room = roomConfigs[currentRoomKey];
+      const activeDesignId = room?.activeDesignId || 'design-1';
       const nextIndices = [(currentIdx + 1) % visualizerMaterials.length, (currentIdx + 2) % visualizerMaterials.length];
       nextIndices.forEach(idx => {
         const nextMat = visualizerMaterials[idx];
-        const match = findGeneratedPreview(currentRoomKey, nextMat.id, currentSurfaceKey);
+        const match = findGeneratedPreview(currentRoomKey, nextMat.id, currentSurfaceKey, activeDesignId);
         if (match && match.generated_preview) {
           const img = new Image();
           img.src = match.generated_preview;
@@ -694,8 +715,8 @@ script_template = """<script>
       }
 
       // 2. Resolve Photorealistic Preview from Manifest
-      const isDesign1 = !room.activeDesignId || room.activeDesignId === 'design-1';
-      const generatedMatch = isDesign1 ? findGeneratedPreview(currentRoomKey, selectedMaterial.id, currentSurfaceKey) : null;
+      const activeDesignId = room.activeDesignId || 'design-1';
+      const generatedMatch = findGeneratedPreview(currentRoomKey, selectedMaterial.id, currentSurfaceKey, activeDesignId);
       const generatedRoomImg = document.getElementById('generatedRoomImg');
       const renderQualityBadge = document.getElementById('renderQualityBadge');
       const renderQualityText = document.getElementById('renderQualityText');
@@ -744,7 +765,7 @@ script_template = """<script>
         // Hide overlay so the high-resolution architectural base scene photo is completely visible
         generatedRoomImg.style.display = 'none';
 
-        if (room.designs && room.designs.length > 1 && !isDesign1) {
+        if (room.designs && room.designs.length > 1 && activeDesignId !== 'design-1') {
           const activeDesign = room.designs.find(d => d.id === room.activeDesignId) || room.designs[0];
           if (renderPendingToast && renderPendingToastText) {
             renderPendingToast.classList.remove('hidden');

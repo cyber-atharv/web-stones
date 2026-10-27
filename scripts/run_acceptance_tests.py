@@ -94,27 +94,28 @@ def run_tests():
     ]
 
     active_scenes = [
-        ('kitchen', 'countertop', 12, 0),
-        ('living-room', 'floor', 12, 0),
-        ('living-room', 'wall', 12, 0),
-        ('bathroom', 'floor', 12, 0),
-        ('bathroom', 'wall', 12, 0),
-        ('bedroom', 'floor', 12, 0),
-        ('staircase', 'stairs', 12, 0),
-        ('dining-room', 'floor', 12, 0),
-        ('parking', 'paving', 12, 0),
-        ('balcony', 'flooring', 12, 0)
+        ('kitchen', 'countertop', 'design-1', 12, 0),
+        ('living-room', 'floor', 'design-1', 12, 0),
+        ('living-room', 'wall', 'design-1', 12, 0),
+        ('living-room', 'floor', 'design-2', 12, 0),
+        ('bathroom', 'floor', 'design-1', 12, 0),
+        ('bathroom', 'wall', 'design-1', 12, 0),
+        ('bedroom', 'floor', 'design-1', 12, 0),
+        ('staircase', 'stairs', 'design-1', 12, 0),
+        ('dining-room', 'floor', 'design-1', 12, 0),
+        ('parking', 'paving', 'design-1', 12, 0),
+        ('balcony', 'flooring', 'design-1', 12, 0)
     ]
 
     print("\nTest 6: Validating Room x Surface x 12 Stones Matrix:")
-    manifest_set = set((item['room_id'], item['surface_id'], item['product_id']) for item in manifest)
+    manifest_set = set((item['room_id'], item['surface_id'], item.get('design_id', 'design-1'), item['product_id']) for item in manifest)
 
-    for room_id, surface_id, expected_renders, expected_missing in active_scenes:
-        actual_renders = sum(1 for sid in canonical_stones if (room_id, surface_id, sid) in manifest_set)
+    for room_id, surface_id, design_id, expected_renders, expected_missing in active_scenes:
+        actual_renders = sum(1 for sid in canonical_stones if (room_id, surface_id, design_id, sid) in manifest_set)
         actual_missing = len(canonical_stones) - actual_renders
-        assert actual_renders == expected_renders, f"Mismatch for {room_id} > {surface_id}: expected {expected_renders}, got {actual_renders}"
-        assert actual_missing == expected_missing, f"Mismatch for {room_id} > {surface_id}: expected {expected_missing}, got {actual_missing}"
-        print(f"  * {room_id:<12} > {surface_id:<12}: {actual_renders}/12 verified renders, {actual_missing}/12 honest 'coming soon' states. (PASS)")
+        assert actual_renders == expected_renders, f"Mismatch for {room_id} > {surface_id} ({design_id}): expected {expected_renders}, got {actual_renders}"
+        assert actual_missing == expected_missing, f"Mismatch for {room_id} > {surface_id} ({design_id}): expected {expected_missing}, got {actual_missing}"
+        print(f"  * {room_id:<12} > {surface_id:<10} ({design_id}): {actual_renders}/12 verified renders, {actual_missing}/12 honest 'coming soon' states. (PASS)")
 
     # 4. Check visualizer.html for code integrity
     vis_html_path = os.path.join(BASE_DIR, 'visualizer.html')
