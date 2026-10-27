@@ -196,6 +196,7 @@
     <!-- Main Visualizer App Container -->
     <!-- Main Visualizer App Container -->
     <!-- Main Visualizer App Container -->
+    <!-- Main Visualizer App Container -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 flex-grow w-full">
     
     <!-- Title & Guidance Banner -->
@@ -236,15 +237,15 @@
         <div id="stageViewport" class="relative rounded-3xl overflow-hidden bg-stone-950 border border-white/10 shadow-2xl room-stage select-none group aspect-[16/9] w-full stage-atmosphere-normal" style="touch-action: pan-y; background: radial-gradient(circle at 50% 35%, #181920 0%, #090a0d 100%);">
           
           <!-- Base Room Photo (Shows authentic base room in Before mode) -->
-          <img id="baseRoomImg" src="assets/images/rooms/kitchen.jpg" alt="Original room reference" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"/>
+          <img id="baseRoomImg" src="assets/images/rooms/kitchen.webp" alt="Original room reference" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"/>
 
           <!-- After Layer: Contains Photorealistic Installed Stone Preview clipped to comparison slider -->
           <div id="afterLayer" class="absolute inset-0 overflow-hidden" style="width: 100%; clip-path: inset(0 50% 0 0);">
             <!-- Matching Room Background inside After layer -->
-            <img id="afterBaseRoomImg" src="assets/images/rooms/kitchen.jpg" alt="Room background" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"/>
+            <img id="afterBaseRoomImg" src="assets/images/rooms/kitchen.webp" alt="Room background" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"/>
 
             <!-- PRIMARY PREVIEW: Photorealistic Architectural Installed Stone Room Render -->
-            <img id="generatedRoomImg" src="assets/images/room_renders/kitchen countertop/render_River Black.png" alt="Photorealistic installed stone preview" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none transition-opacity duration-300" style="display: block;"/>
+            <img id="generatedRoomImg" src="assets/images/room_renders/kitchen countertop/render_River Black.webp" alt="Photorealistic installed stone preview" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none transition-opacity duration-300" style="display: block;"/>
 
             <!-- Ambient depth vignette -->
             <div class="ambient-depth-vignette absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none"></div>
@@ -317,7 +318,7 @@
             <!-- Active Stone Tag (Bottom Left) -->
             <div class="bg-black/85 backdrop-blur-md border border-white/20 rounded-2xl p-2.5 sm:p-3 flex items-center gap-3 shadow-2xl pointer-events-auto">
               <div class="w-11 h-11 rounded-xl overflow-hidden bg-black shrink-0 border border-white/25 shadow-inner">
-                <img id="activeStoneThumb" src="assets/images/products/product-1783138465-6a4888a145274.jpg" class="w-full h-full object-cover" alt="Active texture thumbnail"/>
+                <img id="activeStoneThumb" src="assets/images/products/product-1783138465-6a4888a145274.webp" class="w-full h-full object-cover" alt="Active texture thumbnail"/>
               </div>
               <div>
                 <div class="text-[10px] uppercase tracking-wider text-amber-400 font-semibold" id="activeCategoryLabel">Premium Granite</div>
@@ -862,7 +863,7 @@
         <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
           <div>
             <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
-              <img src="assets/images/room_renders/gallery_showcase/01_river_black_kitchen.jpg" alt="Kitchen Countertop with River Black Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <img src="assets/images/room_renders/gallery_showcase/01_river_black_kitchen.webp" alt="Kitchen Countertop with River Black Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
               <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
                 #1 Most Popular Application
               </span>
@@ -889,7 +890,7 @@
         <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
           <div>
             <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
-              <img src="assets/images/room_renders/gallery_showcase/06_statuario_living_floor.jpg" alt="Living Room with Statuario Italian Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <img src="assets/images/room_renders/gallery_showcase/06_statuario_living_floor.webp" alt="Living Room with Statuario Italian Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
               <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
                 Opulent Grandeur
               </span>
@@ -916,7 +917,7 @@
         <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
           <div>
             <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
-              <img src="assets/images/room_renders/gallery_showcase/07_blue_night_bathroom.jpg" alt="Master Bathroom with Blue in the Night Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <img src="assets/images/room_renders/gallery_showcase/07_blue_night_bathroom.webp" alt="Master Bathroom with Blue in the Night Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
               <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
                 Spa Sanctuary
               </span>
@@ -943,7 +944,7 @@
         <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
           <div>
             <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
-              <img src="assets/images/room_renders/gallery_showcase/08_emerald_onyx_feature_wall.jpg" alt="Backlit Feature Wall with Emerald Onyx Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <img src="assets/images/room_renders/gallery_showcase/08_emerald_onyx_feature_wall.webp" alt="Backlit Feature Wall with Emerald Onyx Marble" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
               <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
                 Backlit Fine Art
               </span>
@@ -970,7 +971,7 @@
         <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
           <div>
             <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
-              <img src="assets/images/room_renders/gallery_showcase/10_marie_gold_staircase.jpg" alt="Floating Staircase with Marie Gold Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <img src="assets/images/room_renders/gallery_showcase/10_marie_gold_staircase.webp" alt="Floating Staircase with Marie Gold Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
               <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
                 Structural Elegance
               </span>
@@ -997,7 +998,7 @@
         <div class="rounded-3xl bg-[#141418] border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/50 transition-all duration-300 group shadow-xl hover:-translate-y-1">
           <div>
             <div class="relative h-48 rounded-2xl overflow-hidden mb-5 bg-stone-900 border border-white/10">
-              <img src="assets/images/room_renders/gallery_showcase/09_black_forest_floor.jpg" alt="Villa Foyer with Black Forest Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
+              <img src="assets/images/room_renders/gallery_showcase/09_black_forest_floor.webp" alt="Villa Foyer with Black Forest Granite" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"/>
               <span class="absolute top-3 left-3 text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-amber-300 font-semibold border border-amber-500/30">
                 High-Traffic Luxury
               </span>
@@ -1099,10 +1100,10 @@
     const roomConfigs = {
       'kitchen': {
         name: 'Kitchen',
-        image: 'assets/images/rooms/kitchen.jpg',
+        image: 'assets/images/rooms/kitchen.webp', /* fallback: assets/images/rooms/kitchen.jpg */,
         defaultSurface: 'countertop',
         designs: [
-          { id: 'design-1', name: 'Design 1: Obsidian Island', image: 'assets/images/rooms/kitchen.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Obsidian Island', image: 'assets/images/rooms/kitchen.webp', /* fallback: assets/images/rooms/kitchen.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'countertop': {
@@ -1114,11 +1115,11 @@
 
       'living-room': {
         name: 'Living Room',
-        image: 'assets/images/rooms/living-room.jpg',
+        image: 'assets/images/rooms/living-room.webp', /* fallback: assets/images/rooms/living-room.jpg */,
         defaultSurface: 'floor',
         designs: [
-          { id: 'design-1', name: 'Design 1: Contemporary Villa Hall', image: 'assets/images/rooms/living-room.jpg', rendersCount: 24 },
-          { id: 'design-2', name: 'Design 2: Panorama Poolside Hall', image: 'assets/images/rooms/living-room-2.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Contemporary Villa Hall', image: 'assets/images/rooms/living-room.webp', /* fallback: assets/images/rooms/living-room.jpg */, rendersCount: 24 },
+          { id: 'design-2', name: 'Design 2: Panorama Poolside Hall', image: 'assets/images/rooms/living-room-2.webp', /* fallback: assets/images/rooms/living-room-2.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'floor': {
@@ -1134,12 +1135,12 @@
 
       'bathroom': {
         name: 'Bathroom',
-        image: 'assets/images/rooms/bathroom.jpg',
+        image: 'assets/images/rooms/bathroom.webp', /* fallback: assets/images/rooms/bathroom.jpg */,
         defaultSurface: 'floor',
         designs: [
-          { id: 'design-1', name: 'Design 1: Master Marble Spa', image: 'assets/images/rooms/bathroom.jpg', rendersCount: 24 },
-          { id: 'design-2', name: 'Design 2: Freestanding Bathtub Suite', image: 'assets/images/rooms/washroom-suite.jpg', rendersCount: 3 },
-          { id: 'design-3', name: 'Design 3: Indian Heritage Luxury Suite', image: 'assets/images/rooms/washroom-indian.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Master Marble Spa', image: 'assets/images/rooms/bathroom.webp', /* fallback: assets/images/rooms/bathroom.jpg */, rendersCount: 24 },
+          { id: 'design-2', name: 'Design 2: Freestanding Bathtub Suite', image: 'assets/images/rooms/washroom-suite.webp', /* fallback: assets/images/rooms/washroom-suite.jpg */, rendersCount: 3 },
+          { id: 'design-3', name: 'Design 3: Indian Heritage Luxury Suite', image: 'assets/images/rooms/washroom-indian.webp', /* fallback: assets/images/rooms/washroom-indian.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'floor': {
@@ -1155,10 +1156,10 @@
 
       'bedroom': {
         name: 'Bedroom',
-        image: 'assets/images/rooms/bedroom.jpg',
+        image: 'assets/images/rooms/bedroom.webp', /* fallback: assets/images/rooms/bedroom.jpg */,
         defaultSurface: 'floor',
         designs: [
-          { id: 'design-1', name: 'Design 1: Master Suite', image: 'assets/images/rooms/bedroom.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Master Suite', image: 'assets/images/rooms/bedroom.webp', /* fallback: assets/images/rooms/bedroom.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'floor': {
@@ -1170,10 +1171,10 @@
 
       'staircase': {
         name: 'Staircase',
-        image: 'assets/images/rooms/staircase.jpg',
+        image: 'assets/images/rooms/staircase.webp', /* fallback: assets/images/rooms/staircase.jpg */,
         defaultSurface: 'stairs',
         designs: [
-          { id: 'design-1', name: 'Design 1: Grand Architectural Foyer', image: 'assets/images/rooms/staircase.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Grand Architectural Foyer', image: 'assets/images/rooms/staircase.webp', /* fallback: assets/images/rooms/staircase.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'stairs': {
@@ -1185,10 +1186,10 @@
 
       'dining-room': {
         name: 'Dining Room',
-        image: 'assets/images/rooms/dining-room.jpg',
+        image: 'assets/images/rooms/dining-room.webp', /* fallback: assets/images/rooms/dining-room.jpg */,
         defaultSurface: 'floor',
         designs: [
-          { id: 'design-1', name: 'Design 1: Banquet Grand Hall', image: 'assets/images/rooms/dining-room.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Banquet Grand Hall', image: 'assets/images/rooms/dining-room.webp', /* fallback: assets/images/rooms/dining-room.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'floor': {
@@ -1230,10 +1231,10 @@
 
       'elevation': {
         name: 'Building Elevation',
-        image: 'assets/images/rooms/elevation.jpg',
+        image: 'assets/images/rooms/elevation.webp', /* fallback: assets/images/rooms/elevation.jpg */,
         defaultSurface: 'facade',
         designs: [
-          { id: 'design-1', name: 'Design 1: Contemporary Villa Elevation', image: 'assets/images/rooms/elevation.jpg', rendersCount: 1 }
+          { id: 'design-1', name: 'Design 1: Contemporary Villa Elevation', image: 'assets/images/rooms/elevation.webp', /* fallback: assets/images/rooms/elevation.jpg */, rendersCount: 1 }
         ],
         surfaces: {
           'facade': {
@@ -1254,7 +1255,7 @@
         finish: 'Polished',
         thickness: '16mm - 18mm',
         usage: 'Kitchen Countertops, High-Traffic Flooring, Wall Cladding',
-        image: 'assets/images/products/product-1783138465-6a4888a145274.jpg',
+        image: 'assets/images/products/product-1783138465-6a4888a145274.webp',
         description: 'Deep jet black granite with crystalline wave patterns and high density. Highly resilient against heat, stains, and scratches.'
       },
       {
@@ -1265,7 +1266,7 @@
         finish: 'Polished',
         thickness: '16mm - 18mm',
         usage: 'Kitchen Countertops, Bathroom Vanities, Interior Flooring',
-        image: 'assets/images/products/product-1783138424-6a488878abc22.jpg',
+        image: 'assets/images/products/product-1783138424-6a488878abc22.webp',
         description: 'Semi-solid dark granite with uniform speckles of black, silver, and gold minerals. Uniform and exceptionally durable.'
       },
       {
@@ -1276,7 +1277,7 @@
         finish: 'Polished',
         thickness: '18mm',
         usage: 'Kitchen Islands, Exterior Steps, Grand Hall Flooring',
-        image: 'assets/images/products/product-1783084011-6a47b3eb20cf0.jpg',
+        image: 'assets/images/products/product-1783084011-6a47b3eb20cf0.webp',
         description: 'Rich dark granite characterized by warm brown, chocolate, and copper floral mineral clusters. Highly resistant to staining.'
       },
       {
@@ -1287,7 +1288,7 @@
         finish: 'Mirror Polished',
         thickness: '16mm - 18mm',
         usage: 'Living Room Flooring, Master Bedroom Suites, Luxury Bathrooms',
-        image: 'assets/images/products/product-1783085208-6a47b8986af97.png',
+        image: 'assets/images/products/product-1783085208-6a47b8986af97.webp',
         description: 'Classic white marble accented by delicate grey and subtle gold veins. Creates an opulent, luminous atmosphere.'
       },
       {
@@ -1298,7 +1299,7 @@
         finish: 'Polished',
         thickness: '18mm',
         usage: 'Kitchen Worktops, Wide Format Flooring, Backsplashes',
-        image: 'assets/images/products/product-1783084356-6a47b5441b767.jpg',
+        image: 'assets/images/products/product-1783084356-6a47b5441b767.webp',
         description: 'Luminous pale backdrop enriched with neutral grey veins and garnet flecks. Brightens large interior spaces.'
       },
       {
@@ -1309,7 +1310,7 @@
         finish: 'Polished / Backlit',
         thickness: '16mm - 18mm',
         usage: 'Feature Accent Walls, Backlit Vanity Walls, Bar Counters',
-        image: 'assets/images/products/product-1783085161-6a47b869e0448.jpg',
+        image: 'assets/images/products/product-1783085161-6a47b869e0448.webp',
         description: 'Translucent banded onyx featuring crystalline jade green and amber honey veining. Striking when backlit.'
       },
       {
@@ -1320,7 +1321,7 @@
         finish: 'Polished',
         thickness: '18mm',
         usage: 'Living Flooring, Stair Treads, Dining Room Flooring',
-        image: 'assets/images/products/product-1783085317-6a47b9058f71e.jpg',
+        image: 'assets/images/products/product-1783085317-6a47b9058f71e.webp',
         description: 'Warm golden-beige mineral background with fine brown and caramel grains. Adds natural warmth and light.'
       },
       {
@@ -1331,7 +1332,7 @@
         finish: 'Polished',
         thickness: '18mm',
         usage: 'Statement Countertops, Luxury Vanities, Accent Inlays',
-        image: 'assets/images/products/product-1783085244-6a47b8bcd330d.png',
+        image: 'assets/images/products/product-1783085244-6a47b8bcd330d.webp',
         description: 'Exotic midnight black granite studded with iridescent blue labradorite crystals that gleam in light.'
       },
       {
@@ -1342,7 +1343,7 @@
         finish: 'Polished',
         thickness: '16mm - 18mm',
         usage: 'Modern Kitchen Counters, Vanity Tops, Hallway Flooring',
-        image: 'assets/images/products/product-1783079448-6a47a218632fd.jpg',
+        image: 'assets/images/products/product-1783079448-6a47a218632fd.webp',
         description: 'Fine-grained ivory and pale grey granite with miniature burgundy mineral specks. Crisp, clean contemporary look.'
       },
       {
@@ -1353,7 +1354,7 @@
         finish: 'Polished',
         thickness: '18mm',
         usage: 'Kitchen Islands, Waterfall Countertops, Living Flooring',
-        image: 'assets/images/products/product-1783078831-6a479faf4fcbd.jpg',
+        image: 'assets/images/products/product-1783078831-6a479faf4fcbd.webp',
         description: 'Crisp white base with flowing grey rivers and small deep red mineral crystals. Elegant movement across slabs.'
       },
       {
@@ -1364,7 +1365,7 @@
         finish: 'Polished / Leathered',
         thickness: '18mm - 20mm',
         usage: 'Feature Walls, Kitchen Countertops, Staircase Treads',
-        image: 'assets/images/products/product-1783083657-6a47b289a4a40.jpg',
+        image: 'assets/images/products/product-1783083657-6a47b289a4a40.webp',
         description: 'Dramatic black granite intersected by bold white and silver streaks resembling forest branches.'
       },
       {
@@ -1375,7 +1376,7 @@
         finish: 'Polished / Honed',
         thickness: '18mm',
         usage: 'Luxury Countertops, Backsplashes, Accent Flooring',
-        image: 'assets/images/products/product-1783083560-6a47b228132ac.jpg',
+        image: 'assets/images/products/product-1783083560-6a47b228132ac.webp',
         description: 'Deep charcoal black with undulating cream and quartz veins creating dramatic organic patterns.'
       }
     ];
@@ -1436,15 +1437,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_Black Forest.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/black-forest.png",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/black-forest.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_Black Forest.png"
   },
   {
     "product_id": "black-pearl",
@@ -1455,15 +1457,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/black-pearl.png",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/black-pearl.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_Black Pearl.png"
   },
   {
     "product_id": "blue-night",
@@ -1474,15 +1477,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/blue-night.png",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/blue-night.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_Blue in the Night.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -1493,15 +1497,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_Emerald Onyx.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/emerald-onyx.png",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_Emerald Onyx.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/emerald-onyx.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_Emerald Onyx.png"
   },
   {
     "product_id": "kashmir-white",
@@ -1512,15 +1517,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_Kashmir White.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/kashmir-white.png",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_Kashmir White.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/kashmir-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_Kashmir White.png"
   },
   {
     "product_id": "marie-gold",
@@ -1531,15 +1537,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/marie-gold.png",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/marie-gold.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_Marie Gold.png"
   },
   {
     "product_id": "moon-white",
@@ -1550,15 +1557,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_Moon White.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/moon-white.png",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_Moon White.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/moon-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_Moon White.png"
   },
   {
     "product_id": "river-black",
@@ -1569,15 +1577,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/river-black.png",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/river-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_River Black.png"
   },
   {
     "product_id": "river-white",
@@ -1588,15 +1597,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_River White.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/river-white.png",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/river-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_River White.png"
   },
   {
     "product_id": "statuario-marble",
@@ -1607,15 +1617,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_Statuario Marble.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/statuario-marble.png",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_Statuario Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/statuario-marble.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_Statuario Marble.png"
   },
   {
     "product_id": "tan-brown",
@@ -1626,15 +1637,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_Tan Brown.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/tan-brown.png",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/tan-brown.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_Tan Brown.png"
   },
   {
     "product_id": "titanium-black",
@@ -1645,15 +1657,16 @@
     "surface_id": "flooring",
     "surface_name": "Balcony Flooring",
     "original_room_image": "assets/images/rooms/balcony.webp",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/balcony flooring/render_Titanium Black.png",
-    "normalized_render_path": "assets/images/room_renders/balcony-flooring/titanium-black.png",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/balcony flooring/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/balcony-flooring/titanium-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/balcony flooring/render_Titanium Black.png"
   },
   {
     "product_id": "black-forest",
@@ -1663,16 +1676,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_Black Forest.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/black-forest.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/black-forest.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_Black Forest.png"
   },
   {
     "product_id": "black-pearl",
@@ -1682,16 +1696,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_black_pearl_floor.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/black-pearl.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_black_pearl_floor.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/black-pearl.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_black_pearl_floor.png"
   },
   {
     "product_id": "blue-night",
@@ -1701,16 +1716,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/blue-night.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/blue-night.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_Blue in the Night.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -1720,16 +1736,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_Emerald Onyx Marble.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/emerald-onyx.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_Emerald Onyx Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/emerald-onyx.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_Emerald Onyx Marble.png"
   },
   {
     "product_id": "kashmir-white",
@@ -1739,16 +1756,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_Kashmir_Alaska White.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/kashmir-white.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_Kashmir_Alaska White.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/kashmir-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_Kashmir_Alaska White.png"
   },
   {
     "product_id": "marie-gold",
@@ -1758,16 +1776,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/marie-gold.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/marie-gold.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_Marie Gold.png"
   },
   {
     "product_id": "moon-white",
@@ -1777,16 +1796,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_Moon Whitepng.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/moon-white.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_Moon Whitepng.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/moon-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_Moon Whitepng.png"
   },
   {
     "product_id": "river-black",
@@ -1796,16 +1816,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_rivewr_black_floor.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/river-black.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_rivewr_black_floor.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/river-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_rivewr_black_floor.png"
   },
   {
     "product_id": "river-white",
@@ -1815,16 +1836,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_River White.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/river-white.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/river-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_River White.png"
   },
   {
     "product_id": "statuario-marble",
@@ -1834,16 +1856,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_Statuario Banswara Marble.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/statuario-marble.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_Statuario Banswara Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/statuario-marble.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_Statuario Banswara Marble.png"
   },
   {
     "product_id": "tan-brown",
@@ -1853,16 +1876,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_tan _rown_floore.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/tan-brown.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_tan _rown_floore.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/tan-brown.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_tan _rown_floore.png"
   },
   {
     "product_id": "titanium-black",
@@ -1872,16 +1896,17 @@
     "room_name": "Bathroom",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom floor/render_Titanium Black.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-floor/titanium-black.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/bathroom floor/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-floor/titanium-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom floor/render_Titanium Black.png"
   },
   {
     "product_id": "black-forest",
@@ -1891,16 +1916,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Black Forest.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/black-forest.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/black-forest.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_Black Forest.png"
   },
   {
     "product_id": "black-pearl",
@@ -1910,16 +1936,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/black-pearl.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/black-pearl.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_Black Pearl.png"
   },
   {
     "product_id": "blue-night",
@@ -1929,16 +1956,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/blue-night.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/blue-night.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_Blue in the Night.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -1948,16 +1976,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Emerald Onyx Marble.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/emerald-onyx.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Emerald Onyx Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/emerald-onyx.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_Emerald Onyx Marble.png"
   },
   {
     "product_id": "kashmir-white",
@@ -1967,16 +1996,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Kashmir Alaska White.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/kashmir-white.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Kashmir Alaska White.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/kashmir-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_Kashmir Alaska White.png"
   },
   {
     "product_id": "marie-gold",
@@ -1986,16 +2016,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/marie-gold.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/marie-gold.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_Marie Gold.png"
   },
   {
     "product_id": "moon-white",
@@ -2005,16 +2036,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Moon White.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/moon-white.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Moon White.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/moon-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_Moon White.png"
   },
   {
     "product_id": "river-black",
@@ -2024,16 +2056,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/river-black.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/river-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_River Black.png"
   },
   {
     "product_id": "river-white",
@@ -2043,16 +2076,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_River White.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/river-white.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/river-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_River White.png"
   },
   {
     "product_id": "statuario-marble",
@@ -2062,16 +2096,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Statuario Banswara Marble.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/statuario-marble.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Statuario Banswara Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/statuario-marble.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_Statuario Banswara Marble.png"
   },
   {
     "product_id": "tan-brown",
@@ -2081,16 +2116,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Tan Brown.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/tan-brown.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/tan-brown.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_Tan Brown.png"
   },
   {
     "product_id": "titanium-black",
@@ -2100,16 +2136,17 @@
     "room_name": "Bathroom",
     "surface_id": "wall",
     "surface_name": "Feature Wall",
-    "original_room_image": "assets/images/rooms/bathroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Titanium Black.png",
-    "normalized_render_path": "assets/images/room_renders/bathroom-wall/titanium-black.png",
+    "original_room_image": "assets/images/rooms/bathroom.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/bathroom accent wall/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/bathroom-wall/titanium-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bathroom accent wall/render_Titanium Black.png"
   },
   {
     "product_id": "black-forest",
@@ -2119,16 +2156,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_Black Forest.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/black-forest.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/black-forest.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_Black Forest.png"
   },
   {
     "product_id": "black-pearl",
@@ -2138,16 +2176,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/black-pearl.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/black-pearl.webp",
     "width": 1377,
     "height": 768,
     "aspect_ratio": 1.793,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_Black Pearl.png"
   },
   {
     "product_id": "blue-night",
@@ -2157,16 +2196,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/blue-night.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/blue-night.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_Blue in the Night.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -2176,16 +2216,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_Emerald Onyx Marble.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/emerald-onyx.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_Emerald Onyx Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/emerald-onyx.webp",
     "width": 1377,
     "height": 768,
     "aspect_ratio": 1.793,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_Emerald Onyx Marble.png"
   },
   {
     "product_id": "kashmir-white",
@@ -2195,16 +2236,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_Kashmirm Alaska White.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/kashmir-white.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_Kashmirm Alaska White.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/kashmir-white.webp",
     "width": 1377,
     "height": 768,
     "aspect_ratio": 1.793,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_Kashmirm Alaska White.png"
   },
   {
     "product_id": "marie-gold",
@@ -2214,16 +2256,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/marie-gold.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/marie-gold.webp",
     "width": 1377,
     "height": 768,
     "aspect_ratio": 1.793,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_Marie Gold.png"
   },
   {
     "product_id": "moon-white",
@@ -2233,16 +2276,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_Moon White.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/moon-white.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_Moon White.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/moon-white.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_Moon White.png"
   },
   {
     "product_id": "river-black",
@@ -2252,16 +2296,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/river-black.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/river-black.webp",
     "width": 1377,
     "height": 768,
     "aspect_ratio": 1.793,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_River Black.png"
   },
   {
     "product_id": "river-white",
@@ -2271,16 +2316,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_River White.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/river-white.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/river-white.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_River White.png"
   },
   {
     "product_id": "statuario-marble",
@@ -2290,16 +2336,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_Statuario Banswara Marble.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/statuario-marble.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_Statuario Banswara Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/statuario-marble.webp",
     "width": 1377,
     "height": 768,
     "aspect_ratio": 1.793,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_Statuario Banswara Marble.png"
   },
   {
     "product_id": "tan-brown",
@@ -2309,16 +2356,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_Tan Brown.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/tan-brown.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/tan-brown.webp",
     "width": 1377,
     "height": 768,
     "aspect_ratio": 1.793,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_Tan Brown.png"
   },
   {
     "product_id": "titanium-black",
@@ -2328,16 +2376,17 @@
     "room_name": "Bedroom",
     "surface_id": "floor",
     "surface_name": "Bedroom Flooring",
-    "original_room_image": "assets/images/rooms/bedroom.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/bedroom floor/render_Titanium Black.png",
-    "normalized_render_path": "assets/images/room_renders/bedroom-floor/titanium-black.png",
+    "original_room_image": "assets/images/rooms/bedroom.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/bedroom floor/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/bedroom-floor/titanium-black.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/bedroom floor/render_Titanium Black.png"
   },
   {
     "product_id": "black-forest",
@@ -2347,16 +2396,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_Black Forest.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/black-forest.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/black-forest.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_Black Forest.png"
   },
   {
     "product_id": "black-pearl",
@@ -2366,16 +2416,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/black-pearl.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/black-pearl.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_Black Pearl.png"
   },
   {
     "product_id": "blue-night",
@@ -2385,16 +2436,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/blue-night.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/blue-night.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_Blue in the Night.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -2404,16 +2456,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_Emerald Onyx.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/emerald-onyx.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_Emerald Onyx.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/emerald-onyx.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_Emerald Onyx.png"
   },
   {
     "product_id": "kashmir-white",
@@ -2423,16 +2476,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_Kashmir White.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/kashmir-white.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_Kashmir White.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/kashmir-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_Kashmir White.png"
   },
   {
     "product_id": "marie-gold",
@@ -2442,16 +2496,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/marie-gold.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/marie-gold.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_Marie Gold.png"
   },
   {
     "product_id": "moon-white",
@@ -2461,16 +2516,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_Moon White.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/moon-white.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_Moon White.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/moon-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_Moon White.png"
   },
   {
     "product_id": "river-black",
@@ -2480,16 +2536,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/river-black.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/river-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_River Black.png"
   },
   {
     "product_id": "river-white",
@@ -2499,16 +2556,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_River White.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/river-white.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/river-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_River White.png"
   },
   {
     "product_id": "statuario-marble",
@@ -2518,16 +2576,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_Statuario Banswara Marble.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/statuario-marble.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_Statuario Banswara Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/statuario-marble.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_Statuario Banswara Marble.png"
   },
   {
     "product_id": "tan-brown",
@@ -2537,16 +2596,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_Tan Brown.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/tan-brown.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/tan-brown.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_Tan Brown.png"
   },
   {
     "product_id": "titanium-black",
@@ -2556,16 +2616,17 @@
     "room_name": "Dining Room",
     "surface_id": "floor",
     "surface_name": "Dining Room Flooring",
-    "original_room_image": "assets/images/rooms/dining-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/dining room floor/render_Titanium Black.png",
-    "normalized_render_path": "assets/images/room_renders/dining-room-floor/titanium-black.png",
+    "original_room_image": "assets/images/rooms/dining-room.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/dining room floor/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/dining-room-floor/titanium-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/dining room floor/render_Titanium Black.png"
   },
   {
     "product_id": "black-forest",
@@ -2575,16 +2636,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Black Forest.jpg",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/black-forest.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/black-forest.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Black Forest.jpg"
   },
   {
     "product_id": "black-pearl",
@@ -2594,16 +2656,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/black-pearl.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/black-pearl.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Black Pearl.png"
   },
   {
     "product_id": "blue-night",
@@ -2613,16 +2676,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/blue-night.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/blue-night.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Blue in the Night.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -2632,16 +2696,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Emerald Onyx Marble.png",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/emerald-onyx.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Emerald Onyx Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/emerald-onyx.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Emerald Onyx Marble.png"
   },
   {
     "product_id": "kashmir-white",
@@ -2651,16 +2716,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Kashmir Alaska White.png",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/kashmir-white.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Kashmir Alaska White.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/kashmir-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Kashmir Alaska White.png"
   },
   {
     "product_id": "marie-gold",
@@ -2670,16 +2736,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/marie-gold.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/marie-gold.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Marie Gold.png"
   },
   {
     "product_id": "moon-white",
@@ -2689,16 +2756,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Moon White.jpg",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/moon-white.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Moon White.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/moon-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Moon White.jpg"
   },
   {
     "product_id": "river-black",
@@ -2708,16 +2776,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/river-black.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/river-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_River Black.png"
   },
   {
     "product_id": "river-white",
@@ -2727,16 +2796,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_River White.jpg",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/river-white.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/river-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_River White.jpg"
   },
   {
     "product_id": "statuario-marble",
@@ -2746,16 +2816,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Statuario Banswara Marble.png",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/statuario-marble.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Statuario Banswara Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/statuario-marble.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Statuario Banswara Marble.png"
   },
   {
     "product_id": "tan-brown",
@@ -2765,16 +2836,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Tan Brown.png",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/tan-brown.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/tan-brown.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Tan Brown.png"
   },
   {
     "product_id": "titanium-black",
@@ -2784,16 +2856,17 @@
     "room_name": "Kitchen",
     "surface_id": "countertop",
     "surface_name": "Countertop & Island",
-    "original_room_image": "assets/images/rooms/kitchen.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Titanium Black.jpg",
-    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/titanium-black.png",
+    "original_room_image": "assets/images/rooms/kitchen.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/titanium-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Titanium Black.jpg"
   },
   {
     "product_id": "black-forest",
@@ -2803,16 +2876,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/living room floor/render_Black Forest.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/black-forest.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/black-forest.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_Black Forest.png"
   },
   {
     "product_id": "black-pearl",
@@ -2822,16 +2896,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/living room floor/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/black-pearl.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/black-pearl.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_Black Pearl.png"
   },
   {
     "product_id": "blue-night",
@@ -2841,16 +2916,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/living room floor/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/blue-night.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/blue-night.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_Blue in the Night.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -2860,16 +2936,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/living room floor/render_Emerald Onyx Marble.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/emerald-onyx.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_Emerald Onyx Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/emerald-onyx.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_Emerald Onyx Marble.png"
   },
   {
     "product_id": "kashmir-white",
@@ -2879,16 +2956,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/living room floor/render_Kashmir  Alaska White.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/kashmir-white.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_Kashmir  Alaska White.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/kashmir-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_Kashmir  Alaska White.png"
   },
   {
     "product_id": "marie-gold",
@@ -2898,16 +2976,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/living room floor/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/marie-gold.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/marie-gold.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_Marie Gold.png"
   },
   {
     "product_id": "moon-white",
@@ -2917,16 +2996,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/living room floor/render_Moon White.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/moon-white.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_Moon White.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/moon-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_Moon White.png"
   },
   {
     "product_id": "river-black",
@@ -2936,16 +3016,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/living room floor/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/river-black.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/river-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_River Black.png"
   },
   {
     "product_id": "river-white",
@@ -2955,16 +3036,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/living room floor/render_River White.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/river-white.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/river-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_River White.png"
   },
   {
     "product_id": "statuario-marble",
@@ -2974,16 +3056,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/living room floor/render_Statuario Banswara Marble.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/statuario-marble.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_Statuario Banswara Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/statuario-marble.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_Statuario Banswara Marble.png"
   },
   {
     "product_id": "tan-brown",
@@ -2993,16 +3076,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/living room floor/render_Tan Brown.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/tan-brown.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/tan-brown.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_Tan Brown.png"
   },
   {
     "product_id": "titanium-black",
@@ -3012,16 +3096,17 @@
     "room_name": "Living Room",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/living room floor/render_Titanium Black.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-floor/titanium-black.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/living room floor/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-floor/titanium-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room floor/render_Titanium Black.png"
   },
   {
     "product_id": "black-forest",
@@ -3031,16 +3116,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_Black Forest.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/black-forest.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/black-forest.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_Black Forest.png"
   },
   {
     "product_id": "black-pearl",
@@ -3050,16 +3136,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/black-pearl.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/black-pearl.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_Black Pearl.png"
   },
   {
     "product_id": "blue-night",
@@ -3069,16 +3156,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/blue-night.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/blue-night.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_Blue in the Night.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -3088,16 +3176,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_Emerald Onyx Marble.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/emerald-onyx.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_Emerald Onyx Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/emerald-onyx.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_Emerald Onyx Marble.png"
   },
   {
     "product_id": "kashmir-white",
@@ -3107,16 +3196,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_Kashmir Alaska White.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/kashmir-white.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_Kashmir Alaska White.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/kashmir-white.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_Kashmir Alaska White.png"
   },
   {
     "product_id": "marie-gold",
@@ -3126,16 +3216,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/marie-gold.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/marie-gold.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_Marie Gold.png"
   },
   {
     "product_id": "moon-white",
@@ -3145,16 +3236,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_Moon White.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/moon-white.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_Moon White.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/moon-white.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_Moon White.png"
   },
   {
     "product_id": "river-black",
@@ -3164,16 +3256,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/river-black.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/river-black.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_River Black.png"
   },
   {
     "product_id": "river-white",
@@ -3183,16 +3276,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_River White.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/river-white.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/river-white.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_River White.png"
   },
   {
     "product_id": "statuario-marble",
@@ -3202,16 +3296,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_Statuario  Banswara Marble.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/statuario-marble.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_Statuario  Banswara Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/statuario-marble.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_Statuario  Banswara Marble.png"
   },
   {
     "product_id": "tan-brown",
@@ -3221,16 +3316,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_Tan Brown.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/tan-brown.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/tan-brown.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_Tan Brown.png"
   },
   {
     "product_id": "titanium-black",
@@ -3240,16 +3336,17 @@
     "room_name": "Living Room",
     "surface_id": "wall",
     "surface_name": "Accent Wall",
-    "original_room_image": "assets/images/rooms/living-room.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/living room acent wall/render_Titanium Black.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-wall/titanium-black.png",
+    "original_room_image": "assets/images/rooms/living-room.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/living room acent wall/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-wall/titanium-black.webp",
     "width": 2752,
     "height": 1536,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room acent wall/render_Titanium Black.png"
   },
   {
     "product_id": "black-forest",
@@ -3260,15 +3357,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/parking paving/render_Black Forest.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/black-forest.png",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/black-forest.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_Black Forest.png"
   },
   {
     "product_id": "black-pearl",
@@ -3279,15 +3377,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/parking paving/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/black-pearl.png",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/black-pearl.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_Black Pearl.png"
   },
   {
     "product_id": "blue-night",
@@ -3298,15 +3397,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/parking paving/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/blue-night.png",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/blue-night.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_Blue in the Night.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -3317,15 +3417,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/parking paving/render_Emerald Onyx.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/emerald-onyx.png",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_Emerald Onyx.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/emerald-onyx.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_Emerald Onyx.png"
   },
   {
     "product_id": "kashmir-white",
@@ -3336,15 +3437,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/parking paving/render_Kashmir White.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/kashmir-white.png",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_Kashmir White.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/kashmir-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_Kashmir White.png"
   },
   {
     "product_id": "marie-gold",
@@ -3355,15 +3457,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/parking paving/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/marie-gold.png",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/marie-gold.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_Marie Gold.png"
   },
   {
     "product_id": "moon-white",
@@ -3374,15 +3477,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/parking paving/render_Moon White.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/moon-white.png",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_Moon White.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/moon-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_Moon White.png"
   },
   {
     "product_id": "river-black",
@@ -3393,15 +3497,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/parking paving/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/river-black.png",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/river-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_River Black.png"
   },
   {
     "product_id": "river-white",
@@ -3412,15 +3517,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/parking paving/render_River White.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/river-white.png",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/river-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_River White.png"
   },
   {
     "product_id": "statuario-marble",
@@ -3431,15 +3537,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/parking paving/render_Statuario Marble.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/statuario-marble.png",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_Statuario Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/statuario-marble.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_Statuario Marble.png"
   },
   {
     "product_id": "tan-brown",
@@ -3450,15 +3557,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/parking paving/render_Tan Brown.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/tan-brown.png",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/tan-brown.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_Tan Brown.png"
   },
   {
     "product_id": "titanium-black",
@@ -3469,15 +3577,16 @@
     "surface_id": "paving",
     "surface_name": "Driveway & Porch Paving",
     "original_room_image": "assets/images/rooms/parking.webp",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/parking paving/render_Titanium Black.png",
-    "normalized_render_path": "assets/images/room_renders/parking-paving/titanium-black.png",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/parking paving/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/parking-paving/titanium-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/parking paving/render_Titanium Black.png"
   },
   {
     "product_id": "black-forest",
@@ -3487,16 +3596,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_Black Forest.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/black-forest.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/black-forest.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_Black Forest.png"
   },
   {
     "product_id": "black-pearl",
@@ -3506,16 +3616,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/black-pearl.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/black-pearl.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_Black Pearl.png"
   },
   {
     "product_id": "blue-night",
@@ -3525,16 +3636,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/blue-night.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/blue-night.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_Blue in the Night.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -3544,16 +3656,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_Emerald Onyx.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/emerald-onyx.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_Emerald Onyx.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/emerald-onyx.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_Emerald Onyx.png"
   },
   {
     "product_id": "kashmir-white",
@@ -3563,16 +3676,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_Kashmir White.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/kashmir-white.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_Kashmir White.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/kashmir-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_Kashmir White.png"
   },
   {
     "product_id": "marie-gold",
@@ -3582,16 +3696,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/marie-gold.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/marie-gold.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_Marie Gold.png"
   },
   {
     "product_id": "moon-white",
@@ -3601,16 +3716,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_Moon White.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/moon-white.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_Moon White.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/moon-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_Moon White.png"
   },
   {
     "product_id": "river-black",
@@ -3620,16 +3736,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/river-black.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/river-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_River Black.png"
   },
   {
     "product_id": "river-white",
@@ -3639,16 +3756,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_River White.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/river-white.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/river-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_River White.png"
   },
   {
     "product_id": "statuario-marble",
@@ -3658,16 +3776,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_Statuario Marble.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/statuario-marble.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_Statuario Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/statuario-marble.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_Statuario Marble.png"
   },
   {
     "product_id": "tan-brown",
@@ -3677,16 +3796,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_Tan Brown.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/tan-brown.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/tan-brown.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_Tan Brown.png"
   },
   {
     "product_id": "titanium-black",
@@ -3696,16 +3816,17 @@
     "room_name": "Staircase",
     "surface_id": "stairs",
     "surface_name": "Stair Treads & Risers",
-    "original_room_image": "assets/images/rooms/staircase.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/staircase stairs/render_Titanium Black.png",
-    "normalized_render_path": "assets/images/room_renders/staircase-stairs/titanium-black.png",
+    "original_room_image": "assets/images/rooms/staircase.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/staircase stairs/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/staircase-stairs/titanium-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/staircase stairs/render_Titanium Black.png"
   },
   {
     "product_id": "river-black",
@@ -3717,16 +3838,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/river-black.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/river-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_River Black.png"
   },
   {
     "product_id": "black-pearl",
@@ -3738,16 +3860,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/black-pearl.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/black-pearl.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_Black Pearl.png"
   },
   {
     "product_id": "tan-brown",
@@ -3759,16 +3882,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Tan Brown.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/tan-brown.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/tan-brown.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_Tan Brown.png"
   },
   {
     "product_id": "statuario-marble",
@@ -3780,16 +3904,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Statuario Marble.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/statuario-marble.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Statuario Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/statuario-marble.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_Statuario Marble.png"
   },
   {
     "product_id": "kashmir-white",
@@ -3801,16 +3926,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Kashmir White.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/kashmir-white.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Kashmir White.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/kashmir-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_Kashmir White.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -3822,16 +3948,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Emerald Onyx.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/emerald-onyx.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Emerald Onyx.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/emerald-onyx.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_Emerald Onyx.png"
   },
   {
     "product_id": "marie-gold",
@@ -3843,16 +3970,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/marie-gold.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/marie-gold.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_Marie Gold.png"
   },
   {
     "product_id": "blue-night",
@@ -3864,16 +3992,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/blue-night.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/blue-night.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_Blue in the Night.png"
   },
   {
     "product_id": "moon-white",
@@ -3885,16 +4014,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Moon White.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/moon-white.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Moon White.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/moon-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_Moon White.png"
   },
   {
     "product_id": "river-white",
@@ -3906,16 +4036,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_River White.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/river-white.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/river-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_River White.png"
   },
   {
     "product_id": "black-forest",
@@ -3927,16 +4058,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Black Forest.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/black-forest.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/black-forest.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_Black Forest.png"
   },
   {
     "product_id": "titanium-black",
@@ -3948,16 +4080,17 @@
     "design_name": "Panorama Poolside Hall",
     "surface_id": "floor",
     "surface_name": "Flooring",
-    "original_room_image": "assets/images/rooms/living-room-2.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Titanium Black.png",
-    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/titanium-black.png",
+    "original_room_image": "assets/images/rooms/living-room-2.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/living room 2 floor/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/living-room-2-floor/titanium-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/living room 2 floor/render_Titanium Black.png"
   },
   {
     "product_id": "river-black",
@@ -3969,16 +4102,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/river-black.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/river-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_River Black.png"
   },
   {
     "product_id": "statuario-marble",
@@ -3990,16 +4124,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Statuario Marble.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/statuario-marble.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Statuario Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/statuario-marble.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_Statuario Marble.png"
   },
   {
     "product_id": "statuario-marble",
@@ -4011,16 +4146,17 @@
     "design_name": "Freestanding Bathtub Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-suite.jpg",
-    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.png",
-    "generated_preview": "assets/images/room_renders/washroom suite floor/render_Statuario Marble.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-suite-floor/statuario-marble.png",
+    "original_room_image": "assets/images/rooms/washroom-suite.webp",
+    "original_stone_image": "assets/images/products/product-1783085208-6a47b8986af97.webp",
+    "generated_preview": "assets/images/room_renders/washroom suite floor/render_Statuario Marble.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-suite-floor/statuario-marble.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom suite floor/render_Statuario Marble.png"
   },
   {
     "product_id": "black-pearl",
@@ -4032,16 +4168,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/black-pearl.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/black-pearl.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_Black Pearl.png"
   },
   {
     "product_id": "tan-brown",
@@ -4053,16 +4190,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Tan Brown.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/tan-brown.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/tan-brown.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_Tan Brown.png"
   },
   {
     "product_id": "kashmir-white",
@@ -4074,16 +4212,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.jpg",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Kashmir White.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/kashmir-white.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783084356-6a47b5441b767.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Kashmir White.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/kashmir-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_Kashmir White.png"
   },
   {
     "product_id": "emerald-onyx",
@@ -4095,16 +4234,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.jpg",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Emerald Onyx.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/emerald-onyx.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783085161-6a47b869e0448.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Emerald Onyx.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/emerald-onyx.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_Emerald Onyx.png"
   },
   {
     "product_id": "marie-gold",
@@ -4116,16 +4256,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.jpg",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Marie Gold.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/marie-gold.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783085317-6a47b9058f71e.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Marie Gold.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/marie-gold.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_Marie Gold.png"
   },
   {
     "product_id": "blue-night",
@@ -4137,16 +4278,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.png",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Blue in the Night.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/blue-night.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783085244-6a47b8bcd330d.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Blue in the Night.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/blue-night.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_Blue in the Night.png"
   },
   {
     "product_id": "moon-white",
@@ -4158,16 +4300,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.jpg",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Moon White.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/moon-white.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783079448-6a47a218632fd.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Moon White.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/moon-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_Moon White.png"
   },
   {
     "product_id": "river-white",
@@ -4179,16 +4322,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_River White.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/river-white.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783078831-6a479faf4fcbd.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_River White.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/river-white.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_River White.png"
   },
   {
     "product_id": "black-forest",
@@ -4200,16 +4344,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.jpg",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Black Forest.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/black-forest.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783083657-6a47b289a4a40.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Black Forest.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/black-forest.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_Black Forest.png"
   },
   {
     "product_id": "titanium-black",
@@ -4221,16 +4366,17 @@
     "design_name": "Indian Heritage Luxury Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-indian.jpg",
-    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.jpg",
-    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Titanium Black.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/titanium-black.png",
+    "original_room_image": "assets/images/rooms/washroom-indian.webp",
+    "original_stone_image": "assets/images/products/product-1783083560-6a47b228132ac.webp",
+    "generated_preview": "assets/images/room_renders/washroom indian floor/render_Titanium Black.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-indian-floor/titanium-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom indian floor/render_Titanium Black.png"
   },
   {
     "product_id": "river-black",
@@ -4242,16 +4388,17 @@
     "design_name": "Freestanding Bathtub Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-suite.jpg",
-    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.jpg",
-    "generated_preview": "assets/images/room_renders/washroom suite floor/render_River Black.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-suite-floor/river-black.png",
+    "original_room_image": "assets/images/rooms/washroom-suite.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/washroom suite floor/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-suite-floor/river-black.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom suite floor/render_River Black.png"
   },
   {
     "product_id": "black-pearl",
@@ -4263,16 +4410,17 @@
     "design_name": "Freestanding Bathtub Suite",
     "surface_id": "floor",
     "surface_name": "Bathroom Flooring",
-    "original_room_image": "assets/images/rooms/washroom-suite.jpg",
-    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.jpg",
-    "generated_preview": "assets/images/room_renders/washroom suite floor/render_Black Pearl.png",
-    "normalized_render_path": "assets/images/room_renders/washroom-suite-floor/black-pearl.png",
+    "original_room_image": "assets/images/rooms/washroom-suite.webp",
+    "original_stone_image": "assets/images/products/product-1783138424-6a488878abc22.webp",
+    "generated_preview": "assets/images/room_renders/washroom suite floor/render_Black Pearl.webp",
+    "normalized_render_path": "assets/images/room_renders/washroom-suite-floor/black-pearl.webp",
     "width": 1376,
     "height": 768,
     "aspect_ratio": 1.7917,
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
-    "review_status": "verified"
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/washroom suite floor/render_Black Pearl.png"
   }
 ];
 
@@ -4422,18 +4570,18 @@
 
     // Fallback Image Map for Verified Working Slabs
     const VERIFIED_SLAB_FALLBACKS = {
-      'river-black': 'assets/images/products/product-1783138465-6a4888a145274.jpg',
-      'black-pearl': 'assets/images/products/product-1783138424-6a488878abc22.jpg',
-      'tan-brown': 'assets/images/products/product-1783084011-6a47b3eb20cf0.jpg',
-      'statuario-marble': 'assets/images/products/product-1783085208-6a47b8986af97.png',
-      'kashmir-white': 'assets/images/products/product-1783084356-6a47b5441b767.jpg',
-      'emerald-onyx': 'assets/images/products/product-1783085161-6a47b869e0448.jpg',
-      'marie-gold': 'assets/images/products/product-1783085317-6a47b9058f71e.jpg',
-      'blue-night': 'assets/images/products/product-1783085244-6a47b8bcd330d.png',
-      'moon-white': 'assets/images/products/product-1783079448-6a47a218632fd.jpg',
-      'river-white': 'assets/images/products/product-1783078831-6a479faf4fcbd.jpg',
-      'black-forest': 'assets/images/products/product-1783083657-6a47b289a4a40.jpg',
-      'titanium-black': 'assets/images/products/product-1783083560-6a47b228132ac.jpg'
+      'river-black': 'assets/images/products/product-1783138465-6a4888a145274.webp',
+      'black-pearl': 'assets/images/products/product-1783138424-6a488878abc22.webp',
+      'tan-brown': 'assets/images/products/product-1783084011-6a47b3eb20cf0.webp',
+      'statuario-marble': 'assets/images/products/product-1783085208-6a47b8986af97.webp',
+      'kashmir-white': 'assets/images/products/product-1783084356-6a47b5441b767.webp',
+      'emerald-onyx': 'assets/images/products/product-1783085161-6a47b869e0448.webp',
+      'marie-gold': 'assets/images/products/product-1783085317-6a47b9058f71e.webp',
+      'blue-night': 'assets/images/products/product-1783085244-6a47b8bcd330d.webp',
+      'moon-white': 'assets/images/products/product-1783079448-6a47a218632fd.webp',
+      'river-white': 'assets/images/products/product-1783078831-6a479faf4fcbd.webp',
+      'black-forest': 'assets/images/products/product-1783083657-6a47b289a4a40.webp',
+      'titanium-black': 'assets/images/products/product-1783083560-6a47b228132ac.webp'
     };
 
     function getStoneFallbackSwatch(mat) {

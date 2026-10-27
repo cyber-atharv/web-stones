@@ -29,19 +29,132 @@ head_and_header = original_html[:original_html.find('<main class="max-w-7xl')]
 
 # Fix head styles to force strict 16:9 on all screens and inject Atmospheric Lighting styles
 atmosphere_styles = """
+    /* Butter-Smooth Animations & Micro-Interactions */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Stage Render Crossfade & GPU Micro-Animation */
+    #generatedRoomImg {
+      transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    #generatedRoomImg.opacity-0 {
+      opacity: 0 !important;
+      transform: scale(1.008);
+    }
+    #baseRoomImg, #afterBaseRoomImg {
+      transition: opacity 0.35s ease, filter 0.4s ease, transform 0.4s ease;
+      will-change: opacity, filter, transform;
+    }
+
+    /* Comparison Split Divider Glowing Breathing Pulse */
+    @keyframes dividerGlow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.55), 0 2px 10px rgba(0,0,0,0.6);
+      }
+      50% {
+        box-shadow: 0 0 0 7px rgba(197, 160, 89, 0), 0 4px 18px rgba(197, 160, 89, 0.65);
+      }
+    }
+    .split-handle-btn {
+      animation: dividerGlow 2.5s ease-in-out infinite;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+    }
+    .split-handle-btn:hover {
+      transform: translate(-50%, -50%) scale(1.15) !important;
+      background: #E8C98A !important;
+    }
+
+    /* Texture & Stone Material Pills Smooth Lift & Glow */
+    .texture-pill {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease !important;
+      will-change: transform;
+    }
+    .texture-pill:hover {
+      border-color: #C5A059 !important;
+      box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.7), 0 0 18px rgba(197, 160, 89, 0.32) !important;
+      transform: translateY(-3px) scale(1.015) !important;
+    }
+    .texture-pill.active {
+      border-color: #C5A059 !important;
+      box-shadow: 0 8px 22px -3px rgba(197, 160, 89, 0.45) !important;
+      transform: scale(1.02) !important;
+    }
+
+    /* Surface & Room Selector Buttons Smooth Transitions */
+    .surface-btn, .room-selector-btn, .appearance-btn {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
+    }
+    .surface-btn:hover, .room-selector-btn:hover {
+      transform: translateY(-1px);
+    }
+    .surface-btn:active, .room-selector-btn:active, .appearance-btn:active {
+      transform: translateY(1px) scale(0.98);
+    }
+    .appearance-btn:hover {
+      transform: scale(1.04);
+    }
+
+    /* Modal Spring-In Animations */
+    @keyframes modalSpringIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.92) translateY(24px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    #countertopZoomModal:not(.hidden) > div:last-child,
+    #slabComparisonModal:not(.hidden) > div:last-child,
+    #textureInspectorModal:not(.hidden) > div:last-child {
+      animation: modalSpringIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Toast Notification Slide-Down Bounce */
+    @keyframes toastSlideDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-14px) scale(0.96);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    #renderPendingToast:not(.hidden) {
+      animation: toastSlideDown 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Gold Shimmer on Badges & Headings */
+    @keyframes goldShimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    .gold-gradient {
+      background: linear-gradient(90deg, #C5A059 0%, #FFF3D6 25%, #C5A059 50%, #E8C98A 75%, #C5A059 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: goldShimmer 8s linear infinite;
+    }
+
     /* Stage Appearance Atmospheric Lighting Modes */
     .stage-atmosphere-normal #baseRoomImg,
     .stage-atmosphere-normal #afterBaseRoomImg,
     .stage-atmosphere-normal #generatedRoomImg {
       filter: none;
-      transition: filter 0.4s ease, transform 0.4s ease;
+      transition: filter 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s ease;
     }
 
     .stage-atmosphere-dark #baseRoomImg,
     .stage-atmosphere-dark #afterBaseRoomImg,
     .stage-atmosphere-dark #generatedRoomImg {
       filter: brightness(0.78) contrast(1.24) saturate(1.08);
-      transition: filter 0.4s ease, transform 0.4s ease;
+      transition: filter 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s ease;
     }
     .stage-atmosphere-dark .ambient-depth-vignette {
       background: radial-gradient(circle at 50% 35%, rgba(15, 23, 42, 0.45) 0%, rgba(3, 4, 8, 0.92) 100%) !important;
@@ -51,7 +164,7 @@ atmosphere_styles = """
     .stage-atmosphere-highlight #afterBaseRoomImg,
     .stage-atmosphere-highlight #generatedRoomImg {
       filter: brightness(1.15) contrast(1.10) saturate(1.14) drop-shadow(0 0 25px rgba(212, 175, 55, 0.45));
-      transition: filter 0.4s ease, transform 0.4s ease;
+      transition: filter 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s ease;
     }
     .stage-atmosphere-highlight .ambient-depth-vignette {
       background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.25) 0%, rgba(0, 0, 0, 0.45) 100%) !important;
@@ -95,10 +208,10 @@ script_template = """<script>
     const roomConfigs = {
       'kitchen': {
         name: 'Kitchen',
-        image: 'assets/images/rooms/kitchen.jpg',
+        image: 'assets/images/rooms/kitchen.webp', /* fallback: assets/images/rooms/kitchen.jpg */,
         defaultSurface: 'countertop',
         designs: [
-          { id: 'design-1', name: 'Design 1: Obsidian Island', image: 'assets/images/rooms/kitchen.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Obsidian Island', image: 'assets/images/rooms/kitchen.webp', /* fallback: assets/images/rooms/kitchen.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'countertop': {
@@ -110,11 +223,11 @@ script_template = """<script>
 
       'living-room': {
         name: 'Living Room',
-        image: 'assets/images/rooms/living-room.jpg',
+        image: 'assets/images/rooms/living-room.webp', /* fallback: assets/images/rooms/living-room.jpg */,
         defaultSurface: 'floor',
         designs: [
-          { id: 'design-1', name: 'Design 1: Contemporary Villa Hall', image: 'assets/images/rooms/living-room.jpg', rendersCount: 24 },
-          { id: 'design-2', name: 'Design 2: Panorama Poolside Hall', image: 'assets/images/rooms/living-room-2.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Contemporary Villa Hall', image: 'assets/images/rooms/living-room.webp', /* fallback: assets/images/rooms/living-room.jpg */, rendersCount: 24 },
+          { id: 'design-2', name: 'Design 2: Panorama Poolside Hall', image: 'assets/images/rooms/living-room-2.webp', /* fallback: assets/images/rooms/living-room-2.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'floor': {
@@ -130,12 +243,12 @@ script_template = """<script>
 
       'bathroom': {
         name: 'Bathroom',
-        image: 'assets/images/rooms/bathroom.jpg',
+        image: 'assets/images/rooms/bathroom.webp', /* fallback: assets/images/rooms/bathroom.jpg */,
         defaultSurface: 'floor',
         designs: [
-          { id: 'design-1', name: 'Design 1: Master Marble Spa', image: 'assets/images/rooms/bathroom.jpg', rendersCount: 24 },
-          { id: 'design-2', name: 'Design 2: Freestanding Bathtub Suite', image: 'assets/images/rooms/washroom-suite.jpg', rendersCount: 3 },
-          { id: 'design-3', name: 'Design 3: Indian Heritage Luxury Suite', image: 'assets/images/rooms/washroom-indian.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Master Marble Spa', image: 'assets/images/rooms/bathroom.webp', /* fallback: assets/images/rooms/bathroom.jpg */, rendersCount: 24 },
+          { id: 'design-2', name: 'Design 2: Freestanding Bathtub Suite', image: 'assets/images/rooms/washroom-suite.webp', /* fallback: assets/images/rooms/washroom-suite.jpg */, rendersCount: 3 },
+          { id: 'design-3', name: 'Design 3: Indian Heritage Luxury Suite', image: 'assets/images/rooms/washroom-indian.webp', /* fallback: assets/images/rooms/washroom-indian.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'floor': {
@@ -151,10 +264,10 @@ script_template = """<script>
 
       'bedroom': {
         name: 'Bedroom',
-        image: 'assets/images/rooms/bedroom.jpg',
+        image: 'assets/images/rooms/bedroom.webp', /* fallback: assets/images/rooms/bedroom.jpg */,
         defaultSurface: 'floor',
         designs: [
-          { id: 'design-1', name: 'Design 1: Master Suite', image: 'assets/images/rooms/bedroom.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Master Suite', image: 'assets/images/rooms/bedroom.webp', /* fallback: assets/images/rooms/bedroom.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'floor': {
@@ -166,10 +279,10 @@ script_template = """<script>
 
       'staircase': {
         name: 'Staircase',
-        image: 'assets/images/rooms/staircase.jpg',
+        image: 'assets/images/rooms/staircase.webp', /* fallback: assets/images/rooms/staircase.jpg */,
         defaultSurface: 'stairs',
         designs: [
-          { id: 'design-1', name: 'Design 1: Grand Architectural Foyer', image: 'assets/images/rooms/staircase.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Grand Architectural Foyer', image: 'assets/images/rooms/staircase.webp', /* fallback: assets/images/rooms/staircase.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'stairs': {
@@ -181,10 +294,10 @@ script_template = """<script>
 
       'dining-room': {
         name: 'Dining Room',
-        image: 'assets/images/rooms/dining-room.jpg',
+        image: 'assets/images/rooms/dining-room.webp', /* fallback: assets/images/rooms/dining-room.jpg */,
         defaultSurface: 'floor',
         designs: [
-          { id: 'design-1', name: 'Design 1: Banquet Grand Hall', image: 'assets/images/rooms/dining-room.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Banquet Grand Hall', image: 'assets/images/rooms/dining-room.webp', /* fallback: assets/images/rooms/dining-room.jpg */, rendersCount: 12 }
         ],
         surfaces: {
           'floor': {
@@ -226,10 +339,10 @@ script_template = """<script>
 
       'elevation': {
         name: 'Building Elevation',
-        image: 'assets/images/rooms/elevation.jpg',
+        image: 'assets/images/rooms/elevation.webp', /* fallback: assets/images/rooms/elevation.jpg */,
         defaultSurface: 'facade',
         designs: [
-          { id: 'design-1', name: 'Design 1: Contemporary Villa Elevation', image: 'assets/images/rooms/elevation.jpg', rendersCount: 1 }
+          { id: 'design-1', name: 'Design 1: Contemporary Villa Elevation', image: 'assets/images/rooms/elevation.webp', /* fallback: assets/images/rooms/elevation.jpg */, rendersCount: 1 }
         ],
         surfaces: {
           'facade': {
@@ -250,7 +363,7 @@ script_template = """<script>
         finish: 'Polished',
         thickness: '16mm - 18mm',
         usage: 'Kitchen Countertops, High-Traffic Flooring, Wall Cladding',
-        image: 'assets/images/products/product-1783138465-6a4888a145274.jpg',
+        image: 'assets/images/products/product-1783138465-6a4888a145274.webp',
         description: 'Deep jet black granite with crystalline wave patterns and high density. Highly resilient against heat, stains, and scratches.'
       },
       {
@@ -261,7 +374,7 @@ script_template = """<script>
         finish: 'Polished',
         thickness: '16mm - 18mm',
         usage: 'Kitchen Countertops, Bathroom Vanities, Interior Flooring',
-        image: 'assets/images/products/product-1783138424-6a488878abc22.jpg',
+        image: 'assets/images/products/product-1783138424-6a488878abc22.webp',
         description: 'Semi-solid dark granite with uniform speckles of black, silver, and gold minerals. Uniform and exceptionally durable.'
       },
       {
@@ -272,7 +385,7 @@ script_template = """<script>
         finish: 'Polished',
         thickness: '18mm',
         usage: 'Kitchen Islands, Exterior Steps, Grand Hall Flooring',
-        image: 'assets/images/products/product-1783084011-6a47b3eb20cf0.jpg',
+        image: 'assets/images/products/product-1783084011-6a47b3eb20cf0.webp',
         description: 'Rich dark granite characterized by warm brown, chocolate, and copper floral mineral clusters. Highly resistant to staining.'
       },
       {
@@ -283,7 +396,7 @@ script_template = """<script>
         finish: 'Mirror Polished',
         thickness: '16mm - 18mm',
         usage: 'Living Room Flooring, Master Bedroom Suites, Luxury Bathrooms',
-        image: 'assets/images/products/product-1783085208-6a47b8986af97.png',
+        image: 'assets/images/products/product-1783085208-6a47b8986af97.webp',
         description: 'Classic white marble accented by delicate grey and subtle gold veins. Creates an opulent, luminous atmosphere.'
       },
       {
@@ -294,7 +407,7 @@ script_template = """<script>
         finish: 'Polished',
         thickness: '18mm',
         usage: 'Kitchen Worktops, Wide Format Flooring, Backsplashes',
-        image: 'assets/images/products/product-1783084356-6a47b5441b767.jpg',
+        image: 'assets/images/products/product-1783084356-6a47b5441b767.webp',
         description: 'Luminous pale backdrop enriched with neutral grey veins and garnet flecks. Brightens large interior spaces.'
       },
       {
@@ -305,7 +418,7 @@ script_template = """<script>
         finish: 'Polished / Backlit',
         thickness: '16mm - 18mm',
         usage: 'Feature Accent Walls, Backlit Vanity Walls, Bar Counters',
-        image: 'assets/images/products/product-1783085161-6a47b869e0448.jpg',
+        image: 'assets/images/products/product-1783085161-6a47b869e0448.webp',
         description: 'Translucent banded onyx featuring crystalline jade green and amber honey veining. Striking when backlit.'
       },
       {
@@ -316,7 +429,7 @@ script_template = """<script>
         finish: 'Polished',
         thickness: '18mm',
         usage: 'Living Flooring, Stair Treads, Dining Room Flooring',
-        image: 'assets/images/products/product-1783085317-6a47b9058f71e.jpg',
+        image: 'assets/images/products/product-1783085317-6a47b9058f71e.webp',
         description: 'Warm golden-beige mineral background with fine brown and caramel grains. Adds natural warmth and light.'
       },
       {
@@ -327,7 +440,7 @@ script_template = """<script>
         finish: 'Polished',
         thickness: '18mm',
         usage: 'Statement Countertops, Luxury Vanities, Accent Inlays',
-        image: 'assets/images/products/product-1783085244-6a47b8bcd330d.png',
+        image: 'assets/images/products/product-1783085244-6a47b8bcd330d.webp',
         description: 'Exotic midnight black granite studded with iridescent blue labradorite crystals that gleam in light.'
       },
       {
@@ -338,7 +451,7 @@ script_template = """<script>
         finish: 'Polished',
         thickness: '16mm - 18mm',
         usage: 'Modern Kitchen Counters, Vanity Tops, Hallway Flooring',
-        image: 'assets/images/products/product-1783079448-6a47a218632fd.jpg',
+        image: 'assets/images/products/product-1783079448-6a47a218632fd.webp',
         description: 'Fine-grained ivory and pale grey granite with miniature burgundy mineral specks. Crisp, clean contemporary look.'
       },
       {
@@ -349,7 +462,7 @@ script_template = """<script>
         finish: 'Polished',
         thickness: '18mm',
         usage: 'Kitchen Islands, Waterfall Countertops, Living Flooring',
-        image: 'assets/images/products/product-1783078831-6a479faf4fcbd.jpg',
+        image: 'assets/images/products/product-1783078831-6a479faf4fcbd.webp',
         description: 'Crisp white base with flowing grey rivers and small deep red mineral crystals. Elegant movement across slabs.'
       },
       {
@@ -360,7 +473,7 @@ script_template = """<script>
         finish: 'Polished / Leathered',
         thickness: '18mm - 20mm',
         usage: 'Feature Walls, Kitchen Countertops, Staircase Treads',
-        image: 'assets/images/products/product-1783083657-6a47b289a4a40.jpg',
+        image: 'assets/images/products/product-1783083657-6a47b289a4a40.webp',
         description: 'Dramatic black granite intersected by bold white and silver streaks resembling forest branches.'
       },
       {
@@ -371,7 +484,7 @@ script_template = """<script>
         finish: 'Polished / Honed',
         thickness: '18mm',
         usage: 'Luxury Countertops, Backsplashes, Accent Flooring',
-        image: 'assets/images/products/product-1783083560-6a47b228132ac.jpg',
+        image: 'assets/images/products/product-1783083560-6a47b228132ac.webp',
         description: 'Deep charcoal black with undulating cream and quartz veins creating dramatic organic patterns.'
       }
     ];
@@ -570,18 +683,18 @@ script_template = """<script>
 
     // Fallback Image Map for Verified Working Slabs
     const VERIFIED_SLAB_FALLBACKS = {
-      'river-black': 'assets/images/products/product-1783138465-6a4888a145274.jpg',
-      'black-pearl': 'assets/images/products/product-1783138424-6a488878abc22.jpg',
-      'tan-brown': 'assets/images/products/product-1783084011-6a47b3eb20cf0.jpg',
-      'statuario-marble': 'assets/images/products/product-1783085208-6a47b8986af97.png',
-      'kashmir-white': 'assets/images/products/product-1783084356-6a47b5441b767.jpg',
-      'emerald-onyx': 'assets/images/products/product-1783085161-6a47b869e0448.jpg',
-      'marie-gold': 'assets/images/products/product-1783085317-6a47b9058f71e.jpg',
-      'blue-night': 'assets/images/products/product-1783085244-6a47b8bcd330d.png',
-      'moon-white': 'assets/images/products/product-1783079448-6a47a218632fd.jpg',
-      'river-white': 'assets/images/products/product-1783078831-6a479faf4fcbd.jpg',
-      'black-forest': 'assets/images/products/product-1783083657-6a47b289a4a40.jpg',
-      'titanium-black': 'assets/images/products/product-1783083560-6a47b228132ac.jpg'
+      'river-black': 'assets/images/products/product-1783138465-6a4888a145274.webp',
+      'black-pearl': 'assets/images/products/product-1783138424-6a488878abc22.webp',
+      'tan-brown': 'assets/images/products/product-1783084011-6a47b3eb20cf0.webp',
+      'statuario-marble': 'assets/images/products/product-1783085208-6a47b8986af97.webp',
+      'kashmir-white': 'assets/images/products/product-1783084356-6a47b5441b767.webp',
+      'emerald-onyx': 'assets/images/products/product-1783085161-6a47b869e0448.webp',
+      'marie-gold': 'assets/images/products/product-1783085317-6a47b9058f71e.webp',
+      'blue-night': 'assets/images/products/product-1783085244-6a47b8bcd330d.webp',
+      'moon-white': 'assets/images/products/product-1783079448-6a47a218632fd.webp',
+      'river-white': 'assets/images/products/product-1783078831-6a479faf4fcbd.webp',
+      'black-forest': 'assets/images/products/product-1783083657-6a47b289a4a40.webp',
+      'titanium-black': 'assets/images/products/product-1783083560-6a47b228132ac.webp'
     };
 
     function getStoneFallbackSwatch(mat) {
@@ -1756,15 +1869,15 @@ main_html = """  <!-- Main Visualizer App Container -->
         <div id="stageViewport" class="relative rounded-3xl overflow-hidden bg-stone-950 border border-white/10 shadow-2xl room-stage select-none group aspect-[16/9] w-full stage-atmosphere-normal" style="touch-action: pan-y; background: radial-gradient(circle at 50% 35%, #181920 0%, #090a0d 100%);">
           
           <!-- Base Room Photo (Shows authentic base room in Before mode) -->
-          <img id="baseRoomImg" src="assets/images/rooms/kitchen.jpg" alt="Original room reference" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"/>
+          <img id="baseRoomImg" src="assets/images/rooms/kitchen.webp" alt="Original room reference" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"/>
 
           <!-- After Layer: Contains Photorealistic Installed Stone Preview clipped to comparison slider -->
           <div id="afterLayer" class="absolute inset-0 overflow-hidden" style="width: 100%; clip-path: inset(0 50% 0 0);">
             <!-- Matching Room Background inside After layer -->
-            <img id="afterBaseRoomImg" src="assets/images/rooms/kitchen.jpg" alt="Room background" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"/>
+            <img id="afterBaseRoomImg" src="assets/images/rooms/kitchen.webp" alt="Room background" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"/>
 
             <!-- PRIMARY PREVIEW: Photorealistic Architectural Installed Stone Room Render -->
-            <img id="generatedRoomImg" src="assets/images/room_renders/kitchen countertop/render_River Black.png" alt="Photorealistic installed stone preview" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none transition-opacity duration-300" style="display: block;"/>
+            <img id="generatedRoomImg" src="assets/images/room_renders/kitchen countertop/render_River Black.webp" alt="Photorealistic installed stone preview" class="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none transition-opacity duration-300" style="display: block;"/>
 
             <!-- Ambient depth vignette -->
             <div class="ambient-depth-vignette absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none"></div>
@@ -1837,7 +1950,7 @@ main_html = """  <!-- Main Visualizer App Container -->
             <!-- Active Stone Tag (Bottom Left) -->
             <div class="bg-black/85 backdrop-blur-md border border-white/20 rounded-2xl p-2.5 sm:p-3 flex items-center gap-3 shadow-2xl pointer-events-auto">
               <div class="w-11 h-11 rounded-xl overflow-hidden bg-black shrink-0 border border-white/25 shadow-inner">
-                <img id="activeStoneThumb" src="assets/images/products/product-1783138465-6a4888a145274.jpg" class="w-full h-full object-cover" alt="Active texture thumbnail"/>
+                <img id="activeStoneThumb" src="assets/images/products/product-1783138465-6a4888a145274.webp" class="w-full h-full object-cover" alt="Active texture thumbnail"/>
               </div>
               <div>
                 <div class="text-[10px] uppercase tracking-wider text-amber-400 font-semibold" id="activeCategoryLabel">Premium Granite</div>

@@ -356,6 +356,87 @@ footer{background:var(--black);padding:5rem 5vw 2.5rem;border-top:1px solid rgba
   .rv{opacity:1;transform:none;transition:none}
   .scroll-hint i{animation:none}
 }
+
+/* ── Enhanced Butter-Smooth Animations & Interactions ── */
+@keyframes goldShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.gold-shimmer {
+  background: linear-gradient(90deg, #C9A96E 0%, #FFF3D6 25%, #C9A96E 50%, #E8C98A 75%, #C9A96E 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: goldShimmer 8s linear infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 4px 14px rgba(201, 169, 110, 0.25); }
+  50% { box-shadow: 0 8px 28px rgba(201, 169, 110, 0.55); }
+}
+.btn-gold {
+  animation: pulseGlow 3.5s ease-in-out infinite;
+  will-change: transform, box-shadow;
+}
+
+/* Micro-interactions & GPU-accelerated card hover */
+.coll-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease !important;
+  will-change: transform;
+}
+.coll-card:hover {
+  transform: translateY(-8px) scale(1.015) !important;
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.85), 0 0 30px rgba(201, 169, 110, 0.28) !important;
+  border-color: rgba(201, 169, 110, 0.5) !important;
+}
+
+.viz-room-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease !important;
+  will-change: transform;
+}
+.viz-room-card:hover {
+  transform: translateY(-8px) scale(1.025) !important;
+  box-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.9), 0 0 35px rgba(201, 169, 110, 0.35) !important;
+  border-color: var(--gold) !important;
+}
+.viz-room-card img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.viz-room-card:hover img {
+  transform: scale(1.1) !important;
+}
+
+.why-card {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease !important;
+  will-change: transform;
+}
+.why-card:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.75), 0 0 25px rgba(201, 169, 110, 0.22) !important;
+  border-color: rgba(201, 169, 110, 0.45) !important;
+}
+
+.stat {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease !important;
+}
+.stat:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(201, 169, 110, 0.5) !important;
+}
+
+/* Smooth reveal animation easing */
+.rv {
+  opacity: 0;
+  transform: translateY(32px) scale(0.98);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: opacity, transform;
+}
+.rv.in {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
 </style>
 </head>
 <body>
@@ -529,19 +610,19 @@ footer{background:var(--black);padding:5rem 5vw 2.5rem;border-top:1px solid rgba
 
       <div class="viz-rooms-grid">
         <a class="viz-room-card" href="visualizer.html?room=kitchen&material=River+Black" title="Launch Kitchen Countertop Visualizer">
-          <img src="assets/images/rooms/kitchen.jpg" alt="Kitchen visualizer preview" loading="lazy"/>
+          <img src="assets/images/rooms/kitchen.webp" alt="Kitchen visualizer preview" loading="lazy"/>
           <div class="card-caption">Kitchen Countertops</div>
         </a>
         <a class="viz-room-card" href="visualizer.html?room=living-room&material=Statuario+Marble" title="Launch Living Room Floor Visualizer">
-          <img src="assets/images/rooms/living-room.jpg" alt="Living room visualizer preview" loading="lazy"/>
+          <img src="assets/images/rooms/living-room.webp" alt="Living room visualizer preview" loading="lazy"/>
           <div class="card-caption">Living Room Floors</div>
         </a>
         <a class="viz-room-card" href="visualizer.html?room=bathroom&material=Blue+in+the+Night" title="Launch Spa Bathroom Visualizer">
-          <img src="assets/images/rooms/bathroom.jpg" alt="Bathroom visualizer preview" loading="lazy"/>
+          <img src="assets/images/rooms/bathroom.webp" alt="Bathroom visualizer preview" loading="lazy"/>
           <div class="card-caption">Spa Bathrooms</div>
         </a>
         <a class="viz-room-card" href="visualizer.html?room=bedroom&material=Black+Forest" title="Launch Master Suite Visualizer">
-          <img src="assets/images/rooms/bedroom.jpg" alt="Bedroom visualizer preview" loading="lazy"/>
+          <img src="assets/images/rooms/bedroom.webp" alt="Bedroom visualizer preview" loading="lazy"/>
           <div class="card-caption">Master Suite</div>
         </a>
       </div>
@@ -613,7 +694,7 @@ footer{background:var(--black);padding:5rem 5vw 2.5rem;border-top:1px solid rgba
       <!-- Card 1 -->
       <div class="coll-card rv">
         <div class="coll-thumb">
-          <img src="assets/images/products/product-1783138465-6a4888a145274.jpg" alt="River Black Granite" loading="lazy"/>
+          <img src="assets/images/products/product-1783138465-6a4888a145274.webp" alt="River Black Granite" loading="lazy"/>
         </div>
         <div class="coll-content">
           <div>
@@ -630,7 +711,7 @@ footer{background:var(--black);padding:5rem 5vw 2.5rem;border-top:1px solid rgba
       <!-- Card 2 -->
       <div class="coll-card rv d1">
         <div class="coll-thumb">
-          <img src="assets/images/products/product-1783085208-6a47b8986af97.png" alt="Statuario / Banswara Marble" loading="lazy"/>
+          <img src="assets/images/products/product-1783085208-6a47b8986af97.webp" alt="Statuario / Banswara Marble" loading="lazy"/>
         </div>
         <div class="coll-content">
           <div>
@@ -647,7 +728,7 @@ footer{background:var(--black);padding:5rem 5vw 2.5rem;border-top:1px solid rgba
       <!-- Card 3 -->
       <div class="coll-card rv d2">
         <div class="coll-thumb">
-          <img src="assets/images/products/product-1783085244-6a47b8bcd330d.png" alt="Blue in the Night Granite" loading="lazy"/>
+          <img src="assets/images/products/product-1783085244-6a47b8bcd330d.webp" alt="Blue in the Night Granite" loading="lazy"/>
         </div>
         <div class="coll-content">
           <div>
@@ -664,7 +745,7 @@ footer{background:var(--black);padding:5rem 5vw 2.5rem;border-top:1px solid rgba
       <!-- Card 4 -->
       <div class="coll-card rv d3">
         <div class="coll-thumb">
-          <img src="assets/images/products/product-1783084011-6a47b3eb20cf0.jpg" alt="Tan Brown Granite" loading="lazy"/>
+          <img src="assets/images/products/product-1783084011-6a47b3eb20cf0.webp" alt="Tan Brown Granite" loading="lazy"/>
         </div>
         <div class="coll-content">
           <div>
@@ -893,14 +974,14 @@ const isMobile=()=>innerWidth<760;
 
 /* ═════════ AUTHENTIC NATURAL STONES CATALOG ═════════ */
 const STONES=[
- {n:'Shiva Gold',img:'assets/images/products/product-1783080607-6a47a69f485d0.jpg',col:'#B8913E',meta:'Granite · Tamil Nadu · Polished · 18mm',txt:'The legendary "Golden Touch" granite — back after its quarry was closed for almost a decade.'},
- {n:'River Black',img:'assets/images/products/product-1783138465-6a4888a145274.jpg',col:'#181818',meta:'Granite · Rajasthan · Polished · 16mm',txt:'Deep, uniform black — a bold choice for kitchen islands, flooring, and modern statement surfaces.'},
- {n:'Banswara Marble',img:'assets/images/products/product-1783085208-6a47b8986af97.png',col:'#E6E1D6',meta:'Marble · Rajasthan · Polished · 18mm',txt:'Bright Rajasthan marble with soft gold and grey veining — cool underfoot and timelessly elegant.'},
- {n:'Flash Green',img:'assets/images/products/product-1783083136-6a47b0804c4ee.jpg',col:'#0F4A33',meta:'Granite · Odisha · Polished · 18mm',txt:'Rich green studded with sparkling minerals — the Emerald Pearl appearance with high compressive strength.'},
- {n:'Lavender Blue',img:'assets/images/products/product-1783079927-6a47a3f7bc726.jpg',col:'#3A4F7A',meta:'Granite · Odisha · Polished · 18mm',txt:'Deep blue and ash tones — specified on the luxury walkways of Bangalore International Airport.'},
- {n:'Alaska Pink',img:'assets/images/products/product-1783084260-6a47b4e40ca25.jpg',col:'#C9A39A',meta:'Granite · Rajasthan · Polished · 18mm',txt:'Soft warm pink with crisp quartz veining — tough against kitchen knife scratches, heat, and traffic.'},
- {n:'Blue in the Night',img:'assets/images/products/product-1783085244-6a47b8bcd330d.png',col:'#101826',meta:'Imported Granite · Norway · Polished · 18mm',txt:'Imported Norwegian granite with crystalline iridescent blue labradorite flakes that gleam in light.'},
- {n:'Alaska White',img:'assets/images/products/product-1783084356-6a47b5441b767.jpg',col:'#D9DDE0',meta:'Granite · Rajasthan · Polished · 18mm',txt:'Crisp white with icy silver, charcoal rivers, and shimmering quartz crystals throughout.'}
+ {n:'Shiva Gold',img:'assets/images/products/product-1783080607-6a47a69f485d0.webp',col:'#B8913E',meta:'Granite · Tamil Nadu · Polished · 18mm',txt:'The legendary "Golden Touch" granite — back after its quarry was closed for almost a decade.'},
+ {n:'River Black',img:'assets/images/products/product-1783138465-6a4888a145274.webp',col:'#181818',meta:'Granite · Rajasthan · Polished · 16mm',txt:'Deep, uniform black — a bold choice for kitchen islands, flooring, and modern statement surfaces.'},
+ {n:'Banswara Marble',img:'assets/images/products/product-1783085208-6a47b8986af97.webp',col:'#E6E1D6',meta:'Marble · Rajasthan · Polished · 18mm',txt:'Bright Rajasthan marble with soft gold and grey veining — cool underfoot and timelessly elegant.'},
+ {n:'Flash Green',img:'assets/images/products/product-1783083136-6a47b0804c4ee.webp',col:'#0F4A33',meta:'Granite · Odisha · Polished · 18mm',txt:'Rich green studded with sparkling minerals — the Emerald Pearl appearance with high compressive strength.'},
+ {n:'Lavender Blue',img:'assets/images/products/product-1783079927-6a47a3f7bc726.webp',col:'#3A4F7A',meta:'Granite · Odisha · Polished · 18mm',txt:'Deep blue and ash tones — specified on the luxury walkways of Bangalore International Airport.'},
+ {n:'Alaska Pink',img:'assets/images/products/product-1783084260-6a47b4e40ca25.webp',col:'#C9A39A',meta:'Granite · Rajasthan · Polished · 18mm',txt:'Soft warm pink with crisp quartz veining — tough against kitchen knife scratches, heat, and traffic.'},
+ {n:'Blue in the Night',img:'assets/images/products/product-1783085244-6a47b8bcd330d.webp',col:'#101826',meta:'Imported Granite · Norway · Polished · 18mm',txt:'Imported Norwegian granite with crystalline iridescent blue labradorite flakes that gleam in light.'},
+ {n:'Alaska White',img:'assets/images/products/product-1783084356-6a47b5441b767.webp',col:'#D9DDE0',meta:'Granite · Rajasthan · Polished · 18mm',txt:'Crisp white with icy silver, charcoal rivers, and shimmering quartz crystals throughout.'}
 ];
 const NS=STONES.length;
 const waLink=n=>'https://wa.me/916366380051?text='+encodeURIComponent(`Hi Murali Granites & Marbles, I'm interested in ${n}. Please share current pricing and slab availability.`);
