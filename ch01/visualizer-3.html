@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <title>Murali Granites &amp; Marbles — Visualizer 3.0 (3D Architectural Showroom)</title>
+  <meta name="description" content="Explore luxury natural stone slabs, marble flooring, and tile grids inside an interactive real-time 3D architectural showroom." />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png" />
+  <link rel="stylesheet" href="assets/css/navigation.css" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --gold: #C5A059;
+      --gold-light: #E8C98A;
+      --gold-dim: #7A5C2E;
+      --black: #0E0E10;
+      --charcoal: #141419;
+      --white: #F5F0E8;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+    }
+    body {
+      background: #08080A;
+      color: var(--white);
+      font-family: var(--font-body);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      height: 100svh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top Header Navigation ── */
+    .v3-header {
+      height: 56px;
+      min-height: 56px;
+      background: rgba(14, 14, 16, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(197, 160, 89, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      z-index: 1000;
+    }
+    .v3-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .v3-brand img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+    }
+    .v3-brand-text {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+    .v3-brand-text small {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.52rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+    .v3-badge-3 {
+      background: linear-gradient(135deg, #C5A059, #FFD700);
+      color: #0E0E10;
+      font-size: 10px;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-left: 6px;
+    }
+
+    .v3-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      list-style: none;
+    }
+    .v3-nav-links a {
+      color: #A1A1AA;
+      text-decoration: none;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 600;
+      transition: color 0.2s;
+      padding: 4px 0;
+    }
+    .v3-nav-links a:hover, .v3-nav-links a.active {
+      color: var(--gold);
+    }
+    .v3-nav-links a.active {
+      border-bottom: 2px solid var(--gold);
+    }
+
+    /* Quick Mode Switcher */
+    .v3-mode-switch {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .v3-mode-btn {
+      color: #A1A1AA;
+      text-decoration: none;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: all 0.2s;
+    }
+    .v3-mode-btn:hover {
+      color: #FFF;
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .v3-mode-btn.active {
+      background: linear-gradient(135deg, #C5A059, #E8C98A);
+      color: #0E0E10;
+      box-shadow: 0 2px 8px rgba(197, 160, 89, 0.4);
+    }
+
+    /* Sub-Bar Guidance */
+    .v3-guidance-bar {
+      height: 32px;
+      min-height: 32px;
+      background: #111116;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      font-size: 0.7rem;
+      color: #A1A1AA;
+      z-index: 999;
+    }
+    .v3-guidance-text {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .v3-dot-live {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #34D399;
+      box-shadow: 0 0 8px #34D399;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+    .v3-quick-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .v3-sub-link {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.68rem;
+    }
+    .v3-sub-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Main Showroom Viewport */
+    .v3-viewport-container {
+      flex: 1;
+      width: 100%;
+      height: calc(100% - 88px);
+      position: relative;
+      background: #000;
+    }
+    .v3-iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #000;
+    }
+
+    @media (max-width: 900px) {
+      .v3-nav-links { display: none; }
+      .v3-guidance-bar { font-size: 0.62rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Top Header ── -->
+  <header class="v3-header">
+    <a href="index.html" class="v3-brand" title="Murali Granites &amp; Marbles Home">
+      <img src="assets/images/logo.png" alt="Murali Granites logo" onerror="this.style.display='none'" />
+      <div class="v3-brand-text">
+        Murali
+        <small>Granites &amp; Marbles</small>
+      </div>
+      <span class="v3-badge-3">Visualizer 3.0</span>
+    </a>
+
+    <!-- Nav Menu -->
+    <ul class="v3-nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="visualizer.html">1.0 Photos</a></li>
+      <li><a href="visualizer-2.html">2.0 Studio</a></li>
+      <li><a href="visualizer-3.html" class="active">3.0 Showroom</a></li>
+      <li><a href="products.html">Collection</a></li>
+      <li><a href="stone-analysis.html">Analysis</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <!-- Mode Switcher -->
+    <div class="v3-mode-switch">
+      <a href="visualizer.html" class="v3-mode-btn" title="Photo-realistic architectural room renders">1.0 Photos</a>
+      <a href="visualizer-2.html" class="v3-mode-btn" title="Three.js real-time stone &amp; flooring studio">2.0 Studio</a>
+      <a href="visualizer-3.html" class="v3-mode-btn active" title="Interactive 3D architectural showroom">3.0 Showroom</a>
+    </div>
+  </header>
+
+  <!-- ── Guidance Sub-Bar ── -->
+  <div class="v3-guidance-bar">
+    <div class="v3-guidance-text">
+      <span class="v3-dot-live"></span>
+      <span><strong>3D Architectural Living Suite:</strong> Click <strong>Living Floor</strong>, <strong>Accent Wall</strong>, or <strong>Table Top</strong> in the Stone Studio to apply 48 showroom slabs &amp; tile grids with anti-glare mobile calibration.</span>
+    </div>
+    <div class="v3-quick-links">
+      <a href="V1/index.html" class="v3-sub-link" target="_blank" title="Open raw full-window 3D viewport">Raw 3D Viewport &nearr;</a>
+      <a href="products.html" class="v3-sub-link">Browse Stone Catalog &rarr;</a>
+    </div>
+  </div>
+
+  <!-- ── 3D Showroom Viewport ── -->
+  <main class="v3-viewport-container">
+    <iframe id="showroom-frame" class="v3-iframe" src="V1/index.html" title="Murali 3D Architectural Showroom" allow="accelerometer; camera; gyroscope; vr; xr-spatial-tracking" allowfullscreen></iframe>
+  </main>
+
+</body>
+</html>
