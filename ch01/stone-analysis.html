@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Geological Stone Analysis &amp; Catalogue | Murali Granites &amp; Marbles</title>
+  <meta name="description" content="Detailed architectural and geological analysis of Murali Granites &amp; Marbles stone varieties, textures, and technical specifications."/>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/navigation.css">
+  <link rel="icon" type="image/png" href="assets/images/favicon.png"/>
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold: #C9A96E;
+      --gold-light: #E8C98A;
+      --gold-dim: #7A5C2E;
+      --black: #080808;
+      --charcoal: #111111;
+      --dark: #18181A;
+      --warm-grey: #242426;
+      --mid-grey: #4A4A45;
+      --light-grey: #8A8A80;
+      --white: #F5F0E8;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Hero Section */
+    .analysis-hero {
+      padding: 10rem 6vw 4rem;
+      background: linear-gradient(180deg, #121215 0%, #080808 100%);
+      text-align: center;
+      position: relative;
+    }
+
+    .section-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(201, 169, 110, 0.1);
+      border: 1px solid rgba(201, 169, 110, 0.25);
+      padding: 0.5rem 1.2rem;
+      border-radius: 999px;
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4.8rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--white);
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--light-grey);
+      max-width: 650px;
+      margin: 0 auto 3rem;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    /* Stat Cards */
+    .stat-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      border-color: rgba(201, 169, 110, 0.35);
+      transform: translateY(-3px);
+    }
+
+    .stat-val {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 400;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--light-grey);
+      margin-top: 0.6rem;
+    }
+
+    /* Controls Bar */
+    .controls-bar {
+      max-width: 1280px;
+      margin: 3rem auto 2.5rem;
+      padding: 0 6vw;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .search-input-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 280px;
+      max-width: 400px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: #141417;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #FFF;
+      padding: 0.85rem 1.2rem 0.85rem 2.8rem;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(201, 169, 110, 0.2);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      stroke: var(--light-grey);
+      pointer-events: none;
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .pill-btn {
+      background: #161619;
+      color: #A0A0A0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.55rem 1.1rem;
+      border-radius: 30px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .pill-btn:hover, .pill-btn.active {
+      background: var(--gold);
+      color: #080808;
+      border-color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* Stones Grid */
+    .catalog-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 6vw 8rem;
+      width: 100%;
+      flex: 1;
+    }
+
+    .stones-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2rem;
+    }
+
+    .stone-card {
+      background: #111114;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .stone-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(201, 169, 110, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .stone-img-wrap {
+      position: relative;
+      aspect-ratio: 16/11;
+      overflow: hidden;
+      background: #1a1a1d;
+    }
+
+    .stone-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .stone-card:hover .stone-img {
+      transform: scale(1.08);
+    }
+
+    .stone-cat-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: rgba(10, 10, 12, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 169, 110, 0.3);
+      color: var(--gold-light);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.8rem;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .stone-body {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stone-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .stone-detail-item {
+      margin-bottom: 0.75rem;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .stone-detail-item strong {
+      color: var(--gold);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .stone-detail-item span {
+      color: #CCCCCC;
+    }
+
+    .stone-actions {
+      display: flex;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: auto;
+      background: #0d0d10;
+    }
+
+    .stone-btn-vis {
+      flex: 1;
+      padding: 0.9rem;
+      text-align: center;
+      text-decoration: none;
+      color: var(--gold-light);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      transition: background 0.25s ease;
+    }
+
+    .stone-btn-vis:hover {
+      background: rgba(201, 169, 110, 0.1);
+    }
+
+    .stone-btn-quote {
+      flex: 1;
+      padding: 0.9rem;
+      text-align: center;
+      text-decoration: none;
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: background 0.25s ease;
+    }
+
+    .stone-btn-quote:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Floating WhatsApp */
+    .wa-float-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 58px;
+      height: 58px;
+      background: #25D366;
+      color: #FFF;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+      z-index: 9999;
+      transition: transform 0.3s ease;
+    }
+    .wa-float-btn:hover { transform: scale(1.1); }
+
+    /* Footer */
+    footer {
+      background: #0a0a0d;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 5rem 6vw 2.5rem;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      gap: 3rem;
+      max-width: 1280px;
+      margin: 0 auto 4rem;
+    }
+
+    .footer-brand h3 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .footer-brand p {
+      font-size: 0.88rem;
+      color: var(--light-grey);
+      line-height: 1.8;
+      max-width: 360px;
+    }
+
+    .footer-col h4 {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      font-weight: 600;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-col a {
+      color: var(--light-grey);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.25s ease;
+    }
+
+    .footer-col a:hover {
+      color: var(--gold-light);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 2rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.82rem;
+      color: var(--light-grey);
+    }
+
+    .dev-credit-box {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .stat-cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-content { grid-template-columns: 1fr 1fr; }
+      .controls-bar { flex-direction: column; align-items: stretch; }
+      .search-input-wrap { max-width: 100%; }
+    }
+
+    @media (max-width: 600px) {
+      .stat-cards-grid { grid-template-columns: 1fr; }
+      .footer-content { grid-template-columns: 1fr; }
+      .stones-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="nav-container">
+      <a class="logo-link" href="index.html" title="Murali Granites & Marbles Home">
+<img alt="Murali Granites & Marbles Medallion Logo" class="logo-icon-img" decoding="async" height="42" src="assets/images/logo.png" width="42"/>
+<span class="logo-text">Murali <span class="logo-subtext">Granites &amp; Marbles</span></span>
+</a>
+      <ul class="nav-menu">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="visualizer.html" style="color:var(--gold);">Visualizer</a></li>
+<li class="nav-item"><a class="nav-link" href="visualizer-2.html" style="color:#E7C887;"><span style="background:linear-gradient(135deg, #C5A059, #FFD700);color:#0E0E10;padding:2px 5px;border-radius:4px;font-weight:800;font-size:10px;margin-right:4px;">2.0</span>3D Studio</a></li>
+        <li class="nav-item"><a class="nav-link" href="products.html">Collection</a></li>
+        <li class="nav-item"><a class="nav-link active" href="stone-analysis.html">Stone Analysis</a></li>
+        <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+      </ul>
+      <div class="nav-right-wrap">
+  <a class="nav-login-btn" href="login.html" title="Admin Portal Login">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    <span>Login / Admin</span>
+  </a>
+  <a class="nav-quote-btn" href="contact.html"><span>Get Quote</span></a>
+</div>
+      <button aria-label="Toggle Menu" class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Overlay -->
+  <div class="mobile-nav">
+    <ul class="mobile-nav-list">
+      <li><a class="mobile-nav-link" href="index.html">Home</a></li>
+      <li><a class="mobile-nav-link" href="visualizer.html" style="color:var(--gold);">Visualizer</a></li>
+<li><a class="mobile-nav-link" href="visualizer-2.html" style="color:var(--gold);"><span style="background:linear-gradient(135deg, #C5A059, #FFD700);color:#0E0E10;padding:2px 5px;border-radius:4px;font-weight:800;font-size:10px;margin-right:4px;">2.0</span>3D Studio</a></li>
+      <li><a class="mobile-nav-link" href="products.html">Collection</a></li>
+      <li><a class="mobile-nav-link active" href="stone-analysis.html">Stone Analysis</a></li>
+      <li><a class="mobile-nav-link" href="faq.html">FAQ</a></li>
+      <li><a class="mobile-nav-link" href="contact.html">Contact Us</a></li>
+    <li><a class="mobile-nav-link" href="login.html">Login / Admin</a></li>
+</ul>
+    <a class="mobile-quote-btn" href="contact.html"><span>Get Quote</span></a>
+<a class="mobile-login-btn" href="login.html"><span>Admin Portal Login &rarr;</span></a>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="analysis-hero">
+      <span class="section-badge">&#10022; Geological Analysis Archive</span>
+      <h1 class="hero-title">
+        Murali Granites &amp; Marbles<br/><em>Stone Analysis &amp; Catalogue</em>
+      </h1>
+      <p class="hero-subtitle">
+        Architectural classification, natural mineral tone grading, and veining profiles for all 53 cataloged stone slabs.
+      </p>
+
+      <div class="stat-cards-grid">
+        <div class="stat-card">
+          <div class="stat-val">53</div>
+          <div class="stat-label">Slabs Analyzed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">100%</div>
+          <div class="stat-label">High-Res Slabs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">HD</div>
+          <div class="stat-label">Veining Profiles</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">Offline</div>
+          <div class="stat-label">Zero Remote Deps</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controls Bar -->
+    <div class="controls-bar">
+      <div class="search-input-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search stone, veining, or application..."/>
+      </div>
+
+      <div class="filter-pills" id="filterPills">
+        <button class="pill-btn active" data-category="all">All Varieties (53)</button>
+      </div>
+    </div>
+
+    <!-- Slabs Grid -->
+    <div class="catalog-container">
+      <div class="stones-grid" id="stonesGrid">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating WhatsApp CTA -->
+  <button class="wa-float-btn" onclick="window.open('https://wa.me/916366380051?text=' + encodeURIComponent('Hi Murali Granites & Marbles, I would like to inquire about stone slabs and analysis details.'), '_blank')" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">
+    <svg width="32" height="32" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.989.54 1.78.829 2.796.83h.005c3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.586-5.767-5.773-5.767zm3.374 8.169c-.14.394-.712.723-1.002.768-.28.043-.645.064-1.047-.066-.312-.101-.715-.24-1.321-.502-1.28-.553-2.112-1.849-2.176-1.934-.064-.085-.515-.685-.515-1.306s.326-.926.442-1.05c.116-.124.254-.155.339-.155.085 0 .17.001.244.005.078.004.183-.03.286.217.106.254.361.88.393.944.032.064.053.138.01.223-.042.085-.064.138-.127.212-.064.074-.134.165-.191.222-.064.064-.131.134-.056.262.074.128.33 1.545 1.545 2.085.25.111.45.176.604.225.252.08.481.069.662.042.202-.03.621-.254.708-.5.087-.246.087-.456.061-.5-.026-.044-.096-.07-.202-.123z"/>
+    </svg>
+  </button>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>Murali Granites &amp; Marbles</h3>
+        <p>Premium natural stone supplier, processor, and exporter in Bargur, Tamil Nadu. Direct-from-quarry Italian marble, Indian granite, and engineered architectural surfaces.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="visualizer.html">Visualizer 1.0 (Photos)</a></li>
+<li><a href="visualizer-2.html" style="color:var(--gold-light);">Visualizer 2.0 (3D Studio)</a></li>
+          <li><a href="products.html">Natural Stone Catalogue</a></li>
+          <li><a href="stone-analysis.html">Stone Geological Analysis</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+<li><a href="terms.html">Terms of Supply</a></li>
+<li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Collections</h4>
+        <ul>
+          <li><a href="products.html">Indian Granite</a></li>
+          <li><a href="products.html">Imported Marble</a></li>
+          <li><a href="products.html">Italian Statuario</a></li>
+          <li><a href="products.html">Exotic Quartzite</a></li>
+          <li><a href="products.html">Designer Tiles</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Showroom &amp; Works</h4>
+        <ul style="color:var(--light-grey); line-height:1.7;">
+          <li style="color:var(--white); font-weight:500;">Murali Granites &amp; Marbles</li>
+          <li>Bargur Tk, Krishnagiri Dist, Tamil Nadu - 635104</li>
+          <li style="margin-top:0.4rem; color:var(--gold); font-weight:600;">+91 6366380051</li>
+          <li>chanakya@muraligranites.com</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 Murali Granites &amp; Marbles. All rights reserved. Bargur, Tamil Nadu.</p>
+      <div class="dev-credit-box">
+        <span>Website developed and designed by <strong>ATHARV HOGADE</strong></span>
+        <span>|</span>
+        <span>Email: <a href="mailto:atharvhogade12@gmail.com" style="color:var(--gold, #C5A059);">atharvhogade12@gmail.com</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/navigation.js"></script>
+  <script>
+    // Static stone catalog database cache for high-speed client-side execution
+    const FALLBACK_STONE_ANALYSIS = [
+  {
+    "filename": "product-1783078566-6a479ea6bfc0b.jpg",
+    "title": "Galaxy White",
+    "category": "Premium Indian Granite",
+    "color_tone": "Jet Black & Absolute Dark",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783078566-6a479ea6bfc0b.jpg",
+    "local_path": "assets/stone_photos/product-1783078566-6a479ea6bfc0b.jpg"
+  },
+  {
+    "filename": "product-1783078626-6a479ee25bd3e.jpg",
+    "title": "Gelatic White",
+    "category": "Premium Indian Granite",
+    "color_tone": "Pristine White & Soft Pearl",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783078626-6a479ee25bd3e.jpg",
+    "local_path": "assets/stone_photos/product-1783078626-6a479ee25bd3e.jpg"
+  },
+  {
+    "filename": "product-1783078831-6a479faf4fcbd.jpg",
+    "title": "River White",
+    "category": "Premium Indian Granite",
+    "color_tone": "Pristine White & Soft Pearl",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783078831-6a479faf4fcbd.jpg",
+    "local_path": "assets/stone_photos/product-1783078831-6a479faf4fcbd.jpg"
+  },
+  {
+    "filename": "product-1783078937-6a47a0192a9b3.png",
+    "title": "China White",
+    "category": "Premium Indian Granite",
+    "color_tone": "Pristine White & Soft Pearl",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783078937-6a47a0192a9b3.png",
+    "local_path": "assets/stone_photos/product-1783078937-6a47a0192a9b3.png"
+  },
+  {
+    "filename": "product-1783079448-6a47a218632fd.jpg",
+    "title": "Moon White",
+    "category": "Premium Indian Granite",
+    "color_tone": "Pristine White & Soft Pearl",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783079448-6a47a218632fd.jpg",
+    "local_path": "assets/stone_photos/product-1783079448-6a47a218632fd.jpg"
+  },
+  {
+    "filename": "product-1783079501-6a47a24d9fa78.jpg",
+    "title": "Ice White",
+    "category": "Premium Indian Granite",
+    "color_tone": "Pristine White & Soft Pearl",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783079501-6a47a24d9fa78.jpg",
+    "local_path": "assets/stone_photos/product-1783079501-6a47a24d9fa78.jpg"
+  },
+  {
+    "filename": "product-1783079633-6a47a2d18815c.jpg",
+    "title": "Crystal Blue",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783079633-6a47a2d18815c.jpg",
+    "local_path": "assets/stone_photos/product-1783079633-6a47a2d18815c.jpg"
+  },
+  {
+    "filename": "product-1783079748-6a47a34440dc7.jpg",
+    "title": "Safari Blue",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783079748-6a47a34440dc7.jpg",
+    "local_path": "assets/stone_photos/product-1783079748-6a47a34440dc7.jpg"
+  },
+  {
+    "filename": "product-1783079826-6a47a39205007.jpg",
+    "title": "Kingfisher Blue",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783079826-6a47a39205007.jpg",
+    "local_path": "assets/stone_photos/product-1783079826-6a47a39205007.jpg"
+  },
+  {
+    "filename": "product-1783079927-6a47a3f7bc726.jpg",
+    "title": "Lavender Blue",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783079927-6a47a3f7bc726.jpg",
+    "local_path": "assets/stone_photos/product-1783079927-6a47a3f7bc726.jpg"
+  },
+  {
+    "filename": "product-1783080092-6a47a49c1e7b7.jpg",
+    "title": "SKY Blue",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783080092-6a47a49c1e7b7.jpg",
+    "local_path": "assets/stone_photos/product-1783080092-6a47a49c1e7b7.jpg"
+  },
+  {
+    "filename": "product-1783080196-6a47a504c714c.jpg",
+    "title": "Romantic Blue",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783080196-6a47a504c714c.jpg",
+    "local_path": "assets/stone_photos/product-1783080196-6a47a504c714c.jpg"
+  },
+  {
+    "filename": "product-1783080299-6a47a56b99b00.jpg",
+    "title": "Astoria Gold",
+    "category": "Premium Indian Granite",
+    "color_tone": "Imperial Gold & Warm Topaz",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783080299-6a47a56b99b00.jpg",
+    "local_path": "assets/stone_photos/product-1783080299-6a47a56b99b00.jpg"
+  },
+  {
+    "filename": "product-1783080383-6a47a5bf9a4a3.jpg",
+    "title": "Forrest Gold",
+    "category": "Premium Indian Granite",
+    "color_tone": "Imperial Gold & Warm Topaz",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783080383-6a47a5bf9a4a3.jpg",
+    "local_path": "assets/stone_photos/product-1783080383-6a47a5bf9a4a3.jpg"
+  },
+  {
+    "filename": "product-1783080527-6a47a64f53214.png",
+    "title": "Strawberry Pink",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783080527-6a47a64f53214.png",
+    "local_path": "assets/stone_photos/product-1783080527-6a47a64f53214.png"
+  },
+  {
+    "filename": "product-1783080607-6a47a69f485d0.jpg",
+    "title": "Shiva Gold",
+    "category": "Premium Indian Granite",
+    "color_tone": "Imperial Gold & Warm Topaz",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783080607-6a47a69f485d0.jpg",
+    "local_path": "assets/stone_photos/product-1783080607-6a47a69f485d0.jpg"
+  },
+  {
+    "filename": "product-1783080746-6a47a72a44742.jpg",
+    "title": "Shiffon Pink",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783080746-6a47a72a44742.jpg",
+    "local_path": "assets/stone_photos/product-1783080746-6a47a72a44742.jpg"
+  },
+  {
+    "filename": "product-1783080897-6a47a7c1ec5ed.jpg",
+    "title": "Asian Green",
+    "category": "Premium Indian Granite",
+    "color_tone": "Hassan Green & Deep Forest",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783080897-6a47a7c1ec5ed.jpg",
+    "local_path": "assets/stone_photos/product-1783080897-6a47a7c1ec5ed.jpg"
+  },
+  {
+    "filename": "product-1783080973-6a47a80d4a3d5.jpg",
+    "title": "Forrest Green",
+    "category": "Premium Indian Granite",
+    "color_tone": "Hassan Green & Deep Forest",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783080973-6a47a80d4a3d5.jpg",
+    "local_path": "assets/stone_photos/product-1783080973-6a47a80d4a3d5.jpg"
+  },
+  {
+    "filename": "product-1783081066-6a47a86a5d5e2.jpg",
+    "title": "Green Marble",
+    "category": "Italian & Imported Marble",
+    "color_tone": "Hassan Green & Deep Forest",
+    "veining_style": "Fluid Sculptural Veining & Soft Cloud Formations",
+    "recommended_application": "Luxury Living Room Floors, Bathroom Vanities, Feature Walls",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783081066-6a47a86a5d5e2.jpg",
+    "local_path": "assets/stone_photos/product-1783081066-6a47a86a5d5e2.jpg"
+  },
+  {
+    "filename": "product-1783081135-6a47a8af74f0b.jpg",
+    "title": "3D Rock Look",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783081135-6a47a8af74f0b.jpg",
+    "local_path": "assets/stone_photos/product-1783081135-6a47a8af74f0b.jpg"
+  },
+  {
+    "filename": "product-1783081328-6a47a9703a0ea.jpg",
+    "title": "Hassan Green",
+    "category": "Premium Indian Granite",
+    "color_tone": "Hassan Green & Deep Forest",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783081328-6a47a9703a0ea.jpg",
+    "local_path": "assets/stone_photos/product-1783081328-6a47a9703a0ea.jpg"
+  },
+  {
+    "filename": "product-1783081478-6a47aa06b6e30.jpg",
+    "title": "Bassi Lapatro",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783081478-6a47aa06b6e30.jpg",
+    "local_path": "assets/stone_photos/product-1783081478-6a47aa06b6e30.jpg"
+  },
+  {
+    "filename": "product-1783083136-6a47b0804c4ee.jpg",
+    "title": "Flash Green",
+    "category": "Premium Indian Granite",
+    "color_tone": "Hassan Green & Deep Forest",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083136-6a47b0804c4ee.jpg",
+    "local_path": "assets/stone_photos/product-1783083136-6a47b0804c4ee.jpg"
+  },
+  {
+    "filename": "product-1783083351-6a47b1575ccdd.jpg",
+    "title": "Pista Green",
+    "category": "Premium Indian Granite",
+    "color_tone": "Hassan Green & Deep Forest",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083351-6a47b1575ccdd.jpg",
+    "local_path": "assets/stone_photos/product-1783083351-6a47b1575ccdd.jpg"
+  },
+  {
+    "filename": "product-1783083490-6a47b1e260326.jpg",
+    "title": "Galaxy",
+    "category": "Premium Indian Granite",
+    "color_tone": "Jet Black & Absolute Dark",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083490-6a47b1e260326.jpg",
+    "local_path": "assets/stone_photos/product-1783083490-6a47b1e260326.jpg"
+  },
+  {
+    "filename": "product-1783083531-6a47b20b6691a.jpg",
+    "title": "Steel Grey",
+    "category": "Premium Indian Granite",
+    "color_tone": "Steel Grey & Silver Mist",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083531-6a47b20b6691a.jpg",
+    "local_path": "assets/stone_photos/product-1783083531-6a47b20b6691a.jpg"
+  },
+  {
+    "filename": "product-1783083560-6a47b228132ac.jpg",
+    "title": "Titanium Black",
+    "category": "Premium Indian Granite",
+    "color_tone": "Jet Black & Absolute Dark",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083560-6a47b228132ac.jpg",
+    "local_path": "assets/stone_photos/product-1783083560-6a47b228132ac.jpg"
+  },
+  {
+    "filename": "product-1783083605-6a47b25571850.jpg",
+    "title": "Black Swan",
+    "category": "Premium Indian Granite",
+    "color_tone": "Jet Black & Absolute Dark",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083605-6a47b25571850.jpg",
+    "local_path": "assets/stone_photos/product-1783083605-6a47b25571850.jpg"
+  },
+  {
+    "filename": "product-1783083657-6a47b289a4a40.jpg",
+    "title": "Black Forrest",
+    "category": "Premium Indian Granite",
+    "color_tone": "Jet Black & Absolute Dark",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083657-6a47b289a4a40.jpg",
+    "local_path": "assets/stone_photos/product-1783083657-6a47b289a4a40.jpg"
+  },
+  {
+    "filename": "product-1783083696-6a47b2b0cbb16.jpg",
+    "title": "Impala Black",
+    "category": "Premium Indian Granite",
+    "color_tone": "Jet Black & Absolute Dark",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083696-6a47b2b0cbb16.jpg",
+    "local_path": "assets/stone_photos/product-1783083696-6a47b2b0cbb16.jpg"
+  },
+  {
+    "filename": "product-1783083744-6a47b2e0d4304.jpg",
+    "title": "Coin Black",
+    "category": "Premium Indian Granite",
+    "color_tone": "Jet Black & Absolute Dark",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083744-6a47b2e0d4304.jpg",
+    "local_path": "assets/stone_photos/product-1783083744-6a47b2e0d4304.jpg"
+  },
+  {
+    "filename": "product-1783083788-6a47b30cde49f.jpg",
+    "title": "Cats Eye",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083788-6a47b30cde49f.jpg",
+    "local_path": "assets/stone_photos/product-1783083788-6a47b30cde49f.jpg"
+  },
+  {
+    "filename": "product-1783083830-6a47b3366d3c3.png",
+    "title": "Wooden",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083830-6a47b3366d3c3.png",
+    "local_path": "assets/stone_photos/product-1783083830-6a47b3366d3c3.png"
+  },
+  {
+    "filename": "product-1783083869-6a47b35dab1cb.jpg",
+    "title": "Lakha Red",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083869-6a47b35dab1cb.jpg",
+    "local_path": "assets/stone_photos/product-1783083869-6a47b35dab1cb.jpg"
+  },
+  {
+    "filename": "product-1783083902-6a47b37e26547.png",
+    "title": "Colombo Jubrana",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083902-6a47b37e26547.png",
+    "local_path": "assets/stone_photos/product-1783083902-6a47b37e26547.png"
+  },
+  {
+    "filename": "product-1783083937-6a47b3a1ec35b.jpg",
+    "title": "Red Purpory",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083937-6a47b3a1ec35b.jpg",
+    "local_path": "assets/stone_photos/product-1783083937-6a47b3a1ec35b.jpg"
+  },
+  {
+    "filename": "product-1783083965-6a47b3bd9408e.jpg",
+    "title": "Mountain Brown",
+    "category": "Premium Indian Granite",
+    "color_tone": "Coffee Brown & Rich Amber",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783083965-6a47b3bd9408e.jpg",
+    "local_path": "assets/stone_photos/product-1783083965-6a47b3bd9408e.jpg"
+  },
+  {
+    "filename": "product-1783084011-6a47b3eb20cf0.jpg",
+    "title": "Tan Brown",
+    "category": "Premium Indian Granite",
+    "color_tone": "Coffee Brown & Rich Amber",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783084011-6a47b3eb20cf0.jpg",
+    "local_path": "assets/stone_photos/product-1783084011-6a47b3eb20cf0.jpg"
+  },
+  {
+    "filename": "product-1783084260-6a47b4e40ca25.jpg",
+    "title": "Alaska Pink",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783084260-6a47b4e40ca25.jpg",
+    "local_path": "assets/stone_photos/product-1783084260-6a47b4e40ca25.jpg"
+  },
+  {
+    "filename": "product-1783084356-6a47b5441b767.jpg",
+    "title": "Alaska White",
+    "category": "Premium Indian Granite",
+    "color_tone": "Pristine White & Soft Pearl",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783084356-6a47b5441b767.jpg",
+    "local_path": "assets/stone_photos/product-1783084356-6a47b5441b767.jpg"
+  },
+  {
+    "filename": "product-1783084912-6a47b7700c180.png",
+    "title": "Scorpio",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783084912-6a47b7700c180.png",
+    "local_path": "assets/stone_photos/product-1783084912-6a47b7700c180.png"
+  },
+  {
+    "filename": "product-1783085161-6a47b869e0448.jpg",
+    "title": "Onyx",
+    "category": "Translucent Onyx",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783085161-6a47b869e0448.jpg",
+    "local_path": "assets/stone_photos/product-1783085161-6a47b869e0448.jpg"
+  },
+  {
+    "filename": "product-1783085208-6a47b8986af97.png",
+    "title": "Banswara Marble",
+    "category": "Italian & Imported Marble",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Fluid Sculptural Veining & Soft Cloud Formations",
+    "recommended_application": "Luxury Living Room Floors, Bathroom Vanities, Feature Walls",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783085208-6a47b8986af97.png",
+    "local_path": "assets/stone_photos/product-1783085208-6a47b8986af97.png"
+  },
+  {
+    "filename": "product-1783085244-6a47b8bcd330d.png",
+    "title": "Blue in the Night",
+    "category": "Premium Indian Granite",
+    "color_tone": "Earthy Mineral Multi-color",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783085244-6a47b8bcd330d.png",
+    "local_path": "assets/stone_photos/product-1783085244-6a47b8bcd330d.png"
+  },
+  {
+    "filename": "product-1783085317-6a47b9058f71e.jpg",
+    "title": "Marie Gold",
+    "category": "Premium Indian Granite",
+    "color_tone": "Imperial Gold & Warm Topaz",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783085317-6a47b9058f71e.jpg",
+    "local_path": "assets/stone_photos/product-1783085317-6a47b9058f71e.jpg"
+  },
+  {
+    "filename": "product-1783138424-6a488878abc22.jpg",
+    "title": "Black Pearl",
+    "category": "Premium Indian Granite",
+    "color_tone": "Jet Black & Absolute Dark",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783138424-6a488878abc22.jpg",
+    "local_path": "assets/stone_photos/product-1783138424-6a488878abc22.jpg"
+  },
+  {
+    "filename": "product-1783138465-6a4888a145274.jpg",
+    "title": "River Black",
+    "category": "Premium Indian Granite",
+    "color_tone": "Jet Black & Absolute Dark",
+    "veining_style": "Dense Crystalline Grain & High-Density Speckle",
+    "recommended_application": "Heavy-Duty Kitchen Countertops, Commercial Flooring, Exterior Cladding",
+    "source_url": "https://muraligranites.com/assets/images/products/product-1783138465-6a4888a145274.jpg",
+    "local_path": "assets/stone_photos/product-1783138465-6a4888a145274.jpg"
+  }
+];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      let catalog = FALLBACK_STONE_ANALYSIS;
+      let activeCategory = 'all';
+
+      const grid = document.getElementById('stonesGrid');
+      const searchInput = document.getElementById('searchInput');
+      const filterPills = document.getElementById('filterPills');
+
+      // Populate filter categories
+      const categories = Array.from(new Set(catalog.map(c => c.category))).filter(Boolean);
+      categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'pill-btn';
+        btn.setAttribute('data-category', cat);
+        btn.textContent = cat;
+        filterPills.appendChild(btn);
+      });
+
+      function render(items) {
+        grid.innerHTML = '';
+        if (!items.length) {
+          grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 4rem; color: var(--light-grey);">No stone slabs match your search or filter.</div>';
+          return;
+        }
+
+        const frag = document.createDocumentFragment();
+        items.forEach(stone => {
+          const card = document.createElement('div');
+          card.className = 'stone-card';
+          
+          const title = stone.title || stone.filename.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+          const encTitle = encodeURIComponent(title);
+
+          card.innerHTML = `
+            <div class="stone-img-wrap">
+              <img class="stone-img" src="${stone.local_path}" alt="${title}" loading="lazy" onerror="this.onerror=null;this.src='assets/images/favicon.png';"/>
+              <span class="stone-cat-badge">${stone.category || 'Natural Stone'}</span>
+            </div>
+            <div class="stone-body">
+              <h3 class="stone-title">${title}</h3>
+              <div class="stone-detail-item">
+                <strong>Color Tone &amp; Mineral Base</strong>
+                <span>${stone.color_tone || 'Natural Stone Tone'}</span>
+              </div>
+              <div class="stone-detail-item">
+                <strong>Geological Veining Profile</strong>
+                <span>${stone.veining_style || 'Authentic Natural Veining'}</span>
+              </div>
+              <div class="stone-detail-item">
+                <strong>Architectural Applications</strong>
+                <span>${stone.recommended_application || 'Flooring, Feature Walls, Luxury Countertops'}</span>
+              </div>
+            </div>
+            <div class="stone-actions">
+              <a href="visualizer.html?material=${encTitle}" class="stone-btn-vis" title="Preview in Room Visualizer">Visualize</a>
+              <a href="contact.html?material=${encTitle}" class="stone-btn-quote" title="Request Quote">Get Quote &rarr;</a>
+            </div>
+          `;
+          frag.appendChild(card);
+        });
+
+        grid.appendChild(frag);
+      }
+
+      function filter() {
+        const q = (searchInput?.value || '').toLowerCase().trim();
+        const filtered = catalog.filter(stone => {
+          if (activeCategory !== 'all' && stone.category !== activeCategory) {
+            return false;
+          }
+          if (q) {
+            const t = (stone.title || '').toLowerCase();
+            const fn = (stone.filename || '').toLowerCase();
+            const ct = (stone.color_tone || '').toLowerCase();
+            const vs = (stone.veining_style || '').toLowerCase();
+            const ra = (stone.recommended_application || '').toLowerCase();
+            if (!t.includes(q) && !fn.includes(q) && !ct.includes(q) && !vs.includes(q) && !ra.includes(q)) {
+              return false;
+            }
+          }
+          return true;
+        });
+        render(filtered);
+      }
+
+      // Listeners
+      if (searchInput) searchInput.addEventListener('input', filter);
+
+      if (filterPills) {
+        filterPills.addEventListener('click', e => {
+          const btn = e.target.closest('.pill-btn');
+          if (!btn) return;
+          filterPills.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeCategory = btn.getAttribute('data-category') || 'all';
+          filter();
+        });
+      }
+
+      // Render initial
+      render(catalog);
+    });
+  </script>
+<script src="assets/js/site-config-sync.js"></script>
+</body>
+</html>
