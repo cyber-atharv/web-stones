@@ -5,46 +5,449 @@
 (function () {
   'use strict';
 
-  // Determine asset paths based on page location
-  const isInsideV1 = window.location.pathname.includes('/V1/') || window.location.pathname.endsWith('/V1');
-  const ASSET_PREFIX = isInsideV1 ? '../assets/' : 'assets/';
-  const API_PREFIX = isInsideV1 ? '../api/' : 'api/';
+  // Helper to resolve asset paths reliably whether inside iframe or standalone
+  function getStoneImageUrl(stone) {
+    if (!stone || !stone.imageUrl) return '';
+    const isInsideV1 = window.location.pathname.includes('/V1/') || window.location.pathname.endsWith('/V1');
+    const prefix = isInsideV1 ? '../' : '';
+    return prefix + stone.imageUrl;
+  }
 
-  // 48 Showroom Stones with top 12 Signature badging
+  // 48 Showroom Stones with authentic product images & top 12 Signature badging
   const SHOWROOM_STONES = [
-    { slug: 'black-forest', name: 'Black Forest', cat: 'Granite', sig: true, color: '#1a1a1a', finish: 'Polished / Leather' },
-    { slug: 'statuario-marble', name: 'Statuario Marble', cat: 'Marble', sig: true, color: '#eef0f2', finish: 'Bookmatched Polish' },
-    { slug: 'lakha-red', name: 'Lakha Red', cat: 'Granite', sig: true, color: '#8b2522', finish: 'High Gloss' },
-    { slug: 'river-black', name: 'River Black', cat: 'Granite', sig: true, color: '#222326', finish: 'Honed / Flamed' },
-    { slug: 'carrara-marble', name: 'Carrara Marble', cat: 'Marble', sig: true, color: '#e8eaec', finish: 'Polished' },
-    { slug: 'titanium-gold', name: 'Titanium Gold', cat: 'Granite', sig: true, color: '#3d3428', finish: 'Polished Luxury' },
-    { slug: 'kashmir-white', name: 'Kashmir White', cat: 'Granite', sig: true, color: '#dcd9d4', finish: 'Polished' },
-    { slug: 'blue-in-the-night', name: 'Blue in the Night', cat: 'Granite', sig: true, color: '#161d2d', finish: 'Specular Sparkle' },
-    { slug: 'emerald-onyx', name: 'Emerald Onyx', cat: 'Onyx', sig: true, color: '#2d5a43', finish: 'Translucent Backlit' },
-    { slug: 'tan-brown', name: 'Tan Brown', cat: 'Granite', sig: true, color: '#4a2e24', finish: 'High Polish' },
-    { slug: 'hassan-green', name: 'Hassan Green', cat: 'Granite', sig: true, color: '#22382e', finish: 'Polished' },
-    { slug: 'paradiso', name: 'Paradiso Granite', cat: 'Granite', sig: true, color: '#543d4c', finish: 'Multi-Color Veined' },
-    { slug: 'black-pearl', name: 'Black Pearl', cat: 'Granite', sig: false, color: '#1f2022', finish: 'Polished' },
-    { slug: 'marie-gold', name: 'Marie Gold', cat: 'Granite', sig: false, color: '#c49a45', finish: 'Polished' },
-    { slug: 'banswara-marble', name: 'Banswara Marble', cat: 'Marble', sig: false, color: '#edece8', finish: 'Polished' },
-    { slug: 'chima-pink', name: 'Chima Pink', cat: 'Granite', sig: false, color: '#d99b9b', finish: 'Polished' },
-    { slug: 'viscon-white', name: 'Viscon White', cat: 'Granite', sig: false, color: '#d8d7d4', finish: 'Wavy Polished' },
-    { slug: 'steel-grey', name: 'Steel Grey', cat: 'Granite', sig: false, color: '#4a4d52', finish: 'Leathered / Polished' },
-    { slug: 'colonial-white', name: 'Colonial White', cat: 'Granite', sig: false, color: '#e3dfd7', finish: 'Polished' },
-    { slug: 'alaska-white', name: 'Alaska White', cat: 'Granite', sig: false, color: '#e5e3de', finish: 'Exotic Polish' },
-    { slug: 'red-granite', name: 'Jhansi Red', cat: 'Granite', sig: false, color: '#962b29', finish: 'Polished' },
-    { slug: 'black-galaxy', name: 'Black Galaxy', cat: 'Granite', sig: false, color: '#151517', finish: 'Golden Fleck' },
-    { slug: 'makrana-white', name: 'Makrana Pure White', cat: 'Marble', sig: false, color: '#f7f6f2', finish: 'Traditional Polish' },
-    { slug: 'toronto-marble', name: 'Toronto Marble', cat: 'Marble', sig: false, color: '#cfcbc4', finish: 'Polished' },
-    { slug: 'spider-green', name: 'Spider Green Marble', cat: 'Marble', sig: false, color: '#1b4d3e', finish: 'Polished Vein' },
-    { slug: 'rainforest-brown', name: 'Rainforest Brown', cat: 'Marble', sig: false, color: '#614638', finish: 'Antiqued' },
-    { slug: 'crystal-yellow', name: 'Crystal Yellow', cat: 'Granite', sig: false, color: '#d8b86d', finish: 'Polished' },
-    { slug: 'vizag-blue', name: 'Vizag Blue', cat: 'Granite', sig: false, color: '#2c3e50', finish: 'Polished' },
-    { slug: 'rosy-pink', name: 'Rosy Pink Granite', cat: 'Granite', sig: false, color: '#d18c94', finish: 'Polished' },
-    { slug: 'desert-brown', name: 'Desert Brown', cat: 'Granite', sig: false, color: '#7a5a43', finish: 'Polished' },
-    { slug: 'sliver-white', name: 'Silver White', cat: 'Granite', sig: false, color: '#e2e2e0', finish: 'Polished' },
-    { slug: 'moon-white', name: 'Moon White', cat: 'Granite', sig: false, color: '#dddcd8', finish: 'Polished' }
-  ];
+  {
+    "slug": "river-black",
+    "name": "River Black",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783138465-6a4888a145274.webp"
+  },
+  {
+    "slug": "black-pearl",
+    "name": "Black Pearl",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783138424-6a488878abc22.webp"
+  },
+  {
+    "slug": "marie-gold",
+    "name": "Marie Gold",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Gold",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783085317-6a47b9058f71e.webp"
+  },
+  {
+    "slug": "blue-in-the-night",
+    "name": "Blue in the Night",
+    "cat": "Imported Granite",
+    "sig": true,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783085244-6a47b8bcd330d.webp"
+  },
+  {
+    "slug": "banswara-marble",
+    "name": "Banswara Marble",
+    "cat": "Marble",
+    "sig": true,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783085208-6a47b8986af97.webp"
+  },
+  {
+    "slug": "emerald-onyx-marble",
+    "name": "Emerald Onyx Marble",
+    "cat": "Onyx Marble",
+    "sig": true,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783085161-6a47b869e0448.webp"
+  },
+  {
+    "slug": "scorpio",
+    "name": "Scorpio",
+    "cat": "Marble",
+    "sig": false,
+    "color": "Brown",
+    "finish": "Hydro",
+    "imageUrl": "assets/images/products/product-1783084912-6a47b7700c180.webp"
+  },
+  {
+    "slug": "alaska-white",
+    "name": "Alaska White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783084356-6a47b5441b767.webp"
+  },
+  {
+    "slug": "alaska-pink",
+    "name": "Alaska Pink",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783084260-6a47b4e40ca25.webp"
+  },
+  {
+    "slug": "tan-brown",
+    "name": "Tan Brown",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Brown",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp"
+  },
+  {
+    "slug": "mountain-brown",
+    "name": "Mountain Brown",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Brown",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083965-6a47b3bd9408e.webp"
+  },
+  {
+    "slug": "red-purpory",
+    "name": "Red Purpory",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Red",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083937-6a47b3a1ec35b.webp"
+  },
+  {
+    "slug": "colombo-jubrana",
+    "name": "Colombo Jubrana",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Beige",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083902-6a47b37e26547.webp"
+  },
+  {
+    "slug": "lakha-red",
+    "name": "Lakha Red",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Red",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083869-6a47b35dab1cb.webp"
+  },
+  {
+    "slug": "wooden",
+    "name": "Wooden",
+    "cat": "Sandstone",
+    "sig": false,
+    "color": "Brown",
+    "finish": "Honed",
+    "imageUrl": "assets/images/products/product-1783083830-6a47b3366d3c3.webp"
+  },
+  {
+    "slug": "cats-eye",
+    "name": "Cats Eye",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Red",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083788-6a47b30cde49f.webp"
+  },
+  {
+    "slug": "coin-black",
+    "name": "Coin Black",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083744-6a47b2e0d4304.webp"
+  },
+  {
+    "slug": "impala-black",
+    "name": "Impala Black",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083696-6a47b2b0cbb16.webp"
+  },
+  {
+    "slug": "black-forrest",
+    "name": "Black Forrest",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083657-6a47b289a4a40.webp"
+  },
+  {
+    "slug": "black-swan",
+    "name": "Black Swan",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083605-6a47b25571850.webp"
+  },
+  {
+    "slug": "titanium-black",
+    "name": "Titanium Black",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083560-6a47b228132ac.webp"
+  },
+  {
+    "slug": "steel-grey",
+    "name": "Steel Grey",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083531-6a47b20b6691a.webp"
+  },
+  {
+    "slug": "galaxy",
+    "name": "Galaxy",
+    "cat": "Granite",
+    "sig": true,
+    "color": "",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083490-6a47b1e260326.webp"
+  },
+  {
+    "slug": "pista-green",
+    "name": "Pista Green",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083351-6a47b1575ccdd.webp"
+  },
+  {
+    "slug": "flash-green",
+    "name": "Flash Green",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083136-6a47b0804c4ee.webp"
+  },
+  {
+    "slug": "bassi-lapatro",
+    "name": "Bassi Lapatro",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Green",
+    "finish": "Lapatro",
+    "imageUrl": "assets/images/products/product-1783081478-6a47aa06b6e30.webp"
+  },
+  {
+    "slug": "hassan-green",
+    "name": "Hassan Green",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783081328-6a47a9703a0ea.webp"
+  },
+  {
+    "slug": "3d-rock-look",
+    "name": "3D Rock Look",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Grey",
+    "finish": "Hydro",
+    "imageUrl": "assets/images/products/product-1783081135-6a47a8af74f0b.webp"
+  },
+  {
+    "slug": "green-marble",
+    "name": "Green Marble",
+    "cat": "Marble",
+    "sig": false,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783081066-6a47a86a5d5e2.webp"
+  },
+  {
+    "slug": "forrest-green",
+    "name": "Forrest Green",
+    "cat": "Marble",
+    "sig": false,
+    "color": "Green",
+    "finish": "Hydro",
+    "imageUrl": "assets/images/products/product-1783080973-6a47a80d4a3d5.webp"
+  },
+  {
+    "slug": "asian-green",
+    "name": "Asian Green",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080897-6a47a7c1ec5ed.webp"
+  },
+  {
+    "slug": "shiffon-pink",
+    "name": "Shiffon Pink",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Pink",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080746-6a47a72a44742.webp"
+  },
+  {
+    "slug": "shiva-gold",
+    "name": "Shiva Gold",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Gold",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080607-6a47a69f485d0.webp"
+  },
+  {
+    "slug": "strawberry-pink",
+    "name": "Strawberry Pink",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Pink",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080527-6a47a64f53214.webp"
+  },
+  {
+    "slug": "forrest-gold",
+    "name": "Forrest Gold",
+    "cat": "Sand Stone",
+    "sig": false,
+    "color": "Gold",
+    "finish": "Hydro",
+    "imageUrl": "assets/images/products/product-1783080383-6a47a5bf9a4a3.webp"
+  },
+  {
+    "slug": "astoria-gold",
+    "name": "Astoria Gold",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Gold",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080299-6a47a56b99b00.webp"
+  },
+  {
+    "slug": "romantic-blue",
+    "name": "Romantic Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080196-6a47a504c714c.webp"
+  },
+  {
+    "slug": "sky-blue",
+    "name": "SKY Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080092-6a47a49c1e7b7.webp"
+  },
+  {
+    "slug": "lavender-blue",
+    "name": "Lavender Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079927-6a47a3f7bc726.webp"
+  },
+  {
+    "slug": "kingfisher-blue",
+    "name": "Kingfisher Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079826-6a47a39205007.webp"
+  },
+  {
+    "slug": "safari-blue",
+    "name": "Safari Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079748-6a47a34440dc7.webp"
+  },
+  {
+    "slug": "crystal-blue",
+    "name": "Crystal Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079633-6a47a2d18815c.webp"
+  },
+  {
+    "slug": "ice-white",
+    "name": "Ice White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079501-6a47a24d9fa78.webp"
+  },
+  {
+    "slug": "moon-white",
+    "name": "Moon White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079448-6a47a218632fd.webp"
+  },
+  {
+    "slug": "china-white",
+    "name": "China White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783078937-6a47a0192a9b3.webp"
+  },
+  {
+    "slug": "river-white",
+    "name": "River White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783078831-6a479faf4fcbd.webp"
+  },
+  {
+    "slug": "gelatic-white",
+    "name": "Gelatic White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783078626-6a479ee25bd3e.webp"
+  },
+  {
+    "slug": "galaxy-white",
+    "name": "Galaxy White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783078566-6a479ea6bfc0b.webp"
+  }
+];
 
   // Anti-glare finish configurations (specifically calibrated for mobile reflection control)
   const FINISH_CONFIGS = {
@@ -52,7 +455,7 @@
       label: 'Honed Satin',
       desc: 'Soft architectural diffusion, subtle sheen, zero harsh glare (Recommended for Mobile)',
       gloss: 0.38,
-      f0: 0.035,
+      f0: 0.038,
       normalScale: 0.70
     },
     'polished': {
@@ -107,86 +510,68 @@
     }
   };
 
-  // State
+  // Application State
   const state = {
     activeSurface: 'floor', // 'floor', 'wall_accent', 'wall_main', 'table_top'
     activeStone: SHOWROOM_STONES[0],
     activeFinish: 'honed',  // Default to honed to prevent mobile white glare!
     activeFormat: 'slab',
     reflectivityPercent: 40,
-    isOpen: true,
+    isOpen: false,
     filterCat: 'all',
     searchQuery: '',
     surfaces: {
       'floor': { stone: SHOWROOM_STONES[0], finish: 'honed', format: 'slab' },
-      'wall_accent': { stone: SHOWROOM_STONES[1], finish: 'honed', format: 'slab' },
+      'wall_accent': { stone: SHOWROOM_STONES[5], finish: 'honed', format: 'slab' },
       'wall_main': { stone: null, finish: 'matte', format: 'slab' },
-      'table_top': { stone: SHOWROOM_STONES[5], finish: 'polished', format: 'slab' }
+      'table_top': { stone: SHOWROOM_STONES[3], finish: 'polished', format: 'slab' }
     }
   };
 
-  // Texture caches
+  // Caches
   const textureCache = new Map();
   const normalCache = new Map();
 
-  // Reference to 3D scene objects
-  let showroomScene = null;
-  let showroomApp = null;
-  const surfaceMeshes = {};
-
   /**
-   * Initialize Studio when showroom scene is ready
+   * Robust dynamic lookup for the Little Workshop interior2 scene
    */
-  function initStudio(app, scene) {
-    showroomApp = app || window.showroomApp;
-    showroomScene = scene || (showroomApp && (showroomApp.scene || showroomApp.scenes[2]));
-
-    if (!showroomScene) {
-      console.warn('[MuraliStudio] Waiting for showroom scene...');
-      return;
+  function getShowroomInteriorScene() {
+    const app = window.showroomApp;
+    if (!app) return null;
+    if (app.interiorScene && app.interiorScene.children && app.interiorScene.children.length > 0) {
+      return app.interiorScene;
     }
-
-    // Locate target meshes in interior2 scene
-    surfaceMeshes['floor'] = showroomScene.getObjectByName('floor');
-    surfaceMeshes['wall_accent'] = showroomScene.getObjectByName('walls.001');
-    surfaceMeshes['wall_main'] = showroomScene.getObjectByName('walls');
-    surfaceMeshes['table_top'] = showroomScene.getObjectByName('table_top');
-    surfaceMeshes['coffee_table'] = showroomScene.getObjectByName('board');
-
-    console.log('[MuraliStudio] Surface meshes identified:', {
-      floor: !!surfaceMeshes['floor'],
-      wall_accent: !!surfaceMeshes['wall_accent'],
-      wall_main: !!surfaceMeshes['wall_main'],
-      table_top: !!surfaceMeshes['table_top']
-    });
-
-    // Mount UI and apply initial honed finish to floor
-    mountStudioUI();
-    applyCurrentStoneToSurface('floor', false);
+    if (app.scenes && app.scenes.length >= 3 && app.scenes[2].children && app.scenes[2].children.length > 0) {
+      return app.scenes[2];
+    }
+    if (app.scene && app.scene.getObjectByName('floor')) {
+      return app.scene;
+    }
+    return null;
   }
 
-  // Listen for custom showroom ready events or poll briefly
-  window.addEventListener('showroomReady', function (e) {
-    console.log('[MuraliStudio] Received showroomReady event!');
-    setTimeout(() => initStudio(e.detail.app, e.detail.scene), 200);
-  });
+  /**
+   * Robust mesh finder across scene graph
+   */
+  function getSurfaceMesh(surfaceKey) {
+    const scene = getShowroomInteriorScene();
+    if (!scene) return null;
 
-  window.addEventListener('showroomStarted', function (e) {
-    console.log('[MuraliStudio] Received showroomStarted event!');
-    setTimeout(() => initStudio(e.detail.app, e.detail.scene), 200);
-  });
+    let targetName = 'floor';
+    if (surfaceKey === 'floor') targetName = 'floor';
+    else if (surfaceKey === 'wall_accent') targetName = 'walls.001';
+    else if (surfaceKey === 'wall_main') targetName = 'walls';
+    else if (surfaceKey === 'table_top') targetName = 'table_top';
+    else if (surfaceKey === 'coffee_table') targetName = 'board';
 
-  // Fallback poll
-  let pollAttempts = 0;
-  const pollTimer = setInterval(function () {
-    pollAttempts++;
-    if (window.showroomApp && (window.showroomApp.scene || (window.showroomApp.scenes && window.showroomApp.scenes[2]))) {
-      clearInterval(pollTimer);
-      initStudio(window.showroomApp, window.showroomApp.scene || window.showroomApp.scenes[2]);
-    } else if (pollAttempts > 60) {
-      clearInterval(pollTimer);
+    let found = scene.getObjectByName(targetName);
+    if (!found) {
+      scene.traverse(function (obj) {
+        if (!found && obj.name === targetName) found = obj;
+      });
     }
-  }, 500);
+    return found;
+  }
 
   /**
    * Generate tile albedo canvas with grout channels
@@ -205,7 +590,6 @@
     }
 
     if (format === 'slab') {
-      // Full continuous grand slab
       ctx.drawImage(img, 0, 0, size, size);
       return canvas;
     }
@@ -217,9 +601,9 @@
 
     const tileW = size / cols;
     const tileH = size / rows;
-    const groutW = 4; // 4px grout line
+    const groutW = 3; // 3px mortar grout line
 
-    // Fill background with dark mortar grout color
+    // Dark architectural mortar grout base
     ctx.fillStyle = '#22201e';
     ctx.fillRect(0, 0, size, size);
 
@@ -236,11 +620,10 @@
           ctx.beginPath();
           ctx.rect(Math.max(0, x), Math.max(0, y), Math.min(w, size - x), Math.min(h, size - y));
           ctx.clip();
-          // Draw rotated / shifted natural stone slice for realistic variation
           ctx.drawImage(img, 0, 0, size, size);
-          
-          // Subtle bevel shadow inside tile edge
-          ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+
+          // Subtle inner tile bevel shadow
+          ctx.strokeStyle = 'rgba(0,0,0,0.32)';
           ctx.lineWidth = 2;
           ctx.strokeRect(x, y, w, h);
           ctx.restore();
@@ -252,7 +635,7 @@
   }
 
   /**
-   * Generate normal bump map from canvas
+   * Generate normal bump map from albedo canvas
    */
   function createNormalMap(albedoCanvas, format) {
     const w = albedoCanvas.width;
@@ -267,8 +650,7 @@
     const outImg = nCtx.createImageData(w, h);
     const outData = outImg.data;
 
-    // Sobel normal generation with grout line depth
-    const bumpStrength = (format === 'slab') ? 1.5 : 3.0;
+    const bumpStrength = (format === 'slab') ? 1.5 : 3.2;
 
     for (let y = 0; y < h; y++) {
       for (let x = 0; x < w; x++) {
@@ -311,35 +693,31 @@
   /**
    * Apply selected stone, finish, and format to target architectural surface
    */
-  function applyCurrentStoneToSurface(surfaceKey, showToastMsg = true) {
-    const mesh = surfaceMeshes[surfaceKey];
+  function applyCurrentStoneToSurface(surfaceKey, showToastMsg) {
+    if (typeof showToastMsg === 'undefined') showToastMsg = true;
+
+    const mesh = getSurfaceMesh(surfaceKey);
     if (!mesh || !mesh.material) {
-      console.warn(`[MuraliStudio] Mesh for ${surfaceKey} not found in scene!`);
+      console.warn('[MuraliStudio] Target mesh for ' + surfaceKey + ' not found in active scene. Will retry once scene loads.');
       return;
     }
 
-    const stone = state.surfaces[surfaceKey].stone || state.activeStone;
-    const finishKey = state.surfaces[surfaceKey].finish || state.activeFinish;
-    const formatKey = state.surfaces[surfaceKey].format || state.activeFormat;
+    const surfaceState = state.surfaces[surfaceKey] || {};
+    const stone = surfaceState.stone || state.activeStone;
+    const finishKey = surfaceState.finish || state.activeFinish;
+    const formatKey = surfaceState.format || state.activeFormat;
     const finishCfg = FINISH_CONFIGS[finishKey] || FINISH_CONFIGS['honed'];
     const formatCfg = FORMAT_CONFIGS[formatKey] || FORMAT_CONFIGS['slab'];
 
-    // Update surface state
-    state.surfaces[surfaceKey].stone = stone;
-    state.surfaces[surfaceKey].finish = finishKey;
-    state.surfaces[surfaceKey].format = formatKey;
+    state.surfaces[surfaceKey] = { stone: stone, finish: finishKey, format: formatKey };
 
-    updateStatusHUD(`Applying ${stone.name}...`);
-
-    // Load stone image
-    const imgUrl = `${ASSET_PREFIX}images/products/${stone.slug}.webp`;
-    const cacheKey = `${stone.slug}_${formatKey}`;
+    const imgUrl = getStoneImageUrl(stone);
+    const cacheKey = stone.slug + '_' + formatKey;
 
     const applyMaterialTextures = (albedoTex, normalTex) => {
       const mat = mesh.material;
       if (!mat || !mat.uniforms) return;
 
-      // Repeat scale based on surface
       let repeat = formatCfg.repeatFloor;
       if (surfaceKey === 'wall_accent' || surfaceKey === 'wall_main') {
         repeat = formatCfg.repeatWall;
@@ -347,7 +725,6 @@
         repeat = formatCfg.repeatTable;
       }
 
-      // Configure Three.js Texture wrapping
       albedoTex.wrapS = THREE.RepeatWrapping;
       albedoTex.wrapT = THREE.RepeatWrapping;
       albedoTex.needsUpdate = true;
@@ -356,37 +733,48 @@
       normalTex.wrapT = THREE.RepeatWrapping;
       normalTex.needsUpdate = true;
 
-      // Assign PBR uniforms
       mat.uniforms.sTextureAlbedoMap.value = albedoTex;
+      mat.sTextureAlbedoMap = albedoTex;
+
       mat.uniforms.sTextureNormalMap.value = normalTex;
-      mat.uniforms.offsetRepeat.value.set(0, 0, repeat[0], repeat[1]);
+      mat.sTextureNormalMap = normalTex;
 
-      // ─── CRITICAL MOBILE ANTI-GLARE CALIBRATION ───
-      // Turn off metallic conduction on stone (strictly dielectric!)
-      mat.uniforms.uMetalnessPBRFactor.value = 0.0;
-      
-      // Calibrated specular Fresnel (0.035 - 0.06) prevents blinding white sky reflections
-      mat.uniforms.uSpecularF0Factor.value = finishCfg.f0;
+      if (mat.uniforms.offsetRepeat) {
+        mat.uniforms.offsetRepeat.value.set(0, 0, repeat[0], repeat[1]);
+      }
 
-      // Glossiness factor (0.15 for matte, 0.38 for honed, 0.68 for polished)
+      // Dielectric stone: 0.0 metalness eliminates blinding sky reflection
+      if (mat.uniforms.uMetalnessPBRFactor) {
+        mat.uniforms.uMetalnessPBRFactor.value = 0.0;
+      }
+      if (mat.uniforms.uSpecularF0Factor) {
+        mat.uniforms.uSpecularF0Factor.value = finishCfg.f0;
+      }
       const userGlossRatio = (state.reflectivityPercent / 100);
-      mat.uniforms.uGlossinessPBRFactor.value = finishCfg.gloss * (0.5 + userGlossRatio * 0.7);
+      if (mat.uniforms.uGlossinessPBRFactor) {
+        mat.uniforms.uGlossinessPBRFactor.value = finishCfg.gloss * (0.5 + userGlossRatio * 0.7);
+      }
+      if (mat.uniforms.uNormalMapFactor) {
+        mat.uniforms.uNormalMapFactor.value = finishCfg.normalScale;
+      }
+      if (mat.uniforms.uAlbedoPBRFactor) {
+        mat.uniforms.uAlbedoPBRFactor.value = 1.0;
+      }
+      if (mat.uniforms.uColor) {
+        mat.uniforms.uColor.value.setRGB(1, 1, 1);
+      }
 
-      // Normal map bump relief intensity
-      mat.uniforms.uNormalMapFactor.value = finishCfg.normalScale;
-
-      // Ensure material defines normal mapping
       mat.defines = mat.defines || {};
-      mat.defines.USE_ALBEDOMAP = !0;
-      mat.defines.USE_NORMALMAP = !0;
+      mat.defines.USE_ALBEDOMAP = true;
+      mat.defines.USE_NORMALMAP = true;
+      mat.defines.USE_LIGHTMAP = true;
       mat.needsUpdate = true;
 
-      console.log(`[MuraliStudio] Applied ${stone.name} (${formatCfg.label}, ${finishCfg.label}) to ${surfaceKey}`);
+      updateStatusHUD(stone.name, surfaceKey, finishCfg.label, formatCfg.label);
 
       if (showToastMsg) {
-        showToast(`${stone.name} applied to ${getSurfaceLabel(surfaceKey)} (${finishCfg.label})`);
+        showToast(stone.name + ' applied to ' + getSurfaceLabel(surfaceKey) + ' (' + finishCfg.label + ')');
       }
-      updateStatusHUD(`${stone.name} • ${getSurfaceLabel(surfaceKey)} • ${finishCfg.label} • ${formatCfg.label}`);
     };
 
     if (textureCache.has(cacheKey) && normalCache.has(cacheKey)) {
@@ -411,7 +799,7 @@
       applyMaterialTextures(albedoTex, normalTex);
     };
     img.onerror = function () {
-      console.warn(`[MuraliStudio] Could not load image from ${imgUrl}, falling back to color procedural...`);
+      console.warn('[MuraliStudio] Image load fallback for: ' + imgUrl);
       const fallbackCanvas = document.createElement('canvas');
       fallbackCanvas.width = 512;
       fallbackCanvas.height = 512;
@@ -438,7 +826,7 @@
   }
 
   /**
-   * Mount Luxury Floating Studio UI
+   * Mount Clean, Non-Colliding Floating Studio UI
    */
   function mountStudioUI() {
     if (document.getElementById('murali-stone-studio-root')) return;
@@ -446,156 +834,145 @@
     const root = document.createElement('div');
     root.id = 'murali-stone-studio-root';
     root.innerHTML = `
-      <!-- Top Site Navigation Header -->
-      <header class="murali-studio-nav">
-        <div class="msn-brand">
-          <a href="index.html" class="msn-logo-link" title="Murali Granites & Marbles Home">
-            <span class="msn-gold-gem">◆</span>
-            <span class="msn-brand-name">Murali <small>Granites &amp; Marbles</small></span>
-          </a>
-          <span class="msn-badge-v3">Visualizer 3.0</span>
-          <span class="msn-tag-sub">3D Architectural Showroom</span>
+      <!-- Sleek Floating Control Bar (Non-Colliding Glass Pill) -->
+      <div id="murali-control-bar" class="murali-ctrl-bar">
+        <button id="murali-toggle-studio" class="murali-ctrl-toggle" title="Open Natural Stone & Tile Studio">
+          <span class="murali-ctrl-icon">🏛️</span>
+          <span class="murali-ctrl-label">Stone Studio</span>
+          <span class="murali-ctrl-badge" id="murali-ctrl-badge">Floor: River Black</span>
+        </button>
+
+        <div class="murali-ctrl-chips">
+          <button class="murali-chip active" data-surface="floor" title="Customize Living Room Floor">Floor</button>
+          <button class="murali-chip" data-surface="wall_accent" title="Customize Feature Accent Wall">Accent Wall</button>
+          <button class="murali-chip" data-surface="wall_main" title="Customize Architectural Room Walls">Main Walls</button>
+          <button class="murali-chip" data-surface="table_top" title="Customize Dining Table Top">Table Top</button>
         </div>
+      </div>
 
-        <nav class="msn-menu">
-          <a href="index.html" class="msn-link">Home</a>
-          <a href="visualizer.html" class="msn-link">1.0 Photos</a>
-          <a href="visualizer-2.html" class="msn-link">2.0 Studio</a>
-          <a href="visualizer-3.html" class="msn-link active">3.0 Showroom</a>
-          <a href="products.html" class="msn-link">Collection</a>
-          <a href="contact.html" class="msn-link">Contact</a>
-        </nav>
-
-        <div class="msn-actions">
-          <button id="msn-toggle-studio" class="msn-btn-gold" title="Open Stone Customization Studio">
-            <span>💎 Stone Studio</span>
-          </button>
-        </div>
-      </header>
-
-      <!-- Floating Stone Studio Deck (Right Drawer) -->
-      <aside id="murali-studio-drawer" class="msd-drawer open">
+      <!-- Floating Stone Studio Deck (Left Drawer) -->
+      <aside id="murali-studio-drawer" class="murali-drawer">
+        <!-- Drawer Header -->
         <div class="msd-header">
-          <div>
-            <div class="msd-eyebrow">Murali Natural Stone Lab</div>
-            <h2 class="msd-title">Surface &amp; Tile Studio</h2>
+          <div class="msd-title-group">
+            <div class="msd-badge-row">
+              <span class="msd-badge-gold">Murali Studio 3.0</span>
+              <span class="msd-badge-pbr">Calibrated PBR</span>
+            </div>
+            <h3 class="msd-title">Natural Stone &amp; Tiles</h3>
           </div>
-          <button id="msd-close-btn" class="msd-close-btn" title="Minimize Panel">✕</button>
+          <button id="msd-close-btn" class="msd-close" title="Close Panel">✕</button>
         </div>
 
-        <!-- Surface Selector Tabs -->
-        <div class="msd-section">
-          <div class="msd-sec-label">Select Architectural Surface</div>
+        <!-- Scrollable Content -->
+        <div class="msd-body">
+          <!-- Surface Tabs -->
+          <div class="msd-section-label">Target Architectural Surface</div>
           <div class="msd-surface-tabs">
             <button class="msd-s-tab active" data-surface="floor">
-              <span class="msd-icon">🏛️</span>
-              <span>Living Floor</span>
+              <span class="msd-s-icon">▦</span>
+              <span class="msd-s-name">Living Floor</span>
             </button>
             <button class="msd-s-tab" data-surface="wall_accent">
-              <span class="msd-icon">🧱</span>
-              <span>Accent Wall</span>
+              <span class="msd-s-icon">▥</span>
+              <span class="msd-s-name">Accent Wall</span>
             </button>
             <button class="msd-s-tab" data-surface="wall_main">
-              <span class="msd-icon">🏢</span>
-              <span>Main Walls</span>
+              <span class="msd-s-icon">▤</span>
+              <span class="msd-s-name">Main Walls</span>
             </button>
             <button class="msd-s-tab" data-surface="table_top">
-              <span class="msd-icon">🍽️</span>
-              <span>Dining Table</span>
+              <span class="msd-s-icon">▭</span>
+              <span class="msd-s-name">Dining Table</span>
             </button>
           </div>
-        </div>
 
-        <!-- Finish & Mobile Anti-Glare Calibration -->
-        <div class="msd-section msd-glare-card">
-          <div class="msd-flex-between">
-            <div class="msd-sec-label">Finish &amp; Specular Glare</div>
-            <span class="msd-rec-badge">Mobile Calibrated</span>
+          <!-- Mobile Anti-Glare Finish Selector -->
+          <div class="msd-section-label">
+            <span>Anti-Glare Finish</span>
+            <small style="color:#C5A059; font-size:0.7rem; font-weight:600;">Calibrated for Phone Displays</small>
           </div>
           <div class="msd-finish-tabs">
-            <button class="msd-f-tab active" data-finish="honed" title="Soft diffuse sheen with zero harsh mobile glare">
-              <span class="f-dot"></span> Honed Satin
+            <button class="msd-f-tab active" data-finish="honed" title="Soft architectural sheen, zero mobile sky glare">
+              <span class="msd-f-title">Honed Satin</span>
+              <span class="msd-f-tag">★ Recommended</span>
             </button>
-            <button class="msd-f-tab" data-finish="polished" title="Deep high-gloss reflection">
-              <span class="f-dot"></span> Polished Gloss
+            <button class="msd-f-tab" data-finish="polished" title="Deep luxury mirror polish with dielectric Fresnel">
+              <span class="msd-f-title">Polished Gloss</span>
+              <span class="msd-f-tag">High Sheen</span>
             </button>
-            <button class="msd-f-tab" data-finish="matte" title="Tactile natural stone, zero reflections">
-              <span class="f-dot"></span> Natural Matte
+            <button class="msd-f-tab" data-finish="matte" title="Raw quarried stone texture, zero glare">
+              <span class="msd-f-title">Natural Matte</span>
+              <span class="msd-f-tag">Pure Texture</span>
             </button>
           </div>
-          
-          <div class="msd-slider-wrap">
+
+          <!-- Live Reflectivity Fine-Tuning Slider -->
+          <div class="msd-slider-group">
             <div class="msd-slider-header">
-              <span>Reflectivity Intensity</span>
-              <span id="msd-gloss-val">40%</span>
+              <span>Surface Reflectivity</span>
+              <span id="msd-gloss-val" class="msd-slider-val">40%</span>
             </div>
-            <input type="range" id="msd-gloss-slider" min="5" max="100" value="40" class="msd-slider"/>
-            <div class="msd-slider-hint">Fine-tune to eliminate harsh window/sky glare on mobile screens</div>
+            <input type="range" id="msd-gloss-slider" class="msd-range" min="0" max="100" value="40" />
           </div>
-        </div>
 
-        <!-- Tile Structure Format -->
-        <div class="msd-section">
-          <div class="msd-sec-label">Tile Format &amp; Grout Joint</div>
+          <!-- Tile Grid & Format Selector -->
+          <div class="msd-section-label">Tile Layout &amp; Size</div>
           <div class="msd-format-tabs">
-            <button class="msd-fmt-tab active" data-format="slab">
-              <span>🔲 Grand Slab</span>
-              <small>Seamless 2.4m</small>
+            <button class="msd-fmt-tab active" data-format="slab" title="Continuous monolithic bookmatched slab">
+              <span class="msd-fmt-icon">▫</span>
+              <span>Grand Slab (2.4m)</span>
             </button>
-            <button class="msd-fmt-tab" data-format="tile-60">
-              <span>▦ Tile 60×60</span>
-              <small>Square Grid</small>
+            <button class="msd-fmt-tab" data-format="tile-60" title="Classic 60x60 square residential tile grid">
+              <span class="msd-fmt-icon">⚏</span>
+              <span>Tile 60×60</span>
             </button>
-            <button class="msd-fmt-tab" data-format="tile-120">
-              <span>▤ Tile 120×60</span>
-              <small>Modern Rect</small>
+            <button class="msd-fmt-tab" data-format="tile-120" title="Contemporary 120x60 rectangular architectural tile">
+              <span class="msd-fmt-icon">▭</span>
+              <span>Tile 120×60</span>
             </button>
-            <button class="msd-fmt-tab" data-format="brick">
-              <span>🧱 Brick</span>
-              <small>Staggered Bond</small>
+            <button class="msd-fmt-tab" data-format="brick" title="Offset subway running bond wall pattern">
+              <span class="msd-fmt-icon">🧱</span>
+              <span>Subway Brick</span>
             </button>
           </div>
-        </div>
 
-        <!-- Stone Collection Selector -->
-        <div class="msd-section msd-stones-section">
-          <div class="msd-flex-between">
-            <div class="msd-sec-label">Murali Showroom Stone Slabs (48)</div>
-            <span class="msd-filter-count" id="msd-count">32 stones</span>
+          <!-- Catalog Filter Header -->
+          <div class="msd-filter-header">
+            <div class="msd-section-label" style="margin:0;">Showroom Stone Catalog</div>
+            <span class="msd-filter-count" id="msd-count">48 stones</span>
           </div>
 
           <!-- Category Filter Pills -->
           <div class="msd-cat-pills">
-            <button class="msd-pill active" data-cat="all">All Stones</button>
+            <button class="msd-pill active" data-cat="all">All (48)</button>
             <button class="msd-pill" data-cat="sig">★ Signature</button>
-            <button class="msd-pill" data-cat="Marble">Marble</button>
             <button class="msd-pill" data-cat="Granite">Granite</button>
+            <button class="msd-pill" data-cat="Marble">Marble</button>
             <button class="msd-pill" data-cat="Onyx">Onyx</button>
           </div>
 
           <!-- Search Filter -->
           <div class="msd-search-box">
-            <input type="text" id="msd-search" placeholder="Search stone (e.g. Statuario, Black Forest, Lakha)..." />
+            <input type="text" id="msd-search" placeholder="Search stone (e.g. River Black, Statuario, Lakha Red)..." />
           </div>
 
           <!-- Stone Grid -->
-          <div class="msd-stone-grid" id="msd-stone-grid">
-            <!-- Populated dynamically -->
-          </div>
+          <div class="msd-stone-grid" id="msd-stone-grid"></div>
         </div>
 
         <!-- Bottom Quick Actions & Status -->
         <div class="msd-footer">
           <div class="msd-quick-buttons">
-            <button id="msd-btn-autofill" class="msd-btn-action" title="Apply matching stones across floor, wall, and table">
-              ⚡ Auto-Theme Room
+            <button id="msd-btn-autofill" class="msd-btn-action" title="Harmonize floor, wall, and table simultaneously">
+              ✨ Auto-Theme Room
             </button>
             <button id="msd-btn-reset" class="msd-btn-action-ghost" title="Reset all surfaces to default">
               ↺ Reset
             </button>
           </div>
           <div class="msd-status-hud" id="msd-status-hud">
-            Ready • Black Forest • Living Floor • Honed Satin
+            Ready • River Black • Living Floor • Honed Satin
           </div>
         </div>
       </aside>
@@ -612,7 +989,7 @@
   }
 
   /**
-   * Render stone cards into drawer grid
+   * Render stone cards with verified images
    */
   function renderStoneGrid() {
     const grid = document.getElementById('msd-stone-grid');
@@ -628,18 +1005,18 @@
     });
 
     const countEl = document.getElementById('msd-count');
-    if (countEl) countEl.textContent = `${filtered.length} stones`;
+    if (countEl) countEl.textContent = filtered.length + ' stones';
 
     filtered.forEach(stone => {
       const card = document.createElement('div');
-      card.className = `msd-card ${state.activeStone.slug === stone.slug ? 'selected' : ''}`;
+      card.className = 'msd-card ' + (state.activeStone.slug === stone.slug ? 'selected' : '');
       card.dataset.slug = stone.slug;
 
-      const thumbUrl = `${ASSET_PREFIX}images/products/${stone.slug}.webp`;
+      const thumbUrl = getStoneImageUrl(stone);
 
       card.innerHTML = `
-        <div class="msd-card-thumb" style="background-color: ${stone.color};">
-          <img src="${thumbUrl}" alt="${stone.name}" loading="lazy" onerror="this.style.display='none'" />
+        <div class="msd-card-thumb" style="background-color: ${stone.color || '#202025'};">
+          <img src="${thumbUrl}" alt="${stone.name}" loading="lazy" />
           ${stone.sig ? '<span class="msd-sig-badge">★ Sig</span>' : ''}
         </div>
         <div class="msd-card-info">
@@ -660,11 +1037,10 @@
   }
 
   /**
-   * Bind all Studio interactive events
+   * Bind interactive events
    */
   function bindStudioEvents() {
-    // Drawer open/close toggle
-    const toggleBtn = document.getElementById('msn-toggle-studio');
+    const toggleBtn = document.getElementById('murali-toggle-studio');
     const closeBtn = document.getElementById('msd-close-btn');
     const drawer = document.getElementById('murali-studio-drawer');
 
@@ -672,22 +1048,48 @@
       toggleBtn.addEventListener('click', () => {
         state.isOpen = !state.isOpen;
         drawer.classList.toggle('open', state.isOpen);
+        toggleBtn.classList.toggle('active', state.isOpen);
       });
     }
     if (closeBtn && drawer) {
       closeBtn.addEventListener('click', () => {
         state.isOpen = false;
         drawer.classList.remove('open');
+        if (toggleBtn) toggleBtn.classList.remove('active');
       });
     }
 
-    // Surface tabs
+    // Top pill quick surface chips
+    document.querySelectorAll('.murali-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.murali-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        state.activeSurface = chip.dataset.surface;
+
+        // Synchronize drawer tabs
+        document.querySelectorAll('.msd-s-tab').forEach(tab => {
+          tab.classList.toggle('active', tab.dataset.surface === state.activeSurface);
+        });
+
+        updateCtrlBadge();
+        showToast('Surface switched to ' + getSurfaceLabel(state.activeSurface));
+      });
+    });
+
+    // Drawer Surface tabs
     document.querySelectorAll('.msd-s-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.msd-s-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         state.activeSurface = tab.dataset.surface;
-        showToast(`Surface switched to ${getSurfaceLabel(state.activeSurface)}`);
+
+        // Synchronize top chips
+        document.querySelectorAll('.murali-chip').forEach(chip => {
+          chip.classList.toggle('active', chip.dataset.surface === state.activeSurface);
+        });
+
+        updateCtrlBadge();
+        showToast('Surface switched to ' + getSurfaceLabel(state.activeSurface));
       });
     });
 
@@ -701,13 +1103,13 @@
       });
     });
 
-    // Gloss / Reflectivity slider
+    // Reflectivity slider
     const slider = document.getElementById('msd-gloss-slider');
     const glossVal = document.getElementById('msd-gloss-val');
     if (slider && glossVal) {
       slider.addEventListener('input', (e) => {
         state.reflectivityPercent = parseInt(e.target.value, 10);
-        glossVal.textContent = `${state.reflectivityPercent}%`;
+        glossVal.textContent = state.reflectivityPercent + '%';
         applyCurrentStoneToSurface(state.activeSurface, false);
       });
     }
@@ -745,14 +1147,13 @@
     const autofillBtn = document.getElementById('msd-btn-autofill');
     if (autofillBtn) {
       autofillBtn.addEventListener('click', () => {
-        // Harmonious pairing: Active stone on floor, complementary on accent wall, dining table polish
         applyCurrentStoneToSurface('floor', false);
         state.activeSurface = 'wall_accent';
         applyCurrentStoneToSurface('wall_accent', false);
         state.activeSurface = 'table_top';
         applyCurrentStoneToSurface('table_top', false);
         state.activeSurface = 'floor';
-        showToast(`Auto-themed room with ${state.activeStone.name}!`);
+        showToast('Auto-themed room with ' + state.activeStone.name + '!');
       });
     }
 
@@ -771,6 +1172,21 @@
     }
   }
 
+  function updateCtrlBadge() {
+    const badge = document.getElementById('murali-ctrl-badge');
+    if (!badge) return;
+    const curStone = state.surfaces[state.activeSurface]?.stone || state.activeStone;
+    badge.textContent = getSurfaceLabel(state.activeSurface).split(' ')[0] + ': ' + curStone.name;
+  }
+
+  function updateStatusHUD(stoneName, surfaceKey, finishLabel, formatLabel) {
+    const hud = document.getElementById('msd-status-hud');
+    if (hud) {
+      hud.textContent = stoneName + ' • ' + getSurfaceLabel(surfaceKey) + ' • ' + finishLabel + ' • ' + formatLabel;
+    }
+    updateCtrlBadge();
+  }
+
   function showToast(msg) {
     const toast = document.getElementById('msd-toast');
     if (!toast) return;
@@ -780,214 +1196,199 @@
     toast._timer = setTimeout(() => toast.classList.remove('show'), 2800);
   }
 
-  function updateStatusHUD(msg) {
-    const hud = document.getElementById('msd-status-hud');
-    if (hud) hud.textContent = msg;
-  }
-
   /**
-   * Inject Modern Luxury Obsidian & Champagne Gold Styles
+   * Non-colliding, elegant Luxury CSS
    */
   function injectStudioStyles() {
     const css = `
-      /* ── Murali Visualizer 3.0 Header ── */
-      .murali-studio-nav {
+      /* Floating Control Bar (Never overlaps parent navbar) */
+      .murali-ctrl-bar {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 56px;
-        z-index: 10005;
-        background: rgba(14, 14, 16, 0.88);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border-bottom: 1px solid rgba(197, 160, 89, 0.25);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-        box-sizing: border-box;
-        font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
-      }
-      .msn-brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .msn-logo-link {
+        top: 14px;
+        left: 14px;
+        z-index: 9999;
         display: flex;
         align-items: center;
         gap: 8px;
-        text-decoration: none;
-        color: #F5F0E8;
+        background: rgba(14, 14, 16, 0.90);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        padding: 6px 10px;
+        border-radius: 30px;
+        border: 1px solid rgba(197, 160, 89, 0.35);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65);
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
       }
-      .msn-gold-gem {
-        color: #C5A059;
-        font-size: 14px;
-      }
-      .msn-brand-name {
-        font-family: 'Cormorant Garamond', Georgia, serif;
-        font-size: 1.25rem;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        line-height: 1;
-      }
-      .msn-brand-name small {
-        display: block;
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        font-size: 0.55rem;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        color: #C5A059;
-        margin-top: 2px;
-      }
-      .msn-badge-v3 {
-        background: linear-gradient(135deg, #C5A059, #FFD700);
-        color: #0E0E10;
-        font-size: 10px;
-        font-weight: 900;
-        padding: 2px 7px;
-        border-radius: 4px;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-      .msn-tag-sub {
-        font-size: 0.72rem;
-        color: #A1A1AA;
-        margin-left: 4px;
-      }
-      .msn-menu {
+      .murali-ctrl-toggle {
         display: flex;
         align-items: center;
-        gap: 18px;
-      }
-      .msn-link {
-        color: #A1A1AA;
-        text-decoration: none;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        font-weight: 600;
-        transition: color 0.2s ease;
-      }
-      .msn-link:hover, .msn-link.active {
-        color: #C5A059;
-      }
-      .msn-btn-gold {
-        background: linear-gradient(135deg, #C5A059, #E8C98A);
+        gap: 8px;
+        background: linear-gradient(135deg, #C5A059, #8C6A2E);
         color: #0E0E10;
-        border: 0;
-        border-radius: 6px;
+        border: none;
         padding: 6px 14px;
-        font-size: 0.75rem;
+        border-radius: 20px;
         font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
+        font-size: 0.76rem;
         cursor: pointer;
-        box-shadow: 0 4px 14px rgba(197, 160, 89, 0.35);
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition: all 0.25s ease;
+        box-shadow: 0 2px 10px rgba(197, 160, 89, 0.3);
       }
-      .msn-btn-gold:hover {
+      .murali-ctrl-toggle:hover, .murali-ctrl-toggle.active {
+        background: linear-gradient(135deg, #FFD700, #C5A059);
         transform: translateY(-1px);
-        box-shadow: 0 6px 18px rgba(197, 160, 89, 0.5);
+        box-shadow: 0 4px 14px rgba(255, 215, 0, 0.45);
+      }
+      .murali-ctrl-icon {
+        font-size: 13px;
+      }
+      .murali-ctrl-label {
+        letter-spacing: 0.04em;
+      }
+      .murali-ctrl-badge {
+        font-size: 0.65rem;
+        background: rgba(14, 14, 16, 0.8);
+        color: #E8C98A;
+        padding: 2px 7px;
+        border-radius: 10px;
+        font-weight: 600;
+      }
+      .murali-ctrl-chips {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .murali-chip {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #D5CEC3;
+        padding: 5px 10px;
+        border-radius: 14px;
+        font-size: 0.70rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .murali-chip:hover {
+        background: rgba(197, 160, 89, 0.2);
+        color: #F5F0E8;
+        border-color: rgba(197, 160, 89, 0.4);
+      }
+      .murali-chip.active {
+        background: rgba(197, 160, 89, 0.3);
+        border-color: #C5A059;
+        color: #FFD700;
       }
 
-      /* ── Floating Studio Drawer ── */
-      .msd-drawer {
+      /* Floating Drawer */
+      .murali-drawer {
         position: fixed;
-        top: 68px;
-        right: 16px;
-        width: 360px;
-        max-width: calc(100vw - 32px);
-        max-height: calc(100vh - 84px);
-        background: rgba(16, 16, 20, 0.94);
+        top: 64px;
+        left: 14px;
+        bottom: 14px;
+        width: 375px;
+        max-width: calc(100vw - 28px);
+        background: rgba(14, 14, 16, 0.95);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(197, 160, 89, 0.3);
-        border-radius: 14px;
-        z-index: 10004;
+        border-radius: 16px;
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.85);
         display: flex;
         flex-direction: column;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(197, 160, 89, 0.15);
-        color: #F5F0E8;
-        font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
-        box-sizing: border-box;
-        overflow: hidden;
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s;
-        transform: translateX(390px);
+        z-index: 9998;
+        transform: translateX(-120%);
         opacity: 0;
-        pointer-events: none;
+        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+        overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
       }
-      .msd-drawer.open {
+      .murali-drawer.open {
         transform: translateX(0);
         opacity: 1;
-        pointer-events: auto;
       }
       .msd-header {
+        padding: 14px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 14px 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(20, 20, 24, 0.8);
       }
-      .msd-eyebrow {
-        font-size: 0.6rem;
+      .msd-badge-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 4px;
+      }
+      .msd-badge-gold {
+        font-size: 0.62rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
-        letter-spacing: 0.2em;
         color: #C5A059;
+      }
+      .msd-badge-pbr {
+        font-size: 0.58rem;
+        background: rgba(197, 160, 89, 0.15);
+        border: 1px solid rgba(197, 160, 89, 0.35);
+        color: #E8C98A;
+        padding: 1px 6px;
+        border-radius: 4px;
         font-weight: 700;
       }
       .msd-title {
         font-family: 'Cormorant Garamond', Georgia, serif;
         font-size: 1.25rem;
         font-weight: 600;
-        margin: 2px 0 0 0;
         color: #F5F0E8;
+        margin: 0;
+        letter-spacing: 0.02em;
       }
-      .msd-close-btn {
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        color: #A1A1AA;
-        width: 28px;
-        height: 28px;
+      .msd-close {
+        width: 30px;
+        height: 30px;
         border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.05);
+        color: #A0988A;
+        font-size: 14px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 12px;
-        transition: 0.2s;
+        transition: all 0.2s;
       }
-      .msd-close-btn:hover {
-        background: rgba(197, 160, 89, 0.2);
-        color: #FFD700;
+      .msd-close:hover {
+        color: #FFF;
+        background: rgba(255, 255, 255, 0.15);
       }
-      .msd-section {
-        padding: 10px 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+      .msd-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
       }
-      .msd-sec-label {
+      .msd-body::-webkit-scrollbar {
+        width: 5px;
+      }
+      .msd-body::-webkit-scrollbar-thumb {
+        background: rgba(197, 160, 89, 0.3);
+        border-radius: 4px;
+      }
+
+      .msd-section-label {
         font-size: 0.68rem;
         text-transform: uppercase;
         letter-spacing: 0.12em;
-        color: #A1A1AA;
-        font-weight: 600;
-        margin-bottom: 8px;
-      }
-      .msd-flex-between {
+        font-weight: 700;
+        color: #A0988A;
         display: flex;
         align-items: center;
         justify-content: space-between;
-      }
-      .msd-rec-badge {
-        font-size: 9px;
-        color: #34D399;
-        background: rgba(52, 211, 153, 0.12);
-        border: 1px solid rgba(52, 211, 153, 0.3);
-        padding: 2px 6px;
-        border-radius: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
       }
 
       /* Surface Tabs */
@@ -998,238 +1399,251 @@
       }
       .msd-s-tab {
         background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
-        color: #D4D4D8;
-        padding: 7px 8px;
-        font-size: 0.72rem;
-        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 8px 10px;
         display: flex;
         align-items: center;
-        gap: 6px;
-        transition: 0.2s;
+        gap: 8px;
+        cursor: pointer;
+        color: #C5BFB5;
+        font-size: 0.74rem;
+        font-weight: 600;
+        transition: all 0.2s;
       }
       .msd-s-tab:hover {
-        background: rgba(197, 160, 89, 0.12);
-        border-color: rgba(197, 160, 89, 0.4);
+        background: rgba(197, 160, 89, 0.15);
+        border-color: rgba(197, 160, 89, 0.35);
       }
       .msd-s-tab.active {
-        background: linear-gradient(135deg, rgba(197, 160, 89, 0.28), rgba(20, 20, 24, 0.8));
+        background: rgba(197, 160, 89, 0.25);
         border-color: #C5A059;
         color: #FFD700;
-        font-weight: 700;
-        box-shadow: 0 0 12px rgba(197, 160, 89, 0.25);
       }
-      .msd-icon { font-size: 13px; }
+      .msd-s-icon {
+        font-size: 14px;
+        color: #C5A059;
+      }
 
       /* Finish Tabs (Anti-Glare) */
-      .msd-glare-card {
-        background: rgba(20, 20, 28, 0.5);
-      }
       .msd-finish-tabs {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 6px;
-        margin-bottom: 10px;
       }
       .msd-f-tab {
         background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
-        color: #A1A1AA;
-        padding: 6px 4px;
-        font-size: 0.68rem;
-        cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 8px 6px;
         text-align: center;
-        transition: 0.2s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-      }
-      .msd-f-tab .f-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #71717A;
+        cursor: pointer;
+        transition: all 0.2s;
       }
       .msd-f-tab:hover {
-        border-color: rgba(197, 160, 89, 0.4);
+        background: rgba(197, 160, 89, 0.12);
+        border-color: rgba(197, 160, 89, 0.3);
       }
       .msd-f-tab.active {
-        background: rgba(197, 160, 89, 0.2);
+        background: rgba(197, 160, 89, 0.25);
         border-color: #C5A059;
-        color: #F5F0E8;
-        font-weight: 700;
       }
-      .msd-f-tab.active .f-dot {
-        background: #C5A059;
-        box-shadow: 0 0 8px #C5A059;
+      .msd-f-title {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #F5F0E8;
+      }
+      .msd-f-tab.active .msd-f-title {
+        color: #FFD700;
+      }
+      .msd-f-tag {
+        display: block;
+        font-size: 0.55rem;
+        color: #A0988A;
+        margin-top: 2px;
+        letter-spacing: 0.04em;
+      }
+      .msd-f-tab.active .msd-f-tag {
+        color: #C5A059;
       }
 
       /* Slider */
-      .msd-slider-wrap {
-        margin-top: 4px;
+      .msd-slider-group {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 8px;
+        padding: 8px 12px;
       }
       .msd-slider-header {
         display: flex;
         justify-content: space-between;
-        font-size: 0.65rem;
-        color: #A1A1AA;
-        margin-bottom: 4px;
+        font-size: 0.70rem;
+        color: #A0988A;
+        margin-bottom: 6px;
+        font-weight: 600;
       }
-      .msd-slider {
+      .msd-slider-val {
+        color: #C5A059;
+        font-weight: 700;
+      }
+      .msd-range {
         width: 100%;
-        height: 4px;
-        background: #27272A;
-        border-radius: 2px;
-        outline: none;
-        -webkit-appearance: none;
         accent-color: #C5A059;
-      }
-      .msd-slider-hint {
-        font-size: 9px;
-        color: #71717A;
-        margin-top: 4px;
-        line-height: 1.2;
+        cursor: pointer;
       }
 
       /* Format Tabs */
       .msd-format-tabs {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 5px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px;
       }
       .msd-fmt-tab {
         background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 6px;
-        color: #D4D4D8;
-        padding: 6px 2px;
-        font-size: 0.65rem;
-        cursor: pointer;
-        text-align: center;
-        transition: 0.2s;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 8px 10px;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        gap: 2px;
+        gap: 8px;
+        cursor: pointer;
+        color: #C5BFB5;
+        font-size: 0.72rem;
+        font-weight: 600;
+        transition: all 0.2s;
       }
-      .msd-fmt-tab small {
-        font-size: 8px;
-        color: #71717A;
+      .msd-fmt-tab:hover {
+        background: rgba(197, 160, 89, 0.15);
+        border-color: rgba(197, 160, 89, 0.35);
       }
       .msd-fmt-tab.active {
+        background: rgba(197, 160, 89, 0.25);
         border-color: #C5A059;
-        background: rgba(197, 160, 89, 0.2);
         color: #FFD700;
       }
-      .msd-fmt-tab.active small {
-        color: #C5A059;
-      }
 
-      /* Stone Grid Section */
-      .msd-stones-section {
-        flex: 1;
-        overflow-y: auto;
-        min-height: 200px;
-        max-height: 380px;
+      /* Filter Header & Pills */
+      .msd-filter-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 4px;
       }
       .msd-filter-count {
-        font-size: 10px;
+        font-size: 0.65rem;
         color: #C5A059;
+        font-weight: 700;
       }
       .msd-cat-pills {
         display: flex;
         gap: 4px;
-        margin-bottom: 8px;
         overflow-x: auto;
-        padding-bottom: 4px;
+        padding-bottom: 2px;
+      }
+      .msd-cat-pills::-webkit-scrollbar {
+        height: 3px;
       }
       .msd-pill {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        color: #A1A1AA;
-        font-size: 10px;
-        padding: 3px 8px;
-        cursor: pointer;
         white-space: nowrap;
-        transition: 0.2s;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #A0988A;
+        font-size: 0.66rem;
+        font-weight: 600;
+        padding: 4px 9px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
       }
-      .msd-pill:hover, .msd-pill.active {
+      .msd-pill:hover {
+        color: #FFF;
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .msd-pill.active {
         background: #C5A059;
         color: #0E0E10;
-        font-weight: 700;
         border-color: #C5A059;
+        font-weight: 700;
       }
-      .msd-search-box {
-        margin-bottom: 8px;
-      }
+
+      /* Search Box */
       .msd-search-box input {
         width: 100%;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 6px;
-        padding: 6px 10px;
-        font-size: 0.72rem;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
         color: #F5F0E8;
-        outline: none;
+        padding: 8px 12px;
+        font-size: 0.74rem;
         box-sizing: border-box;
+        outline: none;
+        transition: border-color 0.2s;
       }
       .msd-search-box input:focus {
         border-color: #C5A059;
       }
+
+      /* Stone Grid */
       .msd-stone-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
       }
       .msd-card {
         background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 6px;
+        border-radius: 8px;
         overflow: hidden;
         cursor: pointer;
-        transition: transform 0.2s, border-color 0.2s;
-        text-align: left;
+        transition: all 0.25s ease;
       }
       .msd-card:hover {
         transform: translateY(-2px);
         border-color: rgba(197, 160, 89, 0.5);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
       }
       .msd-card.selected {
         border-color: #C5A059;
-        box-shadow: 0 0 12px rgba(197, 160, 89, 0.35);
-        background: rgba(197, 160, 89, 0.1);
+        box-shadow: 0 0 0 1px #C5A059, 0 4px 16px rgba(197, 160, 89, 0.3);
+        background: rgba(197, 160, 89, 0.12);
       }
       .msd-card-thumb {
+        width: 100%;
+        height: 72px;
         position: relative;
-        aspect-ratio: 4/3;
         overflow: hidden;
-        background: #18181b;
+        background-size: cover;
+        background-position: center;
       }
       .msd-card-thumb img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+      }
+      .msd-card:hover .msd-card-thumb img {
+        transform: scale(1.05);
       }
       .msd-sig-badge {
         position: absolute;
-        top: 3px;
-        right: 3px;
-        background: linear-gradient(135deg, #C5A059, #FFD700);
+        top: 4px;
+        right: 4px;
+        background: #FFD700;
         color: #0E0E10;
-        font-size: 8px;
+        font-size: 0.52rem;
         font-weight: 900;
-        padding: 1px 4px;
+        padding: 2px 5px;
         border-radius: 3px;
+        letter-spacing: 0.04em;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.5);
       }
       .msd-card-info {
-        padding: 4px 6px;
+        padding: 6px 8px;
       }
       .msd-card-name {
-        font-size: 0.65rem;
+        font-size: 0.72rem;
         font-weight: 700;
         color: #F5F0E8;
         white-space: nowrap;
@@ -1237,15 +1651,19 @@
         text-overflow: ellipsis;
       }
       .msd-card-meta {
-        font-size: 8px;
-        color: #71717A;
+        font-size: 0.60rem;
+        color: #A0988A;
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       /* Footer */
       .msd-footer {
-        padding: 10px 16px;
-        background: rgba(10, 10, 12, 0.8);
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 10px 14px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(20, 20, 24, 0.9);
       }
       .msd-quick-buttons {
         display: flex;
@@ -1253,41 +1671,42 @@
         margin-bottom: 6px;
       }
       .msd-btn-action {
-        flex: 2;
-        background: linear-gradient(135deg, #C5A059, #E8C98A);
+        flex: 1;
+        background: linear-gradient(135deg, #C5A059, #8C6A2E);
         color: #0E0E10;
-        border: 0;
-        border-radius: 5px;
-        padding: 7px;
-        font-size: 0.7rem;
+        border: none;
+        padding: 8px 10px;
+        border-radius: 8px;
         font-weight: 700;
+        font-size: 0.70rem;
         cursor: pointer;
-        transition: 0.2s;
+        transition: all 0.2s;
       }
       .msd-btn-action:hover {
-        box-shadow: 0 4px 12px rgba(197, 160, 89, 0.4);
+        background: linear-gradient(135deg, #FFD700, #C5A059);
       }
       .msd-btn-action-ghost {
-        flex: 1;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        color: #D4D4D8;
-        border-radius: 5px;
-        padding: 7px;
-        font-size: 0.7rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #C5BFB5;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.70rem;
         cursor: pointer;
-        transition: 0.2s;
+        transition: all 0.2s;
       }
       .msd-btn-action-ghost:hover {
         background: rgba(255, 255, 255, 0.12);
+        color: #FFF;
       }
       .msd-status-hud {
-        font-size: 9px;
-        color: #A1A1AA;
-        text-align: center;
+        font-size: 0.60rem;
+        color: #A0988A;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-align: center;
       }
 
       /* Toast */
@@ -1295,48 +1714,89 @@
         position: fixed;
         bottom: 24px;
         left: 50%;
-        transform: translateX(-50%) translateY(30px);
+        transform: translateX(-50%) translateY(20px);
         background: rgba(14, 14, 16, 0.95);
-        border: 1px solid rgba(197, 160, 89, 0.4);
-        color: #FFD700;
+        border: 1px solid #C5A059;
+        color: #F5F0E8;
         padding: 8px 18px;
-        border-radius: 20px;
-        font-size: 0.75rem;
+        border-radius: 24px;
+        font-size: 0.76rem;
         font-weight: 600;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-        z-index: 10010;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+        z-index: 10002;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.3s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
       }
       .msd-toast.show {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
       }
 
-      @media (max-width: 768px) {
-        .msn-tag-sub, .msn-menu { display: none; }
-        .msd-drawer {
-          width: calc(100vw - 20px);
+      @media (max-width: 600px) {
+        .murali-ctrl-bar {
+          top: 10px;
+          left: 10px;
           right: 10px;
+          justify-content: space-between;
+        }
+        .murali-ctrl-chips {
+          display: none;
+        }
+        .murali-drawer {
           top: 60px;
-          max-height: 75vh;
+          left: 10px;
+          right: 10px;
+          bottom: 10px;
+          width: auto;
         }
       }
     `;
 
     const styleEl = document.createElement('style');
-    styleEl.id = 'murali-stone-studio-styles';
     styleEl.textContent = css;
     document.head.appendChild(styleEl);
   }
 
-  // Expose global controller
-  window.MuraliStoneStudio = {
-    init: initStudio,
-    applyStone: applyCurrentStoneToSurface,
-    stones: SHOWROOM_STONES,
-    state: state
-  };
+  /**
+   * Continuous Polling & Hook to initialize studio once 3D assets load
+   */
+  let initDone = false;
+  function tryInitStudio() {
+    if (initDone) return;
+    const scene = getShowroomInteriorScene();
+    if (scene && getSurfaceMesh('floor')) {
+      initDone = true;
+      mountStudioUI();
+      // Apply initial floor stone
+      setTimeout(() => applyCurrentStoneToSurface('floor', false), 200);
+    }
+  }
+
+  // Mount UI immediately so controls are always available
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mountStudioUI);
+  } else {
+    mountStudioUI();
+  }
+
+  // Hook into showroom events
+  window.addEventListener('showroomReady', function () {
+    tryInitStudio();
+  });
+  window.addEventListener('showroomStarted', function () {
+    tryInitStudio();
+    // Re-apply to ensure interiorScene is primed
+    setTimeout(() => applyCurrentStoneToSurface(state.activeSurface, false), 400);
+  });
+
+  // Fallback poller
+  let pollCount = 0;
+  const timer = setInterval(function () {
+    pollCount++;
+    tryInitStudio();
+    if (initDone || pollCount > 100) clearInterval(timer);
+  }, 400);
+
 })();
