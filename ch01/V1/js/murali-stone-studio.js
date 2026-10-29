@@ -717,6 +717,16 @@
   }
 
   /**
+   * Save a choice (stone / finish / format) into the per-surface state.
+   * applyCurrentStoneToSurface() reads from state.surfaces first, so every
+   * UI change MUST be written here or the old value keeps being re-applied.
+   */
+  function setSurfaceChoice(surfaceKey, patch) {
+    const prev = state.surfaces[surfaceKey] || { stone: null, finish: 'honed', format: 'slab' };
+    state.surfaces[surfaceKey] = Object.assign({}, prev, patch);
+  }
+
+  /**
    * Apply selected stone, finish, and format to target architectural surface
    */
   function applyCurrentStoneToSurface(surfaceKey, showToastMsg) {
@@ -1023,6 +1033,7 @@
         document.querySelectorAll('.msd-card').forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
         state.activeStone = stone;
+        setSurfaceChoice(state.activeSurface, { stone: stone });
         applyCurrentStoneToSurface(state.activeSurface, true);
       });
 
@@ -1093,6 +1104,7 @@
         document.querySelectorAll('.msd-f-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         state.activeFinish = tab.dataset.finish;
+        setSurfaceChoice(state.activeSurface, { finish: tab.dataset.finish });
         applyCurrentStoneToSurface(state.activeSurface, true);
       });
     });
@@ -1114,6 +1126,7 @@
         document.querySelectorAll('.msd-fmt-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         state.activeFormat = tab.dataset.format;
+        setSurfaceChoice(state.activeSurface, { format: tab.dataset.format });
         applyCurrentStoneToSurface(state.activeSurface, true);
       });
     });
@@ -1141,6 +1154,9 @@
     const autofillBtn = document.getElementById('msd-btn-autofill');
     if (autofillBtn) {
       autofillBtn.addEventListener('click', () => {
+        ['floor', 'wall_accent', 'table_top'].forEach(k => {
+          setSurfaceChoice(k, { stone: state.activeStone, finish: state.activeFinish, format: state.activeFormat });
+        });
         applyCurrentStoneToSurface('floor', false);
         setTimeout(() => applyCurrentStoneToSurface('wall_accent', false), 80);
         setTimeout(() => applyCurrentStoneToSurface('table_top', false), 160);
@@ -1158,6 +1174,7 @@
         state.reflectivityPercent = 40;
         if (slider) slider.value = 40;
         if (glossVal) glossVal.textContent = '40%';
+        setSurfaceChoice('floor', { stone: SHOWROOM_STONES[0], finish: 'honed', format: 'slab' });
         applyCurrentStoneToSurface('floor', true);
       });
     }
