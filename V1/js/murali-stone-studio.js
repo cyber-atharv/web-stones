@@ -8,9 +8,7 @@
   // Helper to resolve asset paths reliably whether inside iframe or standalone
   function getStoneImageUrl(stone) {
     if (!stone || !stone.imageUrl) return '';
-    const isInsideV1 = window.location.pathname.includes('/V1/') || window.location.pathname.endsWith('/V1');
-    const prefix = isInsideV1 ? '../' : '';
-    return prefix + stone.imageUrl;
+    return stone.imageUrl;
   }
 
   // 48 Showroom Stones with authentic product images & top 12 Signature badging
@@ -456,19 +454,19 @@
       desc: 'Soft architectural diffusion, subtle sheen, zero harsh glare (Recommended for Mobile)',
       gloss: 0.38,
       f0: 0.038,
-      normalScale: 0.70
+      normalScale: 0.50
     },
     'polished': {
       label: 'Polished High Gloss',
       desc: 'Deep mirror reflection with calibrated non-metallic dielectric Fresnel',
-      gloss: 0.68,
+      gloss: 0.70,
       f0: 0.055,
-      normalScale: 0.45
+      normalScale: 0.25
     },
     'matte': {
       label: 'Natural Matte',
       desc: 'Raw quarried stone texture, zero specular reflections, ultra-tactile',
-      gloss: 0.15,
+      gloss: 0.12,
       f0: 0.020,
       normalScale: 0.85
     }
@@ -481,38 +479,34 @@
       desc: 'Monolithic continuous bookmatched surface (Zero grout line)',
       grout: 0,
       repeatFloor: [2, 2],
-      repeatWall: [2, 1.5],
-      repeatTable: [1, 1]
+      repeatWall: [2, 1.5]
     },
     'tile-60': {
       label: 'Tile 60×60',
       desc: 'Classic square tile grid with recessed 3D grout channels',
       grout: 2,
       repeatFloor: [6, 6],
-      repeatWall: [4, 3],
-      repeatTable: [3, 2]
+      repeatWall: [4, 3]
     },
     'tile-120': {
       label: 'Tile 120×60',
       desc: 'Contemporary grand format rectangular slab grid',
       grout: 2,
       repeatFloor: [3, 6],
-      repeatWall: [2, 3],
-      repeatTable: [1, 2]
+      repeatWall: [2, 3]
     },
     'brick': {
       label: 'Subway Brick',
       desc: 'Staggered architectural running bond pattern',
       grout: 2,
       repeatFloor: [8, 8],
-      repeatWall: [6, 4],
-      repeatTable: [4, 3]
+      repeatWall: [6, 4]
     }
   };
 
   // Application State
   const state = {
-    activeSurface: 'floor', // 'floor', 'wall_accent', 'wall_main', 'table_top'
+    activeSurface: 'floor', // 'floor', 'wall_accent', 'wall_main'
     activeStone: SHOWROOM_STONES[0],
     activeFinish: 'honed',  // Default to honed to prevent mobile white glare!
     activeFormat: 'slab',
@@ -523,14 +517,33 @@
     surfaces: {
       'floor': { stone: SHOWROOM_STONES[0], finish: 'honed', format: 'slab' },
       'wall_accent': { stone: SHOWROOM_STONES[5], finish: 'honed', format: 'slab' },
-      'wall_main': { stone: null, finish: 'matte', format: 'slab' },
-      'table_top': { stone: SHOWROOM_STONES[3], finish: 'polished', format: 'slab' }
+      'wall_main': { stone: null, finish: 'matte', format: 'slab' }
     }
   };
 
-  // Caches
+  /**
+   * Save a choice (stone / finish / format) into the per-surface state.
+   */
+  function setSurfaceChoice(surfaceKey, patch) {
+    const prev = state.surfaces[surfaceKey] || { stone: null, finish: 'honed', format: 'slab' };
+    state.surfaces[surfaceKey] = Object.assign({}, prev, patch);
+  }
+
+  // Dedicated surface material instances
+  const customMaterials = {};
+
+  // Texture Cache
   const textureCache = new Map();
-  const normalCache = new Map();
+
+  // Three.js TextureLoader instance
+  let textureLoader = null;
+  function getTextureLoader() {
+    if (!textureLoader && window.THREE && window.THREE.TextureLoader) {
+      textureLoader = new THREE.TextureLoader();
+      textureLoader.crossOrigin = 'anonymous';
+    }
+    return textureLoader;
+  }
 
   /**
    * Robust dynamic lookup for the Little Workshop interior2 scene
@@ -551,6 +564,78 @@
   }
 
   /**
+   * Minimalist Architectural Showroom Room Layout:
+   * Removes dining table, dining chairs, rugs/mats, coffee table, and armchairs
+   * leaving only the luxury lounge sofa in the expansive stone floor space.
+   */
+  function applyRoomFurnishingLayout(scene) {
+    if (!scene) return;
+
+    const objectsToHide = [
+      'TableParent',  // Dining table & tabletop
+      'Chairs',       // Dining chairs
+      'rug',          // Living area floor mat
+      'rug (1)',      // Dining area floor mat
+      'coffee_table', // Coffee table
+      'armchairs',    // Armchairs
+      'table_objects_baker'
+    ];
+
+    objectsToHide.forEach(name => {
+      const obj = scene.getObjectByName(name);
+      if (obj) {
+        obj.visible = false;
+        obj.traverse(child => {
+          child.visible = false;
+        });
+      }
+    });
+
+    // Also hide corresponding selection strokes
+    const strokeGroup = scene.getObjectByName('stroke_objects');
+    if (strokeGroup) {
+      ['table_stroke', 'coffee_table_stroke', 'fauteuil_stroke', 'fauteuil2_stroke'].forEach(sName => {
+        const stroke = strokeGroup.getObjectByName(sName);
+        if (stroke) stroke.visible = false;
+      });
+    }
+
+    // Disable table & armchair pickers from scenePicker if present
+    const app = window.showroomApp;
+    if (app && app.scenePicker && app.scenePicker.objects) {
+      app.scenePicker.objects = app.scenePicker.objects.filter(o => {
+        let cur = o;
+        while (cur) {
+          if (objectsToHide.includes(cur.name)) return false;
+          cur = cur.parent;
+        }
+        return true;
+      });
+    }
+  }
+
+  /**
+   * Find base PBR material template from the loaded interior scene
+   * 'woodfloor2' has USE_ALBEDOMAP, USE_NORMALMAP, USE_LIGHTMAP compiled into its shader
+   */
+  function getBasePbrTemplate(scene) {
+    if (!scene) return null;
+    const floorMesh = scene.getObjectByName('floor');
+    if (floorMesh && floorMesh.material && floorMesh.material.defines && floorMesh.material.defines.USE_ALBEDOMAP) {
+      return floorMesh.material;
+    }
+    if (scene.materials) {
+      for (const k in scene.materials) {
+        const m = scene.materials[k];
+        if (m && m.pbr && m.defines && m.defines.USE_ALBEDOMAP && m.defines.USE_LIGHTMAP) {
+          return m;
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
    * Robust mesh finder across scene graph
    */
   function getSurfaceMesh(surfaceKey) {
@@ -561,8 +646,6 @@
     if (surfaceKey === 'floor') targetName = 'floor';
     else if (surfaceKey === 'wall_accent') targetName = 'walls.001';
     else if (surfaceKey === 'wall_main') targetName = 'walls';
-    else if (surfaceKey === 'table_top') targetName = 'table_top';
-    else if (surfaceKey === 'coffee_table') targetName = 'board';
 
     let found = scene.getObjectByName(targetName);
     if (!found) {
@@ -574,120 +657,113 @@
   }
 
   /**
-   * Generate tile albedo canvas with grout channels
+   * Get or create a dedicated PBR material for the target surface
    */
-  function createTileCanvas(img, format) {
-    const size = 1024;
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d');
-
-    if (!img) {
-      ctx.fillStyle = '#1e1e24';
-      ctx.fillRect(0, 0, size, size);
-      return canvas;
+  function getOrCreateSurfaceMaterial(surfaceKey, targetMesh, scene) {
+    if (customMaterials[surfaceKey]) {
+      return customMaterials[surfaceKey];
     }
 
-    if (format === 'slab') {
-      ctx.drawImage(img, 0, 0, size, size);
-      return canvas;
+    const baseTemplate = getBasePbrTemplate(scene);
+    if (!baseTemplate) {
+      console.warn('[MuraliStudio] Base PBR template (woodfloor2) not ready yet.');
+      return targetMesh.material;
     }
 
-    let cols = 2, rows = 2, isStaggered = false;
-    if (format === 'tile-60') { cols = 2; rows = 2; }
-    else if (format === 'tile-120') { cols = 2; rows = 4; }
-    else if (format === 'brick') { cols = 3; rows = 6; isStaggered = true; }
+    // Clone the base template so target mesh gets a fully-compiled PBR shader with albedo & normal support
+    const newMat = baseTemplate.clone();
+    newMat.name = 'murali_' + surfaceKey;
 
-    const tileW = size / cols;
-    const tileH = size / rows;
-    const groutW = 3; // 3px mortar grout line
-
-    // Dark architectural mortar grout base
-    ctx.fillStyle = '#22201e';
-    ctx.fillRect(0, 0, size, size);
-
-    for (let r = 0; r < rows; r++) {
-      const offsetX = (isStaggered && (r % 2 === 1)) ? tileW / 2 : 0;
-      for (let c = -1; c <= cols; c++) {
-        const x = c * tileW + offsetX + groutW;
-        const y = r * tileH + groutW;
-        const w = tileW - groutW * 2;
-        const h = tileH - groutW * 2;
-
-        if (x + w > 0 && x < size && y + h > 0 && y < size) {
-          ctx.save();
-          ctx.beginPath();
-          ctx.rect(Math.max(0, x), Math.max(0, y), Math.min(w, size - x), Math.min(h, size - y));
-          ctx.clip();
-          ctx.drawImage(img, 0, 0, size, size);
-
-          // Subtle inner tile bevel shadow
-          ctx.strokeStyle = 'rgba(0,0,0,0.32)';
-          ctx.lineWidth = 2;
-          ctx.strokeRect(x, y, w, h);
-          ctx.restore();
-        }
+    // Transfer target object's pre-baked lightmaps for realistic contact shadows
+    const origMat = targetMesh.material;
+    if (origMat && origMat.uniforms) {
+      if (origMat.uniforms.sTextureLightMap && origMat.uniforms.sTextureLightMap.value) {
+        newMat.uniforms.sTextureLightMap.value = origMat.uniforms.sTextureLightMap.value;
+        newMat.sTextureLightMap = origMat.uniforms.sTextureLightMap.value;
+      }
+      if (origMat.uniforms.sTextureLightMapM && origMat.uniforms.sTextureLightMapM.value) {
+        newMat.uniforms.sTextureLightMapM.value = origMat.uniforms.sTextureLightMapM.value;
+        newMat.sTextureLightMapM = origMat.uniforms.sTextureLightMapM.value;
       }
     }
 
-    return canvas;
+    // Register in scene.materials so Little Workshop's updateCustomMaterials updates reflection probes
+    if (scene.materials) {
+      scene.materials[newMat.uuid] = newMat;
+    }
+
+    customMaterials[surfaceKey] = newMat;
+    targetMesh.material = newMat;
+    newMat.needsUpdate = true;
+
+    // Special handling for accent wall: hide outer shell mesh walls.001 (1) if present
+    if (surfaceKey === 'wall_accent') {
+      const shell = scene.getObjectByName('walls.001 (1)');
+      if (shell) {
+        shell.visible = false;
+      }
+    }
+
+    return newMat;
   }
 
   /**
-   * Generate normal bump map from albedo canvas
+   * Load stone texture via native THREE.TextureLoader with automatic caching
    */
-  function createNormalMap(albedoCanvas, format) {
-    const w = albedoCanvas.width;
-    const h = albedoCanvas.height;
-    const nCanvas = document.createElement('canvas');
-    nCanvas.width = w;
-    nCanvas.height = h;
-    const nCtx = nCanvas.getContext('2d');
-
-    const srcCtx = albedoCanvas.getContext('2d');
-    const srcData = srcCtx.getImageData(0, 0, w, h).data;
-    const outImg = nCtx.createImageData(w, h);
-    const outData = outImg.data;
-
-    const bumpStrength = (format === 'slab') ? 1.5 : 3.2;
-
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        const idx = (y * w + x) * 4;
-        const xLeft = (x > 0 ? x - 1 : w - 1);
-        const xRight = (x < w - 1 ? x + 1 : 0);
-        const yUp = (y > 0 ? y - 1 : h - 1);
-        const yDown = (y < h - 1 ? y + 1 : 0);
-
-        const leftIdx = (y * w + xLeft) * 4;
-        const rightIdx = (y * w + xRight) * 4;
-        const upIdx = (yUp * w + x) * 4;
-        const downIdx = (yDown * w + x) * 4;
-
-        const leftVal = (srcData[leftIdx] * 0.299 + srcData[leftIdx + 1] * 0.587 + srcData[leftIdx + 2] * 0.114);
-        const rightVal = (srcData[rightIdx] * 0.299 + srcData[rightIdx + 1] * 0.587 + srcData[rightIdx + 2] * 0.114);
-        const upVal = (srcData[upIdx] * 0.299 + srcData[upIdx + 1] * 0.587 + srcData[upIdx + 2] * 0.114);
-        const downVal = (srcData[downIdx] * 0.299 + srcData[downIdx + 1] * 0.587 + srcData[downIdx + 2] * 0.114);
-
-        const dx = (leftVal - rightVal) * bumpStrength / 255.0;
-        const dy = (upVal - downVal) * bumpStrength / 255.0;
-        const dz = 1.0;
-
-        const len = Math.sqrt(dx * dx + dy * dy + dz * dz);
-        const nx = (dx / len) * 0.5 + 0.5;
-        const ny = (dy / len) * 0.5 + 0.5;
-        const nz = (dz / len) * 0.5 + 0.5;
-
-        outData[idx] = Math.round(nx * 255);
-        outData[idx + 1] = Math.round(ny * 255);
-        outData[idx + 2] = Math.round(nz * 255);
-        outData[idx + 3] = 255;
-      }
+  function loadStoneTexture(url, callback) {
+    if (textureCache.has(url)) {
+      callback(textureCache.get(url));
+      return;
     }
 
-    nCtx.putImageData(outImg, 0, 0);
-    return nCanvas;
+    const loader = getTextureLoader();
+    if (!loader) {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function () {
+        const tex = new THREE.Texture(img);
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.RepeatWrapping;
+        tex.needsUpdate = true;
+        textureCache.set(url, tex);
+        callback(tex);
+      };
+      img.onerror = function () {
+        createFallbackTexture(url, callback);
+      };
+      img.src = url;
+      return;
+    }
+
+    loader.load(
+      url,
+      function (tex) {
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.RepeatWrapping;
+        tex.generateMipmaps = true;
+        tex.needsUpdate = true;
+        textureCache.set(url, tex);
+        callback(tex);
+      },
+      undefined,
+      function () {
+        createFallbackTexture(url, callback);
+      }
+    );
+  }
+
+  function createFallbackTexture(url, callback) {
+    const c = document.createElement('canvas');
+    c.width = 512;
+    c.height = 512;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#26272c';
+    ctx.fillRect(0, 0, 512, 512);
+    const fbTex = new THREE.CanvasTexture(c);
+    fbTex.wrapS = THREE.RepeatWrapping;
+    fbTex.wrapT = THREE.RepeatWrapping;
+    textureCache.set(url, fbTex);
+    callback(fbTex);
   }
 
   /**
@@ -696,9 +772,18 @@
   function applyCurrentStoneToSurface(surfaceKey, showToastMsg) {
     if (typeof showToastMsg === 'undefined') showToastMsg = true;
 
+    const scene = getShowroomInteriorScene();
+    if (!scene) {
+      console.warn('[MuraliStudio] 3D Interior scene not ready. Will retry on showroom load.');
+      return;
+    }
+
+    // Enforce clean room furnishing layout
+    applyRoomFurnishingLayout(scene);
+
     const mesh = getSurfaceMesh(surfaceKey);
-    if (!mesh || !mesh.material) {
-      console.warn('[MuraliStudio] Target mesh for ' + surfaceKey + ' not found in active scene. Will retry once scene loads.');
+    if (!mesh) {
+      console.warn('[MuraliStudio] Target mesh for ' + surfaceKey + ' not found in active scene.');
       return;
     }
 
@@ -711,39 +796,34 @@
 
     state.surfaces[surfaceKey] = { stone: stone, finish: finishKey, format: formatKey };
 
+    // Get or create dedicated PBR material
+    const mat = getOrCreateSurfaceMaterial(surfaceKey, mesh, scene);
+    if (!mat || !mat.uniforms) return;
+
+    let repeat = formatCfg.repeatFloor;
+    if (surfaceKey === 'wall_accent' || surfaceKey === 'wall_main') {
+      repeat = formatCfg.repeatWall;
+    }
+
     const imgUrl = getStoneImageUrl(stone);
-    const cacheKey = stone.slug + '_' + formatKey;
 
-    const applyMaterialTextures = (albedoTex, normalTex) => {
-      const mat = mesh.material;
-      if (!mat || !mat.uniforms) return;
-
-      let repeat = formatCfg.repeatFloor;
-      if (surfaceKey === 'wall_accent' || surfaceKey === 'wall_main') {
-        repeat = formatCfg.repeatWall;
-      } else if (surfaceKey === 'table_top' || surfaceKey === 'coffee_table') {
-        repeat = formatCfg.repeatTable;
+    loadStoneTexture(imgUrl, function (tex) {
+      tex.wrapS = THREE.RepeatWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      if (tex.repeat) {
+        tex.repeat.set(repeat[0], repeat[1]);
       }
+      tex.needsUpdate = true;
 
-      albedoTex.wrapS = THREE.RepeatWrapping;
-      albedoTex.wrapT = THREE.RepeatWrapping;
-      albedoTex.needsUpdate = true;
-
-      normalTex.wrapS = THREE.RepeatWrapping;
-      normalTex.wrapT = THREE.RepeatWrapping;
-      normalTex.needsUpdate = true;
-
-      mat.uniforms.sTextureAlbedoMap.value = albedoTex;
-      mat.sTextureAlbedoMap = albedoTex;
-
-      mat.uniforms.sTextureNormalMap.value = normalTex;
-      mat.sTextureNormalMap = normalTex;
+      // Assign to PBR shader uniforms
+      mat.uniforms.sTextureAlbedoMap.value = tex;
+      mat.sTextureAlbedoMap = tex;
 
       if (mat.uniforms.offsetRepeat) {
         mat.uniforms.offsetRepeat.value.set(0, 0, repeat[0], repeat[1]);
       }
 
-      // Dielectric stone: 0.0 metalness eliminates blinding sky reflection
+      // Dielectric stone: 0.0 metalness eliminates harsh mobile glare
       if (mat.uniforms.uMetalnessPBRFactor) {
         mat.uniforms.uMetalnessPBRFactor.value = 0.0;
       }
@@ -775,43 +855,7 @@
       if (showToastMsg) {
         showToast(stone.name + ' applied to ' + getSurfaceLabel(surfaceKey) + ' (' + finishCfg.label + ')');
       }
-    };
-
-    if (textureCache.has(cacheKey) && normalCache.has(cacheKey)) {
-      applyMaterialTextures(textureCache.get(cacheKey), normalCache.get(cacheKey));
-      return;
-    }
-
-    const img = new Image();
-    if (location.protocol.startsWith('http')) {
-      img.crossOrigin = 'anonymous';
-    }
-    img.onload = function () {
-      const tileCanvas = createTileCanvas(img, formatKey);
-      const normalCanvas = createNormalMap(tileCanvas, formatKey);
-
-      const albedoTex = new THREE.CanvasTexture(tileCanvas);
-      const normalTex = new THREE.CanvasTexture(normalCanvas);
-
-      textureCache.set(cacheKey, albedoTex);
-      normalCache.set(cacheKey, normalTex);
-
-      applyMaterialTextures(albedoTex, normalTex);
-    };
-    img.onerror = function () {
-      console.warn('[MuraliStudio] Image load fallback for: ' + imgUrl);
-      const fallbackCanvas = document.createElement('canvas');
-      fallbackCanvas.width = 512;
-      fallbackCanvas.height = 512;
-      const fCtx = fallbackCanvas.getContext('2d');
-      fCtx.fillStyle = stone.color || '#2c2d30';
-      fCtx.fillRect(0, 0, 512, 512);
-
-      const albedoTex = new THREE.CanvasTexture(fallbackCanvas);
-      const normalTex = new THREE.CanvasTexture(createNormalMap(fallbackCanvas, formatKey));
-      applyMaterialTextures(albedoTex, normalTex);
-    };
-    img.src = imgUrl;
+    });
   }
 
   function getSurfaceLabel(key) {
@@ -819,8 +863,6 @@
       case 'floor': return 'Living Floor';
       case 'wall_accent': return 'Accent Wall';
       case 'wall_main': return 'Main Walls';
-      case 'table_top': return 'Dining Table';
-      case 'coffee_table': return 'Coffee Table';
       default: return key;
     }
   }
@@ -846,7 +888,6 @@
           <button class="murali-chip active" data-surface="floor" title="Customize Living Room Floor">Floor</button>
           <button class="murali-chip" data-surface="wall_accent" title="Customize Feature Accent Wall">Accent Wall</button>
           <button class="murali-chip" data-surface="wall_main" title="Customize Architectural Room Walls">Main Walls</button>
-          <button class="murali-chip" data-surface="table_top" title="Customize Dining Table Top">Table Top</button>
         </div>
       </div>
 
@@ -866,7 +907,7 @@
 
         <!-- Scrollable Content -->
         <div class="msd-body">
-          <!-- Surface Tabs -->
+          <!-- Surface Tabs (Clean 3-Tab Architecture) -->
           <div class="msd-section-label">Target Architectural Surface</div>
           <div class="msd-surface-tabs">
             <button class="msd-s-tab active" data-surface="floor">
@@ -880,10 +921,6 @@
             <button class="msd-s-tab" data-surface="wall_main">
               <span class="msd-s-icon">▤</span>
               <span class="msd-s-name">Main Walls</span>
-            </button>
-            <button class="msd-s-tab" data-surface="table_top">
-              <span class="msd-s-icon">▭</span>
-              <span class="msd-s-name">Dining Table</span>
             </button>
           </div>
 
@@ -964,7 +1001,7 @@
         <!-- Bottom Quick Actions & Status -->
         <div class="msd-footer">
           <div class="msd-quick-buttons">
-            <button id="msd-btn-autofill" class="msd-btn-action" title="Harmonize floor, wall, and table simultaneously">
+            <button id="msd-btn-autofill" class="msd-btn-action" title="Harmonize floor and walls simultaneously">
               ✨ Auto-Theme Room
             </button>
             <button id="msd-btn-reset" class="msd-btn-action-ghost" title="Reset all surfaces to default">
@@ -1009,7 +1046,8 @@
 
     filtered.forEach(stone => {
       const card = document.createElement('div');
-      card.className = 'msd-card ' + (state.activeStone.slug === stone.slug ? 'selected' : '');
+      const isCur = (state.activeStone.slug === stone.slug);
+      card.className = 'msd-card ' + (isCur ? 'selected' : '');
       card.dataset.slug = stone.slug;
 
       const thumbUrl = getStoneImageUrl(stone);
@@ -1029,6 +1067,7 @@
         document.querySelectorAll('.msd-card').forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
         state.activeStone = stone;
+        setSurfaceChoice(state.activeSurface, { stone: stone });
         applyCurrentStoneToSurface(state.activeSurface, true);
       });
 
@@ -1059,37 +1098,51 @@
       });
     }
 
+    function syncSurfaceUI(newSurface) {
+      state.activeSurface = newSurface;
+
+      document.querySelectorAll('.murali-chip').forEach(c => {
+        c.classList.toggle('active', c.dataset.surface === newSurface);
+      });
+      document.querySelectorAll('.msd-s-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.surface === newSurface);
+      });
+
+      const curChoice = state.surfaces[newSurface] || {};
+      if (curChoice.stone) {
+        state.activeStone = curChoice.stone;
+        document.querySelectorAll('.msd-card').forEach(c => {
+          c.classList.toggle('selected', c.dataset.slug === curChoice.stone.slug);
+        });
+      }
+      if (curChoice.finish) {
+        state.activeFinish = curChoice.finish;
+        document.querySelectorAll('.msd-f-tab').forEach(t => {
+          t.classList.toggle('active', t.dataset.finish === curChoice.finish);
+        });
+      }
+      if (curChoice.format) {
+        state.activeFormat = curChoice.format;
+        document.querySelectorAll('.msd-fmt-tab').forEach(t => {
+          t.classList.toggle('active', t.dataset.format === curChoice.format);
+        });
+      }
+
+      updateCtrlBadge();
+      showToast('Switched surface to ' + getSurfaceLabel(newSurface));
+    }
+
     // Top pill quick surface chips
     document.querySelectorAll('.murali-chip').forEach(chip => {
       chip.addEventListener('click', () => {
-        document.querySelectorAll('.murali-chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        state.activeSurface = chip.dataset.surface;
-
-        // Synchronize drawer tabs
-        document.querySelectorAll('.msd-s-tab').forEach(tab => {
-          tab.classList.toggle('active', tab.dataset.surface === state.activeSurface);
-        });
-
-        updateCtrlBadge();
-        showToast('Surface switched to ' + getSurfaceLabel(state.activeSurface));
+        syncSurfaceUI(chip.dataset.surface);
       });
     });
 
     // Drawer Surface tabs
     document.querySelectorAll('.msd-s-tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        document.querySelectorAll('.msd-s-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        state.activeSurface = tab.dataset.surface;
-
-        // Synchronize top chips
-        document.querySelectorAll('.murali-chip').forEach(chip => {
-          chip.classList.toggle('active', chip.dataset.surface === state.activeSurface);
-        });
-
-        updateCtrlBadge();
-        showToast('Surface switched to ' + getSurfaceLabel(state.activeSurface));
+        syncSurfaceUI(tab.dataset.surface);
       });
     });
 
@@ -1099,6 +1152,7 @@
         document.querySelectorAll('.msd-f-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         state.activeFinish = tab.dataset.finish;
+        setSurfaceChoice(state.activeSurface, { finish: tab.dataset.finish });
         applyCurrentStoneToSurface(state.activeSurface, true);
       });
     });
@@ -1120,6 +1174,7 @@
         document.querySelectorAll('.msd-fmt-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         state.activeFormat = tab.dataset.format;
+        setSurfaceChoice(state.activeSurface, { format: tab.dataset.format });
         applyCurrentStoneToSurface(state.activeSurface, true);
       });
     });
@@ -1143,17 +1198,16 @@
       });
     }
 
-    // Auto-fill button
+    // Auto-fill button (Harmonize floor and walls)
     const autofillBtn = document.getElementById('msd-btn-autofill');
     if (autofillBtn) {
       autofillBtn.addEventListener('click', () => {
+        ['floor', 'wall_accent'].forEach(k => {
+          setSurfaceChoice(k, { stone: state.activeStone, finish: state.activeFinish, format: state.activeFormat });
+        });
         applyCurrentStoneToSurface('floor', false);
-        state.activeSurface = 'wall_accent';
-        applyCurrentStoneToSurface('wall_accent', false);
-        state.activeSurface = 'table_top';
-        applyCurrentStoneToSurface('table_top', false);
-        state.activeSurface = 'floor';
-        showToast('Auto-themed room with ' + state.activeStone.name + '!');
+        setTimeout(() => applyCurrentStoneToSurface('wall_accent', false), 100);
+        showToast('Room harmonized with ' + state.activeStone.name + '!');
       });
     }
 
@@ -1167,6 +1221,7 @@
         state.reflectivityPercent = 40;
         if (slider) slider.value = 40;
         if (glossVal) glossVal.textContent = '40%';
+        setSurfaceChoice('floor', { stone: SHOWROOM_STONES[0], finish: 'honed', format: 'slab' });
         applyCurrentStoneToSurface('floor', true);
       });
     }
@@ -1391,29 +1446,32 @@
         justify-content: space-between;
       }
 
-      /* Surface Tabs */
+      /* Surface Tabs (Clean 3-Tab Architecture) */
       .msd-surface-tabs {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 6px;
       }
       .msd-s-tab {
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 8px;
-        padding: 8px 10px;
+        padding: 8px 6px;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: 4px;
         cursor: pointer;
         color: #C5BFB5;
-        font-size: 0.74rem;
+        font-size: 0.68rem;
         font-weight: 600;
         transition: all 0.2s;
+        text-align: center;
       }
       .msd-s-tab:hover {
         background: rgba(197, 160, 89, 0.15);
         border-color: rgba(197, 160, 89, 0.35);
+        color: #F5F0E8;
       }
       .msd-s-tab.active {
         background: rgba(197, 160, 89, 0.25);
@@ -1421,70 +1479,65 @@
         color: #FFD700;
       }
       .msd-s-icon {
-        font-size: 14px;
+        font-size: 15px;
         color: #C5A059;
       }
 
-      /* Finish Tabs (Anti-Glare) */
+      /* Finish Tabs */
       .msd-finish-tabs {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        display: flex;
+        flex-direction: column;
         gap: 6px;
       }
       .msd-f-tab {
-        background: rgba(255, 255, 255, 0.04);
+        background: rgba(255, 255, 255, 0.03);
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 8px;
-        padding: 8px 6px;
-        text-align: center;
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         cursor: pointer;
         transition: all 0.2s;
+        text-align: left;
       }
       .msd-f-tab:hover {
-        background: rgba(197, 160, 89, 0.12);
+        background: rgba(255, 255, 255, 0.07);
         border-color: rgba(197, 160, 89, 0.3);
       }
       .msd-f-tab.active {
-        background: rgba(197, 160, 89, 0.25);
+        background: rgba(197, 160, 89, 0.20);
         border-color: #C5A059;
       }
       .msd-f-title {
-        display: block;
-        font-size: 0.72rem;
+        font-size: 0.76rem;
         font-weight: 700;
         color: #F5F0E8;
       }
-      .msd-f-tab.active .msd-f-title {
-        color: #FFD700;
-      }
       .msd-f-tag {
-        display: block;
-        font-size: 0.55rem;
-        color: #A0988A;
-        margin-top: 2px;
-        letter-spacing: 0.04em;
-      }
-      .msd-f-tab.active .msd-f-tag {
+        font-size: 0.62rem;
         color: #C5A059;
+        font-weight: 600;
       }
 
-      /* Slider */
+      /* Slider Group */
       .msd-slider-group {
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(255, 255, 255, 0.02);
         border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 8px;
-        padding: 8px 12px;
+        padding: 10px 12px;
       }
       .msd-slider-header {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         font-size: 0.70rem;
-        color: #A0988A;
-        margin-bottom: 6px;
+        color: #C5BFB5;
         font-weight: 600;
+        margin-bottom: 6px;
       }
       .msd-slider-val {
-        color: #C5A059;
+        color: #FFD700;
         font-weight: 700;
       }
       .msd-range {
@@ -1764,13 +1817,14 @@
    */
   let initDone = false;
   function tryInitStudio() {
-    if (initDone) return;
     const scene = getShowroomInteriorScene();
-    if (scene && getSurfaceMesh('floor')) {
-      initDone = true;
-      mountStudioUI();
-      // Apply initial floor stone
-      setTimeout(() => applyCurrentStoneToSurface('floor', false), 200);
+    if (scene) {
+      applyRoomFurnishingLayout(scene);
+      if (!initDone && getSurfaceMesh('floor')) {
+        initDone = true;
+        mountStudioUI();
+        setTimeout(() => applyCurrentStoneToSurface('floor', false), 200);
+      }
     }
   }
 
@@ -1787,7 +1841,8 @@
   });
   window.addEventListener('showroomStarted', function () {
     tryInitStudio();
-    // Re-apply to ensure interiorScene is primed
+    const scene = getShowroomInteriorScene();
+    if (scene) applyRoomFurnishingLayout(scene);
     setTimeout(() => applyCurrentStoneToSurface(state.activeSurface, false), 400);
   });
 
@@ -1796,7 +1851,7 @@
   const timer = setInterval(function () {
     pollCount++;
     tryInitStudio();
-    if (initDone || pollCount > 100) clearInterval(timer);
+    if (initDone && pollCount > 30) clearInterval(timer);
   }, 400);
 
 })();

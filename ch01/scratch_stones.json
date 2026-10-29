@@ -1,0 +1,434 @@
+[
+  {
+    "slug": "river-black",
+    "name": "River Black",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783138465-6a4888a145274.webp"
+  },
+  {
+    "slug": "black-pearl",
+    "name": "Black Pearl",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783138424-6a488878abc22.webp"
+  },
+  {
+    "slug": "marie-gold",
+    "name": "Marie Gold",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Gold",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783085317-6a47b9058f71e.webp"
+  },
+  {
+    "slug": "blue-in-the-night",
+    "name": "Blue in the Night",
+    "cat": "Imported Granite",
+    "sig": true,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783085244-6a47b8bcd330d.webp"
+  },
+  {
+    "slug": "banswara-marble",
+    "name": "Banswara Marble",
+    "cat": "Marble",
+    "sig": true,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783085208-6a47b8986af97.webp"
+  },
+  {
+    "slug": "emerald-onyx-marble",
+    "name": "Emerald Onyx Marble",
+    "cat": "Onyx Marble",
+    "sig": true,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783085161-6a47b869e0448.webp"
+  },
+  {
+    "slug": "scorpio",
+    "name": "Scorpio",
+    "cat": "Marble",
+    "sig": false,
+    "color": "Brown",
+    "finish": "Hydro",
+    "imageUrl": "assets/images/products/product-1783084912-6a47b7700c180.webp"
+  },
+  {
+    "slug": "alaska-white",
+    "name": "Alaska White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783084356-6a47b5441b767.webp"
+  },
+  {
+    "slug": "alaska-pink",
+    "name": "Alaska Pink",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783084260-6a47b4e40ca25.webp"
+  },
+  {
+    "slug": "tan-brown",
+    "name": "Tan Brown",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Brown",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp"
+  },
+  {
+    "slug": "mountain-brown",
+    "name": "Mountain Brown",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Brown",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083965-6a47b3bd9408e.webp"
+  },
+  {
+    "slug": "red-purpory",
+    "name": "Red Purpory",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Red",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083937-6a47b3a1ec35b.webp"
+  },
+  {
+    "slug": "colombo-jubrana",
+    "name": "Colombo Jubrana",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Beige",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083902-6a47b37e26547.webp"
+  },
+  {
+    "slug": "lakha-red",
+    "name": "Lakha Red",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Red",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083869-6a47b35dab1cb.webp"
+  },
+  {
+    "slug": "wooden",
+    "name": "Wooden",
+    "cat": "Sandstone",
+    "sig": false,
+    "color": "Brown",
+    "finish": "Honed",
+    "imageUrl": "assets/images/products/product-1783083830-6a47b3366d3c3.webp"
+  },
+  {
+    "slug": "cats-eye",
+    "name": "Cats Eye",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Red",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083788-6a47b30cde49f.webp"
+  },
+  {
+    "slug": "coin-black",
+    "name": "Coin Black",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083744-6a47b2e0d4304.webp"
+  },
+  {
+    "slug": "impala-black",
+    "name": "Impala Black",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083696-6a47b2b0cbb16.webp"
+  },
+  {
+    "slug": "black-forrest",
+    "name": "Black Forrest",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083657-6a47b289a4a40.webp"
+  },
+  {
+    "slug": "black-swan",
+    "name": "Black Swan",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083605-6a47b25571850.webp"
+  },
+  {
+    "slug": "titanium-black",
+    "name": "Titanium Black",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083560-6a47b228132ac.webp"
+  },
+  {
+    "slug": "steel-grey",
+    "name": "Steel Grey",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Black",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083531-6a47b20b6691a.webp"
+  },
+  {
+    "slug": "galaxy",
+    "name": "Galaxy",
+    "cat": "Granite",
+    "sig": true,
+    "color": "",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083490-6a47b1e260326.webp"
+  },
+  {
+    "slug": "pista-green",
+    "name": "Pista Green",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083351-6a47b1575ccdd.webp"
+  },
+  {
+    "slug": "flash-green",
+    "name": "Flash Green",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783083136-6a47b0804c4ee.webp"
+  },
+  {
+    "slug": "bassi-lapatro",
+    "name": "Bassi Lapatro",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Green",
+    "finish": "Lapatro",
+    "imageUrl": "assets/images/products/product-1783081478-6a47aa06b6e30.webp"
+  },
+  {
+    "slug": "hassan-green",
+    "name": "Hassan Green",
+    "cat": "Granite",
+    "sig": true,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783081328-6a47a9703a0ea.webp"
+  },
+  {
+    "slug": "3d-rock-look",
+    "name": "3D Rock Look",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Grey",
+    "finish": "Hydro",
+    "imageUrl": "assets/images/products/product-1783081135-6a47a8af74f0b.webp"
+  },
+  {
+    "slug": "green-marble",
+    "name": "Green Marble",
+    "cat": "Marble",
+    "sig": false,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783081066-6a47a86a5d5e2.webp"
+  },
+  {
+    "slug": "forrest-green",
+    "name": "Forrest Green",
+    "cat": "Marble",
+    "sig": false,
+    "color": "Green",
+    "finish": "Hydro",
+    "imageUrl": "assets/images/products/product-1783080973-6a47a80d4a3d5.webp"
+  },
+  {
+    "slug": "asian-green",
+    "name": "Asian Green",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Green",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080897-6a47a7c1ec5ed.webp"
+  },
+  {
+    "slug": "shiffon-pink",
+    "name": "Shiffon Pink",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Pink",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080746-6a47a72a44742.webp"
+  },
+  {
+    "slug": "shiva-gold",
+    "name": "Shiva Gold",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Gold",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080607-6a47a69f485d0.webp"
+  },
+  {
+    "slug": "strawberry-pink",
+    "name": "Strawberry Pink",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Pink",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080527-6a47a64f53214.webp"
+  },
+  {
+    "slug": "forrest-gold",
+    "name": "Forrest Gold",
+    "cat": "Sand Stone",
+    "sig": false,
+    "color": "Gold",
+    "finish": "Hydro",
+    "imageUrl": "assets/images/products/product-1783080383-6a47a5bf9a4a3.webp"
+  },
+  {
+    "slug": "astoria-gold",
+    "name": "Astoria Gold",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Gold",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080299-6a47a56b99b00.webp"
+  },
+  {
+    "slug": "romantic-blue",
+    "name": "Romantic Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080196-6a47a504c714c.webp"
+  },
+  {
+    "slug": "sky-blue",
+    "name": "SKY Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783080092-6a47a49c1e7b7.webp"
+  },
+  {
+    "slug": "lavender-blue",
+    "name": "Lavender Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079927-6a47a3f7bc726.webp"
+  },
+  {
+    "slug": "kingfisher-blue",
+    "name": "Kingfisher Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079826-6a47a39205007.webp"
+  },
+  {
+    "slug": "safari-blue",
+    "name": "Safari Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079748-6a47a34440dc7.webp"
+  },
+  {
+    "slug": "crystal-blue",
+    "name": "Crystal Blue",
+    "cat": "Granite",
+    "sig": false,
+    "color": "Blue",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079633-6a47a2d18815c.webp"
+  },
+  {
+    "slug": "ice-white",
+    "name": "Ice White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079501-6a47a24d9fa78.webp"
+  },
+  {
+    "slug": "moon-white",
+    "name": "Moon White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783079448-6a47a218632fd.webp"
+  },
+  {
+    "slug": "china-white",
+    "name": "China White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783078937-6a47a0192a9b3.webp"
+  },
+  {
+    "slug": "river-white",
+    "name": "River White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783078831-6a479faf4fcbd.webp"
+  },
+  {
+    "slug": "gelatic-white",
+    "name": "Gelatic White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783078626-6a479ee25bd3e.webp"
+  },
+  {
+    "slug": "galaxy-white",
+    "name": "Galaxy White",
+    "cat": "Granite",
+    "sig": false,
+    "color": "White",
+    "finish": "Polished",
+    "imageUrl": "assets/images/products/product-1783078566-6a479ea6bfc0b.webp"
+  }
+]

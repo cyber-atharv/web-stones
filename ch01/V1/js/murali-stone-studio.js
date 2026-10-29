@@ -479,38 +479,34 @@
       desc: 'Monolithic continuous bookmatched surface (Zero grout line)',
       grout: 0,
       repeatFloor: [2, 2],
-      repeatWall: [2, 1.5],
-      repeatTable: [1, 1]
+      repeatWall: [2, 1.5]
     },
     'tile-60': {
       label: 'Tile 60×60',
       desc: 'Classic square tile grid with recessed 3D grout channels',
       grout: 2,
       repeatFloor: [6, 6],
-      repeatWall: [4, 3],
-      repeatTable: [3, 2]
+      repeatWall: [4, 3]
     },
     'tile-120': {
       label: 'Tile 120×60',
       desc: 'Contemporary grand format rectangular slab grid',
       grout: 2,
       repeatFloor: [3, 6],
-      repeatWall: [2, 3],
-      repeatTable: [1, 2]
+      repeatWall: [2, 3]
     },
     'brick': {
       label: 'Subway Brick',
       desc: 'Staggered architectural running bond pattern',
       grout: 2,
       repeatFloor: [8, 8],
-      repeatWall: [6, 4],
-      repeatTable: [4, 3]
+      repeatWall: [6, 4]
     }
   };
 
   // Application State
   const state = {
-    activeSurface: 'floor', // 'floor', 'wall_accent', 'wall_main', 'table_top'
+    activeSurface: 'floor', // 'floor', 'wall_accent', 'wall_main'
     activeStone: SHOWROOM_STONES[0],
     activeFinish: 'honed',  // Default to honed to prevent mobile white glare!
     activeFormat: 'slab',
@@ -521,10 +517,17 @@
     surfaces: {
       'floor': { stone: SHOWROOM_STONES[0], finish: 'honed', format: 'slab' },
       'wall_accent': { stone: SHOWROOM_STONES[5], finish: 'honed', format: 'slab' },
-      'wall_main': { stone: null, finish: 'matte', format: 'slab' },
-      'table_top': { stone: SHOWROOM_STONES[3], finish: 'polished', format: 'slab' }
+      'wall_main': { stone: null, finish: 'matte', format: 'slab' }
     }
   };
+
+  /**
+   * Save a choice (stone / finish / format) into the per-surface state.
+   */
+  function setSurfaceChoice(surfaceKey, patch) {
+    const prev = state.surfaces[surfaceKey] || { stone: null, finish: 'honed', format: 'slab' };
+    state.surfaces[surfaceKey] = Object.assign({}, prev, patch);
+  }
 
   // Dedicated surface material instances
   const customMaterials = {};
@@ -561,6 +564,57 @@
   }
 
   /**
+   * Minimalist Architectural Showroom Room Layout:
+   * Removes dining table, dining chairs, rugs/mats, coffee table, and armchairs
+   * leaving only the luxury lounge sofa in the expansive stone floor space.
+   */
+  function applyRoomFurnishingLayout(scene) {
+    if (!scene) return;
+
+    const objectsToHide = [
+      'TableParent',  // Dining table & tabletop
+      'Chairs',       // Dining chairs
+      'rug',          // Living area floor mat
+      'rug (1)',      // Dining area floor mat
+      'coffee_table', // Coffee table
+      'armchairs',    // Armchairs
+      'table_objects_baker'
+    ];
+
+    objectsToHide.forEach(name => {
+      const obj = scene.getObjectByName(name);
+      if (obj) {
+        obj.visible = false;
+        obj.traverse(child => {
+          child.visible = false;
+        });
+      }
+    });
+
+    // Also hide corresponding selection strokes
+    const strokeGroup = scene.getObjectByName('stroke_objects');
+    if (strokeGroup) {
+      ['table_stroke', 'coffee_table_stroke', 'fauteuil_stroke', 'fauteuil2_stroke'].forEach(sName => {
+        const stroke = strokeGroup.getObjectByName(sName);
+        if (stroke) stroke.visible = false;
+      });
+    }
+
+    // Disable table & armchair pickers from scenePicker if present
+    const app = window.showroomApp;
+    if (app && app.scenePicker && app.scenePicker.objects) {
+      app.scenePicker.objects = app.scenePicker.objects.filter(o => {
+        let cur = o;
+        while (cur) {
+          if (objectsToHide.includes(cur.name)) return false;
+          cur = cur.parent;
+        }
+        return true;
+      });
+    }
+  }
+
+  /**
    * Find base PBR material template from the loaded interior scene
    * 'woodfloor2' has USE_ALBEDOMAP, USE_NORMALMAP, USE_LIGHTMAP compiled into its shader
    */
@@ -592,8 +646,6 @@
     if (surfaceKey === 'floor') targetName = 'floor';
     else if (surfaceKey === 'wall_accent') targetName = 'walls.001';
     else if (surfaceKey === 'wall_main') targetName = 'walls';
-    else if (surfaceKey === 'table_top') targetName = 'table_top';
-    else if (surfaceKey === 'coffee_table') targetName = 'board';
 
     let found = scene.getObjectByName(targetName);
     if (!found) {
@@ -606,7 +658,6 @@
 
   /**
    * Get or create a dedicated PBR material for the target surface
-   * Solves the GLSL uncompiled USE_ALBEDOMAP issue on walls!
    */
   function getOrCreateSurfaceMaterial(surfaceKey, targetMesh, scene) {
     if (customMaterials[surfaceKey]) {
@@ -667,7 +718,6 @@
 
     const loader = getTextureLoader();
     if (!loader) {
-      // Fallback if THREE.TextureLoader isn't initialized yet
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.onload = function () {
@@ -717,16 +767,6 @@
   }
 
   /**
-   * Save a choice (stone / finish / format) into the per-surface state.
-   * applyCurrentStoneToSurface() reads from state.surfaces first, so every
-   * UI change MUST be written here or the old value keeps being re-applied.
-   */
-  function setSurfaceChoice(surfaceKey, patch) {
-    const prev = state.surfaces[surfaceKey] || { stone: null, finish: 'honed', format: 'slab' };
-    state.surfaces[surfaceKey] = Object.assign({}, prev, patch);
-  }
-
-  /**
    * Apply selected stone, finish, and format to target architectural surface
    */
   function applyCurrentStoneToSurface(surfaceKey, showToastMsg) {
@@ -737,6 +777,9 @@
       console.warn('[MuraliStudio] 3D Interior scene not ready. Will retry on showroom load.');
       return;
     }
+
+    // Enforce clean room furnishing layout
+    applyRoomFurnishingLayout(scene);
 
     const mesh = getSurfaceMesh(surfaceKey);
     if (!mesh) {
@@ -760,14 +803,11 @@
     let repeat = formatCfg.repeatFloor;
     if (surfaceKey === 'wall_accent' || surfaceKey === 'wall_main') {
       repeat = formatCfg.repeatWall;
-    } else if (surfaceKey === 'table_top' || surfaceKey === 'coffee_table') {
-      repeat = formatCfg.repeatTable;
     }
 
     const imgUrl = getStoneImageUrl(stone);
 
     loadStoneTexture(imgUrl, function (tex) {
-      // Configure UV repeat on texture
       tex.wrapS = THREE.RepeatWrapping;
       tex.wrapT = THREE.RepeatWrapping;
       if (tex.repeat) {
@@ -823,8 +863,6 @@
       case 'floor': return 'Living Floor';
       case 'wall_accent': return 'Accent Wall';
       case 'wall_main': return 'Main Walls';
-      case 'table_top': return 'Dining Table';
-      case 'coffee_table': return 'Coffee Table';
       default: return key;
     }
   }
@@ -850,7 +888,6 @@
           <button class="murali-chip active" data-surface="floor" title="Customize Living Room Floor">Floor</button>
           <button class="murali-chip" data-surface="wall_accent" title="Customize Feature Accent Wall">Accent Wall</button>
           <button class="murali-chip" data-surface="wall_main" title="Customize Architectural Room Walls">Main Walls</button>
-          <button class="murali-chip" data-surface="table_top" title="Customize Dining Table Top">Table Top</button>
         </div>
       </div>
 
@@ -870,7 +907,7 @@
 
         <!-- Scrollable Content -->
         <div class="msd-body">
-          <!-- Surface Tabs -->
+          <!-- Surface Tabs (Clean 3-Tab Architecture) -->
           <div class="msd-section-label">Target Architectural Surface</div>
           <div class="msd-surface-tabs">
             <button class="msd-s-tab active" data-surface="floor">
@@ -884,10 +921,6 @@
             <button class="msd-s-tab" data-surface="wall_main">
               <span class="msd-s-icon">▤</span>
               <span class="msd-s-name">Main Walls</span>
-            </button>
-            <button class="msd-s-tab" data-surface="table_top">
-              <span class="msd-s-icon">▭</span>
-              <span class="msd-s-name">Dining Table</span>
             </button>
           </div>
 
@@ -968,7 +1001,7 @@
         <!-- Bottom Quick Actions & Status -->
         <div class="msd-footer">
           <div class="msd-quick-buttons">
-            <button id="msd-btn-autofill" class="msd-btn-action" title="Harmonize floor, wall, and table simultaneously">
+            <button id="msd-btn-autofill" class="msd-btn-action" title="Harmonize floor and walls simultaneously">
               ✨ Auto-Theme Room
             </button>
             <button id="msd-btn-reset" class="msd-btn-action-ghost" title="Reset all surfaces to default">
@@ -1013,7 +1046,8 @@
 
     filtered.forEach(stone => {
       const card = document.createElement('div');
-      card.className = 'msd-card ' + (state.activeStone.slug === stone.slug ? 'selected' : '');
+      const isCur = (state.activeStone.slug === stone.slug);
+      card.className = 'msd-card ' + (isCur ? 'selected' : '');
       card.dataset.slug = stone.slug;
 
       const thumbUrl = getStoneImageUrl(stone);
@@ -1064,37 +1098,51 @@
       });
     }
 
+    function syncSurfaceUI(newSurface) {
+      state.activeSurface = newSurface;
+
+      document.querySelectorAll('.murali-chip').forEach(c => {
+        c.classList.toggle('active', c.dataset.surface === newSurface);
+      });
+      document.querySelectorAll('.msd-s-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.surface === newSurface);
+      });
+
+      const curChoice = state.surfaces[newSurface] || {};
+      if (curChoice.stone) {
+        state.activeStone = curChoice.stone;
+        document.querySelectorAll('.msd-card').forEach(c => {
+          c.classList.toggle('selected', c.dataset.slug === curChoice.stone.slug);
+        });
+      }
+      if (curChoice.finish) {
+        state.activeFinish = curChoice.finish;
+        document.querySelectorAll('.msd-f-tab').forEach(t => {
+          t.classList.toggle('active', t.dataset.finish === curChoice.finish);
+        });
+      }
+      if (curChoice.format) {
+        state.activeFormat = curChoice.format;
+        document.querySelectorAll('.msd-fmt-tab').forEach(t => {
+          t.classList.toggle('active', t.dataset.format === curChoice.format);
+        });
+      }
+
+      updateCtrlBadge();
+      showToast('Switched surface to ' + getSurfaceLabel(newSurface));
+    }
+
     // Top pill quick surface chips
     document.querySelectorAll('.murali-chip').forEach(chip => {
       chip.addEventListener('click', () => {
-        document.querySelectorAll('.murali-chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        state.activeSurface = chip.dataset.surface;
-
-        // Synchronize drawer tabs
-        document.querySelectorAll('.msd-s-tab').forEach(tab => {
-          tab.classList.toggle('active', tab.dataset.surface === state.activeSurface);
-        });
-
-        updateCtrlBadge();
-        showToast('Surface switched to ' + getSurfaceLabel(state.activeSurface));
+        syncSurfaceUI(chip.dataset.surface);
       });
     });
 
     // Drawer Surface tabs
     document.querySelectorAll('.msd-s-tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        document.querySelectorAll('.msd-s-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        state.activeSurface = tab.dataset.surface;
-
-        // Synchronize top chips
-        document.querySelectorAll('.murali-chip').forEach(chip => {
-          chip.classList.toggle('active', chip.dataset.surface === state.activeSurface);
-        });
-
-        updateCtrlBadge();
-        showToast('Surface switched to ' + getSurfaceLabel(state.activeSurface));
+        syncSurfaceUI(tab.dataset.surface);
       });
     });
 
@@ -1150,17 +1198,16 @@
       });
     }
 
-    // Auto-fill button (Harmonize all surfaces)
+    // Auto-fill button (Harmonize floor and walls)
     const autofillBtn = document.getElementById('msd-btn-autofill');
     if (autofillBtn) {
       autofillBtn.addEventListener('click', () => {
-        ['floor', 'wall_accent', 'table_top'].forEach(k => {
+        ['floor', 'wall_accent'].forEach(k => {
           setSurfaceChoice(k, { stone: state.activeStone, finish: state.activeFinish, format: state.activeFormat });
         });
         applyCurrentStoneToSurface('floor', false);
-        setTimeout(() => applyCurrentStoneToSurface('wall_accent', false), 80);
-        setTimeout(() => applyCurrentStoneToSurface('table_top', false), 160);
-        showToast('Room auto-themed with ' + state.activeStone.name + '!');
+        setTimeout(() => applyCurrentStoneToSurface('wall_accent', false), 100);
+        showToast('Room harmonized with ' + state.activeStone.name + '!');
       });
     }
 
@@ -1399,25 +1446,27 @@
         justify-content: space-between;
       }
 
-      /* Surface Tabs */
+      /* Surface Tabs (Clean 3-Tab Architecture) */
       .msd-surface-tabs {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 6px;
       }
       .msd-s-tab {
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 8px;
-        padding: 8px 10px;
+        padding: 8px 6px;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        gap: 8px;
+        gap: 4px;
         cursor: pointer;
         color: #C5BFB5;
-        font-size: 0.72rem;
+        font-size: 0.68rem;
         font-weight: 600;
         transition: all 0.2s;
+        text-align: center;
       }
       .msd-s-tab:hover {
         background: rgba(197, 160, 89, 0.15);
@@ -1430,7 +1479,7 @@
         color: #FFD700;
       }
       .msd-s-icon {
-        font-size: 13px;
+        font-size: 15px;
         color: #C5A059;
       }
 
@@ -1768,13 +1817,14 @@
    */
   let initDone = false;
   function tryInitStudio() {
-    if (initDone) return;
     const scene = getShowroomInteriorScene();
-    if (scene && getSurfaceMesh('floor')) {
-      initDone = true;
-      mountStudioUI();
-      // Apply initial floor stone
-      setTimeout(() => applyCurrentStoneToSurface('floor', false), 200);
+    if (scene) {
+      applyRoomFurnishingLayout(scene);
+      if (!initDone && getSurfaceMesh('floor')) {
+        initDone = true;
+        mountStudioUI();
+        setTimeout(() => applyCurrentStoneToSurface('floor', false), 200);
+      }
     }
   }
 
@@ -1791,7 +1841,8 @@
   });
   window.addEventListener('showroomStarted', function () {
     tryInitStudio();
-    // Re-apply to ensure interiorScene is primed
+    const scene = getShowroomInteriorScene();
+    if (scene) applyRoomFurnishingLayout(scene);
     setTimeout(() => applyCurrentStoneToSurface(state.activeSurface, false), 400);
   });
 
@@ -1800,7 +1851,7 @@
   const timer = setInterval(function () {
     pollCount++;
     tryInitStudio();
-    if (initDone || pollCount > 100) clearInterval(timer);
+    if (initDone && pollCount > 30) clearInterval(timer);
   }, 400);
 
 })();
