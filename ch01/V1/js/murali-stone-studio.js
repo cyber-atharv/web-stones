@@ -1,14 +1,28 @@
 /**
  * Murali Granites & Marbles — 3D Architectural Showroom Studio (Visualizer 3.0)
- * Real-time Stone Slabs & Tile Grid Engine with Anti-Glare PBR Calibration
+ * Real-time Stone Slabs, Custom Client Photo Upload & Tile Grid Engine with Anti-Glare PBR Calibration
  */
 (function () {
   'use strict';
 
   // Helper to resolve asset paths reliably whether inside iframe or standalone
   function getStoneImageUrl(stone) {
-    if (!stone || !stone.imageUrl) return '';
-    return stone.imageUrl;
+    if (!stone) return '';
+    const raw = stone.imageUrl || stone.url || stone.thumbUrl || '';
+    if (!raw) return '';
+    // Blob or data URLs (from custom uploaded photos) or absolute URLs
+    if (/^(blob:|data:|https?:|\/\/)/i.test(raw)) {
+      return raw;
+    }
+    // If running inside V1 subdirectory (like on GitHub Pages: /web-stones/V1/index.html)
+    // and image path starts with 'assets/', it must be prefixed with '../' to reach site root
+    const path = window.location.pathname || '';
+    if (path.indexOf('/V1/') !== -1 || path.endsWith('/V1') || path.endsWith('/V1/')) {
+      if (raw.indexOf('assets/') === 0) {
+        return '../' + raw;
+      }
+    }
+    return raw;
   }
 
   // 48 Showroom Stones with authentic product images & top 12 Signature badging
@@ -447,6 +461,10 @@
   }
 ];
 
+  // Custom User Uploaded Stone Photos
+  const customStones = [];
+  let customUid = 0;
+
   // Anti-glare finish configurations (specifically calibrated for mobile reflection control)
   const FINISH_CONFIGS = {
     'honed': {
@@ -708,48 +726,69 @@
   }
 
   /**
-   * Load stone texture via native THREE.TextureLoader with automatic caching
+   * Load stone texture via native THREE.TextureLoader with automatic caching and path fallback
    */
   function loadStoneTexture(url, callback) {
+    if (!url) {
+      createFallbackTexture('', callback);
+      return;
+    }
     if (textureCache.has(url)) {
       callback(textureCache.get(url));
       return;
     }
 
     const loader = getTextureLoader();
-    if (!loader) {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = function () {
-        const tex = new THREE.Texture(img);
-        tex.wrapS = THREE.RepeatWrapping;
-        tex.wrapT = THREE.RepeatWrapping;
-        tex.needsUpdate = true;
-        textureCache.set(url, tex);
-        callback(tex);
-      };
-      img.onerror = function () {
-        createFallbackTexture(url, callback);
-      };
-      img.src = url;
-      return;
+    function tryLoad(attemptUrl, isRetry) {
+      if (!loader) {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = function () {
+          const tex = new THREE.Texture(img);
+          tex.wrapS = THREE.RepeatWrapping;
+          tex.wrapT = THREE.RepeatWrapping;
+          tex.generateMipmaps = true;
+          tex.needsUpdate = true;
+          textureCache.set(url, tex);
+          callback(tex);
+        };
+        img.onerror = function () {
+          if (!isRetry && attemptUrl.indexOf('assets/') === 0) {
+            tryLoad('../' + attemptUrl, true);
+          } else if (!isRetry && attemptUrl.indexOf('../assets/') === 0) {
+            tryLoad(attemptUrl.substring(3), true);
+          } else {
+            createFallbackTexture(url, callback);
+          }
+        };
+        img.src = attemptUrl;
+        return;
+      }
+
+      loader.load(
+        attemptUrl,
+        function (tex) {
+          tex.wrapS = THREE.RepeatWrapping;
+          tex.wrapT = THREE.RepeatWrapping;
+          tex.generateMipmaps = true;
+          tex.needsUpdate = true;
+          textureCache.set(url, tex);
+          callback(tex);
+        },
+        undefined,
+        function () {
+          if (!isRetry && attemptUrl.indexOf('assets/') === 0) {
+            tryLoad('../' + attemptUrl, true);
+          } else if (!isRetry && attemptUrl.indexOf('../assets/') === 0) {
+            tryLoad(attemptUrl.substring(3), true);
+          } else {
+            createFallbackTexture(url, callback);
+          }
+        }
+      );
     }
 
-    loader.load(
-      url,
-      function (tex) {
-        tex.wrapS = THREE.RepeatWrapping;
-        tex.wrapT = THREE.RepeatWrapping;
-        tex.generateMipmaps = true;
-        tex.needsUpdate = true;
-        textureCache.set(url, tex);
-        callback(tex);
-      },
-      undefined,
-      function () {
-        createFallbackTexture(url, callback);
-      }
-    );
+    tryLoad(url, false);
   }
 
   function createFallbackTexture(url, callback) {
@@ -877,54 +916,60 @@
     root.id = 'murali-stone-studio-root';
     root.innerHTML = `
       <!-- Sleek Floating Control Bar (Non-Colliding Glass Pill) -->
-      <div id="murali-control-bar" class="murali-ctrl-bar">
-        <button id="murali-toggle-studio" class="murali-ctrl-toggle" title="Open Natural Stone & Tile Studio">
-          <span class="murali-ctrl-icon">🏛️</span>
-          <span class="murali-ctrl-label">Stone Studio</span>
-          <span class="murali-ctrl-badge" id="murali-ctrl-badge">Floor: River Black</span>
+      <div id="murali-control-bar" class="murali-control-bar">
+        <button id="murali-toggle-studio" class="murali-ctrl-btn" title="Open Stone Customizer Studio">
+          <span class="murali-ctrl-icon">❖</span>
+          <span class="murali-ctrl-text">Stone Studio</span>
+          <span class="murali-ctrl-badge" id="murali-active-badge">Living Floor</span>
         </button>
-
-        <div class="murali-ctrl-chips">
-          <button class="murali-chip active" data-surface="floor" title="Customize Living Room Floor">Floor</button>
-          <button class="murali-chip" data-surface="wall_accent" title="Customize Feature Accent Wall">Accent Wall</button>
-          <button class="murali-chip" data-surface="wall_main" title="Customize Architectural Room Walls">Main Walls</button>
+        <div class="murali-quick-chips">
+          <button class="murali-chip active" data-surface="floor" title="Living Floor">Floor</button>
+          <button class="murali-chip" data-surface="wall_accent" title="Accent Wall">Accent Wall</button>
+          <button class="murali-chip" data-surface="wall_main" title="Main Walls">Walls</button>
         </div>
       </div>
 
-      <!-- Floating Stone Studio Deck (Left Drawer) -->
-      <aside id="murali-studio-drawer" class="murali-drawer">
-        <!-- Drawer Header -->
+      <!-- Slide-Out Architectural Customization Drawer -->
+      <aside id="murali-studio-drawer" class="murali-drawer" aria-label="Murali Stone Customization Studio">
         <div class="msd-header">
-          <div class="msd-title-group">
-            <div class="msd-badge-row">
-              <span class="msd-badge-gold">Murali Studio 3.0</span>
-              <span class="msd-badge-pbr">Calibrated PBR</span>
-            </div>
-            <h3 class="msd-title">Natural Stone &amp; Tiles</h3>
+          <div class="msd-brand">
+            <span class="msd-brand-badge">Visualizer 3.0</span>
+            <h2 class="msd-title">Stone &amp; Tile Studio</h2>
           </div>
-          <button id="msd-close-btn" class="msd-close" title="Close Panel">✕</button>
+          <button id="msd-close-btn" class="msd-close" aria-label="Close Studio">&times;</button>
         </div>
 
-        <!-- Scrollable Content -->
-        <div class="msd-body">
-          <!-- Surface Tabs (Clean 3-Tab Architecture) -->
-          <div class="msd-section-label">Target Architectural Surface</div>
+        <div class="msd-scroll-body">
+          <!-- Architectural Surface Tabs -->
+          <div class="msd-section-label">Select Architectural Surface</div>
           <div class="msd-surface-tabs">
             <button class="msd-s-tab active" data-surface="floor">
-              <span class="msd-s-icon">▦</span>
-              <span class="msd-s-name">Living Floor</span>
+              <span class="msd-s-icon">⬛</span>
+              <span>Living Floor</span>
             </button>
             <button class="msd-s-tab" data-surface="wall_accent">
-              <span class="msd-s-icon">▥</span>
-              <span class="msd-s-name">Accent Wall</span>
+              <span class="msd-s-icon">▮</span>
+              <span>Accent Wall</span>
             </button>
             <button class="msd-s-tab" data-surface="wall_main">
               <span class="msd-s-icon">▤</span>
-              <span class="msd-s-name">Main Walls</span>
+              <span>Main Walls</span>
             </button>
           </div>
 
-          <!-- Mobile Anti-Glare Finish Selector -->
+          <!-- Custom Photo & Tile Upload Section (Feature from 2.0) -->
+          <div class="msd-upload-section">
+            <button id="msd-btn-upload" class="msd-btn-upload" title="Upload client tile photo or slab picture">
+              <span class="msd-upload-icon">📷</span>
+              <span>Upload Custom Slab / Tile Photo</span>
+            </button>
+            <input type="file" id="msd-file-input" accept="image/*" multiple style="display:none;" />
+            <div id="msd-upload-drop" class="msd-upload-drop" title="Click or drop custom tile photo">
+              Tap or Drop Tile Photos Here to Apply
+            </div>
+          </div>
+
+          <!-- Calibrated Anti-Glare Mobile Finishes -->
           <div class="msd-section-label">
             <span>Anti-Glare Finish</span>
             <small style="color:#C5A059; font-size:0.7rem; font-weight:600;">Calibrated for Phone Displays</small>
@@ -983,6 +1028,7 @@
           <!-- Category Filter Pills -->
           <div class="msd-cat-pills">
             <button class="msd-pill active" data-cat="all">All (48)</button>
+            <button class="msd-pill" data-cat="custom">📁 My Photos (<span id="msd-custom-count">0</span>)</button>
             <button class="msd-pill" data-cat="sig">★ Signature</button>
             <button class="msd-pill" data-cat="Granite">Granite</button>
             <button class="msd-pill" data-cat="Marble">Marble</button>
@@ -1026,15 +1072,107 @@
   }
 
   /**
-   * Render stone cards with verified images
+   * Process custom uploaded photo files into stone objects
+   */
+  function handleUploadedFiles(files) {
+    const validFiles = Array.from(files).filter(f => f.type.startsWith('image/') || /\.(jpe?g|png|webp|avif|heic)$/i.test(f.name));
+    if (validFiles.length === 0) {
+      showToast('Please select valid stone images (JPG, PNG, WEBP)');
+      return;
+    }
+
+    showToast('Loading ' + validFiles.length + ' custom photo(s)...');
+
+    let processed = 0;
+    validFiles.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const dataUrl = e.target.result;
+        const img = new Image();
+        img.onload = function () {
+          const c = document.createElement('canvas');
+          c.width = 256;
+          c.height = 256;
+          const ctx = c.getContext('2d');
+          const s = Math.min(img.width, img.height);
+          ctx.drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, 256, 256);
+          const thumbUrl = c.toDataURL('image/jpeg', 0.85);
+
+          const stone = {
+            slug: 'custom_' + (++customUid),
+            name: file.name.replace(/\.[^.]+$/, '').substring(0, 20),
+            cat: 'Custom',
+            finish: 'Honed / Polished',
+            sig: false,
+            isCustom: true,
+            imageUrl: dataUrl,
+            thumbUrl: thumbUrl,
+            color: '#282830'
+          };
+
+          customStones.unshift(stone);
+          processed++;
+
+          if (processed === validFiles.length) {
+            // Auto switch to custom category pill
+            state.filterCat = 'custom';
+            document.querySelectorAll('.msd-pill').forEach(p => {
+              p.classList.toggle('active', p.dataset.cat === 'custom');
+            });
+
+            // Update custom count
+            const countEl = document.getElementById('msd-custom-count');
+            if (countEl) countEl.textContent = customStones.length;
+
+            // Auto apply the first uploaded photo to active surface
+            state.activeStone = customStones[0];
+            setSurfaceChoice(state.activeSurface, { stone: customStones[0] });
+            applyCurrentStoneToSurface(state.activeSurface, true);
+            renderStoneGrid();
+            showToast('Applied ' + stone.name + ' to ' + getSurfaceLabel(state.activeSurface));
+          }
+        };
+        img.src = dataUrl;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function removeCustomStone(stoneToRemove) {
+    const idx = customStones.indexOf(stoneToRemove);
+    if (idx !== -1) {
+      customStones.splice(idx, 1);
+    }
+    const countEl = document.getElementById('msd-custom-count');
+    if (countEl) countEl.textContent = customStones.length;
+
+    // If currently selected on any surface, reset to default stone
+    ['floor', 'wall_accent', 'wall_main'].forEach(k => {
+      if (state.surfaces[k] && state.surfaces[k].stone && state.surfaces[k].stone.slug === stoneToRemove.slug) {
+        state.surfaces[k].stone = SHOWROOM_STONES[0];
+        if (state.activeSurface === k) {
+          state.activeStone = SHOWROOM_STONES[0];
+          applyCurrentStoneToSurface(k, false);
+        }
+      }
+    });
+
+    renderStoneGrid();
+    showToast('Removed custom photo');
+  }
+
+  /**
+   * Render stone cards with verified images, fallback paths, and custom photos
    */
   function renderStoneGrid() {
     const grid = document.getElementById('msd-stone-grid');
     if (!grid) return;
 
     grid.innerHTML = '';
-    const filtered = SHOWROOM_STONES.filter(s => {
+    const pool = customStones.concat(SHOWROOM_STONES);
+    const filtered = pool.filter(s => {
       const matchCat = (state.filterCat === 'all') ||
+        (state.filterCat === 'custom' && s.isCustom) ||
         (state.filterCat === 'sig' && s.sig) ||
         (s.cat && s.cat.toLowerCase().includes(state.filterCat.toLowerCase()));
       const matchSearch = !state.searchQuery || s.name.toLowerCase().includes(state.searchQuery.toLowerCase());
@@ -1046,22 +1184,35 @@
 
     filtered.forEach(stone => {
       const card = document.createElement('div');
-      const isCur = (state.activeStone.slug === stone.slug);
-      card.className = 'msd-card ' + (isCur ? 'selected' : '');
+      const isCur = (state.activeStone && state.activeStone.slug === stone.slug);
+      card.className = 'msd-card ' + (isCur ? 'selected' : '') + (stone.isCustom ? ' is-custom-card' : '');
       card.dataset.slug = stone.slug;
 
-      const thumbUrl = getStoneImageUrl(stone);
+      const thumbUrl = stone.thumbUrl || getStoneImageUrl(stone);
 
       card.innerHTML = `
         <div class="msd-card-thumb" style="background-color: ${stone.color || '#202025'};">
-          <img src="${thumbUrl}" alt="${stone.name}" loading="lazy" />
+          <img src="${thumbUrl}" alt="${stone.name}" loading="lazy" data-raw="${stone.imageUrl || ''}" onerror="if(!this.dataset.retried){this.dataset.retried='1';var r=this.getAttribute('data-raw');if(r){this.src=(r.indexOf('assets/')===0?'../'+r:(r.indexOf('../assets/')===0?r.substring(3):r));}}" />
           ${stone.sig ? '<span class="msd-sig-badge">★ Sig</span>' : ''}
+          ${stone.isCustom ? '<span class="msd-custom-badge">📁 Photo</span>' : ''}
         </div>
         <div class="msd-card-info">
           <div class="msd-card-name">${stone.name}</div>
-          <div class="msd-card-meta">${stone.cat} • ${stone.finish.split('/')[0].trim()}</div>
+          <div class="msd-card-meta">${stone.cat} • ${stone.finish ? stone.finish.split('/')[0].trim() : 'Custom'}</div>
         </div>
       `;
+
+      if (stone.isCustom) {
+        const delBtn = document.createElement('button');
+        delBtn.className = 'msd-card-del';
+        delBtn.title = 'Remove custom photo';
+        delBtn.innerHTML = '×';
+        delBtn.onclick = function (e) {
+          e.stopPropagation();
+          removeCustomStone(stone);
+        };
+        card.appendChild(delBtn);
+      }
 
       card.addEventListener('click', () => {
         document.querySelectorAll('.msd-card').forEach(c => c.classList.remove('selected'));
@@ -1095,6 +1246,47 @@
         state.isOpen = false;
         drawer.classList.remove('open');
         if (toggleBtn) toggleBtn.classList.remove('active');
+      });
+    }
+
+    // Custom File Upload Trigger
+    const uploadBtn = document.getElementById('msd-btn-upload');
+    const fileInput = document.getElementById('msd-file-input');
+    if (uploadBtn && fileInput) {
+      uploadBtn.addEventListener('click', () => {
+        fileInput.click();
+      });
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files.length > 0) {
+          handleUploadedFiles(e.target.files);
+          e.target.value = '';
+        }
+      });
+    }
+
+    // Drag and drop onto upload dropzone
+    const dropArea = document.getElementById('msd-upload-drop');
+    if (dropArea) {
+      dropArea.addEventListener('click', () => {
+        if (fileInput) fileInput.click();
+      });
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropArea.classList.add('drag-active');
+        });
+      });
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          dropArea.classList.remove('drag-active');
+        });
+      });
+      dropArea.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        if (dt && dt.files && dt.files.length > 0) {
+          handleUploadedFiles(dt.files);
+        }
       });
     }
 
@@ -1228,16 +1420,16 @@
   }
 
   function updateCtrlBadge() {
-    const badge = document.getElementById('murali-ctrl-badge');
-    if (!badge) return;
-    const curStone = state.surfaces[state.activeSurface]?.stone || state.activeStone;
-    badge.textContent = getSurfaceLabel(state.activeSurface).split(' ')[0] + ': ' + curStone.name;
+    const badge = document.getElementById('murali-active-badge');
+    if (badge) {
+      badge.textContent = getSurfaceLabel(state.activeSurface);
+    }
   }
 
   function updateStatusHUD(stoneName, surfaceKey, finishLabel, formatLabel) {
     const hud = document.getElementById('msd-status-hud');
     if (hud) {
-      hud.textContent = stoneName + ' • ' + getSurfaceLabel(surfaceKey) + ' • ' + finishLabel + ' • ' + formatLabel;
+      hud.textContent = 'Applied: ' + stoneName + ' • ' + getSurfaceLabel(surfaceKey) + ' • ' + finishLabel + ' • ' + formatLabel;
     }
     updateCtrlBadge();
   }
@@ -1246,207 +1438,188 @@
     const toast = document.getElementById('msd-toast');
     if (!toast) return;
     toast.textContent = msg;
-    toast.classList.add('show');
+    toast.classList.add('visible');
     clearTimeout(toast._timer);
-    toast._timer = setTimeout(() => toast.classList.remove('show'), 2800);
+    toast._timer = setTimeout(() => {
+      toast.classList.remove('visible');
+    }, 2800);
   }
 
   /**
-   * Non-colliding, elegant Luxury CSS
+   * Inject Studio Styles
    */
   function injectStudioStyles() {
-    const css = `
-      /* Floating Control Bar (Never overlaps parent navbar) */
-      .murali-ctrl-bar {
+    if (document.getElementById('murali-studio-styles')) return;
+
+    const style = document.createElement('style');
+    style.id = 'murali-studio-styles';
+    style.textContent = `
+      /* ── Top Floating Glass Control Pill (Zero Screen Clutter) ── */
+      .murali-control-bar {
         position: fixed;
         top: 14px;
         left: 14px;
-        z-index: 9999;
+        z-index: 100;
         display: flex;
         align-items: center;
         gap: 8px;
-        background: rgba(14, 14, 16, 0.90);
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        padding: 6px 10px;
-        border-radius: 30px;
+        background: rgba(14, 14, 18, 0.88);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border: 1px solid rgba(197, 160, 89, 0.35);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.65);
-        font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+        padding: 5px 8px;
+        border-radius: 40px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        pointer-events: auto;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
-      .murali-ctrl-toggle {
+      .murali-ctrl-btn {
         display: flex;
         align-items: center;
         gap: 8px;
-        background: linear-gradient(135deg, #C5A059, #8C6A2E);
+        background: linear-gradient(135deg, #C5A059, #FFD700);
         color: #0E0E10;
         border: none;
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-weight: 700;
-        font-size: 0.76rem;
+        padding: 7px 14px;
+        border-radius: 30px;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
         cursor: pointer;
-        transition: all 0.25s ease;
-        box-shadow: 0 2px 10px rgba(197, 160, 89, 0.3);
+        transition: transform 0.2s, box-shadow 0.2s;
       }
-      .murali-ctrl-toggle:hover, .murali-ctrl-toggle.active {
-        background: linear-gradient(135deg, #FFD700, #C5A059);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 14px rgba(255, 215, 0, 0.45);
+      .murali-ctrl-btn:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 16px rgba(197, 160, 89, 0.6);
+      }
+      .murali-ctrl-btn.active {
+        background: #F5F0E8;
+        color: #0E0E10;
       }
       .murali-ctrl-icon {
-        font-size: 13px;
-      }
-      .murali-ctrl-label {
-        letter-spacing: 0.04em;
+        font-size: 0.95rem;
       }
       .murali-ctrl-badge {
+        background: rgba(14, 14, 16, 0.85);
+        color: #FFD700;
         font-size: 0.65rem;
-        background: rgba(14, 14, 16, 0.8);
-        color: #E8C98A;
         padding: 2px 7px;
-        border-radius: 10px;
-        font-weight: 600;
+        border-radius: 12px;
+        font-weight: 700;
       }
-      .murali-ctrl-chips {
+      .murali-quick-chips {
         display: flex;
         align-items: center;
         gap: 4px;
       }
       .murali-chip {
         background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.12);
         color: #D5CEC3;
+        border: 1px solid rgba(255, 255, 255, 0.1);
         padding: 5px 10px;
-        border-radius: 14px;
-        font-size: 0.70rem;
+        border-radius: 20px;
+        font-size: 0.68rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.2s;
       }
       .murali-chip:hover {
         background: rgba(197, 160, 89, 0.2);
-        color: #F5F0E8;
-        border-color: rgba(197, 160, 89, 0.4);
+        color: #FFF;
+        border-color: #C5A059;
       }
       .murali-chip.active {
-        background: rgba(197, 160, 89, 0.3);
+        background: #C5A059;
+        color: #0E0E10;
         border-color: #C5A059;
-        color: #FFD700;
+        font-weight: 700;
       }
 
-      /* Floating Drawer */
+      /* ── Slide-Out Customizer Drawer ── */
       .murali-drawer {
         position: fixed;
-        top: 64px;
-        left: 14px;
-        bottom: 14px;
-        width: 375px;
-        max-width: calc(100vw - 28px);
-        background: rgba(14, 14, 16, 0.95);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(197, 160, 89, 0.3);
-        border-radius: 16px;
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.85);
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 380px;
+        max-width: 90vw;
+        background: rgba(16, 16, 20, 0.97);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-right: 1px solid rgba(197, 160, 89, 0.35);
+        box-shadow: 12px 0 48px rgba(0, 0, 0, 0.85);
+        transform: translateX(-105%);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 9999;
         display: flex;
         flex-direction: column;
-        z-index: 9998;
-        transform: translateX(-120%);
-        opacity: 0;
-        transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
-        overflow: hidden;
-        font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+        color: #F5F0E8;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
       .murali-drawer.open {
         transform: translateX(0);
-        opacity: 1;
       }
       .msd-header {
-        padding: 14px 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 16px 18px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: rgba(20, 20, 24, 0.8);
+        border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+        background: rgba(10, 10, 13, 0.6);
       }
-      .msd-badge-row {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        margin-bottom: 4px;
-      }
-      .msd-badge-gold {
+      .msd-brand-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #C5A059, #FFD700);
+        color: #0E0E10;
         font-size: 0.62rem;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: #C5A059;
-      }
-      .msd-badge-pbr {
-        font-size: 0.58rem;
-        background: rgba(197, 160, 89, 0.15);
-        border: 1px solid rgba(197, 160, 89, 0.35);
-        color: #E8C98A;
-        padding: 1px 6px;
+        font-weight: 900;
+        padding: 2px 6px;
         border-radius: 4px;
-        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 3px;
       }
       .msd-title {
-        font-family: 'Cormorant Garamond', Georgia, serif;
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #F5F0E8;
+        font-size: 1.15rem;
+        font-weight: 700;
         margin: 0;
+        color: #F5F0E8;
         letter-spacing: 0.02em;
       }
       .msd-close {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        background: rgba(255, 255, 255, 0.05);
-        color: #A0988A;
-        font-size: 14px;
+        background: transparent;
+        border: none;
+        color: #A1A1AA;
+        font-size: 1.6rem;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s;
+        padding: 4px 8px;
+        line-height: 1;
+        transition: color 0.2s;
       }
       .msd-close:hover {
         color: #FFF;
-        background: rgba(255, 255, 255, 0.15);
       }
-
-      .msd-body {
+      .msd-scroll-body {
         flex: 1;
         overflow-y: auto;
-        padding: 14px 16px;
+        padding: 16px;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 14px;
       }
-      .msd-body::-webkit-scrollbar {
-        width: 5px;
-      }
-      .msd-body::-webkit-scrollbar-thumb {
-        background: rgba(197, 160, 89, 0.3);
-        border-radius: 4px;
-      }
-
       .msd-section-label {
-        font-size: 0.68rem;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
+        font-size: 0.72rem;
         font-weight: 700;
-        color: #A0988A;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #C5A059;
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
 
-      /* Surface Tabs (Clean 3-Tab Architecture) */
+      /* Surface Tabs */
       .msd-surface-tabs {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -1455,72 +1628,119 @@
       .msd-s-tab {
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #D5CEC3;
+        padding: 9px 4px;
         border-radius: 8px;
-        padding: 8px 6px;
+        font-size: 0.72rem;
+        font-weight: 600;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 4px;
+        gap: 3px;
         cursor: pointer;
-        color: #C5BFB5;
-        font-size: 0.68rem;
-        font-weight: 600;
         transition: all 0.2s;
-        text-align: center;
       }
       .msd-s-tab:hover {
         background: rgba(197, 160, 89, 0.15);
-        border-color: rgba(197, 160, 89, 0.35);
-        color: #F5F0E8;
+        border-color: #C5A059;
+        color: #FFF;
       }
       .msd-s-tab.active {
-        background: rgba(197, 160, 89, 0.25);
+        background: linear-gradient(135deg, rgba(197, 160, 89, 0.3), rgba(255, 215, 0, 0.15));
         border-color: #C5A059;
         color: #FFD700;
+        font-weight: 700;
+        box-shadow: 0 0 12px rgba(197, 160, 89, 0.25);
       }
       .msd-s-icon {
-        font-size: 15px;
-        color: #C5A059;
+        font-size: 0.85rem;
+      }
+
+      /* Custom Upload Section */
+      .msd-btn-upload {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: linear-gradient(135deg, rgba(197, 160, 89, 0.25), rgba(255, 215, 0, 0.15));
+        border: 1px dashed rgba(197, 160, 89, 0.7);
+        border-radius: 8px;
+        color: #F5F0E8;
+        font-family: inherit;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        padding: 10px 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .msd-btn-upload:hover {
+        background: linear-gradient(135deg, rgba(197, 160, 89, 0.4), rgba(255, 215, 0, 0.25));
+        border-color: #FFD700;
+        color: #FFFFFF;
+        transform: translateY(-1px);
+      }
+      .msd-upload-icon {
+        font-size: 1rem;
+      }
+      .msd-upload-drop {
+        border: 1px dashed rgba(255, 255, 255, 0.15);
+        border-radius: 6px;
+        padding: 7px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.02);
+        cursor: pointer;
+        margin-top: 6px;
+        transition: all 0.2s;
+        color: #A1A1AA;
+        font-size: 0.68rem;
+      }
+      .msd-upload-drop:hover, .msd-upload-drop.drag-active {
+        background: rgba(197, 160, 89, 0.15);
+        border-color: #C5A059;
+        color: #FFD700;
       }
 
       /* Finish Tabs */
       .msd-finish-tabs {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 6px;
       }
       .msd-f-tab {
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
+        color: #D5CEC3;
+        padding: 8px 4px;
         border-radius: 8px;
-        padding: 8px 12px;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
+        gap: 2px;
         cursor: pointer;
         transition: all 0.2s;
-        text-align: left;
       }
       .msd-f-tab:hover {
-        background: rgba(255, 255, 255, 0.07);
-        border-color: rgba(197, 160, 89, 0.3);
-      }
-      .msd-f-tab.active {
-        background: rgba(197, 160, 89, 0.20);
+        background: rgba(197, 160, 89, 0.15);
         border-color: #C5A059;
       }
+      .msd-f-tab.active {
+        background: rgba(197, 160, 89, 0.25);
+        border-color: #C5A059;
+        color: #FFF;
+      }
       .msd-f-title {
-        font-size: 0.76rem;
+        font-size: 0.72rem;
         font-weight: 700;
-        color: #F5F0E8;
       }
       .msd-f-tag {
-        font-size: 0.62rem;
+        font-size: 0.55rem;
         color: #C5A059;
-        font-weight: 600;
+        letter-spacing: 0.02em;
       }
 
-      /* Slider Group */
+      /* Slider */
       .msd-slider-group {
         background: rgba(255, 255, 255, 0.02);
         border: 1px solid rgba(255, 255, 255, 0.06);
@@ -1530,10 +1750,9 @@
       .msd-slider-header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        font-size: 0.70rem;
-        color: #C5BFB5;
+        font-size: 0.7rem;
         font-weight: 600;
+        color: #D5CEC3;
         margin-bottom: 6px;
       }
       .msd-slider-val {
@@ -1555,20 +1774,21 @@
       .msd-fmt-tab {
         background: rgba(255, 255, 255, 0.04);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 8px;
+        color: #D5CEC3;
         padding: 8px 10px;
+        border-radius: 8px;
+        font-size: 0.72rem;
+        font-weight: 600;
         display: flex;
         align-items: center;
         gap: 8px;
         cursor: pointer;
-        color: #C5BFB5;
-        font-size: 0.72rem;
-        font-weight: 600;
         transition: all 0.2s;
       }
       .msd-fmt-tab:hover {
         background: rgba(197, 160, 89, 0.15);
-        border-color: rgba(197, 160, 89, 0.35);
+        border-color: #C5A059;
+        color: #FFF;
       }
       .msd-fmt-tab.active {
         background: rgba(197, 160, 89, 0.25);
@@ -1576,7 +1796,7 @@
         color: #FFD700;
       }
 
-      /* Filter Header & Pills */
+      /* Filter & Grid */
       .msd-filter-header {
         display: flex;
         align-items: center;
@@ -1584,34 +1804,28 @@
         margin-top: 4px;
       }
       .msd-filter-count {
-        font-size: 0.65rem;
-        color: #C5A059;
-        font-weight: 700;
+        font-size: 0.68rem;
+        color: #A1A1AA;
       }
       .msd-cat-pills {
         display: flex;
-        gap: 4px;
-        overflow-x: auto;
-        padding-bottom: 2px;
-      }
-      .msd-cat-pills::-webkit-scrollbar {
-        height: 3px;
+        gap: 5px;
+        flex-wrap: wrap;
       }
       .msd-pill {
-        white-space: nowrap;
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        color: #A0988A;
-        font-size: 0.66rem;
-        font-weight: 600;
+        color: #A1A1AA;
         padding: 4px 9px;
-        border-radius: 12px;
+        border-radius: 14px;
+        font-size: 0.68rem;
+        font-weight: 600;
         cursor: pointer;
         transition: all 0.2s;
       }
       .msd-pill:hover {
         color: #FFF;
-        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(197, 160, 89, 0.4);
       }
       .msd-pill.active {
         background: #C5A059;
@@ -1619,19 +1833,16 @@
         border-color: #C5A059;
         font-weight: 700;
       }
-
-      /* Search Box */
       .msd-search-box input {
         width: 100%;
         background: rgba(0, 0, 0, 0.4);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        color: #F5F0E8;
+        border-radius: 6px;
         padding: 8px 12px;
+        color: #F5F0E8;
         font-size: 0.74rem;
-        box-sizing: border-box;
         outline: none;
-        transition: border-color 0.2s;
+        box-sizing: border-box;
       }
       .msd-search-box input:focus {
         border-color: #C5A059;
@@ -1642,32 +1853,34 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
+        margin-top: 4px;
       }
       .msd-card {
         background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.07);
         border-radius: 8px;
         overflow: hidden;
         cursor: pointer;
-        transition: all 0.25s ease;
+        transition: all 0.22s ease;
+        display: flex;
+        flex-direction: column;
+        position: relative;
       }
       .msd-card:hover {
+        border-color: rgba(197, 160, 89, 0.6);
         transform: translateY(-2px);
-        border-color: rgba(197, 160, 89, 0.5);
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
       }
       .msd-card.selected {
-        border-color: #C5A059;
-        box-shadow: 0 0 0 1px #C5A059, 0 4px 16px rgba(197, 160, 89, 0.3);
+        border-color: #FFD700;
+        box-shadow: 0 0 14px rgba(197, 160, 89, 0.45);
         background: rgba(197, 160, 89, 0.12);
       }
       .msd-card-thumb {
-        width: 100%;
-        height: 72px;
         position: relative;
+        aspect-ratio: 16 / 11;
         overflow: hidden;
-        background-size: cover;
-        background-position: center;
+        background: #141418;
       }
       .msd-card-thumb img {
         width: 100%;
@@ -1677,89 +1890,123 @@
         transition: transform 0.3s ease;
       }
       .msd-card:hover .msd-card-thumb img {
-        transform: scale(1.05);
+        transform: scale(1.06);
       }
       .msd-sig-badge {
         position: absolute;
-        top: 4px;
-        right: 4px;
-        background: #FFD700;
+        top: 5px;
+        right: 5px;
+        background: linear-gradient(135deg, #C5A059, #FFD700);
         color: #0E0E10;
-        font-size: 0.52rem;
+        font-size: 8px;
         font-weight: 900;
         padding: 2px 5px;
         border-radius: 3px;
-        letter-spacing: 0.04em;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .msd-custom-badge {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        color: #fff;
+        font-size: 8px;
+        font-weight: 800;
+        padding: 2px 5px;
+        border-radius: 3px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .msd-card-del {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: rgba(220, 38, 38, 0.85);
+        color: #fff;
+        border: none;
+        font-size: 13px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 6;
+        transition: transform 0.15s;
+      }
+      .msd-card-del:hover {
+        transform: scale(1.2);
+        background: #ef4444;
       }
       .msd-card-info {
-        padding: 6px 8px;
+        padding: 7px 8px;
       }
       .msd-card-name {
         font-size: 0.72rem;
-        font-weight: 700;
+        font-weight: 600;
         color: #F5F0E8;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
       .msd-card-meta {
-        font-size: 0.60rem;
-        color: #A0988A;
+        font-size: 0.6rem;
+        color: #A1A1AA;
         margin-top: 2px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
       }
 
       /* Footer */
       .msd-footer {
-        padding: 10px 14px;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        background: rgba(20, 20, 24, 0.9);
+        padding: 12px 16px;
+        border-top: 1px solid rgba(197, 160, 89, 0.2);
+        background: rgba(10, 10, 13, 0.7);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
       }
       .msd-quick-buttons {
-        display: flex;
-        gap: 6px;
-        margin-bottom: 6px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
       }
       .msd-btn-action {
-        flex: 1;
-        background: linear-gradient(135deg, #C5A059, #8C6A2E);
+        background: linear-gradient(135deg, #C5A059, #E8C98A);
         color: #0E0E10;
         border: none;
-        padding: 8px 10px;
-        border-radius: 8px;
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-size: 0.74rem;
         font-weight: 700;
-        font-size: 0.70rem;
         cursor: pointer;
         transition: all 0.2s;
       }
       .msd-btn-action:hover {
-        background: linear-gradient(135deg, #FFD700, #C5A059);
+        box-shadow: 0 0 14px rgba(197, 160, 89, 0.5);
       }
       .msd-btn-action-ghost {
         background: rgba(255, 255, 255, 0.05);
+        color: #D5CEC3;
         border: 1px solid rgba(255, 255, 255, 0.1);
-        color: #C5BFB5;
+        border-radius: 6px;
         padding: 8px 12px;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 0.70rem;
+        font-size: 0.74rem;
         cursor: pointer;
         transition: all 0.2s;
       }
       .msd-btn-action-ghost:hover {
-        background: rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.1);
         color: #FFF;
       }
       .msd-status-hud {
-        font-size: 0.60rem;
-        color: #A0988A;
+        font-size: 0.62rem;
+        color: #9E9689;
+        text-align: center;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        text-align: center;
       }
 
       /* Toast */
@@ -1768,53 +2015,44 @@
         bottom: 24px;
         left: 50%;
         transform: translateX(-50%) translateY(20px);
-        background: rgba(14, 14, 16, 0.95);
-        border: 1px solid #C5A059;
-        color: #F5F0E8;
+        background: rgba(14, 14, 18, 0.94);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        color: #FFD700;
+        border: 1px solid rgba(197, 160, 89, 0.4);
         padding: 8px 18px;
-        border-radius: 24px;
-        font-size: 0.76rem;
+        border-radius: 30px;
+        font-size: 0.75rem;
         font-weight: 600;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
-        z-index: 10002;
-        opacity: 0;
+        letter-spacing: 0.03em;
         pointer-events: none;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+        opacity: 0;
+        transition: opacity 0.3s, transform 0.3s;
+        z-index: 10001;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.7);
       }
-      .msd-toast.show {
+      .msd-toast.visible {
         opacity: 1;
         transform: translateX(-50%) translateY(0);
       }
 
       @media (max-width: 600px) {
-        .murali-ctrl-bar {
-          top: 10px;
-          left: 10px;
-          right: 10px;
+        .murali-control-bar {
+          top: 8px;
+          left: 8px;
+          right: 8px;
           justify-content: space-between;
         }
-        .murali-ctrl-chips {
-          display: none;
-        }
         .murali-drawer {
-          top: 60px;
-          left: 10px;
-          right: 10px;
-          bottom: 10px;
-          width: auto;
+          width: 100vw;
+          max-width: 100vw;
         }
       }
     `;
-
-    const styleEl = document.createElement('style');
-    styleEl.textContent = css;
-    document.head.appendChild(styleEl);
+    document.head.appendChild(style);
   }
 
-  /**
-   * Continuous Polling & Hook to initialize studio once 3D assets load
-   */
+  // ── Showroom Initialization ──
   let initDone = false;
   function tryInitStudio() {
     const scene = getShowroomInteriorScene();

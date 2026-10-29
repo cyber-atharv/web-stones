@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-2ZFM4D8Y1X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-2ZFM4D8Y1X');
+</script>
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window, document, "clarity", "script", "xhnlkryka7");
+</script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Portal Login | Murali Granites & Marbles</title>
+<link href="assets/images/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="assets/images/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+<link href="assets/images/favicon.ico" rel="shortcut icon"/>
+<link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="login.html" rel="canonical"/>
+<meta content="Admin login portal for Murali Granites & Marbles catalog, visualizer studio, and blog management dashboard." name="description"/>
+<meta content="index, follow, max-image-preview:large" name="robots"/>
+<meta content="Murali Granites & Marbles" name="author"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/></noscript>
+<link as="style" href="assets/css/navigation.css?v=1.6" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="assets/css/navigation.css?v=1.6" rel="stylesheet"/></noscript>
+
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C5A059;
+    --gold-light: #E8C98A;
+    --gold-dim: #7A5C2E;
+    --black: #08080A;
+    --charcoal: #111116;
+    --card-bg: rgba(18, 18, 22, 0.75);
+    --border-gold: rgba(197, 160, 89, 0.22);
+    --mid-grey: #6E6E78;
+    --light-grey: #A1A1AA;
+    --white: #F4F4F5;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: auto !important;
+  }
+
+  /* Main Section */
+  main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8.5rem 1.5rem 4rem;
+    background: radial-gradient(circle at 50% 25%, #181820 0%, var(--black) 80%);
+    position: relative;
+  }
+
+  main::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(197, 160, 89, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .login-card {
+    position: relative;
+    z-index: 1;
+    background: var(--card-bg);
+    border: 1px solid var(--border-gold);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 460px;
+    padding: 2.8rem 2.4rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 30px rgba(197, 160, 89, 0.06);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .login-card:hover {
+    border-color: rgba(197, 160, 89, 0.35);
+  }
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .login-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    display: inline-block;
+  }
+
+  .login-title {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 0.4rem;
+  }
+
+  .login-subtitle {
+    font-size: 0.82rem;
+    color: var(--light-grey);
+    font-weight: 300;
+  }
+
+  /* Demo Credentials Callout */
+  .demo-creds-box {
+    background: rgba(197, 160, 89, 0.08);
+    border: 1px dashed rgba(197, 160, 89, 0.35);
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1.8rem;
+    font-size: 0.78rem;
+  }
+
+  .demo-creds-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.7rem;
+  }
+
+  .demo-creds-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+    color: #E4E4E7;
+    font-family: monospace;
+    font-size: 0.76rem;
+  }
+
+  .autofill-btn {
+    margin-top: 0.6rem;
+    width: 100%;
+    background: rgba(197, 160, 89, 0.15);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    color: var(--gold-light);
+    padding: 0.45rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  .autofill-btn:hover {
+    background: var(--gold);
+    color: #08080A;
+  }
+
+  /* Form Elements */
+  .form-group {
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.9rem 0;
+    margin-bottom: 1.3rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-group:focus-within {
+    border-bottom-color: var(--gold);
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--light-grey);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+  }
+
+  .input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .input-wrap input {
+    flex-grow: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: #ffffff;
+  }
+
+  .input-wrap input::placeholder {
+    color: #52525B;
+  }
+
+  .toggle-pwd-btn {
+    background: transparent;
+    border: none;
+    color: var(--light-grey);
+    cursor: pointer;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
+    transition: color 0.2s ease;
+  }
+
+  .toggle-pwd-btn:hover {
+    color: var(--gold-light);
+  }
+
+  .options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    margin: 1.2rem 0 1.8rem;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--light-grey);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .checkbox-label input {
+    accent-color: var(--gold);
+    width: 15px;
+    height: 15px;
+  }
+
+  .forgot-link {
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.76rem;
+    transition: color 0.2s;
+  }
+
+  .forgot-link:hover {
+    color: var(--gold-light);
+    text-decoration: underline;
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #C5A059 0%, #E8C98A 50%, #B89248 100%);
+    border: none;
+    border-radius: 8px;
+    color: #08080A;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(197, 160, 89, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+
+  .login-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 24px rgba(197, 160, 89, 0.5);
+  }
+
+  .login-btn:active {
+    transform: translateY(0);
+  }
+
+  /* Status / Alert Box */
+  .status-message {
+    display: none;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    margin-bottom: 1.2rem;
+    line-height: 1.4;
+  }
+
+  .status-error {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #FCA5A5;
+  }
+
+  .status-success {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #6EE7B7;
+  }
+
+  .already-logged-box {
+    display: none;
+    text-align: center;
+    padding: 1.5rem 1rem;
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    border-radius: 12px;
+    background: rgba(197, 160, 89, 0.05);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Footer */
+  footer {
+    background: var(--black);
+    padding: 4rem 6vw 2.5rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+  }
+
+  .footer-brand .brand-name {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--white);
+  }
+
+  .footer-brand .brand-tagline {
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 4rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-col h4 {
+    font-size: 0.62rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.65rem; }
+  .footer-col a {
+    font-size: 0.82rem;
+    color: var(--light-grey);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--gold-light); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--mid-grey);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .login-card { padding: 2rem 1.4rem; }
+    main { padding-top: 7rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER / NAVIGATION ── -->
+<header>
+  <div class="nav-container">
+    <a class="logo-link" href="index.html" title="Murali Granites & Marbles Home">
+      <img alt="Murali Granites & Marbles Medallion Logo" class="logo-icon-img" decoding="async" height="42" src="assets/images/logo.png" width="42"/>
+      <span class="logo-text">Murali <span class="logo-subtext">Granites &amp; Marbles</span></span>
+    </a>
+    <ul class="nav-menu">
+      <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+      <li class="nav-item nav-dropdown">
+        <a class="nav-link nav-dropdown-toggle" href="visualizer.html" id="visualizersDropdown">
+          Visualizers <span class="nav-dropdown-arrow">▾</span>
+        </a>
+        <div class="nav-dropdown-menu">
+          <a class="nav-dropdown-card" href="visualizer.html">
+            <div class="nav-dropdown-badge badge-1">1.0</div>
+            <div class="nav-dropdown-content">
+              <div class="nav-dropdown-title">Live Visualizer (1D Photos)</div>
+              <div class="nav-dropdown-sub">Realistic room renders &amp; texture split comparison</div>
+            </div>
+          </a>
+          <a class="nav-dropdown-card" href="visualizer-2.html">
+            <div class="nav-dropdown-badge badge-2">2.0</div>
+            <div class="nav-dropdown-content">
+              <div class="nav-dropdown-title">2D/3D Stone Studio</div>
+              <div class="nav-dropdown-sub">Real-time customizable floor &amp; wall material simulation</div>
+            </div>
+          </a>
+          <a class="nav-dropdown-card" href="visualizer-3.html">
+            <div class="nav-dropdown-badge badge-3">3.0</div>
+            <div class="nav-dropdown-content">
+              <div class="nav-dropdown-title">3D Interactive Showroom</div>
+              <div class="nav-dropdown-sub">Walkthrough living suite with custom tiles &amp; slabs</div>
+            </div>
+          </a>
+        </div>
+      </li>
+      <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+      <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
+      <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+      </ul>
+    <div class="nav-right-wrap">
+  <a class="nav-login-btn logged-in" href="admin.html" title="Admin Management Suite">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <span>Admin Suite</span>
+  </a>
+  <a class="nav-quote-btn" href="contact.html"><span>Get Quote</span></a>
+</div>
+    <button aria-label="Toggle Menu" class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile Navigation Overlay -->
+<div class="mobile-nav">
+  <ul class="mobile-nav-list">
+    <li><a class="mobile-nav-link" href="index.html">Home</a></li>
+    <li><a class="mobile-nav-link" href="products.html">Products</a></li>
+    <li><a class="mobile-nav-link" href="visualizer.html">Visualizer</a></li>
+    <li><a class="mobile-nav-link" href="blog.html">Blog</a></li>
+    <li><a class="mobile-nav-link" href="faq.html">FAQ</a></li>
+    <li><a class="mobile-nav-link" href="contact.html">Contact Us</a></li>
+    <li><a class="mobile-nav-link active" href="login.html">Admin Portal</a></li>
+  </ul>
+  <a class="mobile-quote-btn" href="contact.html"><span>Get Quote</span></a>
+<a class="mobile-login-btn" href="login.html"><span>Admin Portal Login &rarr;</span></a>
+</div>
+
+<!-- ── MAIN LOGIN CONTAINER ── -->
+<main>
+  <div style="width: 100%; max-width: 460px; margin-bottom: 1.2rem;">
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb" style="display:flex;align-items:center;gap:0.5rem;font-size:0.75rem;color:#8A8A80;">
+      <a href="index.html" style="color:#C5A059;text-decoration:none;" title="Murali Granites & Marbles Homepage">Home</a> <span>/</span>
+      <span style="color:#F4F4F5;">Admin Portal Login</span>
+    </nav>
+  </div>
+
+  <div class="login-card" id="loginCard">
+    <div class="login-header">
+      <span class="login-eyebrow">Executive Management Suite</span>
+      <h1 class="login-title">Admin Portal</h1>
+      <p class="login-subtitle">Sign in to manage stones, visualizer studio, &amp; blogs</p>
+    </div>
+
+    <!-- Active Session Banner (if already logged in) -->
+    <div class="already-logged-box" id="activeSessionBox">
+      <div style="color:#E4E4E7; font-size:0.85rem; margin-bottom:0.7rem;">
+        You are currently signed in as <strong style="color:var(--gold-light);" id="activeUserLabel">Admin</strong>
+      </div>
+      <div style="display:flex; gap:0.6rem; justify-content:center;">
+        <a href="admin.html" style="background:var(--gold); color:#08080A; padding:0.5rem 1rem; border-radius:6px; font-weight:700; font-size:0.75rem; text-decoration:none; text-transform:uppercase; letter-spacing:0.05em;">
+          Enter Dashboard &rarr;
+        </a>
+        <button type="button" id="logoutCurrentBtn" style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:#A1A1AA; padding:0.5rem 0.9rem; border-radius:6px; font-size:0.75rem; cursor:pointer;">
+          Sign Out
+        </button>
+      </div>
+    </div>
+
+    <!-- Alert / Feedback Notification -->
+    <div id="statusAlert" class="status-message"></div>
+
+    <!-- Demo Credentials Box -->
+    <div class="demo-creds-box">
+      <div class="demo-creds-title">
+        <span>Demo Credentials</span>
+        <span style="font-size:0.65rem; color:#A1A1AA;">1-Click Access</span>
+      </div>
+      <div class="demo-creds-grid">
+        <div><strong>Email:</strong> admin@muraligranites.com</div>
+        <div><strong>Pass:</strong> admin123</div>
+      </div>
+      <button type="button" id="autofillDemoBtn" class="autofill-btn">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Auto-Fill Credentials &amp; Sign In
+      </button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+      <div class="form-group">
+        <label for="adminEmail">Email Address</label>
+        <div class="input-wrap">
+          <input id="adminEmail" name="email" placeholder="admin@muraligranites.com" required="" type="email" autocomplete="username"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="adminPassword">Security Key / Password</label>
+        <div class="input-wrap">
+          <input id="adminPassword" name="password" placeholder="••••••••" required="" type="password" autocomplete="current-password"/>
+          <button type="button" class="toggle-pwd-btn" id="togglePwdBtn" aria-label="Toggle password visibility">Show</button>
+        </div>
+      </div>
+
+      <div class="options-row">
+        <label class="checkbox-label">
+          <input type="checkbox" id="rememberMeCheck" checked/>
+          <span>Remember Device</span>
+        </label>
+        <a class="forgot-link" href="contact.html?inquiry=Admin+Password+Reset">Forgot Password?</a>
+      </div>
+
+      <button class="login-btn" id="loginSubmitBtn" type="submit">
+        <span>Enter Management Suite &rarr;</span>
+      </button>
+    </form>
+
+    <div style="margin-top: 1.8rem; text-align: center; font-size: 0.78rem; color: var(--mid-grey);">
+      Need staff privileges? <a href="contact.html?inquiry=Admin+Access+Request" style="color: var(--gold); text-decoration: none;">Contact Showroom Director</a>
+    </div>
+  </div>
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <p class="brand-name">Murali Granites & Marbles</p>
+      <p class="brand-tagline">More than a Home. Your legacy in Stone.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Stone Catalogue</a></li>
+          <li><a href="visualizer.html">Room Visualizer</a></li>
+          <li><a href="blog.html">Blog &amp; Guides</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Showroom</h4>
+        <ul style="color: #A1A1AA; font-size: 0.82rem; line-height: 1.6;">
+          <li style="color:#ffffff; font-weight:500;">Murali Granites & Marbles</li>
+          <li>Bargur, Krishnagiri, Tamil Nadu - 635104</li>
+          <li style="margin-top:0.3rem;"><a href="tel:+916366380051" style="color:var(--gold);">+91 6366380051</a></li>
+          <li><a href="mailto:chanakya@muraligranites.com">chanakya@muraligranites.com</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="dev-credit-box">
+      <span>Website developed and designed by <strong>ATHARV HOGADE</strong></span>
+      <span>|</span>
+      <span>Email: <a href="mailto:atharvhogade12@gmail.com" style="color:var(--gold, #C5A059);">atharvhogade12@gmail.com</a></span>
+    </div>
+    <p>&copy; 2026 Murali Granites & Marbles. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="assets/js/navigation.js"></script>
+<script>
+  (function() {
+    'use strict';
+
+    // Frame-busting clickjacking protection
+    if (window.top !== window.self) {
+      window.top.location = window.self.location;
+    }
+
+    const emailInput = document.getElementById('adminEmail');
+    const pwdInput = document.getElementById('adminPassword');
+    const togglePwdBtn = document.getElementById('togglePwdBtn');
+    const autofillBtn = document.getElementById('autofillDemoBtn');
+    const statusAlert = document.getElementById('statusAlert');
+    const activeSessionBox = document.getElementById('activeSessionBox');
+    const activeUserLabel = document.getElementById('activeUserLabel');
+    const logoutCurrentBtn = document.getElementById('logoutCurrentBtn');
+    const submitBtn = document.getElementById('loginSubmitBtn');
+
+    const LOCKOUT_KEY = 'murali_login_lockout_until';
+    const FAILS_KEY = 'murali_login_fails';
+
+    function checkLockout() {
+      const lockoutUntil = parseInt(localStorage.getItem(LOCKOUT_KEY) || '0', 10);
+      const now = Date.now();
+      if (now < lockoutUntil) {
+        const remainingSec = Math.ceil((lockoutUntil - now) / 1000);
+        const remainingMin = Math.ceil(remainingSec / 60);
+        showStatus(`Security Protection: Portal is temporarily locked due to repeated failed attempts. Retry in ${remainingMin}m (${remainingSec}s).`, 'error');
+        if (submitBtn) submitBtn.disabled = true;
+        return true;
+      }
+      if (submitBtn) submitBtn.disabled = false;
+      return false;
+    }
+
+    // 1. Check existing session and lease expiration
+    let isAuth = localStorage.getItem('murali_admin_auth') === 'true';
+    if (isAuth) {
+      try {
+        const sess = JSON.parse(localStorage.getItem('murali_admin_session') || '{}');
+        if (sess.expiresAt && Date.now() > sess.expiresAt) {
+          // Session expired
+          localStorage.removeItem('murali_admin_auth');
+          localStorage.removeItem('murali_admin_session');
+          localStorage.removeItem('murali_admin_user');
+          isAuth = false;
+          showStatus('Previous session expired. Please authenticate again.', 'error');
+        } else {
+          activeSessionBox.style.display = 'block';
+          if (sess.name || sess.email) activeUserLabel.textContent = sess.name || sess.email;
+        }
+      } catch(e) {}
+    }
+
+    if (logoutCurrentBtn) {
+      logoutCurrentBtn.addEventListener('click', () => {
+        localStorage.removeItem('murali_admin_auth');
+        localStorage.removeItem('murali_admin_session');
+        localStorage.removeItem('murali_admin_user');
+        activeSessionBox.style.display = 'none';
+        showStatus('Signed out successfully.', 'success');
+      });
+    }
+
+    // 2. Toggle Password Visibility
+    if (togglePwdBtn) {
+      togglePwdBtn.addEventListener('click', () => {
+        if (pwdInput.type === 'password') {
+          pwdInput.type = 'text';
+          togglePwdBtn.textContent = 'Hide';
+        } else {
+          pwdInput.type = 'password';
+          togglePwdBtn.textContent = 'Show';
+        }
+      });
+    }
+
+    // 3. Demo Auto-Fill (Local Demonstration Mode)
+    if (autofillBtn) {
+      autofillBtn.addEventListener('click', () => {
+        let customCreds = null;
+        try { customCreds = JSON.parse(localStorage.getItem('murali_admin_credentials') || 'null'); } catch(e) {}
+        emailInput.value = (customCreds?.email || 'admin@muraligranites.com');
+        pwdInput.value = (customCreds?.password || 'admin123');
+        submitForm();
+      });
+    }
+
+    function showStatus(text, type) {
+      statusAlert.textContent = text;
+      statusAlert.className = `status-message ${type === 'success' ? 'status-success' : 'status-error'}`;
+      statusAlert.style.display = 'block';
+    }
+
+    function submitForm() {
+      if (checkLockout()) return;
+
+      const email = emailInput.value.trim().toLowerCase();
+      const pwd = pwdInput.value;
+
+      if (!email || !pwd) {
+        showStatus('Please enter both your email address and password.', 'error');
+        return;
+      }
+
+      // Validating admin credentials without insecure wildcards
+      let customCreds = null;
+      try {
+        customCreds = JSON.parse(localStorage.getItem('murali_admin_credentials') || 'null');
+      } catch(e) {}
+      
+      const configuredEmail = (customCreds?.email || 'admin@muraligranites.com').toLowerCase();
+      const configuredPwd = customCreds?.password || 'admin123';
+      const configuredName = customCreds?.name || 'Chanakya Murali';
+
+      const isValid = (email === configuredEmail && pwd === configuredPwd) ||
+                      (email === 'admin@muraligranites.com' && pwd === 'admin123');
+
+      if (!isValid) {
+        let fails = parseInt(localStorage.getItem(FAILS_KEY) || '0', 10) + 1;
+        if (fails >= 5) {
+          localStorage.setItem(LOCKOUT_KEY, (Date.now() + 15 * 60 * 1000).toString());
+          localStorage.setItem(FAILS_KEY, '0');
+          showStatus('Security Lockout: 5 consecutive failed attempts. Portal is locked for 15 minutes.', 'error');
+          if (submitBtn) submitBtn.disabled = true;
+        } else {
+          localStorage.setItem(FAILS_KEY, fails.toString());
+          showStatus(`Invalid credentials. Attempt ${fails} of 5 before 15-minute security lockout.`, 'error');
+        }
+        return;
+      }
+
+      // Successful authentication: Reset fail counters
+      localStorage.removeItem(FAILS_KEY);
+      localStorage.removeItem(LOCKOUT_KEY);
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Verifying Credentials...</span>';
+      
+      localStorage.setItem('murali_admin_auth', 'true');
+      const sessionData = {
+        token: 'sess_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9),
+        email: email,
+        name: email === configuredEmail ? configuredName : 'Chanakya Murali',
+        role: 'Chief Curator & Admin',
+        issuedAt: Date.now(),
+        expiresAt: Date.now() + (4 * 60 * 60 * 1000) // 4 hours lease
+      };
+      localStorage.setItem('murali_admin_session', JSON.stringify(sessionData));
+      localStorage.setItem('murali_admin_user', JSON.stringify({
+        email: email,
+        name: sessionData.name,
+        role: sessionData.role,
+        loginTime: new Date().toISOString()
+      }));
+
+      showStatus('✓ Access Granted! Redirecting to Management Dashboard...', 'success');
+
+      setTimeout(() => {
+        window.location.href = 'admin.html';
+      }, 700);
+    }
+
+    window.handleAdminLogin = function(e) {
+      e.preventDefault();
+      submitForm();
+    };
+
+    // Check lockout status on initial load
+    checkLockout();
+  })();
+</script>
+</body>
+</html>
