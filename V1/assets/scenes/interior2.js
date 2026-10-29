@@ -7282,34 +7282,6 @@
         ]
       },
       {
-        "geometry": "0447F8F9-E1A9-4DD8-91BD-8B037787D704",
-        "material": "D5F1ECA1-843D-4BBE-8BBF-133B1ECB4103",
-        "uuid": "11B529E9-FC67-46A6-A22F-D6ACEEF71F3D",
-        "name": "rug",
-        "type": "Mesh",
-        "castShadow": true,
-        "receiveShadow": true,
-        "matrix": [
-          100.0,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          -1.13286969e-05,
-          95.03199,
-          0.0,
-          0.0,
-          -99.99993,
-          -1.19209217e-05,
-          0.0,
-          -3.28,
-          0.04,
-          0.69,
-          1.0
-        ],
-        "visible": false
-      },
-      {
         "uuid": "AD3E1E7C-85E9-4183-B5FA-8EBCE8D012A8",
         "name": "coffee_table",
         "matrix": [
@@ -8771,34 +8743,6 @@
           0.666,
           1.0
         ]
-      },
-      {
-        "geometry": "77C97091-0D57-4ABF-9F0E-09DC9EC0DB09",
-        "material": "F7C23502-D46C-4D40-8A04-5BCEF4D63FA7",
-        "uuid": "DE5E5F52-916A-4536-A564-A059C002F77B",
-        "name": "rug (1)",
-        "type": "Mesh",
-        "castShadow": true,
-        "receiveShadow": true,
-        "matrix": [
-          143.906876,
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          -7.921527e-06,
-          66.45058,
-          0.0,
-          0.0,
-          -99.99993,
-          -1.19209217e-05,
-          0.0,
-          2.11,
-          0.04,
-          0.1,
-          1.0
-        ],
-        "visible": false
       },
       {
         "geometry": "206F692A-DB60-4018-9A55-4C7A75AFF2FB",

@@ -155,7 +155,19 @@ script = '''/**
    * leaving only the luxury lounge sofa in the expansive stone floor space.
    */
   function applyRoomFurnishingLayout(scene) {
-    if (!scene) return;
+    const app = window.showroomApp;
+    const allScenes = [];
+    if (scene) allScenes.push(scene);
+    if (app) {
+      if (app.scene && !allScenes.includes(app.scene)) allScenes.push(app.scene);
+      if (app.interiorScene && !allScenes.includes(app.interiorScene)) allScenes.push(app.interiorScene);
+      if (app.scenes && Array.isArray(app.scenes)) {
+        app.scenes.forEach(s => {
+          if (s && !allScenes.includes(s)) allScenes.push(s);
+        });
+      }
+      if (app.hoverScene && !allScenes.includes(app.hoverScene)) allScenes.push(app.hoverScene);
+    }
 
     const objectsToHide = [
       'TableParent',  // Dining table & tabletop
@@ -167,32 +179,57 @@ script = '''/**
       'table_objects_baker'
     ];
 
-    objectsToHide.forEach(name => {
-      const obj = scene.getObjectByName(name);
-      if (obj) {
-        obj.visible = false;
-        obj.traverse(child => {
-          child.visible = false;
+    allScenes.forEach(targetScene => {
+      if (!targetScene || !targetScene.traverse) return;
+
+      // 1. Traverse and find any object matching names or containing 'rug' or 'carpet'
+      const toRemoveFromParent = [];
+      targetScene.traverse(obj => {
+        if (!obj) return;
+        const rawName = obj.name || '';
+        const name = rawName.toLowerCase();
+        const isTarget = objectsToHide.some(n => n.toLowerCase() === name) ||
+                         name === 'rug' || name === 'rug (1)' || name.startsWith('rug') ||
+                         name.includes('rug') || name.includes('carpet');
+
+        if (isTarget) {
+          obj.visible = false;
+          if (obj.position) obj.position.set(0, -9999, 0);
+          if (obj.scale) obj.scale.set(0.000001, 0.000001, 0.000001);
+          if (obj.parent && (name.includes('rug') || name.includes('carpet') || name === 'rug' || name === 'rug (1)')) {
+            toRemoveFromParent.push(obj);
+          }
+        }
+      });
+
+      toRemoveFromParent.forEach(obj => {
+        try {
+          if (obj.parent) obj.parent.remove(obj);
+        } catch (e) {}
+      });
+
+      // 2. Hide corresponding selection strokes
+      const strokeGroup = targetScene.getObjectByName('stroke_objects');
+      if (strokeGroup) {
+        ['table_stroke', 'coffee_table_stroke', 'fauteuil_stroke', 'fauteuil2_stroke'].forEach(sName => {
+          const stroke = strokeGroup.getObjectByName(sName);
+          if (stroke) {
+            stroke.visible = false;
+            if (stroke.position) stroke.position.set(0, -9999, 0);
+          }
         });
       }
     });
 
-    // Also hide corresponding selection strokes
-    const strokeGroup = scene.getObjectByName('stroke_objects');
-    if (strokeGroup) {
-      ['table_stroke', 'coffee_table_stroke', 'fauteuil_stroke', 'fauteuil2_stroke'].forEach(sName => {
-        const stroke = strokeGroup.getObjectByName(sName);
-        if (stroke) stroke.visible = false;
-      });
-    }
-
     // Disable table & armchair pickers from scenePicker if present
-    const app = window.showroomApp;
     if (app && app.scenePicker && app.scenePicker.objects) {
       app.scenePicker.objects = app.scenePicker.objects.filter(o => {
         let cur = o;
         while (cur) {
-          if (objectsToHide.includes(cur.name)) return false;
+          const cName = (cur.name || '').toLowerCase();
+          if (objectsToHide.some(n => n.toLowerCase() === cName) || cName.includes('rug') || cName.includes('carpet')) {
+            return false;
+          }
           cur = cur.parent;
         }
         return true;
@@ -1660,10 +1697,27 @@ script = '''/**
     if (initDone && pollCount > 30) clearInterval(timer);
   }, 400);
 
+  // Continuous layout reinforcement to ensure no scene event or object restorer reinstates rugs or tables
+  let layoutEnforceCount = 0;
+  const layoutTimer = setInterval(function () {
+    layoutEnforceCount++;
+    const sc = getShowroomInteriorScene();
+    if (sc) applyRoomFurnishingLayout(sc);
+    if (layoutEnforceCount > 25) clearInterval(layoutTimer);
+  }, 400);
+
 })();
 '''
 
-out_path = 'd:/projects/Web-Dev/chirag/ch01/V1/js/murali-stone-studio.js'
-with open(out_path, 'w', encoding='utf-8') as f:
-    f.write(script)
-print(f'Successfully wrote {len(script)} bytes to {out_path}')
+out_paths = [
+    'd:/projects/Web-Dev/chirag/ch01/V1/js/murali-stone-studio.js',
+    'd:/projects/Web-Dev/chirag/V1/js/murali-stone-studio.js',
+    'd:/projects/Web-Dev/web gl/showroom-littleworkshop/js/murali-stone-studio.js'
+]
+import os
+for out_path in out_paths:
+    if os.path.exists(os.path.dirname(out_path)):
+        with open(out_path, 'w', encoding='utf-8') as f:
+            f.write(script)
+        print(f'Successfully wrote {len(script)} bytes to {out_path}')
+
