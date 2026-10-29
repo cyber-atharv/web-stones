@@ -18,15 +18,12 @@ script = '''/**
     if (/^(blob:|data:|https?:|\\/\\/)/i.test(raw)) {
       return raw;
     }
-    // If running inside V1 subdirectory (like on GitHub Pages: /web-stones/V1/index.html)
-    // and image path starts with 'assets/', it must be prefixed with '../' to reach site root
-    const path = window.location.pathname || '';
-    if (path.indexOf('/V1/') !== -1 || path.endsWith('/V1') || path.endsWith('/V1/')) {
-      if (raw.indexOf('assets/') === 0) {
-        return '../' + raw;
-      }
+    const clean = raw.replace(/^\\/+/, '');
+    // Because this script runs inside V1/, relative assets/ must always be prefixed with ../
+    if (clean.indexOf('assets/') === 0) {
+      return '../' + clean;
     }
-    return raw;
+    return clean;
   }
 
   // 48 Showroom Stones with authentic product images & top 12 Signature badging
