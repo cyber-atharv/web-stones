@@ -458,8 +458,85 @@
   }
 ];
 
-  // Custom User Uploaded Stone Photos
+  // Custom User Uploaded Stone Photos & Live Scalable Catalog Store
   const customStones = [];
+  let dynamicShowroomStones = [...SHOWROOM_STONES];
+
+  // Dynamically load all granite and tile products with Live Admin Synchronization
+  function reloadStudioCatalog() {
+    try {
+      const stored = localStorage.getItem('murali_custom_products');
+      if (stored) {
+        const custArr = JSON.parse(stored);
+        custArr.forEach(c => {
+          if (c.status === 'draft') return;
+          const cSlug = c.slug || c.id || c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+          const exists = dynamicShowroomStones.some(s => s.slug === cSlug || s.name.toLowerCase() === c.name.toLowerCase());
+          if (!exists) {
+            dynamicShowroomStones.unshift({
+              slug: cSlug,
+              name: c.name,
+              cat: c.category || 'Granite',
+              sig: false,
+              color: c.color || 'White',
+              finish: c.finish || 'Polished',
+              imageUrl: c.image_url || 'assets/images/favicon.png',
+              isCustomLive: true
+            });
+          }
+        });
+      }
+      if (typeof renderStoneGrid === 'function') renderStoneGrid();
+    } catch(e) {}
+  }
+
+  (function initLiveCatalogSync() {
+    reloadStudioCatalog();
+
+    // Fetch from relative API endpoint (handles standalone, V1 root, or inside iframe)
+    const apiPath = (window.location.pathname.includes('/V1/') ? '../api/products.json' : 'api/products.json');
+    fetch(apiPath)
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          const existingSlugs = new Set(dynamicShowroomStones.map(s => s.slug));
+          data.forEach(p => {
+            const pSlug = p.slug || p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            if (!existingSlugs.has(pSlug)) {
+              existingSlugs.add(pSlug);
+              dynamicShowroomStones.push({
+                slug: pSlug,
+                name: p.name,
+                cat: p.category || 'Granite',
+                sig: !!(p.featured_section && p.featured_section.includes('legacy')),
+                color: p.color || 'White',
+                finish: p.finish || 'Polished',
+                imageUrl: p.image_url || 'assets/images/favicon.png'
+              });
+            }
+          });
+          if (typeof renderStoneGrid === 'function') renderStoneGrid();
+        }
+      })
+      .catch(() => {});
+
+    // Listen for cross-tab and parent postMessage events
+    window.addEventListener('storage', (e) => {
+      if (!e.key || e.key.startsWith('murali_')) {
+        reloadStudioCatalog();
+      }
+    });
+
+    window.addEventListener('message', (e) => {
+      if (e.data && (e.data.type === 'murali-sync-event' || e.data.type === 'murali-sync')) {
+        reloadStudioCatalog();
+      }
+    });
+
+    window.addEventListener('murali-sync-event', () => {
+      reloadStudioCatalog();
+    });
+  })();
   let customUid = 0;
 
   // Anti-glare finish configurations (specifically calibrated for mobile reflection control)
@@ -711,6 +788,58 @@
   /**
    * Get or create a dedicated PBR material for the target surface
    */
+  
+  /**
+   * Eliminate baked shadows (from removed coffee table / rugs) from floor lightmap
+   */
+  function sanitizeFloorLightmapTexture(lightmapMTexture) {
+    if (!lightmapMTexture) return lightmapMTexture;
+    if (window._sanitizedFloorLightmapMTex) return window._sanitizedFloorLightmapMTex;
+    
+    try {
+      const img = lightmapMTexture.image;
+      if (!img || !img.width || !img.height) return lightmapMTexture;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      // Floor UV2 region in Lightmap-0: x in [0, 632], y in [627, 1024]
+      const startX = 0, startY = 627, w = 632, h = 397;
+      const imgData = ctx.getImageData(startX, startY, w, h);
+      const data = imgData.data;
+      let cleaned = 0;
+
+      for (let i = 0; i < data.length; i += 4) {
+        // Red channel is read by textureIntensity(sTextureLightMapM, vUv2)
+        if (data[i] < 34) {
+          const px = (i / 4) % w;
+          const ambientVal = Math.round(45 - (px / w) * 8); // smooth ambient room falloff (45 down to 37)
+          data[i] = ambientVal;
+          data[i + 1] = ambientVal;
+          data[i + 2] = ambientVal;
+          cleaned++;
+        }
+      }
+
+      ctx.putImageData(imgData, startX, startY);
+      const cleanTex = new THREE.Texture(canvas);
+      cleanTex.flipY = lightmapMTexture.flipY !== undefined ? lightmapMTexture.flipY : false;
+      cleanTex.wrapS = THREE.ClampToEdgeWrapping;
+      cleanTex.wrapT = THREE.ClampToEdgeWrapping;
+      cleanTex.needsUpdate = true;
+      window._sanitizedFloorLightmapMTex = cleanTex;
+      console.log('[MuraliStudio] Sanitized floor lightmap: removed ' + cleaned + ' legacy shadow pixels');
+      return cleanTex;
+    } catch (e) {
+      console.warn('[MuraliStudio] Error sanitizing floor lightmap:', e);
+    }
+    return lightmapMTexture;
+  }
+
+
   function getOrCreateSurfaceMaterial(surfaceKey, targetMesh, scene) {
     if (customMaterials[surfaceKey]) {
       return customMaterials[surfaceKey];
@@ -734,7 +863,11 @@
         newMat.sTextureLightMap = origMat.uniforms.sTextureLightMap.value;
       }
       if (origMat.uniforms.sTextureLightMapM && origMat.uniforms.sTextureLightMapM.value) {
-        newMat.uniforms.sTextureLightMapM.value = origMat.uniforms.sTextureLightMapM.value;
+        let mTex = origMat.uniforms.sTextureLightMapM.value;
+        if (surfaceKey === 'floor') {
+          mTex = sanitizeFloorLightmapTexture(mTex);
+        }
+        newMat.uniforms.sTextureLightMapM.value = mTex;
         newMat.sTextureLightMapM = origMat.uniforms.sTextureLightMapM.value;
       }
     }
@@ -871,6 +1004,11 @@
 
     // Get or create dedicated PBR material
     const mat = getOrCreateSurfaceMaterial(surfaceKey, mesh, scene);
+    if (surfaceKey === 'floor' && mat && mat.uniforms && mat.uniforms.sTextureLightMapM && mat.uniforms.sTextureLightMapM.value) {
+      const cleanMTex = sanitizeFloorLightmapTexture(mat.uniforms.sTextureLightMapM.value);
+      mat.uniforms.sTextureLightMapM.value = cleanMTex;
+      mat.sTextureLightMapM = cleanMTex;
+    }
     if (!mat || !mat.uniforms) return;
 
     let repeat = formatCfg.repeatFloor;
@@ -894,6 +1032,23 @@
 
       if (mat.uniforms.offsetRepeat) {
         mat.uniforms.offsetRepeat.value.set(0, 0, repeat[0], repeat[1]);
+      }
+
+      // Neutral flat normal map for luxury stone slabs to eliminate wood floor plank grooves
+      if (!window._flatStoneNormalTex && window.THREE) {
+        const c = document.createElement('canvas');
+        c.width = c.height = 4;
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = 'rgb(128, 128, 255)'; // Neutral flat normal (0, 0, 1)
+        ctx.fillRect(0, 0, 4, 4);
+        window._flatStoneNormalTex = new THREE.Texture(c);
+        window._flatStoneNormalTex.wrapS = THREE.RepeatWrapping;
+        window._flatStoneNormalTex.wrapT = THREE.RepeatWrapping;
+        window._flatStoneNormalTex.needsUpdate = true;
+      }
+      if (mat.uniforms.sTextureNormalMap && window._flatStoneNormalTex) {
+        mat.uniforms.sTextureNormalMap.value = window._flatStoneNormalTex;
+        mat.sTextureNormalMap = window._flatStoneNormalTex;
       }
 
       // Dielectric stone: 0.0 metalness eliminates harsh mobile glare
@@ -949,17 +1104,19 @@
     const root = document.createElement('div');
     root.id = 'murali-stone-studio-root';
     root.innerHTML = `
-      <!-- Sleek Floating Control Bar (Non-Colliding Glass Pill) -->
+      <!-- Sleek Floating Controls: Distinct Studio Button & Separate Surface Switcher -->
       <div id="murali-control-bar" class="murali-control-bar">
         <button id="murali-toggle-studio" class="murali-ctrl-btn" title="Open Stone Customizer Studio">
           <span class="murali-ctrl-icon">❖</span>
           <span class="murali-ctrl-text">Stone Studio</span>
-          <span class="murali-ctrl-badge" id="murali-active-badge">Living Floor</span>
         </button>
-        <div class="murali-quick-chips">
-          <button class="murali-chip active" data-surface="floor" title="Living Floor">Floor</button>
-          <button class="murali-chip" data-surface="wall_accent" title="Accent Wall">Accent Wall</button>
-          <button class="murali-chip" data-surface="wall_main" title="Main Walls">Walls</button>
+        <div class="murali-surface-bar">
+          <span class="murali-surface-label">Surface:</span>
+          <div class="murali-quick-chips">
+            <button class="murali-chip active" data-surface="floor" title="Living Floor">Floor</button>
+            <button class="murali-chip" data-surface="wall_accent" title="Accent Wall">Accent Wall</button>
+            <button class="murali-chip" data-surface="wall_main" title="Main Walls">Walls</button>
+          </div>
         </div>
       </div>
 
@@ -1203,7 +1360,7 @@
     if (!grid) return;
 
     grid.innerHTML = '';
-    const pool = customStones.concat(SHOWROOM_STONES);
+    const pool = customStones.concat(dynamicShowroomStones);
     const filtered = pool.filter(s => {
       const matchCat = (state.filterCat === 'all') ||
         (state.filterCat === 'custom' && s.isCustom) ||
@@ -1273,6 +1430,8 @@
         state.isOpen = !state.isOpen;
         drawer.classList.toggle('open', state.isOpen);
         toggleBtn.classList.toggle('active', state.isOpen);
+        const ctrlBar = document.getElementById('murali-control-bar');
+        if (ctrlBar) ctrlBar.classList.toggle('drawer-open', state.isOpen);
       });
     }
     if (closeBtn && drawer) {
@@ -1280,6 +1439,8 @@
         state.isOpen = false;
         drawer.classList.remove('open');
         if (toggleBtn) toggleBtn.classList.remove('active');
+        const ctrlBar = document.getElementById('murali-control-bar');
+        if (ctrlBar) ctrlBar.classList.remove('drawer-open');
       });
     }
 
@@ -1488,44 +1649,51 @@
     const style = document.createElement('style');
     style.id = 'murali-studio-styles';
     style.textContent = `
-      /* ── Top Floating Glass Control Pill (Zero Screen Clutter) ── */
+      /* ── Top Floating Controls (Two Distinct, Non-Merged Capsules) ── */
       .murali-control-bar {
         position: fixed;
         top: 14px;
         left: 14px;
         z-index: 100;
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
-        gap: 8px;
-        background: rgba(14, 14, 18, 0.88);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(197, 160, 89, 0.35);
-        padding: 5px 8px;
-        border-radius: 40px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        gap: 12px;
+        background: transparent;
+        border: none;
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
         pointer-events: auto;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+      }
+      .murali-control-bar.drawer-open {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateX(-24px);
       }
       .murali-ctrl-btn {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         gap: 8px;
         background: linear-gradient(135deg, #C5A059, #FFD700);
         color: #0E0E10;
-        border: none;
-        padding: 7px 14px;
-        border-radius: 30px;
-        font-size: 0.78rem;
+        border: 1px solid rgba(255, 215, 0, 0.4);
+        padding: 8px 16px;
+        border-radius: 9999px;
+        font-size: 0.76rem;
         font-weight: 800;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.06em;
         text-transform: uppercase;
         cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 14px rgba(197, 160, 89, 0.35);
         transition: transform 0.2s, box-shadow 0.2s;
+        flex-shrink: 0;
       }
       .murali-ctrl-btn:hover {
-        transform: scale(1.03);
-        box-shadow: 0 0 16px rgba(197, 160, 89, 0.6);
+        transform: translateY(-1px) scale(1.02);
+        box-shadow: 0 6px 24px rgba(197, 160, 89, 0.55);
       }
       .murali-ctrl-btn.active {
         background: #F5F0E8;
@@ -1533,41 +1701,55 @@
       }
       .murali-ctrl-icon {
         font-size: 0.95rem;
+        line-height: 1;
       }
-      .murali-ctrl-badge {
-        background: rgba(14, 14, 16, 0.85);
-        color: #FFD700;
-        font-size: 0.65rem;
-        padding: 2px 7px;
-        border-radius: 12px;
+      .murali-surface-bar {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(14, 14, 18, 0.92);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(197, 160, 89, 0.35);
+        padding: 5px 12px;
+        border-radius: 9999px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      }
+      .murali-surface-label {
+        font-size: 0.68rem;
         font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #9E9689;
+        margin-right: 2px;
       }
       .murali-quick-chips {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 4px;
+        gap: 6px;
       }
       .murali-chip {
         background: rgba(255, 255, 255, 0.06);
         color: #D5CEC3;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-size: 0.68rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 5px 12px;
+        border-radius: 9999px;
+        font-size: 0.72rem;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.2s ease;
       }
       .murali-chip:hover {
         background: rgba(197, 160, 89, 0.2);
         color: #FFF;
-        border-color: #C5A059;
+        border-color: rgba(197, 160, 89, 0.6);
       }
       .murali-chip.active {
-        background: #C5A059;
+        background: linear-gradient(135deg, #C5A059, #DFBA73);
         color: #0E0E10;
         border-color: #C5A059;
-        font-weight: 700;
+        font-weight: 800;
+        box-shadow: 0 2px 8px rgba(197, 160, 89, 0.3);
       }
 
       /* ── Slide-Out Customizer Drawer ── */
@@ -2075,7 +2257,9 @@
           top: 8px;
           left: 8px;
           right: 8px;
-          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 8px;
+          justify-content: flex-start;
         }
         .murali-drawer {
           width: 100vw;
@@ -2111,6 +2295,15 @@
   window.addEventListener('showroomReady', function () {
     tryInitStudio();
   });
+  // Expose studio API globally
+  window.muraliStoneStudio = window.MuraliStoneStudio = {
+    applyCurrentStoneToSurface: applyCurrentStoneToSurface,
+    getSurfaceMesh: getSurfaceMesh,
+    state: state,
+    customStones: customStones,
+    dynamicShowroomStones: dynamicShowroomStones
+  };
+
   window.addEventListener('showroomStarted', function () {
     tryInitStudio();
     const scene = getShowroomInteriorScene();

@@ -39,6 +39,96 @@
     }
   }
 
+  function setStorage(key, val) {
+    try {
+      localStorage.setItem(key, JSON.stringify(val));
+    } catch(e) {}
+  }
+
+  function normalizeKey(str) {
+    return (str || '').toString().toLowerCase().replace(/[^a-z0-9]/g, '');
+  }
+
+  // Unified Central MuraliSync Engine
+  const MuraliSync = {
+    getStorage,
+    setStorage,
+    normalizeKey,
+
+    getCustomStones(onlyApproved = true) {
+      const all = getStorage('murali_custom_products', []);
+      if (!Array.isArray(all)) return [];
+      if (!onlyApproved) return all;
+      return all.filter(s => s.status !== 'draft');
+    },
+
+    getCatalogOverrides() {
+      return getStorage('murali_catalog_overrides', {});
+    },
+
+    getPricingCatalog() {
+      return getStorage('murali_pricing_catalog', []);
+    },
+
+    getCustomVisualizers(onlyApproved = true) {
+      const all = getStorage('murali_custom_visualizers', []);
+      if (!Array.isArray(all)) return [];
+      if (!onlyApproved) return all;
+      return all.filter(v => v.status !== 'draft');
+    },
+
+    findPriceForStone(nameOrSlug) {
+      const list = this.getPricingCatalog();
+      if (!list || !list.length || !nameOrSlug) return null;
+      const clean = normalizeKey(nameOrSlug);
+      return list.find(p => {
+        const pClean = normalizeKey(p.name || p.id || '');
+        return clean === pClean || clean.includes(pClean) || pClean.includes(clean);
+      }) || null;
+    },
+
+    matchStone(a, b) {
+      if (!a || !b) return false;
+      if (a === b) return true;
+      const normA = normalizeKey(typeof a === 'object' ? (a.slug || a.id || a.name || '') : a);
+      const normB = normalizeKey(typeof b === 'object' ? (b.slug || b.id || b.name || '') : b);
+      return normA === normB || normA.includes(normB) || normB.includes(normA);
+    },
+
+    broadcastSync(type = 'update', data = {}) {
+      try {
+        localStorage.setItem('murali_last_sync', Date.now().toString());
+      } catch(e) {}
+      const evt = new CustomEvent('murali-sync-event', { detail: { type, data, timestamp: Date.now() } });
+      window.dispatchEvent(evt);
+      // Forward to nested iframes
+      document.querySelectorAll('iframe').forEach(f => {
+        try {
+          f.contentWindow && f.contentWindow.postMessage({ type: 'murali-sync-event', detail: { type, data } }, '*');
+        } catch(e) {}
+      });
+    },
+
+    listeners: [],
+    onSync(cb) {
+      if (typeof cb === 'function') {
+        this.listeners.push(cb);
+      }
+    },
+
+    _triggerSync(source) {
+      applyGlobalSettings();
+      applyHomepageSync();
+      applyProductsSync();
+      this.listeners.forEach(cb => {
+        try { cb(source); } catch(e) { console.error('Sync listener error:', e); }
+      });
+    }
+  };
+
+  window.MuraliSync = MuraliSync;
+
+
   // 1. TOP ANNOUNCEMENT BANNER & CONTACT SETTINGS
   function applyGlobalSettings() {
     const settings = getStorage('murali_site_settings', null);
@@ -349,23 +439,18 @@
 
     // Helper to find match
     const findPrice = (name) => {
-      const clean = (name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-      return pricingCatalog.find(p => {
-        const pClean = p.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-        return clean.includes(pClean) || pClean.includes(clean);
-      });
+      return MuraliSync.findPriceForStone(name);
     };
 
     // Watch for product tiles in the DOM
     const enhanceTiles = () => {
-      document.querySelectorAll('.product-tile').forEach(tile => {
-        if (tile.dataset.pricingEnhanced) return;
+      document.querySelectorAll('.product-tile:not([data-pricing-enhanced="true"])').forEach(tile => {
+        tile.dataset.pricingEnhanced = 'true';
         const titleEl = tile.querySelector('.tile-title');
         if (!titleEl) return;
         const stoneName = titleEl.textContent.trim();
         const priceInfo = findPrice(stoneName);
         if (priceInfo) {
-          tile.dataset.pricingEnhanced = 'true';
           const metaEl = tile.querySelector('.tile-meta');
           if (metaEl) {
             const badgeClass = priceInfo.status === 'In Stock' ? 'color:#10B981;' : (priceInfo.status === 'Low Stock' ? 'color:#F59E0B;' : 'color:#EF4444;');
@@ -382,8 +467,25 @@
     // In case products render asynchronously
     const observer = new MutationObserver(enhanceTiles);
     const track = document.getElementById('catalogue-carousel-track');
-    if (track) observer.observe(track, { childList: true, subtree: true });
+    if (track) observer.observe(track, { childList: true });
   }
+
+  // Global Listeners for Cross-Tab & Cross-Iframe Synchronization
+  window.addEventListener('storage', (e) => {
+    if (!e.key || e.key.startsWith('murali_')) {
+      MuraliSync._triggerSync('storage:' + e.key);
+    }
+  });
+
+  window.addEventListener('message', (e) => {
+    if (e.data && e.data.type === 'murali-sync-event') {
+      MuraliSync._triggerSync('message');
+    }
+  });
+
+  window.addEventListener('murali-sync-event', (e) => {
+    MuraliSync._triggerSync('local');
+  });
 
   // Execute on DOMContentLoaded or immediately if already loaded
   if (document.readyState === 'loading') {

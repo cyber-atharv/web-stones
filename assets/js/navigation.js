@@ -180,6 +180,55 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+
+  // ── Two-Tier Cascading Visualizer Dropdown & Room Selector Logic ──
+  const dropdownToggle = document.getElementById('visualizersDropdown') || document.querySelector('.nav-dropdown-toggle');
+  const navDropdown = document.querySelector('.nav-dropdown');
+
+  if (dropdownToggle && navDropdown) {
+    // Handle toggle click (touch and click interactions)
+    dropdownToggle.addEventListener('click', (e) => {
+      // If clicking directly on desktop without mobile, let hover handle or toggle on touch/click
+      if (window.matchMedia('(max-width: 1024px)').matches || ('ontouchstart' in window)) {
+        e.preventDefault();
+        navDropdown.classList.toggle('open');
+      }
+    });
+
+    // Handle room expand buttons
+    document.querySelectorAll('.nav-room-expand-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const parentCard = btn.closest('.nav-dropdown-has-rooms');
+        if (parentCard) {
+          parentCard.classList.toggle('open');
+        }
+      });
+    });
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+      if (!navDropdown.contains(e.target)) {
+        navDropdown.classList.remove('open');
+        document.querySelectorAll('.nav-dropdown-has-rooms.open').forEach(card => card.classList.remove('open'));
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        navDropdown.classList.remove('open');
+        document.querySelectorAll('.nav-dropdown-has-rooms.open').forEach(card => card.classList.remove('open'));
+      }
+    });
+  }
+
+  // Hook new room pills to hover cursor
+  if (typeof attachCursorHover === 'function') {
+    attachCursorHover(document.querySelectorAll('.nav-dropdown-card, .nav-dropdown-card-link, .nav-room-pill, .nav-room-expand-btn, .m-room-item'));
+  }
+
   // Hook menu items to the cursor animations
   attachCursorHover(document.querySelectorAll('.logo-link, .nav-link, .nav-quote-btn, .nav-login-btn, .mobile-login-btn, .hamburger, .mobile-nav-link, .mobile-quote-btn, .theme-toggle-btn'));
 
@@ -218,8 +267,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // If Admin is authenticated, update Login button & links to Admin Suite
   if (localStorage.getItem('murali_admin_auth') === 'true') {
+    const adminPath = window.location.pathname.includes('/pages/') ? 'admin.html' : 'pages/admin.html';
     document.querySelectorAll('.nav-login-btn').forEach(btn => {
-      btn.setAttribute('href', 'admin.html');
+      btn.setAttribute('href', adminPath);
       btn.classList.add('logged-in');
       btn.setAttribute('title', 'Admin Dashboard Active');
       btn.innerHTML = `
@@ -227,8 +277,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <span style="color:#6EE7B7;">Admin Suite</span>
       `;
     });
-    document.querySelectorAll('a[href="login.html"]').forEach(a => {
-      a.setAttribute('href', 'admin.html');
+    document.querySelectorAll('a[href*="login.html"]').forEach(a => {
+      a.setAttribute('href', adminPath);
       if (a.textContent.includes('Login') || a.textContent.includes('Admin')) {
         a.innerHTML = '<span style="color:#C5A059; font-size:9px; vertical-align:middle; margin-right:3px;">●</span> Admin Suite';
       }
