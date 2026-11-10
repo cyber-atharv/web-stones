@@ -743,6 +743,25 @@
     .form-grid-3 { grid-template-columns: 1fr 1fr; }
   }
 
+  /* Admin Mobile Bottom Navigation Dock */
+  .admin-mobile-dock {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 62px;
+    background: rgba(14, 14, 18, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(197, 160, 89, 0.25);
+    z-index: 1000;
+    padding: 0 0.5rem;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
+  }
+
   @media (max-width: 900px) {
     aside.admin-sidebar {
       transform: translateX(-100%);
@@ -764,27 +783,8 @@
       grid-template-columns: 1fr;
     }
     .admin-mobile-dock {
-      display: flex;
+      display: flex !important;
     }
-  }
-
-  /* Admin Mobile Bottom Navigation Dock */
-  .admin-mobile-dock {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 62px;
-    background: rgba(14, 14, 18, 0.96);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(197, 160, 89, 0.25);
-    z-index: 1000;
-    padding: 0 0.5rem;
-    align-items: center;
-    justify-content: space-around;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
   }
   .mobile-dock-btn {
     display: flex;
