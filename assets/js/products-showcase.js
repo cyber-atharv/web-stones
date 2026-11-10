@@ -14,6 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const paginationContainer = document.getElementById('pagination-container');
   const paginationStatus = document.getElementById('pagination-status');
 
+  // Adorzy Browse Controls & Mobile Drawer Elements
+  const sortSelect = document.getElementById('sort-select');
+  const activeFacetTag = document.getElementById('active-facet-count-tag');
+  const mobileFilterOpenBtn = document.getElementById('mobile-filter-open-btn');
+  const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
+  const sidebarApplyBtn = document.getElementById('sidebar-apply-btn');
+  const filterBackdrop = document.getElementById('filter-drawer-backdrop');
+  const catalogueSidebar = document.getElementById('catalogue-sidebar');
+  const mobileCountBadge = document.getElementById('mobile-filter-count-badge');
+  const mobileItemsCounter = document.getElementById('mobile-items-counter');
+
   if (!container) return;
 
   // Embedded baseline catalog for instantaneous zero-latency render before network fetch
@@ -1050,34 +1061,51 @@ document.addEventListener('DOMContentLoaded', () => {
       tile.setAttribute('title', `${product.name} - ${product.category || 'Stone / Tile'}`);
 
       const encName = encodeURIComponent(product.name);
-      const subLabel = product.subcategory || product.category || 'Stone Slab';
+      const subLabel = product.subcategory || product.category || 'Natural Stone';
       const sizeLabel = product.size_mm || (product.type === 'Tile' ? '600×600 mm' : product.thickness || '18mm Slab');
       const finishLabel = product.finish || 'Polished';
-      const priceBadge = product.price_range ? `<span style="color:#E8C98A; font-weight:600; font-size:0.68rem;">${escapeHtml(product.price_range)}</span>` : '';
+
+      let badgeLeft = '✦ Quarry Direct';
+      const catLower = (product.category || '').toLowerCase();
+      const typeLower = (product.type || '').toLowerCase();
+      if (catLower.includes('marble') || typeLower.includes('marble')) {
+        badgeLeft = '✦ Bookmatch';
+      } else if (catLower.includes('vitrified') || catLower.includes('tile') || typeLower.includes('tile')) {
+        badgeLeft = '✦ PGVT Vitrified';
+      } else if (catLower.includes('onyx') || (product.name && product.name.toLowerCase().includes('onyx'))) {
+        badgeLeft = '✦ Rare Onyx';
+      }
+      const badgeRight = product.origin ? product.origin.toUpperCase() : finishLabel.toUpperCase();
+      const isPages = window.location.pathname.includes('/pages/');
+      const imgPrefix = (isPages && !product.image_url.startsWith('http') && !product.image_url.startsWith('../') ? '../' : '');
 
       tile.innerHTML = `
-        <div class="tile-header" style="display:flex; flex-direction:column; padding:0.65rem 0.5rem; min-height:50px; justify-content:center; align-items:center; background:#0a0a0c;">
-          <span class="tile-title" style="font-size:0.75rem; letter-spacing:0.06em;">${escapeHtml(product.name)}</span>
-          <span style="font-size:0.62rem; color:#8A8A80; text-transform:uppercase; letter-spacing:0.06em; margin-top:2px;">${escapeHtml(subLabel)}</span>
-        </div>
-        <div class="tile-img-box" style="position:relative; aspect-ratio:1; overflow:hidden; background:#141416;">
+        <div class="tile-img-box">
+          <div class="tile-badge-row">
+            <span class="tile-badge-left">${escapeHtml(badgeLeft)}</span>
+            <span class="tile-badge-right">${escapeHtml(badgeRight)}</span>
+          </div>
           <img class="tile-img" 
-               src="${escapeHtml((window.location.pathname.includes('/pages/') && !product.image_url.startsWith('http') && !product.image_url.startsWith('../') ? '../' : '') + product.image_url)}" 
+               src="${escapeHtml(imgPrefix + product.image_url)}" 
                alt="${escapeHtml(product.name)}" 
                loading="lazy" 
-               style="width:100%; height:100%; object-fit:cover; transition:transform 0.45s cubic-bezier(0.16, 1, 0.3, 1); will-change: transform;"
-               onerror="if(!this.dataset.triedFallback){this.dataset.triedFallback='1';this.src=this.src.replace('.webp','.jpg');}else{this.onerror=null;this.src='assets/images/favicon.png';}"/>
+               onerror="if(!this.dataset.triedFallback){this.dataset.triedFallback='1';this.src=this.src.replace('.webp','.jpg');}else{this.onerror=null;this.src='${imgPrefix}assets/images/favicon.png';}"/>
+          <div class="tile-img-gradient"></div>
         </div>
-        <div class="tile-meta" style="padding:0.55rem 0.65rem; font-size:0.72rem; color:#8A8A80; background:#0e0e11; border-top:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
+        <div class="tile-header">
+          <h3 class="tile-title">${escapeHtml(product.name)}</h3>
+          <span class="tile-subtitle">${escapeHtml(subLabel)}</span>
+        </div>
+        <div class="tile-meta">
           <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:65%;">${escapeHtml(sizeLabel)}</span>
-          <span style="color:#C5A059; font-weight:500;">${escapeHtml(finishLabel)}</span>
+          <span style="color:#C5A059; font-weight:600;">${escapeHtml(finishLabel)}</span>
         </div>
-        <div class="tile-actions" style="display:flex; border-top:1px solid rgba(255,255,255,0.08); background:#0c0c0e;">
-          <a href="pages/visualizer.html?material=${encName}" style="flex:1; padding:0.55rem 0.2rem; font-size:0.72rem; text-align:center; color:#C5A059; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; border-right:1px solid rgba(255,255,255,0.08); text-decoration:none;" title="Preview in Room Visualizer">
-            Visualize
+        <div class="tile-actions">
+          <a class="tile-action-btn tile-btn-visualize" href="${isPages ? '' : 'pages/'}visualizer.html?material=${encName}" title="Preview in Room Visualizer">
+            ✦ 3D Visualize
           </a>
-          <a href="contact.html?material=${encName}" style="flex:1; padding:0.55rem 0.2rem; font-size:0.72rem; text-align:center; color:#E8E6E1; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; text-decoration:none;" title="Request Quote">
-            Quote &rarr;
+          <a class="tile-action-btn tile-btn-quote" href="https://wa.me/916366380051?text=${encodeURIComponent('Hi Murali Granites, I am inquiring about ' + product.name + ' (' + (product.category || 'Natural Stone') + '). Could you share pricing and slab availability?')}" target="_blank" rel="noopener noreferrer" title="Inquire on WhatsApp">
+            WhatsApp Quote
           </a>
         </div>
       `;
@@ -1214,6 +1242,40 @@ document.addEventListener('DOMContentLoaded', () => {
       return true;
     });
 
+    // Sort Handler (Adorzy-style A-Z, Z-A, or default featured)
+    const sortVal = sortSelect ? sortSelect.value : 'default';
+    if (sortVal === 'name-asc') {
+      filteredItems.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+    } else if (sortVal === 'name-desc') {
+      filteredItems.sort((a, b) => (b.name || '').localeCompare(a.name || ''));
+    }
+
+    // Active Facet Count Calculation & Mobile Badge Updates
+    let activeFiltersCount = 0;
+    if (query) activeFiltersCount++;
+    if (origin !== 'all') activeFiltersCount++;
+    if (color !== 'all') activeFiltersCount++;
+    if (finish !== 'all') activeFiltersCount++;
+    if (size !== 'all') activeFiltersCount++;
+    if (currentCategory !== 'all') activeFiltersCount++;
+
+    if (mobileCountBadge) {
+      if (activeFiltersCount > 0) {
+        mobileCountBadge.textContent = activeFiltersCount;
+        mobileCountBadge.style.display = 'inline-flex';
+      } else {
+        mobileCountBadge.style.display = 'none';
+      }
+    }
+    if (activeFacetTag) {
+      activeFacetTag.textContent = activeFiltersCount > 0 
+        ? `${filteredItems.length} items (${activeFiltersCount} active filter${activeFiltersCount > 1 ? 's' : ''})`
+        : `Showing ${filteredItems.length} materials`;
+    }
+    if (mobileItemsCounter) {
+      mobileItemsCounter.textContent = `${filteredItems.length} Items`;
+    }
+
     renderCurrentPage(false);
   }
 
@@ -1233,6 +1295,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (colorFilter) colorFilter.value = 'all';
     if (finishFilter) finishFilter.value = 'all';
     if (sizeFilter) sizeFilter.value = 'all';
+    if (sortSelect) sortSelect.value = 'default';
     currentCategory = 'all';
 
     if (categoryTabs) {
@@ -1244,13 +1307,31 @@ document.addEventListener('DOMContentLoaded', () => {
     filterDataset();
   }
 
-  // 7. Event Listeners
+  // 7. Mobile Filter Drawer Open / Close Handlers
+  function openFilterDrawer() {
+    if (catalogueSidebar) catalogueSidebar.classList.add('drawer-open');
+    if (filterBackdrop) filterBackdrop.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFilterDrawer() {
+    if (catalogueSidebar) catalogueSidebar.classList.remove('drawer-open');
+    if (filterBackdrop) filterBackdrop.classList.remove('visible');
+    document.body.style.overflow = '';
+  }
+
+  // 8. Event Listeners
   if (searchInput) searchInput.addEventListener('input', debouncedFilter);
   if (originFilter) originFilter.addEventListener('change', filterDataset);
   if (colorFilter) colorFilter.addEventListener('change', filterDataset);
   if (finishFilter) finishFilter.addEventListener('change', filterDataset);
   if (sizeFilter) sizeFilter.addEventListener('change', filterDataset);
+  if (sortSelect) sortSelect.addEventListener('change', filterDataset);
   if (resetBtn) resetBtn.addEventListener('click', resetAllFilters);
+
+  if (mobileFilterOpenBtn) mobileFilterOpenBtn.addEventListener('click', openFilterDrawer);
+  if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeFilterDrawer);
+  if (sidebarApplyBtn) sidebarApplyBtn.addEventListener('click', closeFilterDrawer);
+  if (filterBackdrop) filterBackdrop.addEventListener('click', closeFilterDrawer);
 
   if (loadMoreBtn) {
     loadMoreBtn.addEventListener('click', () => {
