@@ -258,9 +258,35 @@
       background: #000;
     }
 
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
+    }
+
     @media (max-width: 900px) {
       .v3-nav-links { display: none; }
-      .v3-guidance-bar { font-size: 0.62rem; }
+      .v3-quick-links { display: none; }
+      .v3-guidance-text { display: none; }
+      .v3-guidance-bar {
+        font-size: 0.62rem;
+        padding: 0 0.5rem;
+        justify-content: center;
+      }
+      .v3-room-switcher {
+        width: 100%;
+        max-width: 100%;
+        justify-content: center;
+        gap: 3px;
+        padding: 2px;
+        box-sizing: border-box;
+      }
+      .v3-room-tab {
+        padding: 3px 5px;
+        font-size: 0.6rem;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+      }
     }
   </style>
 </head>
@@ -345,6 +371,7 @@
     <div class="v3-room-switcher">
       <button id="v3BtnLiving" class="v3-room-tab active" onclick="setV3Room('living')">🛋️ Living Suite</button>
       <button id="v3BtnBathroom" class="v3-room-tab" onclick="setV3Room('bathroom')">🛁 Luxury Bathroom <span class="v3-badge-webgl">WebGL</span></button>
+      <button id="v3BtnKitchen" class="v3-room-tab" onclick="setV3Room('kitchen')">🍽️ Luxury Kitchen <span class="v3-badge-webgl">WebGL</span></button>
     </div>
 
     <div class="v3-quick-links">
@@ -364,10 +391,12 @@
       const desc = document.getElementById('v3-room-desc');
       const btnLiv = document.getElementById('v3BtnLiving');
       const btnBth = document.getElementById('v3BtnBathroom');
+      const btnKit = document.getElementById('v3BtnKitchen');
       const rawLink = document.getElementById('v3RawLink');
 
       if (btnLiv) btnLiv.classList.toggle('active', roomKey === 'living');
       if (btnBth) btnBth.classList.toggle('active', roomKey === 'bathroom');
+      if (btnKit) btnKit.classList.toggle('active', roomKey === 'kitchen');
 
       if (roomKey === 'bathroom') {
         if (frame) frame.src = 'visualizer-2.html?room=bathroom&embed=1';
@@ -375,6 +404,13 @@
         if (rawLink) {
           rawLink.href = 'visualizer-2.html?room=bathroom';
           rawLink.textContent = 'Full Studio Viewport ↗';
+        }
+      } else if (roomKey === 'kitchen') {
+        if (frame) frame.src = 'visualizer-2.html?room=kitchen&embed=1';
+        if (desc) desc.innerHTML = '<strong>3D Luxury Chef Kitchen Suite (WebGL):</strong> Customize <strong>Kitchen Floor</strong>, <strong>Waterfall Island &amp; Countertop Table</strong>, and <strong>Wall Backsplash</strong> with authentic granite, marble, and vitrified tiles.';
+        if (rawLink) {
+          rawLink.href = 'visualizer-2.html?room=kitchen';
+          rawLink.textContent = 'Full Kitchen Viewport ↗';
         }
       } else {
         if (frame) frame.src = 'V1/index.html?v=3.6.1';
@@ -390,6 +426,8 @@
       const params = new URLSearchParams(window.location.search);
       if (params.get('room') === 'bathroom' || params.get('room') === 'bath') {
         setV3Room('bathroom');
+      } else if (params.get('room') === 'kitchen' || params.get('room') === 'kit') {
+        setV3Room('kitchen');
       }
     })();
       // Central MuraliSync Cross-Window & Iframe Forwarder
