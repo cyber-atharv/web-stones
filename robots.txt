@@ -1,7 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /pages/admin.html
 Disallow: /admin.html
+Disallow: /pages/login.html
 Disallow: /login.html
-Disallow: /backup.html
 
 Sitemap: https://muraligranites.com/sitemap.xml

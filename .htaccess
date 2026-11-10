@@ -25,15 +25,12 @@
 
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
-  <FilesMatch "\.(jpg|jpeg|png|webp|svg)$">
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "camera=(self), microphone=(), geolocation=()"
+  <FilesMatch "\.(jpg|jpeg|png|webp|svg|json|bin|woff|woff2)$">
     Header set Access-Control-Allow-Origin "*"
   </FilesMatch>
-</IfModule>
-
-# Transparently support /pages/ URLs
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteRule ^pages/(.*)$ /$1 [L,QSA]
 </IfModule>
 
 # Prevent directory listings
