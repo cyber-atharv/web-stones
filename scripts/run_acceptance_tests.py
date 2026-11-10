@@ -90,7 +90,8 @@ def run_tests():
         'assets/images/rooms/living-room-2.jpg',
         'assets/images/rooms/washroom-suite.jpg',
         'assets/images/rooms/washroom-indian.jpg',
-        'assets/images/rooms/elevation.jpg'
+        'assets/images/rooms/elevation.jpg',
+        'assets/images/rooms/kitchen-luxury.jpg'
     ]
     for nb in new_bases:
         if check_resource(nb, server_active):
