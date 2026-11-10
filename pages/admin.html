@@ -758,10 +758,122 @@
     }
     .admin-content {
       padding: 1.2rem;
+      padding-bottom: 85px !important;
     }
     .form-grid-3, .form-grid-2 {
       grid-template-columns: 1fr;
     }
+    .admin-mobile-dock {
+      display: flex;
+    }
+  }
+
+  /* Admin Mobile Bottom Navigation Dock */
+  .admin-mobile-dock {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 62px;
+    background: rgba(14, 14, 18, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(197, 160, 89, 0.25);
+    z-index: 1000;
+    padding: 0 0.5rem;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
+  }
+  .mobile-dock-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.66rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    min-height: 48px;
+    min-width: 48px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .mobile-dock-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+  }
+  .mobile-dock-btn.active, .mobile-dock-btn:hover {
+    color: var(--gold);
+    background: rgba(197, 160, 89, 0.1);
+  }
+
+  /* Preference Presets Box & Camera Capture Styles */
+  .preset-banner {
+    background: rgba(197, 160, 89, 0.08);
+    border: 1px dashed rgba(197, 160, 89, 0.35);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.4rem;
+  }
+  .preset-banner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .preset-banner-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .camera-action-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .btn-camera-capture {
+    background: linear-gradient(135deg, #C5A059, #DFBA73);
+    color: #0E0E10;
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    padding: 0.65rem 1.2rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.25);
+  }
+  .btn-camera-capture:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(197, 160, 89, 0.4);
+  }
+  .webp-conversion-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    color: #10B981;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-top: 6px;
   }
 </style>
 </head>
@@ -1226,30 +1338,48 @@
         <div class="content-card">
           <div class="card-header-bar">
             <div class="card-title-group">
-              <h2>Add New Natural Stone Slab</h2>
-              <p>Publish a new granite, marble, or quartzite slab directly to your live catalogue</p>
+              <h2>Add New Natural Stone Slab / Tile</h2>
+              <p>Snap photo via mobile camera or upload image — auto-converts to WebP and propagates to all visualizers &amp; catalog</p>
             </div>
+          </div>
+
+          <!-- Reusable Preference Presets Selection -->
+          <div class="preset-banner">
+            <div class="preset-banner-header">
+              <span class="preset-banner-title">⚡ Fast Preference Presets (Auto-Fill Specifications)</span>
+              <span style="font-size:0.7rem; color:var(--text-muted);">Scroll and select to auto-populate specifications</span>
+            </div>
+            <select class="admin-select" id="stPresetSelect" onchange="applyStonePreset(this.value)">
+              <option value="">-- Choose from Saved Preference Presets (Optional) --</option>
+              <option value="rajasthan-granite">Rajasthan 18mm Polished Granite</option>
+              <option value="south-flamed-granite">South Indian Flamed Granite (Outdoor / Steps)</option>
+              <option value="makrana-marble">Makrana Pure White Marble</option>
+              <option value="morbi-pgvt-tile">Morbi 600×1200 mm PGVT High-Gloss Vitrified Tile</option>
+              <option value="parking-tile-400">400×400 mm Heavy-Duty Parking Tile</option>
+            </select>
           </div>
 
           <form id="stoneForm" onsubmit="handleSaveStone(event)">
             <div class="form-grid-3">
               <div class="admin-form-group">
-                <label>Stone Name *</label>
+                <label>Stone Name * <small style="color:var(--gold); font-size:0.7rem;">(Mandatory)</small></label>
                 <input class="admin-input" id="stName" placeholder="e.g. Imperial Gold Granite" required type="text"/>
               </div>
               <div class="admin-form-group">
-                <label>Category *</label>
+                <label>Category</label>
                 <select class="admin-select" id="stCategory">
                   <option value="Granite">Granite</option>
                   <option value="Imported Granite">Imported Granite</option>
                   <option value="Marble">Marble</option>
+                  <option value="Vitrified Tiles">Vitrified Tiles</option>
                   <option value="Quartzite">Quartzite</option>
                   <option value="Sandstone">Sandstone</option>
+                  <option value="Onyx">Onyx</option>
                 </select>
               </div>
               <div class="admin-form-group">
-                <label>Quarry / Origin *</label>
-                <input class="admin-input" id="stOrigin" placeholder="e.g. Bargur, Tamil Nadu" required type="text"/>
+                <label>Quarry / Origin <small style="color:var(--text-muted); font-size:0.7rem;">(Defaults to India)</small></label>
+                <input class="admin-input" id="stOrigin" placeholder="e.g. Bargur, Tamil Nadu (Optional)" type="text"/>
               </div>
             </div>
 
@@ -1265,8 +1395,8 @@
                 </select>
               </div>
               <div class="admin-form-group">
-                <label>Thickness</label>
-                <input class="admin-input" id="stThickness" placeholder="e.g. 18mm - 20mm" value="18mm" type="text"/>
+                <label>Thickness / Size Format</label>
+                <input class="admin-input" id="stThickness" placeholder="e.g. 18mm or 600x1200 mm" value="18mm" type="text"/>
               </div>
               <div class="admin-form-group">
                 <label>Primary Color Base</label>
@@ -1287,31 +1417,55 @@
                 <input class="admin-input" id="stUsage" placeholder="e.g. Kitchen Countertops, Living Room Flooring, Cladding" type="text"/>
               </div>
               <div class="admin-form-group">
-                <label>Stone Image Source (Upload File or Enter URL) *</label>
-                <input class="admin-input" id="stImageUrl" placeholder="assets/images/products/... or https://..." type="text"/>
+                <label>Stone Image URL / Data</label>
+                <input class="admin-input" id="stImageUrl" placeholder="Auto-filled from camera/file or enter image URL" type="text"/>
               </div>
             </div>
 
             <div class="admin-form-group" style="margin-bottom:1.2rem;">
-              <label>Or Upload Slab Photo from Computer</label>
+              <label>Capture from Mobile Camera or Upload Slab Photo</label>
+              <div class="camera-action-row">
+                <button type="button" class="btn-camera-capture" onclick="document.getElementById('stCameraInput').click()">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  <span>Snap Photo with Camera</span>
+                </button>
+                <input type="file" id="stCameraInput" accept="image/*" capture="environment" style="display:none" onchange="handleImageFileUpload(event, 'stImageUrl', 'stPreviewBox', 'stPreviewImg', true)"/>
+              </div>
               <div class="image-dropzone" onclick="document.getElementById('stFileInput').click()">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--gold);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                <span style="font-size:0.78rem; color:#E4E4E7;">Click to select slab image from device</span>
-                <span style="font-size:0.68rem; color:var(--text-muted);">(Auto-converts to optimized preview)</span>
-                <input type="file" id="stFileInput" accept="image/*" style="display:none" onchange="handleImageFileUpload(event, 'stImageUrl', 'stPreviewBox', 'stPreviewImg')"/>
+                <span style="font-size:0.78rem; color:#E4E4E7;">Click or tap to upload photo from device gallery</span>
+                <span style="font-size:0.68rem; color:var(--text-muted);">(Converts automatically to lightweight WebP format)</span>
+                <input type="file" id="stFileInput" accept="image/*" style="display:none" onchange="handleImageFileUpload(event, 'stImageUrl', 'stPreviewBox', 'stPreviewImg', true)"/>
               </div>
               <div class="preview-thumbnail-box" id="stPreviewBox">
                 <img id="stPreviewImg" alt="Preview"/>
+                <div id="stWebpBadge" class="webp-conversion-badge" style="display:none;">
+                  <span>✓ Auto-converted to Lightweight WebP format</span>
+                </div>
               </div>
             </div>
 
-            <div class="admin-form-group" style="margin-bottom:1.5rem;">
+            <div class="admin-form-group" style="margin-bottom:1.2rem;">
               <label>Description &amp; Geological Profile</label>
               <textarea class="admin-textarea" id="stDesc" placeholder="Describe crystalline grain, mineral veins, and aesthetic qualities..."></textarea>
             </div>
 
+            <!-- Preference Presets Save Option -->
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:0.9rem; margin-bottom:1.4rem;">
+              <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:0.8rem; color:#F5F0E8; font-weight:600;">
+                <input type="checkbox" id="stSaveAsPreset" onchange="document.getElementById('stPresetNameWrap').style.display = this.checked ? 'block' : 'none'"/>
+                <span>Save these specifications into my Preference Presets list</span>
+              </label>
+              <div id="stPresetNameWrap" style="display:none; margin-top:0.6rem;">
+                <input type="text" class="admin-input" id="stPresetName" placeholder="Enter preset name, e.g. 'South 18mm Flamed Granite'"/>
+              </div>
+              <small style="color:var(--text-muted); font-size:0.7rem; display:block; margin-top:0.35rem;">
+                If saved, this specification set will be added to your Preference dropdown so you can scroll and auto-fill it for future stone photos with 1 click. If unchecked, specifications apply only to this stone image.
+              </small>
+            </div>
+
             <button type="submit" class="btn-submit-action">
-              <span>+ Save Stone to Catalogue</span>
+              <span>+ Save Stone to Catalogue &amp; Visualizers</span>
             </button>
           </form>
         </div>
@@ -2127,21 +2281,18 @@
     document.getElementById('adminModal').style.display = 'none';
   };
 
-  // 5. File Upload Handler (Optimized Base64 DataURL converter)
-  window.handleImageFileUpload = function(e, targetInputId, previewBoxId, previewImgId) {
+  // 5. File & Mobile Camera Upload Handler (Client-Side WebP Converter)
+  window.handleImageFileUpload = function(e, targetInputId, previewBoxId, previewImgId, isWebpPreferred) {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Security: Validate file type and size before processing
-    if (!file.type.match(/^image\/(jpeg|png|webp)$/i)) {
-      alert('Security Notice: Only valid JPEG, PNG, and WebP image formats are permitted.');
+    if (!file.type.match(/^image\/(jpeg|png|webp|heic|heif)$/i) && !file.type.startsWith('image/')) {
+      alert('Security Notice: Only valid image formats (JPEG, PNG, WebP) are permitted.');
       e.target.value = '';
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Security Notice: Maximum allowed upload file size is 5MB.');
-      e.target.value = '';
-      return;
+    if (file.size > 15 * 1024 * 1024) {
+      alert('Security Notice: Maximum allowed file size is 15MB. It will be compressed to WebP.');
     }
 
     const reader = new FileReader();
@@ -2149,7 +2300,7 @@
       const rawDataUrl = evt.target.result;
       const img = new Image();
       img.onload = function() {
-        const maxDim = 960;
+        const maxDim = 1200;
         let w = img.width;
         let h = img.height;
         if (w > maxDim || h > maxDim) {
@@ -2166,14 +2317,33 @@
         canvas.height = h;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, w, h);
-        const optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
 
-        document.getElementById(targetInputId).value = optimizedDataUrl;
+        // Convert to WebP format for fast web rendering & mobile performance
+        let optimizedDataUrl;
+        try {
+          optimizedDataUrl = canvas.toDataURL('image/webp', 0.82);
+          if (!optimizedDataUrl.startsWith('data:image/webp')) {
+            optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          }
+        } catch(err) {
+          optimizedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        }
+
+        const inputEl = document.getElementById(targetInputId);
+        if (inputEl) inputEl.value = optimizedDataUrl;
+
         const previewBox = document.getElementById(previewBoxId);
         const previewImg = document.getElementById(previewImgId);
         if (previewBox && previewImg) {
           previewImg.src = optimizedDataUrl;
           previewBox.style.display = 'block';
+        }
+
+        const webpBadge = document.getElementById('stWebpBadge');
+        if (webpBadge && targetInputId === 'stImageUrl') {
+          const approxKb = Math.round((optimizedDataUrl.length * 0.75) / 1024);
+          webpBadge.textContent = `✓ Auto-converted to Lightweight WebP (${approxKb} KB)`;
+          webpBadge.style.display = 'inline-flex';
         }
       };
       img.src = rawDataUrl;
@@ -3863,21 +4033,141 @@
     reader.readAsText(file);
   };
 
+  // ── REUSABLE PREFERENCE PRESETS ENGINE ──
+  const DEFAULT_PREFERENCE_PRESETS = [
+    {
+      id: 'rajasthan-granite',
+      name: 'Rajasthan 18mm Polished Granite',
+      category: 'Granite',
+      origin: 'Rajasthan, India',
+      finish: 'Polished',
+      thickness: '18mm',
+      color: 'Black',
+      usage: 'Living Room Flooring, Kitchen Countertops, Wall Cladding',
+      desc: 'High-density igneous granite with polished diamond sheen, ideal for luxury flooring and heavy-duty countertops.'
+    },
+    {
+      id: 'south-flamed-granite',
+      name: 'South Indian Flamed Granite (Outdoor / Steps)',
+      category: 'Granite',
+      origin: 'Tamil Nadu, India',
+      finish: 'Flamed',
+      thickness: '20mm',
+      color: 'Grey',
+      usage: 'Outdoor Parking, Staircase Treads, Balcony Flooring',
+      desc: 'Textured flamed finish providing R11 slip-resistance for external paving, entry foyers, and steps.'
+    },
+    {
+      id: 'makrana-marble',
+      name: 'Makrana Pure White Marble',
+      category: 'Marble',
+      origin: 'Makrana, Rajasthan',
+      finish: 'Polished',
+      thickness: '18mm',
+      color: 'White',
+      usage: 'Luxury Temple Flooring, Living Hall, Master Bathroom',
+      desc: 'Authentic 98% pure calcium Makrana marble with crystalline luster that grows brighter with age.'
+    },
+    {
+      id: 'morbi-pgvt-tile',
+      name: 'Morbi 600×1200 mm PGVT High-Gloss Vitrified Tile',
+      category: 'Vitrified Tiles',
+      origin: 'Morbi, Gujarat',
+      finish: 'Polished',
+      thickness: '9mm',
+      color: 'White',
+      usage: 'Hall Flooring, Bathroom Accent Wall, Kitchen Wall',
+      desc: 'Polished Glazed Vitrified Tile (PGVT) with ultra-low water absorption (<0.05%) and nano-protective glaze.'
+    },
+    {
+      id: 'parking-tile-400',
+      name: '400×400 mm Heavy-Duty Parking Tile',
+      category: 'Vitrified Tiles',
+      origin: 'Morbi, Gujarat',
+      finish: 'Flamed',
+      thickness: '12mm',
+      color: 'Grey',
+      usage: 'Driveway Paving, Car Porch, Open Terrace',
+      desc: 'Heavy-traffic full-body vitrified parking paver with high breaking strength and weather-proof surface.'
+    }
+  ];
+
+  function getStonePresets() {
+    return getStorage('murali_stone_preferences', DEFAULT_PREFERENCE_PRESETS);
+  }
+
+  function saveStonePresets(arr) {
+    setStorage('murali_stone_preferences', arr);
+  }
+
+  window.renderPresetSelect = function() {
+    const select = document.getElementById('stPresetSelect');
+    if (!select) return;
+    const presets = getStonePresets();
+    const curVal = select.value;
+    select.innerHTML = '<option value="">-- Choose from Saved Preference Presets (Optional) --</option>';
+    presets.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.id;
+      opt.textContent = p.name;
+      select.appendChild(opt);
+    });
+    if (curVal) select.value = curVal;
+  };
+
+  window.applyStonePreset = function(presetId) {
+    if (!presetId) return;
+    const presets = getStonePresets();
+    const p = presets.find(item => item.id === presetId);
+    if (!p) return;
+
+    if (p.category) document.getElementById('stCategory').value = p.category;
+    if (p.origin) document.getElementById('stOrigin').value = p.origin;
+    if (p.finish) document.getElementById('stFinish').value = p.finish;
+    if (p.thickness) document.getElementById('stThickness').value = p.thickness;
+    if (p.color) document.getElementById('stColor').value = p.color;
+    if (p.usage) document.getElementById('stUsage').value = p.usage;
+    if (p.desc) document.getElementById('stDesc').value = p.desc;
+    showToast(`⚡ Auto-filled specs from preset: "${p.name}"`);
+  };
+
   window.handleSaveStone = function(e) {
     e.preventDefault();
     const name = document.getElementById('stName').value.trim();
-    const category = document.getElementById('stCategory').value;
-    const origin = document.getElementById('stOrigin').value.trim();
-    const finish = document.getElementById('stFinish').value;
-    const thickness = document.getElementById('stThickness').value.trim();
-    const color = document.getElementById('stColor').value;
-    const usage = document.getElementById('stUsage').value.trim();
-    const imageUrl = document.getElementById('stImageUrl').value.trim();
-    const desc = document.getElementById('stDesc').value.trim();
+    const category = document.getElementById('stCategory').value || 'Granite';
+    const origin = document.getElementById('stOrigin').value.trim() || 'India (Quarry Direct)';
+    const finish = document.getElementById('stFinish').value || 'Polished';
+    const thickness = document.getElementById('stThickness').value.trim() || '18mm';
+    const color = document.getElementById('stColor').value || 'White';
+    const usage = document.getElementById('stUsage').value.trim() || 'Flooring, Countertops';
+    const imageUrl = document.getElementById('stImageUrl').value.trim() || 'assets/images/products/product-1783138465-6a4888a145274.webp';
+    const desc = document.getElementById('stDesc').value.trim() || `${name} (${category}) with authentic crystalline structure and calibrated ${finish} finish.`;
 
-    if (!name || !imageUrl) {
-      alert('Please provide stone name and image.');
+    if (!name) {
+      alert('Stone Name is required.');
+      document.getElementById('stName').focus();
       return;
+    }
+
+    // Save as reusable preference preset if checked
+    const saveAsPresetChecked = document.getElementById('stSaveAsPreset')?.checked;
+    if (saveAsPresetChecked) {
+      const presetName = document.getElementById('stPresetName')?.value.trim() || `${name} (${thickness} ${finish})`;
+      const presets = getStonePresets();
+      const pId = 'preset_' + Date.now();
+      presets.unshift({
+        id: pId,
+        name: presetName,
+        category: category,
+        origin: origin,
+        finish: finish,
+        thickness: thickness,
+        color: color,
+        usage: usage,
+        desc: desc
+      });
+      saveStonePresets(presets);
+      renderPresetSelect();
     }
 
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
@@ -3890,7 +4180,7 @@
       finish: finish,
       thickness: thickness,
       color: color,
-      usage_area: usage || 'Flooring, Countertops',
+      usage_area: usage,
       image_url: imageUrl,
       description: desc,
       status: 'approved',
@@ -3899,14 +4189,42 @@
     };
 
     const custom = getCustomStones();
-    custom.unshift(newStone);
-    saveCustomStones(custom);
+    // Remove if already exists with same slug
+    const filtered = custom.filter(s => s.slug !== slug && s.id !== slug);
+    filtered.unshift(newStone);
+    saveCustomStones(filtered);
+
+    // Sync into pricing book if not already present
+    let pricing = getPricing();
+    if (!pricing.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+      pricing.unshift({
+        id: 'prc_' + Date.now(),
+        name: name,
+        category: category,
+        rate: '₹140 - ₹280 / sq.ft',
+        status: 'In Stock',
+        thickness: thickness,
+        lots: 'Fresh Quarry Lot'
+      });
+      savePricing(pricing);
+      renderPricingTable();
+    }
 
     document.getElementById('stoneForm').reset();
-    document.getElementById('stPreviewBox').style.display = 'none';
+    const prevBox = document.getElementById('stPreviewBox');
+    if (prevBox) prevBox.style.display = 'none';
+    const webpBadge = document.getElementById('stWebpBadge');
+    if (webpBadge) webpBadge.style.display = 'none';
+    const presetWrap = document.getElementById('stPresetNameWrap');
+    if (presetWrap) presetWrap.style.display = 'none';
+
     renderStonesTable();
-    showToast(`✓ "${name}" approved & published to live catalog!`);
-    if (window.MuraliSync) window.MuraliSync.broadcastSync('stone_added', newStone);
+    showToast(saveAsPresetChecked ? `✓ "${name}" approved & saved to Preference Presets list!` : `✓ "${name}" approved & published to all visualizers & catalogue!`);
+
+    // Broadcast across all visualizers & catalog
+    if (window.MuraliSync) {
+      window.MuraliSync.broadcastSync('stone_added', newStone);
+    }
   };
 
   window.deleteCustomStone = function(id) {
@@ -4728,6 +5046,7 @@
     renderProjectsTable();
     renderSecurityForm();
     renderOverviewLeads();
+    renderPresetSelect();
     renderStonesTable();
     renderPricingTable();
     renderVisualizerTable();
@@ -4743,6 +5062,31 @@
 
 })();
 </script>
+
+<!-- ── Admin Mobile Bottom Navigation Dock ── -->
+<nav class="admin-mobile-dock" aria-label="Admin Mobile Navigation">
+  <button class="mobile-dock-btn active" data-tab="tab-overview" onclick="switchToTab('tab-overview')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+    <span>Overview</span>
+  </button>
+  <button class="mobile-dock-btn" data-tab="tab-stones" onclick="switchToTab('tab-stones')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+    <span>Stones</span>
+  </button>
+  <button class="mobile-dock-btn" data-tab="tab-pricing" onclick="switchToTab('tab-pricing')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    <span>Pricing</span>
+  </button>
+  <button class="mobile-dock-btn" data-tab="tab-visualizer" onclick="switchToTab('tab-visualizer')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h18v18H3z"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    <span>Visualizer</span>
+  </button>
+  <button class="mobile-dock-btn" type="button" onclick="document.getElementById('adminSidebar').classList.toggle('sidebar-open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><circle cx="5" cy="12" r="1.5"/></svg>
+    <span>More</span>
+  </button>
+</nav>
+
 <script src="assets/js/site-config-sync.js"></script>
 </body>
 </html>
