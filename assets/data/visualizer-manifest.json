@@ -3134,6 +3134,26 @@
     "png_preview": "assets/images/room_renders/kitchen floor/render_Moon White.jpg"
   },
   {
+    "product_id": "river-black",
+    "product_name": "River Black",
+    "category": "Granite",
+    "room_id": "kitchen",
+    "room_name": "Kitchen",
+    "surface_id": "floor",
+    "surface_name": "Kitchen Marble Flooring",
+    "original_room_image": "assets/images/rooms/kitchen-luxury.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/kitchen floor/render_River Black.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-floor/river-black.webp",
+    "width": 1376,
+    "height": 768,
+    "aspect_ratio": 1.7917,
+    "aspect_ratio_match": true,
+    "status": "verified_architectural_render",
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen floor/render_River Black.jpg"
+  },
+  {
     "product_id": "river-white",
     "product_name": "River White",
     "category": "Granite",
@@ -3172,6 +3192,26 @@
     "status": "verified_architectural_render",
     "review_status": "verified",
     "png_preview": "assets/images/room_renders/kitchen floor/render_Statuario.jpg"
+  },
+  {
+    "product_id": "tan-brown",
+    "product_name": "Tan Brown",
+    "category": "Granite",
+    "room_id": "kitchen",
+    "room_name": "Kitchen",
+    "surface_id": "floor",
+    "surface_name": "Kitchen Marble Flooring",
+    "original_room_image": "assets/images/rooms/kitchen-luxury.webp",
+    "original_stone_image": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp",
+    "generated_preview": "assets/images/room_renders/kitchen floor/render_Tan Brown.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-floor/tan-brown.webp",
+    "width": 1376,
+    "height": 768,
+    "aspect_ratio": 1.7917,
+    "aspect_ratio_match": true,
+    "status": "verified_architectural_render",
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen floor/render_Tan Brown.jpg"
   },
   {
     "product_id": "titanium-black",
