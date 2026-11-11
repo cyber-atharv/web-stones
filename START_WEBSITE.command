@@ -19,3 +19,4 @@ else
     echo "Please install Python or Node.js to run this website locally."
     read -p "Press enter to exit"
 fi
+

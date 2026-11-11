@@ -42,3 +42,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "scripts\serve_windows.ps1"
 :finish
 echo Server closed.
 pause
+
