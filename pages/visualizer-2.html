@@ -874,6 +874,20 @@
                     <span class="nav-room-tag">3D VR Suite • Tub, Shower &amp; Vanity</span>
                   </div>
                 </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=kitchen">
+                  <span class="nav-room-icon">🍽️</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Chef Kitchen Suite <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Waterfall Island, Countertop &amp; Floor</span>
+                  </div>
+                </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=parking">
+                  <span class="nav-room-icon">🚗</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Outdoor Parking Suite <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Driveway Paving, Kerb Stones &amp; Facade</span>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
@@ -912,6 +926,7 @@
             <a class="m-room-item" href="pages/visualizer-2.html?room=living">🛋️ Living Room</a>
             <a class="m-room-item m-room-webgl" href="pages/visualizer-2.html?room=bathroom">🛁 Bathroom (WebGL)</a>
             <a class="m-room-item m-room-webgl" href="pages/visualizer-2.html?room=kitchen">🍽️ Kitchen (WebGL)</a>
+            <a class="m-room-item m-room-webgl" href="pages/visualizer-2.html?room=parking">🚗 Parking &amp; Paving (WebGL)</a>
           </div>
         </div>
         <div class="m-room-group">
@@ -920,6 +935,7 @@
             <a class="m-room-item" href="pages/visualizer-3.html?room=living">🛋️ Living Room</a>
             <a class="m-room-item m-room-webgl" href="pages/visualizer-2.html?room=bathroom">🛁 Bathroom (WebGL)</a>
             <a class="m-room-item m-room-webgl" href="pages/visualizer-2.html?room=kitchen">🍽️ Kitchen (WebGL)</a>
+            <a class="m-room-item m-room-webgl" href="pages/visualizer-3.html?room=parking">🚗 Parking &amp; Paving (WebGL)</a>
           </div>
         </div>
       </div>
@@ -953,6 +969,10 @@
       <button class="room-btn" id="btnRoomKitchen" data-room="kitchen" title="Switch to 3D Luxury Kitchen Suite (Three.js WebGL)">
         <span>🍽️</span>
         <span>Kitchen Suite <span class="badge-webgl">WebGL</span></span>
+      </button>
+      <button class="room-btn" id="btnRoomParking" data-room="parking" title="Switch to 3D Outdoor Parking &amp; Driveway Suite (Three.js WebGL)">
+        <span>🚗</span>
+        <span>Parking &amp; Paving <span class="badge-webgl">WebGL</span></span>
       </button>
     </div>
 
@@ -1155,11 +1175,14 @@
     const livingGroup = new THREE.Group();
     const bathroomGroup = new THREE.Group();
     const kitchenGroup = new THREE.Group();
+    const parkingGroup = new THREE.Group();
     bathroomGroup.visible = false;
     kitchenGroup.visible = false;
+    parkingGroup.visible = false;
     scene.add(livingGroup);
     scene.add(bathroomGroup);
     scene.add(kitchenGroup);
+    scene.add(parkingGroup);
 
     // Living Room Lighting
     const sun = new THREE.DirectionalLight(0xffe5bf, 3);
@@ -1519,6 +1542,103 @@
     box(0.03, 3.2, 6.0, 5.8, 1.7, 0.2, glassMat, kitchenGroup);
     plant(4.6, 2.8, 1.35, kitchenGroup);
 
+    // ═════════════════════════════════════════════════════════════════════════
+    // ── OUTDOOR PARKING & DRIVEWAY PAVING SUITE (WebGL Architectural 3D) ──
+    // ═════════════════════════════════════════════════════════════════════════
+
+    // Parking & Driveway Dedicated Architectural Outdoor PBR Sunlight
+    const parkingSun = new THREE.DirectionalLight(0xfffaea, 3.4);
+    parkingSun.position.set(-8, 14, 10);
+    parkingSun.castShadow = true;
+    parkingSun.shadow.mapSize.set(2048, 2048);
+    parkingSun.shadow.bias = -0.0005;
+    parkingSun.shadow.radius = 2.0;
+    parkingGroup.add(parkingSun);
+
+    const parkingSkyFill = new THREE.DirectionalLight(0xbdd7ee, 1.4);
+    parkingSkyFill.position.set(8, 10, -6);
+    parkingGroup.add(parkingSkyFill);
+
+    const parkingBollard1 = new THREE.PointLight(0xffdfa0, 1.3, 7.5);
+    parkingBollard1.position.set(-5.5, 0.85, 2.0);
+    parkingGroup.add(parkingBollard1);
+
+    const parkingBollard2 = new THREE.PointLight(0xffdfa0, 1.3, 7.5);
+    parkingBollard2.position.set(-5.5, 0.85, -3.2);
+    parkingGroup.add(parkingBollard2);
+
+    const parkingPorchGlow = new THREE.PointLight(0xffecd0, 1.4, 7.0);
+    parkingPorchGlow.position.set(6.2, 3.0, -1.2);
+    parkingGroup.add(parkingPorchGlow);
+
+    // 1. Heavy-Duty Driveway & Parking Floor (Customizable in 3D: Granite Cobblestone, Pavers, Slabs)
+    const parkingFloor = new THREE.Mesh(new THREE.PlaneGeometry(16, 14), M('#32302e', 0.55));
+    parkingFloor.rotation.x = -Math.PI / 2;
+    parkingFloor.position.set(0, 0.025, 0);
+    parkingFloor.receiveShadow = true;
+    parkingGroup.add(parkingFloor);
+
+    // 2. Perimeter Compound Boundary Walls (Customizable in 3D: Granite Cladding, Wall Tiles, Stone Facings)
+    const parkingBackWall = sbox(16, 3.2, 0.3, 0, 1.6, -6.85, wall, parkingGroup);
+    const parkingLeftWall = sbox(0.3, 3.2, 14, -7.85, 1.6, 0, wall, parkingGroup);
+    // Compound wall stone coping caps
+    box(16.4, 0.12, 0.45, 0, 3.26, -6.85, darkMat, parkingGroup);
+    box(0.45, 0.12, 14.4, -7.85, 3.26, 0, darkMat, parkingGroup);
+
+    // 3. Flamed Granite Curb Stones & Planter Border (Customizable in 3D: Kerb Stones, Steps)
+    const parkingKerbLeft = sbox(0.35, 0.28, 13.6, -5.8, 0.14, 0, wall, parkingGroup);
+    const parkingKerbBack = sbox(12.4, 0.28, 0.35, 0.4, 0.14, -4.8, wall, parkingGroup);
+
+    // Raised Garden Planter Bed along boundary wall
+    box(1.7, 0.22, 13.6, -6.85, 0.11, 0, M('#231c15', 0.95), parkingGroup);
+    for (let pi = 0; pi < 7; pi++) {
+      const cypress = new THREE.Mesh(new THREE.ConeGeometry(0.42, 2.3, 8), green);
+      cypress.position.set(-6.85, 1.25, -5.0 + pi * 1.75);
+      cypress.castShadow = true;
+      parkingGroup.add(cypress);
+    }
+
+    // 4. Architectural Pergola / Carport Structure
+    // Steel vertical uprights
+    box(0.18, 3.4, 0.18, 4.8, 1.7, -4.2, darkMat, parkingGroup);
+    box(0.18, 3.4, 0.18, 4.8, 1.7, 1.8, darkMat, parkingGroup);
+    box(0.18, 3.4, 0.18, -1.8, 1.7, -4.2, darkMat, parkingGroup);
+    box(0.18, 3.4, 0.18, -1.8, 1.7, 1.8, darkMat, parkingGroup);
+    // Roof steel support girders
+    box(7.0, 0.18, 0.18, 1.5, 3.4, -4.2, darkMat, parkingGroup);
+    box(7.0, 0.18, 0.18, 1.5, 3.4, 1.8, darkMat, parkingGroup);
+    box(0.18, 0.18, 6.4, -1.8, 3.4, -1.2, darkMat, parkingGroup);
+    box(0.18, 0.18, 6.4, 4.8, 3.4, -1.2, darkMat, parkingGroup);
+    // Architectural wood louvers
+    for (let li = 0; li < 14; li++) {
+      box(6.8, 0.08, 0.12, 1.5, 3.52, -4.0 + li * 0.42, woodCabinet, parkingGroup);
+    }
+
+    // 5. Villa Entrance Porch, Steps & Facade Wall (Customizable in 3D)
+    const parkingPorch = sbox(3.2, 0.35, 6.0, 6.25, 0.175, -1.2, wall, parkingGroup);
+    const parkingStep = sbox(0.6, 0.18, 5.6, 4.35, 0.09, -1.2, wall, parkingGroup);
+    const parkingFacade = sbox(0.25, 4.2, 8.0, 7.85, 2.1, -1.2, wall, parkingGroup);
+    // Villa grand entrance door
+    box(0.08, 2.8, 1.6, 7.68, 1.75, -1.2, woodCabinet, parkingGroup);
+    // Entrance porch canopy
+    box(3.4, 0.15, 6.2, 6.25, 3.4, -1.2, darkMat, parkingGroup);
+
+    // 6. Luxury Executive Vehicle Silhouette & Wheel Hubs
+    box(2.05, 0.72, 4.35, 1.5, 0.52, -1.2, M('#15171a', 0.18), parkingGroup);
+    box(1.72, 0.52, 2.25, 1.5, 1.14, -1.35, M('#0a0c0e', 0.08), parkingGroup);
+    const whF1 = cyl(0.35, 0.35, 0.22, 0.38, 0.35, -2.55, darkMat, parkingGroup); whF1.rotation.z = Math.PI / 2;
+    const whF2 = cyl(0.35, 0.35, 0.22, 2.62, 0.35, -2.55, darkMat, parkingGroup); whF2.rotation.z = Math.PI / 2;
+    const whR1 = cyl(0.35, 0.35, 0.22, 0.38, 0.35, 0.15, darkMat, parkingGroup); whR1.rotation.z = Math.PI / 2;
+    const whR2 = cyl(0.35, 0.35, 0.22, 2.62, 0.35, 0.15, darkMat, parkingGroup); whR2.rotation.z = Math.PI / 2;
+    box(0.32, 0.1, 0.04, 0.85, 0.52, 0.98, warmLedMat, parkingGroup);
+    box(0.32, 0.1, 0.04, 2.15, 0.52, 0.98, warmLedMat, parkingGroup);
+
+    // 7. Modern Driveway Bollard Path Lights
+    for (let bi = 0; bi < 4; bi++) {
+      cyl(0.055, 0.055, 0.72, -5.5, 0.36, -4.0 + bi * 2.75, darkMat, parkingGroup);
+      cyl(0.058, 0.058, 0.08, -5.5, 0.68, -4.0 + bi * 2.75, warmLedMat, parkingGroup);
+    }
+
     function texture(base,vein,seed){
       const c=document.createElement('canvas');c.width=c.height=512;
       const x=c.getContext('2d');x.fillStyle=base;x.fillRect(0,0,512,512);
@@ -1565,6 +1685,15 @@
         defaultKey: 'kitchen_countertop',
         wallKeys: ['kitchen_backsplash', 'kitchen_walls'],
         camera: { azimuth: Math.PI * 0.24, elevation: 0.36, distance: 10.8, target: new THREE.Vector3(0, 1.15, 0) },
+        surfaces: {}
+      },
+      parking: {
+        id: 'parking',
+        name: 'Outdoor Parking & Driveway Suite',
+        group: parkingGroup,
+        defaultKey: 'parking_paving',
+        wallKeys: ['parking_compound_wall', 'parking_kerb', 'parking_facade'],
+        camera: { azimuth: Math.PI * 0.28, elevation: 0.38, distance: 14.5, target: new THREE.Vector3(0, 0.8, 0) },
         surfaces: {}
       }
     };
@@ -1615,6 +1744,16 @@
     reg('kitchen', 'kitchen_walls', 'Kitchen Main Walls', kitchenBackWallUpper, 4, 12, 1.8);
     reg('kitchen', 'kitchen_walls', 'Kitchen Main Walls', kitchenSideWallLeft, 1, 9, 4.2);
     reg('kitchen', 'kitchen_walls', 'Kitchen Main Walls', kitchenSideWallRight, 0, 9, 4.2);
+
+    // ── Outdoor Parking & Driveway Suite Surface Registrations ──
+    reg('parking', 'parking_paving', 'Driveway & Parking Paving', parkingFloor, null, 16, 14);
+    reg('parking', 'parking_compound_wall', 'Compound Boundary Wall', parkingBackWall, 4, 16, 3.2);
+    reg('parking', 'parking_compound_wall', 'Compound Boundary Wall', parkingLeftWall, 0, 14, 3.2);
+    reg('parking', 'parking_kerb', 'Kerb Border & Steps', parkingKerbLeft, 2, 0.35, 13.6);
+    reg('parking', 'parking_kerb', 'Kerb Border & Steps', parkingKerbBack, 2, 12.4, 0.35);
+    reg('parking', 'parking_kerb', 'Kerb Border & Steps', parkingStep, 2, 0.6, 5.6);
+    reg('parking', 'parking_facade', 'Villa Porch & Entrance Facade', parkingPorch, 2, 3.2, 6.0);
+    reg('parking', 'parking_facade', 'Villa Porch & Entrance Facade', parkingFacade, 1, 8.0, 4.2);
 
     const showroomSlabs=[{"kind":"slab","id":"slab_69","name":"Alaska White","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783084356-6a47b5441b767.webp","thumb":"assets/images/thumbs/product-1783084356-6a47b5441b767.webp","isSig":true},{"kind":"slab","id":"slab_73","name":"Banswara Marble","cat":"marble","category":"Marble","origin":"Rajasthan","url":"assets/images/products/product-1783085208-6a47b8986af97.webp","thumb":"assets/images/thumbs/product-1783085208-6a47b8986af97.webp","isSig":true},{"kind":"slab","id":"slab_58","name":"Black Forrest","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783083657-6a47b289a4a40.webp","thumb":"assets/images/thumbs/product-1783083657-6a47b289a4a40.webp","isSig":true},{"kind":"slab","id":"slab_77","name":"Black Pearl","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783138424-6a488878abc22.webp","thumb":"assets/images/thumbs/product-1783138424-6a488878abc22.webp","isSig":true},{"kind":"slab","id":"slab_74","name":"Blue in the Night","cat":"granite","category":"Imported Granite","origin":"Norway","url":"assets/images/products/product-1783085244-6a47b8bcd330d.webp","thumb":"assets/images/thumbs/product-1783085244-6a47b8bcd330d.webp","isSig":true},{"kind":"slab","id":"slab_72","name":"Emerald Onyx Marble","cat":"marble","category":"Onyx Marble","origin":"Rajasthan","url":"assets/images/products/product-1783085161-6a47b869e0448.webp","thumb":"assets/images/thumbs/product-1783085161-6a47b869e0448.webp","isSig":true},{"kind":"slab","id":"slab_76","name":"Marie Gold","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783085317-6a47b9058f71e.webp","thumb":"assets/images/thumbs/product-1783085317-6a47b9058f71e.webp","isSig":true},{"kind":"slab","id":"slab_33","name":"Moon White","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783079448-6a47a218632fd.webp","thumb":"assets/images/thumbs/product-1783079448-6a47a218632fd.webp","isSig":true},{"kind":"slab","id":"slab_78","name":"River Black","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783138465-6a4888a145274.webp","thumb":"assets/images/thumbs/product-1783138465-6a4888a145274.webp","isSig":true},{"kind":"slab","id":"slab_31","name":"River White","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783078831-6a479faf4fcbd.webp","thumb":"assets/images/thumbs/product-1783078831-6a479faf4fcbd.webp","isSig":true},{"kind":"slab","id":"slab_67","name":"Tan Brown","cat":"granite","category":"Granite","origin":"Andhra Pradesh","url":"assets/images/products/product-1783084011-6a47b3eb20cf0.webp","thumb":"assets/images/thumbs/product-1783084011-6a47b3eb20cf0.webp","isSig":true},{"kind":"slab","id":"slab_56","name":"Titanium Black","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783083560-6a47b228132ac.webp","thumb":"assets/images/thumbs/product-1783083560-6a47b228132ac.webp","isSig":true},{"kind":"slab","id":"slab_49","name":"3D Rock Look","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783081135-6a47a8af74f0b.webp","thumb":"assets/images/thumbs/product-1783081135-6a47a8af74f0b.webp","isSig":false},{"kind":"slab","id":"slab_68","name":"Alaska Pink","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783084260-6a47b4e40ca25.webp","thumb":"assets/images/thumbs/product-1783084260-6a47b4e40ca25.webp","isSig":false},{"kind":"slab","id":"slab_46","name":"Asian Green","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783080897-6a47a7c1ec5ed.webp","thumb":"assets/images/thumbs/product-1783080897-6a47a7c1ec5ed.webp","isSig":false},{"kind":"slab","id":"slab_41","name":"Astoria Gold","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783080299-6a47a56b99b00.webp","thumb":"assets/images/thumbs/product-1783080299-6a47a56b99b00.webp","isSig":false},{"kind":"slab","id":"slab_51","name":"Bassi Lapatro","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783081478-6a47aa06b6e30.webp","thumb":"assets/images/thumbs/product-1783081478-6a47aa06b6e30.webp","isSig":false},{"kind":"slab","id":"slab_57","name":"Black Swan","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083605-6a47b25571850.webp","thumb":"assets/images/thumbs/product-1783083605-6a47b25571850.webp","isSig":false},{"kind":"slab","id":"slab_61","name":"Cats Eye","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083788-6a47b30cde49f.webp","thumb":"assets/images/thumbs/product-1783083788-6a47b30cde49f.webp","isSig":false},{"kind":"slab","id":"slab_32","name":"China White","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783078937-6a47a0192a9b3.webp","thumb":"assets/images/thumbs/product-1783078937-6a47a0192a9b3.webp","isSig":false},{"kind":"slab","id":"slab_60","name":"Coin Black","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783083744-6a47b2e0d4304.webp","thumb":"assets/images/thumbs/product-1783083744-6a47b2e0d4304.webp","isSig":false},{"kind":"slab","id":"slab_64","name":"Colombo Jubrana","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783083902-6a47b37e26547.webp","thumb":"assets/images/thumbs/product-1783083902-6a47b37e26547.webp","isSig":false},{"kind":"slab","id":"slab_35","name":"Crystal Blue","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783079633-6a47a2d18815c.webp","thumb":"assets/images/thumbs/product-1783079633-6a47a2d18815c.webp","isSig":false},{"kind":"slab","id":"slab_52","name":"Flash Green","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783083136-6a47b0804c4ee.webp","thumb":"assets/images/thumbs/product-1783083136-6a47b0804c4ee.webp","isSig":false},{"kind":"slab","id":"slab_42","name":"Forrest Gold","cat":"granite","category":"Sand Stone","origin":"Rajasthan","url":"assets/images/products/product-1783080383-6a47a5bf9a4a3.webp","thumb":"assets/images/thumbs/product-1783080383-6a47a5bf9a4a3.webp","isSig":false},{"kind":"slab","id":"slab_47","name":"Forrest Green","cat":"marble","category":"Marble","origin":"Rajasthan","url":"assets/images/products/product-1783080973-6a47a80d4a3d5.webp","thumb":"assets/images/thumbs/product-1783080973-6a47a80d4a3d5.webp","isSig":false},{"kind":"slab","id":"slab_54","name":"Galaxy","cat":"granite","category":"Granite","origin":"Andhra Pradesh","url":"assets/images/products/product-1783083490-6a47b1e260326.webp","thumb":"assets/images/thumbs/product-1783083490-6a47b1e260326.webp","isSig":false},{"kind":"slab","id":"slab_29","name":"Galaxy White","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783078566-6a479ea6bfc0b.webp","thumb":"assets/images/thumbs/product-1783078566-6a479ea6bfc0b.webp","isSig":false},{"kind":"slab","id":"slab_30","name":"Gelatic White","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783078626-6a479ee25bd3e.webp","thumb":"assets/images/thumbs/product-1783078626-6a479ee25bd3e.webp","isSig":false},{"kind":"slab","id":"slab_48","name":"Green Marble","cat":"marble","category":"Marble","origin":"Rajasthan","url":"assets/images/products/product-1783081066-6a47a86a5d5e2.webp","thumb":"assets/images/thumbs/product-1783081066-6a47a86a5d5e2.webp","isSig":false},{"kind":"slab","id":"slab_50","name":"Hassan Green","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783081328-6a47a9703a0ea.webp","thumb":"assets/images/thumbs/product-1783081328-6a47a9703a0ea.webp","isSig":false},{"kind":"slab","id":"slab_34","name":"Ice White","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783079501-6a47a24d9fa78.webp","thumb":"assets/images/thumbs/product-1783079501-6a47a24d9fa78.webp","isSig":false},{"kind":"slab","id":"slab_59","name":"Impala Black","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083696-6a47b2b0cbb16.webp","thumb":"assets/images/thumbs/product-1783083696-6a47b2b0cbb16.webp","isSig":false},{"kind":"slab","id":"slab_37","name":"Kingfisher Blue","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783079826-6a47a39205007.webp","thumb":"assets/images/thumbs/product-1783079826-6a47a39205007.webp","isSig":false},{"kind":"slab","id":"slab_63","name":"Lakha Red","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783083869-6a47b35dab1cb.webp","thumb":"assets/images/thumbs/product-1783083869-6a47b35dab1cb.webp","isSig":false},{"kind":"slab","id":"slab_38","name":"Lavender Blue","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783079927-6a47a3f7bc726.webp","thumb":"assets/images/thumbs/product-1783079927-6a47a3f7bc726.webp","isSig":false},{"kind":"slab","id":"slab_66","name":"Mountain Brown","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083965-6a47b3bd9408e.webp","thumb":"assets/images/thumbs/product-1783083965-6a47b3bd9408e.webp","isSig":false},{"kind":"slab","id":"slab_53","name":"Pista Green","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083351-6a47b1575ccdd.webp","thumb":"assets/images/thumbs/product-1783083351-6a47b1575ccdd.webp","isSig":false},{"kind":"slab","id":"slab_65","name":"Red Purpory","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083937-6a47b3a1ec35b.webp","thumb":"assets/images/thumbs/product-1783083937-6a47b3a1ec35b.webp","isSig":false},{"kind":"slab","id":"slab_40","name":"Romantic Blue","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783080196-6a47a504c714c.webp","thumb":"assets/images/thumbs/product-1783080196-6a47a504c714c.webp","isSig":false},{"kind":"slab","id":"slab_39","name":"SKY Blue","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783080092-6a47a49c1e7b7.webp","thumb":"assets/images/thumbs/product-1783080092-6a47a49c1e7b7.webp","isSig":false},{"kind":"slab","id":"slab_36","name":"Safari Blue","cat":"granite","category":"Granite","origin":"Andhra Pradesh","url":"assets/images/products/product-1783079748-6a47a34440dc7.webp","thumb":"assets/images/thumbs/product-1783079748-6a47a34440dc7.webp","isSig":false},{"kind":"slab","id":"slab_71","name":"Scorpio","cat":"marble","category":"Marble","origin":"Rajasthan","url":"assets/images/products/product-1783084912-6a47b7700c180.webp","thumb":"assets/images/thumbs/product-1783084912-6a47b7700c180.webp","isSig":false},{"kind":"slab","id":"slab_45","name":"Shiffon Pink","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783080746-6a47a72a44742.webp","thumb":"assets/images/thumbs/product-1783080746-6a47a72a44742.webp","isSig":false},{"kind":"slab","id":"slab_44","name":"Shiva Gold","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783080607-6a47a69f485d0.webp","thumb":"assets/images/thumbs/product-1783080607-6a47a69f485d0.webp","isSig":false},{"kind":"slab","id":"slab_55","name":"Steel Grey","cat":"granite","category":"Granite","origin":"Andhra Pradesh","url":"assets/images/products/product-1783083531-6a47b20b6691a.webp","thumb":"assets/images/thumbs/product-1783083531-6a47b20b6691a.webp","isSig":false},{"kind":"slab","id":"slab_43","name":"Strawberry Pink","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783080527-6a47a64f53214.webp","thumb":"assets/images/thumbs/product-1783080527-6a47a64f53214.webp","isSig":false},{"kind":"slab","id":"slab_62","name":"Wooden","cat":"granite","category":"Sandstone","origin":"Rajasthan","url":"assets/images/products/product-1783083830-6a47b3366d3c3.webp","thumb":"assets/images/thumbs/product-1783083830-6a47b3366d3c3.webp","isSig":false}];
     const photos=[],lib=new Map(),cache=new Map(),presets=[];let uid=0,cur='floor',tab='slabs',lastSrc=null,slabFilter='';
@@ -2373,6 +2512,7 @@
     const btnLiv = $('#btnRoomLiving');
     const btnBth = $('#btnRoomBathroom');
     const btnKit = $('#btnRoomKitchen');
+    const btnPrk = $('#btnRoomParking');
     const stageHint = $('#stageHint') || $('.stage-hint');
 
     function switchRoom(roomKey) {
@@ -2397,6 +2537,7 @@
       roomDefs.living.group.visible = (roomKey === 'living');
       roomDefs.bathroom.group.visible = (roomKey === 'bathroom');
       if (roomDefs.kitchen) roomDefs.kitchen.group.visible = (roomKey === 'kitchen');
+      if (roomDefs.parking) roomDefs.parking.group.visible = (roomKey === 'parking');
 
       // 2. Set active surfaces and default surface
       surf = roomDefs[roomKey].surfaces;
@@ -2414,6 +2555,7 @@
       if (btnLiv) btnLiv.classList.toggle('active', roomKey === 'living');
       if (btnBth) btnBth.classList.toggle('active', roomKey === 'bathroom');
       if (btnKit) btnKit.classList.toggle('active', roomKey === 'kitchen');
+      if (btnPrk) btnPrk.classList.toggle('active', roomKey === 'parking');
 
       // 5. Update stage hints
       if (roomKey === 'bathroom') {
@@ -2427,6 +2569,12 @@
           stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Chef Kitchen 3D Studio Controls:</span><br/>' +
             '• Customize <b>Kitchen Floor</b>, <b>Waterfall Island &amp; Countertop Table</b>, or <b>Backsplash</b><br/>' +
             '• Select any granite, marble, or vitrified tile &bull; Real-time 3D PBR WebGL';
+        }
+      } else if (roomKey === 'parking') {
+        if (stageHint) {
+          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Outdoor Parking 3D Studio Controls:</span><br/>' +
+            '• Customize <b>Driveway Paving Floor</b>, <b>Compound Boundary Wall</b>, or <b>Kerb Borders &amp; Steps</b><br/>' +
+            '• Select heavy-duty granites (Tan Brown, River Black, Titanium Black) &bull; Cobblestone &amp; Paver Grid';
         }
       } else {
         if (stageHint) {
@@ -2445,6 +2593,7 @@
     if (btnLiv) btnLiv.onclick = () => switchRoom('living');
     if (btnBth) btnBth.onclick = () => switchRoom('bathroom');
     if (btnKit) btnKit.onclick = () => switchRoom('kitchen');
+    if (btnPrk) btnPrk.onclick = () => switchRoom('parking');
 
     // ── Initialize Default Stones on Living Room & Bathroom ──
     (function initShowroomDefaults() {
@@ -2466,7 +2615,25 @@
         roomDefs.bathroom.surfaces.bath_vanity.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 3 };
       }
 
-      // 2. Living room floor initial photo
+      // 2. Curated Initial Materials for Outdoor Parking & Driveway Suite
+      const prkPavingStone = showroomSlabs.find(s => s.name === 'Tan Brown') || showroomSlabs.find(s => s.name === 'River Black') || presets[0];
+      const prkWallStone = showroomSlabs.find(s => s.name === 'Black Forrest' || s.name === 'Black Forest') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+      const prkKerbStone = showroomSlabs.find(s => s.name === 'Titanium Black') || showroomSlabs.find(s => s.name === 'Black Pearl') || presets[0];
+
+      if (prkPavingStone && roomDefs.parking && roomDefs.parking.surfaces.parking_paving) {
+        roomDefs.parking.surfaces.parking_paving.src = prkPavingStone;
+        roomDefs.parking.surfaces.parking_paving.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.32, grout: 4 };
+      }
+      if (prkWallStone && roomDefs.parking && roomDefs.parking.surfaces.parking_compound_wall) {
+        roomDefs.parking.surfaces.parking_compound_wall.src = prkWallStone;
+        roomDefs.parking.surfaces.parking_compound_wall.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.45, grout: 3 };
+      }
+      if (prkKerbStone && roomDefs.parking && roomDefs.parking.surfaces.parking_kerb) {
+        roomDefs.parking.surfaces.parking_kerb.src = prkKerbStone;
+        roomDefs.parking.surfaces.parking_kerb.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.4, grout: 2 };
+      }
+
+      // 3. Living room floor initial photo
       const d = showroomTexture.split(',')[1], bin = atob(d), u = new Uint8Array(bin.length);
       for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
       addPhoto(new Blob([u], { type: 'image/jpeg' }), 'Showroom Ivory Vein').then(o => {
@@ -2492,6 +2659,8 @@
         switchRoom('bathroom');
       } else if (reqRoom === 'kitchen' || reqRoom === 'kit') {
         switchRoom('kitchen');
+      } else if (reqRoom === 'parking' || reqRoom === 'park' || reqRoom === 'driveway') {
+        switchRoom('parking');
       } else {
         switchRoom('living');
       }

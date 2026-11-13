@@ -360,6 +360,20 @@
                     <span class="nav-room-tag">3D VR Suite • Tub, Shower &amp; Vanity</span>
                   </div>
                 </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=kitchen">
+                  <span class="nav-room-icon">🍽️</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Chef Kitchen Suite <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Waterfall Island, Countertop &amp; Floor</span>
+                  </div>
+                </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=parking">
+                  <span class="nav-room-icon">🚗</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Outdoor Parking Suite <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Driveway Paving, Kerb Stones &amp; Facade</span>
+                  </div>
+                </a>
               </div>
             </div>
           </div>
@@ -383,6 +397,7 @@
       <button id="v3BtnLiving" class="v3-room-tab active" onclick="setV3Room('living')">🛋️ Living Suite</button>
       <button id="v3BtnBathroom" class="v3-room-tab" onclick="setV3Room('bathroom')">🛁 Luxury Bathroom <span class="v3-badge-webgl">WebGL</span></button>
       <button id="v3BtnKitchen" class="v3-room-tab" onclick="setV3Room('kitchen')">🍽️ Luxury Kitchen <span class="v3-badge-webgl">WebGL</span></button>
+      <button id="v3BtnParking" class="v3-room-tab" onclick="setV3Room('parking')">🚗 Parking &amp; Paving <span class="v3-badge-webgl">WebGL</span></button>
     </div>
 
     <div class="v3-quick-links">
@@ -403,11 +418,13 @@
       const btnLiv = document.getElementById('v3BtnLiving');
       const btnBth = document.getElementById('v3BtnBathroom');
       const btnKit = document.getElementById('v3BtnKitchen');
+      const btnPrk = document.getElementById('v3BtnParking');
       const rawLink = document.getElementById('v3RawLink');
 
       if (btnLiv) btnLiv.classList.toggle('active', roomKey === 'living');
       if (btnBth) btnBth.classList.toggle('active', roomKey === 'bathroom');
       if (btnKit) btnKit.classList.toggle('active', roomKey === 'kitchen');
+      if (btnPrk) btnPrk.classList.toggle('active', roomKey === 'parking');
 
       if (roomKey === 'bathroom') {
         if (frame) frame.src = 'visualizer-2.html?room=bathroom&embed=1';
@@ -422,6 +439,13 @@
         if (rawLink) {
           rawLink.href = 'visualizer-2.html?room=kitchen';
           rawLink.textContent = 'Full Kitchen Viewport ↗';
+        }
+      } else if (roomKey === 'parking') {
+        if (frame) frame.src = 'visualizer-2.html?room=parking&embed=1';
+        if (desc) desc.innerHTML = '<strong>3D Outdoor Parking &amp; Driveway Suite (WebGL):</strong> Customize <strong>Driveway Paving Floor</strong>, <strong>Compound Boundary Wall</strong>, and <strong>Kerb Borders &amp; Steps</strong> with heavy-duty granites and paver grids.';
+        if (rawLink) {
+          rawLink.href = 'visualizer-2.html?room=parking';
+          rawLink.textContent = 'Full Parking Viewport ↗';
         }
       } else {
         if (frame) frame.src = 'V1/index.html?v=3.6.1';
@@ -439,6 +463,8 @@
         setV3Room('bathroom');
       } else if (params.get('room') === 'kitchen' || params.get('room') === 'kit') {
         setV3Room('kitchen');
+      } else if (params.get('room') === 'parking' || params.get('room') === 'park' || params.get('room') === 'driveway') {
+        setV3Room('parking');
       }
     })();
       // Central MuraliSync Cross-Window & Iframe Forwarder
