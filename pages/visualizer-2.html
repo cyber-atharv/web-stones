@@ -61,10 +61,23 @@
       display: inline-flex;
       align-items: center;
       background: rgba(24, 22, 20, 0.9);
-      padding: 3px;
+      padding: 4px;
       border-radius: 8px;
       border: 1px solid rgba(197, 160, 89, 0.35);
-      gap: 3px;
+      gap: 4px;
+      overflow-x: auto;
+      max-width: 100%;
+      white-space: nowrap;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(197, 160, 89, 0.4) transparent;
+      -webkit-overflow-scrolling: touch;
+    }
+    .room-selector::-webkit-scrollbar {
+      height: 3px;
+    }
+    .room-selector::-webkit-scrollbar-thumb {
+      background: rgba(197, 160, 89, 0.5);
+      border-radius: 3px;
     }
     .room-btn {
       display: inline-flex;
@@ -79,6 +92,8 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
+      flex-shrink: 0;
+      white-space: nowrap;
     }
     .room-btn:hover {
       color: #FFF;
@@ -888,6 +903,42 @@
                     <span class="nav-room-tag">Driveway Paving, Kerb Stones &amp; Facade</span>
                   </div>
                 </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=utility">
+                  <span class="nav-room-icon">🧺</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Utility &amp; Scullery Suite <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Countertop Sink, Anti-Skid Floor &amp; Dado</span>
+                  </div>
+                </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=pooja">
+                  <span class="nav-room-icon">🪔</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Pooja Room &amp; Mandir <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Backlit Altar Niche &amp; Marble Inlay Floor</span>
+                  </div>
+                </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=foyer">
+                  <span class="nav-room-icon">🏛️</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Grand Entrance Foyer <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Medallion Floor, Feature Wall &amp; Console</span>
+                  </div>
+                </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=pool">
+                  <span class="nav-room-icon">🏊</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Swimming Pool Deck <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Wet Deck Paving, Pool Coping &amp; Lounge</span>
+                  </div>
+                </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=bar">
+                  <span class="nav-room-icon">🍸</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Executive Bar Lounge <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Waterfall Bar Island &amp; Back-Bar Wall</span>
+                  </div>
+                </a>
+
               </div>
             </div>
           </div>
@@ -974,6 +1025,26 @@
         <span>🚗</span>
         <span>Parking &amp; Paving <span class="badge-webgl">WebGL</span></span>
       </button>
+      <button class="room-btn" id="btnRoomUtility" data-room="utility" title="Switch to 3D Utility &amp; Scullery Suite (Three.js WebGL)">
+        <span>🧺</span>
+        <span>Utility &amp; Scullery <span class="badge-webgl">WebGL</span></span>
+      </button>
+      <button class="room-btn" id="btnRoomPooja" data-room="pooja" title="Switch to 3D Pooja Room &amp; Mandir Sanctuary (Three.js WebGL)">
+        <span>🪔</span>
+        <span>Pooja Sanctuary <span class="badge-webgl">WebGL</span></span>
+      </button>
+      <button class="room-btn" id="btnRoomFoyer" data-room="foyer" title="Switch to 3D Grand Entrance Foyer Suite (Three.js WebGL)">
+        <span>🏛️</span>
+        <span>Grand Foyer <span class="badge-webgl">WebGL</span></span>
+      </button>
+      <button class="room-btn" id="btnRoomPool" data-room="pool" title="Switch to 3D Swimming Pool Deck &amp; Sunken Lounge (Three.js WebGL)">
+        <span>🏊</span>
+        <span>Pool Deck &amp; Lounge <span class="badge-webgl">WebGL</span></span>
+      </button>
+      <button class="room-btn" id="btnRoomBar" data-room="bar" title="Switch to 3D Executive Home Bar &amp; Lounge (Three.js WebGL)">
+        <span>🍸</span>
+        <span>Executive Bar <span class="badge-webgl">WebGL</span></span>
+      </button>
     </div>
 
     <!-- Room Controls -->
@@ -981,7 +1052,6 @@
       <button class="tool-btn" id="addTop"><span>＋</span> Add photos</button>
       <button class="tool-btn" id="auto">🎲 Auto-fill room</button>
       <button class="tool-btn" id="reset">↺ Reset camera</button>
-      <a href="pages/visualizer.html" class="tool-btn tool-btn-gold">Switch to Visualizer 1.0 &rarr;</a>
     </div>
   </div>
 
@@ -1176,13 +1246,28 @@
     const bathroomGroup = new THREE.Group();
     const kitchenGroup = new THREE.Group();
     const parkingGroup = new THREE.Group();
+    const utilityGroup = new THREE.Group();
+    const poojaGroup = new THREE.Group();
+    const foyerGroup = new THREE.Group();
+    const poolGroup = new THREE.Group();
+    const barGroup = new THREE.Group();
     bathroomGroup.visible = false;
     kitchenGroup.visible = false;
     parkingGroup.visible = false;
+    utilityGroup.visible = false;
+    poojaGroup.visible = false;
+    foyerGroup.visible = false;
+    poolGroup.visible = false;
+    barGroup.visible = false;
     scene.add(livingGroup);
     scene.add(bathroomGroup);
     scene.add(kitchenGroup);
     scene.add(parkingGroup);
+    scene.add(utilityGroup);
+    scene.add(poojaGroup);
+    scene.add(foyerGroup);
+    scene.add(poolGroup);
+    scene.add(barGroup);
 
     // Living Room Lighting
     const sun = new THREE.DirectionalLight(0xffe5bf, 3);
@@ -1639,6 +1724,308 @@
       cyl(0.058, 0.058, 0.08, -5.5, 0.68, -4.0 + bi * 2.75, warmLedMat, parkingGroup);
     }
 
+    // ═════════════════════════════════════════════════════════════════════════
+    // ── 1. UTILITY & SCULLERY SERVICE SUITE (WebGL Architectural 3D) ──
+    // ═════════════════════════════════════════════════════════════════════════
+    const utilitySun = new THREE.DirectionalLight(0xfff8ee, 2.9);
+    utilitySun.position.set(-5, 9, 4);
+    utilitySun.castShadow = true;
+    utilitySun.shadow.mapSize.set(2048, 2048);
+    utilitySun.shadow.bias = -0.0005;
+    utilityGroup.add(utilitySun);
+
+    const utilityFill = new THREE.DirectionalLight(0xdce8f5, 1.2);
+    utilityFill.position.set(5, 6, -3);
+    utilityGroup.add(utilityFill);
+
+    const utilityTaskLight = new THREE.PointLight(0xffecd0, 1.6, 6.0);
+    utilityTaskLight.position.set(-1.2, 2.2, -3.2);
+    utilityGroup.add(utilityTaskLight);
+
+    // 1. Anti-Skid Heavy-Duty Utility Flooring (Customizable in 3D)
+    const utilityFloor = new THREE.Mesh(new THREE.PlaneGeometry(10, 8), M('#2c2824', 0.6));
+    utilityFloor.rotation.x = -Math.PI / 2;
+    utilityFloor.position.set(0, 0.025, 0);
+    utilityFloor.receiveShadow = true;
+    utilityGroup.add(utilityFloor);
+
+    // 2. Service Balcony / Scullery Walls (Customizable in 3D)
+    const utilityBackWall = sbox(10, 3.8, 0.2, 0, 1.9, -3.9, wall, utilityGroup);
+    const utilityLeftWall = sbox(0.2, 3.8, 8, -4.9, 1.9, 0, wall, utilityGroup);
+    const utilityRightWall = sbox(0.2, 3.8, 8, 4.9, 1.9, 0, wall, utilityGroup);
+
+    // 3. Heavy-Duty Base Cabinetry
+    box(6.6, 0.88, 0.85, -1.2, 0.44, -3.45, darkMat, utilityGroup);
+    // Scullery Deep Heavy Countertop Slab (Customizable in 3D)
+    const utilityCounter = sbox(6.8, 0.08, 0.9, -1.2, 0.92, -3.45, wall, utilityGroup);
+
+    // Deep Undermount Stainless Steel Utility Wash Sink
+    box(1.4, 0.38, 0.6, -2.2, 0.72, -3.45, chromeMat, utilityGroup);
+    // Commercial High-Arch Spray Faucet
+    cyl(0.02, 0.02, 0.48, -2.2, 1.18, -3.72, chromeMat, utilityGroup);
+    box(0.04, 0.04, 0.22, -2.2, 1.4, -3.62, chromeMat, utilityGroup);
+
+    // 4. Heavy Splashback Dado Wall (Customizable in 3D)
+    const utilityBacksplash = sbox(6.8, 1.2, 0.16, -1.2, 1.55, -3.88, wall, utilityGroup);
+
+    // 5. Laundry Appliance Station (Twin Front-Load Washer & Dryer)
+    box(0.75, 0.9, 0.75, 1.4, 0.45, -3.45, M('#f0f0f4', 0.15), utilityGroup);
+    box(0.75, 0.9, 0.75, 2.35, 0.45, -3.45, M('#f0f0f4', 0.15), utilityGroup);
+    cyl(0.24, 0.24, 0.03, 1.4, 0.48, -3.06, darkMat, utilityGroup);
+    cyl(0.24, 0.24, 0.03, 2.35, 0.48, -3.06, darkMat, utilityGroup);
+
+    // Upper Heavy-Duty Storage Cabinets
+    box(6.8, 0.9, 0.45, -1.2, 2.65, -3.67, woodCabinet, utilityGroup);
+    // Utility Louvered Window
+    box(0.12, 1.8, 2.2, 4.85, 2.0, 0, darkMat, utilityGroup);
+    box(0.03, 1.7, 2.1, 4.85, 2.0, 0, glassMat, utilityGroup);
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // ── 2. POOJA ROOM & MANDIR SANCTUARY (WebGL Sacred Architectural 3D) ──
+    // ═════════════════════════════════════════════════════════════════════════
+    const poojaSun = new THREE.DirectionalLight(0xffeedb, 2.4);
+    poojaSun.position.set(-3, 8, 4);
+    poojaSun.castShadow = true;
+    poojaGroup.add(poojaSun);
+
+    const poojaDiyaGlow1 = new THREE.PointLight(0xff9922, 2.2, 4.5);
+    poojaDiyaGlow1.position.set(-1.4, 1.2, -1.8);
+    poojaGroup.add(poojaDiyaGlow1);
+
+    const poojaDiyaGlow2 = new THREE.PointLight(0xff9922, 2.2, 4.5);
+    poojaDiyaGlow2.position.set(1.4, 1.2, -1.8);
+    poojaGroup.add(poojaDiyaGlow2);
+
+    const poojaAltarCove = new THREE.PointLight(0xffe6a3, 2.0, 5.0);
+    poojaAltarCove.position.set(0, 2.0, -3.2);
+    poojaGroup.add(poojaAltarCove);
+
+    // 1. Pristine White Marble Flooring with Brass Inlay (Customizable in 3D)
+    const poojaFloor = new THREE.Mesh(new THREE.PlaneGeometry(8, 8), M('#faf8f5', 0.15));
+    poojaFloor.rotation.x = -Math.PI / 2;
+    poojaFloor.position.set(0, 0.025, 0);
+    poojaFloor.receiveShadow = true;
+    poojaGroup.add(poojaFloor);
+
+    // 2. Sanctuary Perimeter Walls (Customizable in 3D)
+    const poojaBackWall = sbox(8, 3.8, 0.2, 0, 1.9, -3.9, wall, poojaGroup);
+    const poojaLeftWall = sbox(0.2, 3.8, 8, -3.9, 1.9, 0, wall, poojaGroup);
+    const poojaRightWall = sbox(0.2, 3.8, 8, 3.9, 1.9, 0, wall, poojaGroup);
+
+    // 3. Backlit Altar Sanctum Niche (Customizable in 3D: Onyx, Marble, Translucent Granite)
+    const poojaAltarWall = sbox(3.6, 2.4, 0.18, 0, 2.0, -3.85, wall, poojaGroup);
+    // Brass & teak sanctum arch border
+    box(3.8, 2.6, 0.08, 0, 2.0, -3.89, goldMat, poojaGroup);
+
+    // 4. Tiered Sacred Deity Pedestal (Customizable in 3D)
+    const poojaPedestal1 = sbox(3.8, 0.25, 1.5, 0, 0.125, -2.85, wall, poojaGroup);
+    const poojaPedestal2 = sbox(2.8, 0.28, 1.0, 0, 0.38, -3.05, wall, poojaGroup);
+    const poojaPedestalTop = sbox(1.5, 0.18, 0.6, 0, 0.61, -3.1, wall, poojaGroup);
+
+    // 5. Ornate Temple Pillars & Carved Lintel Arch
+    cyl(0.08, 0.09, 2.6, -1.6, 1.7, -2.2, goldMat, poojaGroup);
+    cyl(0.08, 0.09, 2.6, 1.6, 1.7, -2.2, goldMat, poojaGroup);
+    box(3.6, 0.25, 0.25, 0, 3.05, -2.2, goldMat, poojaGroup);
+    cyl(0.25, 0.02, 0.45, 0, 3.4, -2.2, goldMat, poojaGroup);
+
+    // 6. Sacred Hanging Bells & Traditional Oil Lamps (Samai)
+    cyl(0.01, 0.01, 1.2, -1.0, 2.8, -1.5, goldMat, poojaGroup);
+    cyl(0.1, 0.03, 0.18, -1.0, 2.1, -1.5, goldMat, poojaGroup);
+    cyl(0.01, 0.01, 1.2, 1.0, 2.8, -1.5, goldMat, poojaGroup);
+    cyl(0.1, 0.03, 0.18, 1.0, 2.1, -1.5, goldMat, poojaGroup);
+    cyl(0.035, 0.06, 1.05, -1.4, 0.53, -1.8, goldMat, poojaGroup);
+    cyl(0.035, 0.06, 1.05, 1.4, 0.53, -1.8, goldMat, poojaGroup);
+    cyl(0.22, 0.2, 0.04, 0, 0.42, -2.3, goldMat, poojaGroup);
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // ── 3. GRAND ENTRANCE FOYER & VESTIBULE (WebGL Luxury Architectural 3D) ─
+    // ═════════════════════════════════════════════════════════════════════════
+    const foyerSun = new THREE.DirectionalLight(0xfff2e0, 2.8);
+    foyerSun.position.set(-6, 10, 5);
+    foyerSun.castShadow = true;
+    foyerGroup.add(foyerSun);
+
+    const foyerChandelier = new THREE.PointLight(0xffe2b0, 2.6, 8.5);
+    foyerChandelier.position.set(0, 3.4, 0);
+    foyerGroup.add(foyerChandelier);
+
+    // 1. Grand Foyer Floor & Central Geometric Bookmatch Medallion
+    const foyerFloor = new THREE.Mesh(new THREE.PlaneGeometry(12, 10), M('#eae4d8', 0.18));
+    foyerFloor.rotation.x = -Math.PI / 2;
+    foyerFloor.position.set(0, 0.025, 0);
+    foyerFloor.receiveShadow = true;
+    foyerGroup.add(foyerFloor);
+
+    // Central Stone Inlay Medallion (Customizable in 3D: Bookmatched Granites & Marbles)
+    const foyerMedallion = sbox(4.6, 0.012, 4.6, 0, 0.032, 0, wall, foyerGroup);
+    box(4.8, 0.014, 4.8, 0, 0.033, 0, goldMat, foyerGroup);
+
+    // 2. Foyer Perimeter Architectural Walls (Customizable in 3D)
+    const foyerBackWall = sbox(12, 4.2, 0.2, 0, 2.1, -4.9, wall, foyerGroup);
+    const foyerLeftWall = sbox(0.2, 4.2, 10, -5.9, 2.1, 0, wall, foyerGroup);
+    const foyerRightWall = sbox(0.2, 4.2, 10, 5.9, 2.1, 0, wall, foyerGroup);
+
+    // 3. Grand Bookmatched Feature Accent Wall (Customizable in 3D)
+    const foyerAccentWall = sbox(6.2, 3.8, 0.18, 0, 2.1, -4.8, wall, foyerGroup);
+    for (let fi = 0; fi < 14; fi++) {
+      box(0.08, 3.8, 0.08, -3.8 + fi * 0.12, 2.1, -4.75, slat, foyerGroup);
+      box(0.08, 3.8, 0.08, 3.2 + fi * 0.12, 2.1, -4.75, slat, foyerGroup);
+    }
+
+    // 4. Cantilevered Stone Console Table (Customizable in 3D)
+    const foyerConsole = sbox(3.2, 0.14, 0.7, 0, 0.88, -4.3, wall, foyerGroup);
+    box(2.4, 0.8, 0.4, 0, 0.4, -4.3, goldMat, foyerGroup);
+
+    // 5. Giant Backlit Architectural Statement Mirror
+    cyl(0.85, 0.85, 0.02, 0, 2.45, -4.7, warmLedMat, foyerGroup);
+    cyl(0.8, 0.8, 0.03, 0, 2.45, -4.68, chromeMat, foyerGroup);
+
+    // 6. Villa Grand Oak Entrance Double Door
+    box(0.12, 3.2, 2.2, -5.85, 1.6, 1.2, darkMat, foyerGroup);
+    cyl(0.02, 0.02, 1.8, -5.75, 1.6, 1.2, goldMat, foyerGroup);
+    cyl(0.25, 0.18, 1.1, -2.2, 0.55, -4.1, M('#dedede', 0.4), foyerGroup);
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // ── 4. SWIMMING POOL DECK & SUNKEN LOUNGE (WebGL Resort 3D) ───────────
+    // ═════════════════════════════════════════════════════════════════════════
+    const poolSun = new THREE.DirectionalLight(0xfffaea, 3.5);
+    poolSun.position.set(-7, 13, 8);
+    poolSun.castShadow = true;
+    poolSun.shadow.mapSize.set(2048, 2048);
+    poolSun.shadow.bias = -0.0005;
+    poolGroup.add(poolSun);
+
+    const poolSky = new THREE.DirectionalLight(0xbde3ff, 1.5);
+    poolSky.position.set(6, 8, -5);
+    poolGroup.add(poolSky);
+
+    const poolAquaLight = new THREE.PointLight(0x00e5ff, 2.6, 9.0);
+    poolAquaLight.position.set(-1.8, -0.3, 0);
+    poolGroup.add(poolAquaLight);
+
+    // 1. Crystal Aqua Pool Water Plane
+    const poolWaterMat = new THREE.MeshStandardMaterial({
+      color: 0x0fa5c4,
+      roughness: 0.08,
+      metalness: 0.15,
+      transparent: true,
+      opacity: 0.74
+    });
+    const poolWater = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 10.6), poolWaterMat);
+    poolWater.rotation.x = -Math.PI / 2;
+    poolWater.position.set(-1.8, 0.08, 0);
+    poolGroup.add(poolWater);
+
+    // 2. Large Format Anti-Slip Wet Deck Paving (Customizable in 3D)
+    const poolDeck = new THREE.Mesh(new THREE.PlaneGeometry(16, 14), M('#363432', 0.55));
+    poolDeck.rotation.x = -Math.PI / 2;
+    poolDeck.position.set(0, 0.025, 0);
+    poolDeck.receiveShadow = true;
+    poolGroup.add(poolDeck);
+
+    // 3. Perimeter Bullnose Pool Edge Coping Stones (Customizable in 3D)
+    const poolCopingE = sbox(0.5, 0.1, 10.8, 1.5, 0.12, 0, wall, poolGroup);
+    const poolCopingW = sbox(0.5, 0.1, 10.8, -5.1, 0.12, 0, wall, poolGroup);
+    const poolCopingN = sbox(7.1, 0.1, 0.5, -1.8, 0.12, -5.4, wall, poolGroup);
+    const poolCopingS = sbox(7.1, 0.1, 0.5, -1.8, 0.12, 5.4, wall, poolGroup);
+
+    // 4. Cascading Waterfall Feature Wall (Customizable in 3D)
+    const poolWaterWall = sbox(6.8, 3.4, 0.4, -1.8, 1.7, -6.6, wall, poolGroup);
+    box(3.2, 0.06, 0.3, -1.8, 2.2, -6.3, chromeMat, poolGroup);
+    sbox(0.3, 3.4, 14, -7.85, 1.7, 0, wall, poolGroup);
+
+    // 5. Sunken Conversation Lounge Steps & Bench (Customizable in 3D)
+    const poolLoungeBench = sbox(4.5, 0.45, 4.5, 4.8, 0.225, 0, wall, poolGroup);
+    box(3.8, 0.2, 3.8, 4.8, 0.45, 0, M('#e4dcd0', 0.8), poolGroup);
+    box(3.8, 0.5, 0.3, 4.8, 0.7, -1.8, M('#d0c5b5', 0.8), poolGroup);
+    box(0.3, 0.5, 3.8, 6.6, 0.7, 0, M('#d0c5b5', 0.8), poolGroup);
+    cyl(0.5, 0.5, 0.4, 4.8, 0.45, 0, darkMat, poolGroup);
+
+    // 6. Resort Sun Loungers
+    box(0.75, 0.25, 2.0, 2.6, 0.15, -2.4, woodCabinet, poolGroup);
+    box(0.75, 0.25, 2.0, 2.6, 0.15, 2.4, woodCabinet, poolGroup);
+
+    // ═════════════════════════════════════════════════════════════════════════
+    // ── 5. EXECUTIVE HOME BAR & CIGAR LOUNGE (WebGL Mood Lounge 3D) ───────
+    // ═════════════════════════════════════════════════════════════════════════
+    const barSun = new THREE.DirectionalLight(0xffe0b8, 2.6);
+    barSun.position.set(-5, 9, 5);
+    barSun.castShadow = true;
+    barGroup.add(barSun);
+
+    const barShelfGlow1 = new THREE.PointLight(0xffbe6b, 2.0, 5.0);
+    barShelfGlow1.position.set(0, 1.8, -4.0);
+    barGroup.add(barShelfGlow1);
+
+    const barShelfGlow2 = new THREE.PointLight(0xffbe6b, 2.0, 5.0);
+    barShelfGlow2.position.set(0, 2.6, -4.0);
+    barGroup.add(barShelfGlow2);
+
+    const barCounterGlow = new THREE.PointLight(0xffd588, 1.6, 4.5);
+    barCounterGlow.position.set(0, 0.85, 0.5);
+    barGroup.add(barCounterGlow);
+
+    // 1. High-Gloss Dark Marble Lounge Floor (Customizable in 3D)
+    const barFloor = new THREE.Mesh(new THREE.PlaneGeometry(12, 11), M('#1e1c1a', 0.25));
+    barFloor.rotation.x = -Math.PI / 2;
+    barFloor.position.set(0, 0.025, 0);
+    barFloor.receiveShadow = true;
+    barGroup.add(barFloor);
+
+    // 2. Perimeter Lounge Walls (Customizable in 3D)
+    const barBackWall = sbox(12, 4.2, 0.2, 0, 2.1, -4.4, wall, barGroup);
+    const barLeftWall = sbox(0.2, 4.2, 10, -5.9, 2.1, 0, wall, barGroup);
+    const barRightWall = sbox(0.2, 4.2, 10, 5.9, 2.1, 0, wall, barGroup);
+
+    // 3. Back-Bar Showcase Feature Cladding Wall (Customizable in 3D)
+    const barBackSlab = sbox(7.2, 3.4, 0.16, 0, 2.2, -4.3, wall, barGroup);
+
+    // Floating Brass & Glass Liquor Display Shelving
+    box(6.8, 0.05, 0.42, 0, 1.6, -4.0, goldMat, barGroup);
+    box(6.8, 0.05, 0.42, 0, 2.2, -4.0, goldMat, barGroup);
+    box(6.8, 0.05, 0.42, 0, 2.8, -4.0, goldMat, barGroup);
+
+    // Luxury Liquor Bottles & Crystal Glassware
+    cyl(0.04, 0.04, 0.28, -2.2, 1.76, -4.0, M('#9c6628', 0.1), barGroup);
+    cyl(0.05, 0.05, 0.24, -1.8, 1.74, -4.0, M('#234d31', 0.1), barGroup);
+    cyl(0.045, 0.045, 0.26, -1.4, 1.75, -4.0, M('#e2dfd2', 0.05), barGroup);
+    cyl(0.04, 0.04, 0.28, 1.4, 1.76, -4.0, M('#9c6628', 0.1), barGroup);
+    cyl(0.05, 0.05, 0.24, 1.8, 1.74, -4.0, M('#234d31', 0.1), barGroup);
+    cyl(0.045, 0.045, 0.26, 2.2, 1.75, -4.0, M('#e2dfd2', 0.05), barGroup);
+
+    // 4. Monolithic Waterfall Granite Bar Island (The Architectural Focal Point)
+    box(4.6, 0.95, 1.4, 0, 0.475, 0.0, darkMat, barGroup);
+    // Bar Top Slab (Customizable in 3D)
+    const barIslandTop = sbox(4.9, 0.1, 1.65, 0, 1.0, 0.0, wall, barGroup);
+    // Waterfall Left Drop Leg
+    const barIslandLeftDrop = sbox(0.1, 1.0, 1.65, -2.45, 0.5, 0.0, wall, barGroup);
+    // Waterfall Right Drop Leg
+    const barIslandRightDrop = sbox(0.1, 1.0, 1.65, 2.45, 0.5, 0.0, wall, barGroup);
+
+    // Integrated Prep Sink & Brass Cocktail Station
+    box(0.65, 0.25, 0.45, -1.3, 0.85, -0.2, goldMat, barGroup);
+    cyl(0.015, 0.015, 0.28, -1.3, 1.15, -0.4, goldMat, barGroup);
+
+    // Brushed Brass Footrail
+    const barFootrail = cyl(0.025, 0.025, 4.4, 0, 0.18, 0.95, goldMat, barGroup);
+    barFootrail.rotation.z = Math.PI / 2;
+
+    // 5. Designer High Barstools
+    for (let bsi = 0; bsi < 4; bsi++) {
+      const bx = -1.6 + bsi * 1.08;
+      cyl(0.018, 0.018, 0.72, bx, 0.36, 1.45, goldMat, barGroup);
+      cyl(0.2, 0.2, 0.03, bx, 0.03, 1.45, goldMat, barGroup);
+      cyl(0.2, 0.2, 0.08, bx, 0.74, 1.45, M('#2b1d16', 0.3), barGroup);
+    }
+
+    // 6. Trio of Pendant Smoke-Glass Chandelier Lights
+    for (let pi = 0; pi < 3; pi++) {
+      const px = -1.4 + pi * 1.4;
+      cyl(0.005, 0.005, 1.2, px, 2.8, 0.0, darkMat, barGroup);
+      cyl(0.14, 0.16, 0.32, px, 2.05, 0.0, glassMat, barGroup);
+      cyl(0.03, 0.03, 0.05, px, 2.05, 0.0, warmLedMat, barGroup);
+    }
+
     function texture(base,vein,seed){
       const c=document.createElement('canvas');c.width=c.height=512;
       const x=c.getContext('2d');x.fillStyle=base;x.fillRect(0,0,512,512);
@@ -1694,6 +2081,51 @@
         defaultKey: 'parking_paving',
         wallKeys: ['parking_compound_wall', 'parking_kerb', 'parking_facade'],
         camera: { azimuth: Math.PI * 0.28, elevation: 0.38, distance: 14.5, target: new THREE.Vector3(0, 0.8, 0) },
+        surfaces: {}
+      },
+      utility: {
+        id: 'utility',
+        name: 'Utility & Scullery Suite',
+        group: utilityGroup,
+        defaultKey: 'utility_counter',
+        wallKeys: ['utility_backsplash', 'utility_walls'],
+        camera: { azimuth: Math.PI * 0.22, elevation: 0.35, distance: 10.5, target: new THREE.Vector3(0, 1.1, 0) },
+        surfaces: {}
+      },
+      pooja: {
+        id: 'pooja',
+        name: 'Pooja Room & Mandir Sanctuary',
+        group: poojaGroup,
+        defaultKey: 'pooja_altar_wall',
+        wallKeys: ['pooja_altar_wall', 'pooja_walls', 'pooja_pedestal'],
+        camera: { azimuth: Math.PI * 0.08, elevation: 0.26, distance: 8.8, target: new THREE.Vector3(0, 1.3, 0) },
+        surfaces: {}
+      },
+      foyer: {
+        id: 'foyer',
+        name: 'Grand Entrance Foyer & Vestibule',
+        group: foyerGroup,
+        defaultKey: 'foyer_floor',
+        wallKeys: ['foyer_accent_wall', 'foyer_walls', 'foyer_console'],
+        camera: { azimuth: Math.PI * 0.25, elevation: 0.34, distance: 11.5, target: new THREE.Vector3(0, 1.2, 0) },
+        surfaces: {}
+      },
+      pool: {
+        id: 'pool',
+        name: 'Swimming Pool Deck & Sunken Lounge',
+        group: poolGroup,
+        defaultKey: 'pool_deck',
+        wallKeys: ['pool_coping', 'pool_water_wall', 'pool_lounge'],
+        camera: { azimuth: Math.PI * 0.3, elevation: 0.36, distance: 15.2, target: new THREE.Vector3(0, 0.9, 0) },
+        surfaces: {}
+      },
+      bar: {
+        id: 'bar',
+        name: 'Executive Home Bar & Cigar Lounge',
+        group: barGroup,
+        defaultKey: 'bar_counter',
+        wallKeys: ['bar_back_wall', 'bar_walls', 'bar_floor'],
+        camera: { azimuth: Math.PI * 0.22, elevation: 0.32, distance: 10.5, target: new THREE.Vector3(0, 1.15, 0) },
         surfaces: {}
       }
     };
@@ -1754,6 +2186,52 @@
     reg('parking', 'parking_kerb', 'Kerb Border & Steps', parkingStep, 2, 0.6, 5.6);
     reg('parking', 'parking_facade', 'Villa Porch & Entrance Facade', parkingPorch, 2, 3.2, 6.0);
     reg('parking', 'parking_facade', 'Villa Porch & Entrance Facade', parkingFacade, 1, 8.0, 4.2);
+
+    // ── 1. Utility & Scullery Service Suite Surface Registrations ──
+    reg('utility', 'utility_counter', 'Scullery Countertop & Sink Slab', utilityCounter, 2, 6.8, 0.9);
+    reg('utility', 'utility_floor', 'Anti-Skid Utility Floor', utilityFloor, null, 10, 8);
+    reg('utility', 'utility_backsplash', 'Appliance Splashback Dado', utilityBacksplash, 4, 6.8, 1.2);
+    reg('utility', 'utility_walls', 'Service Balcony Walls', utilityBackWall, 4, 10, 3.8);
+    reg('utility', 'utility_walls', 'Service Balcony Walls', utilityLeftWall, 1, 8, 3.8);
+    reg('utility', 'utility_walls', 'Service Balcony Walls', utilityRightWall, 0, 8, 3.8);
+
+    // ── 2. Pooja Room & Mandir Sanctuary Surface Registrations ──
+    reg('pooja', 'pooja_altar_wall', 'Backlit Altar Sanctum Niche', poojaAltarWall, 4, 3.6, 2.4);
+    reg('pooja', 'pooja_floor', 'Mandir Inlay Floor', poojaFloor, null, 8, 8);
+    reg('pooja', 'pooja_pedestal', 'Sacred Deity Pedestal', poojaPedestal1, 2, 3.8, 1.5);
+    reg('pooja', 'pooja_pedestal', 'Sacred Deity Pedestal', poojaPedestal2, 2, 2.8, 1.0);
+    reg('pooja', 'pooja_pedestal', 'Sacred Deity Pedestal', poojaPedestalTop, 2, 1.5, 0.6);
+    reg('pooja', 'pooja_walls', 'Sanctuary Perimeter Walls', poojaBackWall, 4, 8, 3.8);
+    reg('pooja', 'pooja_walls', 'Sanctuary Perimeter Walls', poojaLeftWall, 1, 8, 3.8);
+    reg('pooja', 'pooja_walls', 'Sanctuary Perimeter Walls', poojaRightWall, 0, 8, 3.8);
+
+    // ── 3. Grand Entrance Foyer & Vestibule Surface Registrations ──
+    reg('foyer', 'foyer_floor', 'Grand Medallion Floor', foyerFloor, null, 12, 10);
+    reg('foyer', 'foyer_floor', 'Grand Medallion Floor', foyerMedallion, 2, 4.6, 4.6);
+    reg('foyer', 'foyer_accent_wall', 'Foyer Bookmatched Accent Wall', foyerAccentWall, 4, 6.2, 3.8);
+    reg('foyer', 'foyer_console', 'Cantilevered Console Slab', foyerConsole, 2, 3.2, 0.7);
+    reg('foyer', 'foyer_walls', 'Vestibule Perimeter Walls', foyerBackWall, 4, 12, 4.2);
+    reg('foyer', 'foyer_walls', 'Vestibule Perimeter Walls', foyerLeftWall, 1, 10, 4.2);
+    reg('foyer', 'foyer_walls', 'Vestibule Perimeter Walls', foyerRightWall, 0, 10, 4.2);
+
+    // ── 4. Swimming Pool Deck & Sunken Lounge Surface Registrations ──
+    reg('pool', 'pool_deck', 'Wet Deck Anti-Slip Paving', poolDeck, null, 16, 14);
+    reg('pool', 'pool_coping', 'Pool Coping & Overflow Border', poolCopingE, 2, 0.5, 10.8);
+    reg('pool', 'pool_coping', 'Pool Coping & Overflow Border', poolCopingW, 2, 0.5, 10.8);
+    reg('pool', 'pool_coping', 'Pool Coping & Overflow Border', poolCopingN, 2, 7.1, 0.5);
+    reg('pool', 'pool_coping', 'Pool Coping & Overflow Border', poolCopingS, 2, 7.1, 0.5);
+    reg('pool', 'pool_water_wall', 'Cascade Water Feature Wall', poolWaterWall, 4, 6.8, 3.4);
+    reg('pool', 'pool_lounge', 'Sunken Lounge Steps & Bench', poolLoungeBench, 2, 4.5, 4.5);
+
+    // ── 5. Executive Home Bar & Cigar Lounge Surface Registrations ──
+    reg('bar', 'bar_counter', 'Waterfall Bar Island & Top', barIslandTop, 2, 4.9, 1.65);
+    reg('bar', 'bar_counter', 'Waterfall Bar Island & Top', barIslandLeftDrop, 0, 1.0, 1.65);
+    reg('bar', 'bar_counter', 'Waterfall Bar Island & Top', barIslandRightDrop, 1, 1.0, 1.65);
+    reg('bar', 'bar_back_wall', 'Back-Bar Showcase Wall', barBackSlab, 4, 7.2, 3.4);
+    reg('bar', 'bar_floor', 'Lounge Suite Floor', barFloor, null, 12, 11);
+    reg('bar', 'bar_walls', 'Acoustic Lounge Walls', barBackWall, 4, 12, 4.2);
+    reg('bar', 'bar_walls', 'Acoustic Lounge Walls', barLeftWall, 1, 10, 4.2);
+    reg('bar', 'bar_walls', 'Acoustic Lounge Walls', barRightWall, 0, 10, 4.2);
 
     const showroomSlabs=[{"kind":"slab","id":"slab_69","name":"Alaska White","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783084356-6a47b5441b767.webp","thumb":"assets/images/thumbs/product-1783084356-6a47b5441b767.webp","isSig":true},{"kind":"slab","id":"slab_73","name":"Banswara Marble","cat":"marble","category":"Marble","origin":"Rajasthan","url":"assets/images/products/product-1783085208-6a47b8986af97.webp","thumb":"assets/images/thumbs/product-1783085208-6a47b8986af97.webp","isSig":true},{"kind":"slab","id":"slab_58","name":"Black Forrest","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783083657-6a47b289a4a40.webp","thumb":"assets/images/thumbs/product-1783083657-6a47b289a4a40.webp","isSig":true},{"kind":"slab","id":"slab_77","name":"Black Pearl","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783138424-6a488878abc22.webp","thumb":"assets/images/thumbs/product-1783138424-6a488878abc22.webp","isSig":true},{"kind":"slab","id":"slab_74","name":"Blue in the Night","cat":"granite","category":"Imported Granite","origin":"Norway","url":"assets/images/products/product-1783085244-6a47b8bcd330d.webp","thumb":"assets/images/thumbs/product-1783085244-6a47b8bcd330d.webp","isSig":true},{"kind":"slab","id":"slab_72","name":"Emerald Onyx Marble","cat":"marble","category":"Onyx Marble","origin":"Rajasthan","url":"assets/images/products/product-1783085161-6a47b869e0448.webp","thumb":"assets/images/thumbs/product-1783085161-6a47b869e0448.webp","isSig":true},{"kind":"slab","id":"slab_76","name":"Marie Gold","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783085317-6a47b9058f71e.webp","thumb":"assets/images/thumbs/product-1783085317-6a47b9058f71e.webp","isSig":true},{"kind":"slab","id":"slab_33","name":"Moon White","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783079448-6a47a218632fd.webp","thumb":"assets/images/thumbs/product-1783079448-6a47a218632fd.webp","isSig":true},{"kind":"slab","id":"slab_78","name":"River Black","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783138465-6a4888a145274.webp","thumb":"assets/images/thumbs/product-1783138465-6a4888a145274.webp","isSig":true},{"kind":"slab","id":"slab_31","name":"River White","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783078831-6a479faf4fcbd.webp","thumb":"assets/images/thumbs/product-1783078831-6a479faf4fcbd.webp","isSig":true},{"kind":"slab","id":"slab_67","name":"Tan Brown","cat":"granite","category":"Granite","origin":"Andhra Pradesh","url":"assets/images/products/product-1783084011-6a47b3eb20cf0.webp","thumb":"assets/images/thumbs/product-1783084011-6a47b3eb20cf0.webp","isSig":true},{"kind":"slab","id":"slab_56","name":"Titanium Black","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783083560-6a47b228132ac.webp","thumb":"assets/images/thumbs/product-1783083560-6a47b228132ac.webp","isSig":true},{"kind":"slab","id":"slab_49","name":"3D Rock Look","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783081135-6a47a8af74f0b.webp","thumb":"assets/images/thumbs/product-1783081135-6a47a8af74f0b.webp","isSig":false},{"kind":"slab","id":"slab_68","name":"Alaska Pink","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783084260-6a47b4e40ca25.webp","thumb":"assets/images/thumbs/product-1783084260-6a47b4e40ca25.webp","isSig":false},{"kind":"slab","id":"slab_46","name":"Asian Green","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783080897-6a47a7c1ec5ed.webp","thumb":"assets/images/thumbs/product-1783080897-6a47a7c1ec5ed.webp","isSig":false},{"kind":"slab","id":"slab_41","name":"Astoria Gold","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783080299-6a47a56b99b00.webp","thumb":"assets/images/thumbs/product-1783080299-6a47a56b99b00.webp","isSig":false},{"kind":"slab","id":"slab_51","name":"Bassi Lapatro","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783081478-6a47aa06b6e30.webp","thumb":"assets/images/thumbs/product-1783081478-6a47aa06b6e30.webp","isSig":false},{"kind":"slab","id":"slab_57","name":"Black Swan","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083605-6a47b25571850.webp","thumb":"assets/images/thumbs/product-1783083605-6a47b25571850.webp","isSig":false},{"kind":"slab","id":"slab_61","name":"Cats Eye","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083788-6a47b30cde49f.webp","thumb":"assets/images/thumbs/product-1783083788-6a47b30cde49f.webp","isSig":false},{"kind":"slab","id":"slab_32","name":"China White","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783078937-6a47a0192a9b3.webp","thumb":"assets/images/thumbs/product-1783078937-6a47a0192a9b3.webp","isSig":false},{"kind":"slab","id":"slab_60","name":"Coin Black","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783083744-6a47b2e0d4304.webp","thumb":"assets/images/thumbs/product-1783083744-6a47b2e0d4304.webp","isSig":false},{"kind":"slab","id":"slab_64","name":"Colombo Jubrana","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783083902-6a47b37e26547.webp","thumb":"assets/images/thumbs/product-1783083902-6a47b37e26547.webp","isSig":false},{"kind":"slab","id":"slab_35","name":"Crystal Blue","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783079633-6a47a2d18815c.webp","thumb":"assets/images/thumbs/product-1783079633-6a47a2d18815c.webp","isSig":false},{"kind":"slab","id":"slab_52","name":"Flash Green","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783083136-6a47b0804c4ee.webp","thumb":"assets/images/thumbs/product-1783083136-6a47b0804c4ee.webp","isSig":false},{"kind":"slab","id":"slab_42","name":"Forrest Gold","cat":"granite","category":"Sand Stone","origin":"Rajasthan","url":"assets/images/products/product-1783080383-6a47a5bf9a4a3.webp","thumb":"assets/images/thumbs/product-1783080383-6a47a5bf9a4a3.webp","isSig":false},{"kind":"slab","id":"slab_47","name":"Forrest Green","cat":"marble","category":"Marble","origin":"Rajasthan","url":"assets/images/products/product-1783080973-6a47a80d4a3d5.webp","thumb":"assets/images/thumbs/product-1783080973-6a47a80d4a3d5.webp","isSig":false},{"kind":"slab","id":"slab_54","name":"Galaxy","cat":"granite","category":"Granite","origin":"Andhra Pradesh","url":"assets/images/products/product-1783083490-6a47b1e260326.webp","thumb":"assets/images/thumbs/product-1783083490-6a47b1e260326.webp","isSig":false},{"kind":"slab","id":"slab_29","name":"Galaxy White","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783078566-6a479ea6bfc0b.webp","thumb":"assets/images/thumbs/product-1783078566-6a479ea6bfc0b.webp","isSig":false},{"kind":"slab","id":"slab_30","name":"Gelatic White","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783078626-6a479ee25bd3e.webp","thumb":"assets/images/thumbs/product-1783078626-6a479ee25bd3e.webp","isSig":false},{"kind":"slab","id":"slab_48","name":"Green Marble","cat":"marble","category":"Marble","origin":"Rajasthan","url":"assets/images/products/product-1783081066-6a47a86a5d5e2.webp","thumb":"assets/images/thumbs/product-1783081066-6a47a86a5d5e2.webp","isSig":false},{"kind":"slab","id":"slab_50","name":"Hassan Green","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783081328-6a47a9703a0ea.webp","thumb":"assets/images/thumbs/product-1783081328-6a47a9703a0ea.webp","isSig":false},{"kind":"slab","id":"slab_34","name":"Ice White","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783079501-6a47a24d9fa78.webp","thumb":"assets/images/thumbs/product-1783079501-6a47a24d9fa78.webp","isSig":false},{"kind":"slab","id":"slab_59","name":"Impala Black","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083696-6a47b2b0cbb16.webp","thumb":"assets/images/thumbs/product-1783083696-6a47b2b0cbb16.webp","isSig":false},{"kind":"slab","id":"slab_37","name":"Kingfisher Blue","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783079826-6a47a39205007.webp","thumb":"assets/images/thumbs/product-1783079826-6a47a39205007.webp","isSig":false},{"kind":"slab","id":"slab_63","name":"Lakha Red","cat":"granite","category":"Granite","origin":"Rajasthan","url":"assets/images/products/product-1783083869-6a47b35dab1cb.webp","thumb":"assets/images/thumbs/product-1783083869-6a47b35dab1cb.webp","isSig":false},{"kind":"slab","id":"slab_38","name":"Lavender Blue","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783079927-6a47a3f7bc726.webp","thumb":"assets/images/thumbs/product-1783079927-6a47a3f7bc726.webp","isSig":false},{"kind":"slab","id":"slab_66","name":"Mountain Brown","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083965-6a47b3bd9408e.webp","thumb":"assets/images/thumbs/product-1783083965-6a47b3bd9408e.webp","isSig":false},{"kind":"slab","id":"slab_53","name":"Pista Green","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083351-6a47b1575ccdd.webp","thumb":"assets/images/thumbs/product-1783083351-6a47b1575ccdd.webp","isSig":false},{"kind":"slab","id":"slab_65","name":"Red Purpory","cat":"granite","category":"Granite","origin":"Karnataka","url":"assets/images/products/product-1783083937-6a47b3a1ec35b.webp","thumb":"assets/images/thumbs/product-1783083937-6a47b3a1ec35b.webp","isSig":false},{"kind":"slab","id":"slab_40","name":"Romantic Blue","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783080196-6a47a504c714c.webp","thumb":"assets/images/thumbs/product-1783080196-6a47a504c714c.webp","isSig":false},{"kind":"slab","id":"slab_39","name":"SKY Blue","cat":"granite","category":"Granite","origin":"Odisha","url":"assets/images/products/product-1783080092-6a47a49c1e7b7.webp","thumb":"assets/images/thumbs/product-1783080092-6a47a49c1e7b7.webp","isSig":false},{"kind":"slab","id":"slab_36","name":"Safari Blue","cat":"granite","category":"Granite","origin":"Andhra Pradesh","url":"assets/images/products/product-1783079748-6a47a34440dc7.webp","thumb":"assets/images/thumbs/product-1783079748-6a47a34440dc7.webp","isSig":false},{"kind":"slab","id":"slab_71","name":"Scorpio","cat":"marble","category":"Marble","origin":"Rajasthan","url":"assets/images/products/product-1783084912-6a47b7700c180.webp","thumb":"assets/images/thumbs/product-1783084912-6a47b7700c180.webp","isSig":false},{"kind":"slab","id":"slab_45","name":"Shiffon Pink","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783080746-6a47a72a44742.webp","thumb":"assets/images/thumbs/product-1783080746-6a47a72a44742.webp","isSig":false},{"kind":"slab","id":"slab_44","name":"Shiva Gold","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783080607-6a47a69f485d0.webp","thumb":"assets/images/thumbs/product-1783080607-6a47a69f485d0.webp","isSig":false},{"kind":"slab","id":"slab_55","name":"Steel Grey","cat":"granite","category":"Granite","origin":"Andhra Pradesh","url":"assets/images/products/product-1783083531-6a47b20b6691a.webp","thumb":"assets/images/thumbs/product-1783083531-6a47b20b6691a.webp","isSig":false},{"kind":"slab","id":"slab_43","name":"Strawberry Pink","cat":"granite","category":"Granite","origin":"Tamil Nadu","url":"assets/images/products/product-1783080527-6a47a64f53214.webp","thumb":"assets/images/thumbs/product-1783080527-6a47a64f53214.webp","isSig":false},{"kind":"slab","id":"slab_62","name":"Wooden","cat":"granite","category":"Sandstone","origin":"Rajasthan","url":"assets/images/products/product-1783083830-6a47b3366d3c3.webp","thumb":"assets/images/thumbs/product-1783083830-6a47b3366d3c3.webp","isSig":false}];
     const photos=[],lib=new Map(),cache=new Map(),presets=[];let uid=0,cur='floor',tab='slabs',lastSrc=null,slabFilter='';
@@ -2538,6 +3016,11 @@
       roomDefs.bathroom.group.visible = (roomKey === 'bathroom');
       if (roomDefs.kitchen) roomDefs.kitchen.group.visible = (roomKey === 'kitchen');
       if (roomDefs.parking) roomDefs.parking.group.visible = (roomKey === 'parking');
+      if (roomDefs.utility) roomDefs.utility.group.visible = (roomKey === 'utility');
+      if (roomDefs.pooja) roomDefs.pooja.group.visible = (roomKey === 'pooja');
+      if (roomDefs.foyer) roomDefs.foyer.group.visible = (roomKey === 'foyer');
+      if (roomDefs.pool) roomDefs.pool.group.visible = (roomKey === 'pool');
+      if (roomDefs.bar) roomDefs.bar.group.visible = (roomKey === 'bar');
 
       // 2. Set active surfaces and default surface
       surf = roomDefs[roomKey].surfaces;
@@ -2552,10 +3035,9 @@
       updateCamera();
 
       // 4. Update top toolbar room buttons
-      if (btnLiv) btnLiv.classList.toggle('active', roomKey === 'living');
-      if (btnBth) btnBth.classList.toggle('active', roomKey === 'bathroom');
-      if (btnKit) btnKit.classList.toggle('active', roomKey === 'kitchen');
-      if (btnPrk) btnPrk.classList.toggle('active', roomKey === 'parking');
+      document.querySelectorAll('.room-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-room') === roomKey);
+      });
 
       // 5. Update stage hints
       if (roomKey === 'bathroom') {
@@ -2576,6 +3058,36 @@
             '• Customize <b>Driveway Paving Floor</b>, <b>Compound Boundary Wall</b>, or <b>Kerb Borders &amp; Steps</b><br/>' +
             '• Select heavy-duty granites (Tan Brown, River Black, Titanium Black) &bull; Cobblestone &amp; Paver Grid';
         }
+      } else if (roomKey === 'utility') {
+        if (stageHint) {
+          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Utility &amp; Scullery 3D Controls:</span><br/>' +
+            '• Customize <b>Scullery Countertop &amp; Sink</b>, <b>Anti-Skid Floor</b>, or <b>Splashback Dado</b><br/>' +
+            '• Heavy-duty granites (Tan Brown, River Black, Titanium Black) &bull; Appliance and laundry dado';
+        }
+      } else if (roomKey === 'pooja') {
+        if (stageHint) {
+          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Pooja Sanctuary 3D Controls:</span><br/>' +
+            '• Customize <b>Backlit Altar Sanctum Niche</b>, <b>Mandir Inlay Floor</b>, or <b>Deity Pedestal</b><br/>' +
+            '• Sacred stones (Emerald Onyx, Banswara Marble, Statuario) &bull; Brass inlay &amp; warm diyas';
+        }
+      } else if (roomKey === 'foyer') {
+        if (stageHint) {
+          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Grand Entrance Foyer 3D Controls:</span><br/>' +
+            '• Customize <b>Grand Medallion Floor</b>, <b>Bookmatched Accent Wall</b>, or <b>Console Table Slab</b><br/>' +
+            '• Statement luxury bookmatches (Alaska White, Black Forest, Titanium Black)';
+        }
+      } else if (roomKey === 'pool') {
+        if (stageHint) {
+          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Pool Deck &amp; Lounge 3D Controls:</span><br/>' +
+            '• Customize <b>Wet Deck Anti-Slip Paving</b>, <b>Pool Edge Coping Stones</b>, or <b>Water Feature Wall</b><br/>' +
+            '• Flamed textured granites &bull; Crystal water and sunken conversational lounge';
+        }
+      } else if (roomKey === 'bar') {
+        if (stageHint) {
+          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Executive Bar &amp; Lounge 3D Controls:</span><br/>' +
+            '• Customize <b>Waterfall Bar Island &amp; Top</b>, <b>Back-Bar Showcase Wall</b>, or <b>Lounge Floor</b><br/>' +
+            '• Exotic granites (Blue in the Night, Black Pearl, River Black) &bull; Under-counter ambient illumination';
+        }
       } else {
         if (stageHint) {
           stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Living Room Controls:</span><br/>' +
@@ -2590,12 +3102,11 @@
       status.textContent = roomDefs[roomKey].name + ' Active — Select surface or stone to customize in 3D';
     }
 
-    if (btnLiv) btnLiv.onclick = () => switchRoom('living');
-    if (btnBth) btnBth.onclick = () => switchRoom('bathroom');
-    if (btnKit) btnKit.onclick = () => switchRoom('kitchen');
-    if (btnPrk) btnPrk.onclick = () => switchRoom('parking');
+    document.querySelectorAll('.room-btn').forEach(btn => {
+      btn.onclick = () => switchRoom(btn.getAttribute('data-room'));
+    });
 
-    // ── Initialize Default Stones on Living Room & Bathroom ──
+    // ── Initialize Default Stones on Rooms ──
     (function initShowroomDefaults() {
       // 1. Curated Initial Materials for Luxury Bathroom Suite (River White Floor, Emerald Onyx Wall, Black Pearl Vanity)
       const bFloorStone = showroomSlabs.find(s => s.name === 'River White') || presets[0];
@@ -2633,7 +3144,92 @@
         roomDefs.parking.surfaces.parking_kerb.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.4, grout: 2 };
       }
 
-      // 3. Living room floor initial photo
+      // 3. Curated Initial Materials for Utility & Scullery Suite
+      const utlCounterStone = showroomSlabs.find(s => s.name === 'Tan Brown') || presets[0];
+      const utlFloorStone = showroomSlabs.find(s => s.name === 'River Black') || presets[0];
+      const utlBacksplashStone = showroomSlabs.find(s => s.name === 'River White') || presets[0];
+      if (utlCounterStone && roomDefs.utility && roomDefs.utility.surfaces.utility_counter) {
+        roomDefs.utility.surfaces.utility_counter.src = utlCounterStone;
+        roomDefs.utility.surfaces.utility_counter.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.85, grout: 3 };
+      }
+      if (utlFloorStone && roomDefs.utility && roomDefs.utility.surfaces.utility_floor) {
+        roomDefs.utility.surfaces.utility_floor.src = utlFloorStone;
+        roomDefs.utility.surfaces.utility_floor.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.35, grout: 3 };
+      }
+      if (utlBacksplashStone && roomDefs.utility && roomDefs.utility.surfaces.utility_backsplash) {
+        roomDefs.utility.surfaces.utility_backsplash.src = utlBacksplashStone;
+        roomDefs.utility.surfaces.utility_backsplash.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.75, grout: 2 };
+      }
+
+      // 4. Curated Initial Materials for Pooja Room & Mandir Sanctuary
+      const poojaAltarStone = showroomSlabs.find(s => s.name === 'Emerald Onyx Marble') || presets[0];
+      const poojaFloorStone = showroomSlabs.find(s => s.name === 'Banswara Marble') || presets.find(p => p.name === 'Calacatta White') || presets[0];
+      const poojaPedestalStone = showroomSlabs.find(s => s.name === 'Banswara Marble') || presets[0];
+      if (poojaAltarStone && roomDefs.pooja && roomDefs.pooja.surfaces.pooja_altar_wall) {
+        roomDefs.pooja.surfaces.pooja_altar_wall.src = poojaAltarStone;
+        roomDefs.pooja.surfaces.pooja_altar_wall.set = { struct: 'slab', mode: 'mirror', size: 2.2, rot: 0, gloss: 0.95, grout: 2 };
+      }
+      if (poojaFloorStone && roomDefs.pooja && roomDefs.pooja.surfaces.pooja_floor) {
+        roomDefs.pooja.surfaces.pooja_floor.src = poojaFloorStone;
+        roomDefs.pooja.surfaces.pooja_floor.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.92, grout: 2 };
+      }
+      if (poojaPedestalStone && roomDefs.pooja && roomDefs.pooja.surfaces.pooja_pedestal) {
+        roomDefs.pooja.surfaces.pooja_pedestal.src = poojaPedestalStone;
+        roomDefs.pooja.surfaces.pooja_pedestal.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.9, grout: 2 };
+      }
+
+      // 5. Curated Initial Materials for Grand Entrance Foyer
+      const foyerFloorStone = showroomSlabs.find(s => s.name === 'Alaska White') || presets[0];
+      const foyerWallStone = showroomSlabs.find(s => s.name === 'Black Forrest' || s.name === 'Black Forest') || presets[0];
+      const foyerConsoleStone = showroomSlabs.find(s => s.name === 'Titanium Black') || showroomSlabs.find(s => s.name === 'Black Pearl') || presets[0];
+      if (foyerFloorStone && roomDefs.foyer && roomDefs.foyer.surfaces.foyer_floor) {
+        roomDefs.foyer.surfaces.foyer_floor.src = foyerFloorStone;
+        roomDefs.foyer.surfaces.foyer_floor.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.88, grout: 2.5 };
+      }
+      if (foyerWallStone && roomDefs.foyer && roomDefs.foyer.surfaces.foyer_accent_wall) {
+        roomDefs.foyer.surfaces.foyer_accent_wall.src = foyerWallStone;
+        roomDefs.foyer.surfaces.foyer_accent_wall.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 2 };
+      }
+      if (foyerConsoleStone && roomDefs.foyer && roomDefs.foyer.surfaces.foyer_console) {
+        roomDefs.foyer.surfaces.foyer_console.src = foyerConsoleStone;
+        roomDefs.foyer.surfaces.foyer_console.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.9, grout: 2 };
+      }
+
+      // 6. Curated Initial Materials for Swimming Pool Deck
+      const poolDeckStone = showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+      const poolCopingStone = showroomSlabs.find(s => s.name === 'River Black') || presets[0];
+      const poolWaterWallStone = showroomSlabs.find(s => s.name === 'Black Forrest' || s.name === 'Black Forest') || presets[0];
+      if (poolDeckStone && roomDefs.pool && roomDefs.pool.surfaces.pool_deck) {
+        roomDefs.pool.surfaces.pool_deck.src = poolDeckStone;
+        roomDefs.pool.surfaces.pool_deck.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.3, grout: 4 };
+      }
+      if (poolCopingStone && roomDefs.pool && roomDefs.pool.surfaces.pool_coping) {
+        roomDefs.pool.surfaces.pool_coping.src = poolCopingStone;
+        roomDefs.pool.surfaces.pool_coping.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.5, grout: 3 };
+      }
+      if (poolWaterWallStone && roomDefs.pool && roomDefs.pool.surfaces.pool_water_wall) {
+        roomDefs.pool.surfaces.pool_water_wall.src = poolWaterWallStone;
+        roomDefs.pool.surfaces.pool_water_wall.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.8, grout: 2 };
+      }
+
+      // 7. Curated Initial Materials for Executive Home Bar & Lounge
+      const barCounterStone = showroomSlabs.find(s => s.name === 'Blue in the Night') || showroomSlabs.find(s => s.name === 'Black Pearl') || presets[0];
+      const barBackWallStone = showroomSlabs.find(s => s.name === 'Black Pearl') || presets[0];
+      const barFloorStone = showroomSlabs.find(s => s.name === 'River Black') || presets[0];
+      if (barCounterStone && roomDefs.bar && roomDefs.bar.surfaces.bar_counter) {
+        roomDefs.bar.surfaces.bar_counter.src = barCounterStone;
+        roomDefs.bar.surfaces.bar_counter.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.95, grout: 2 };
+      }
+      if (barBackWallStone && roomDefs.bar && roomDefs.bar.surfaces.bar_back_wall) {
+        roomDefs.bar.surfaces.bar_back_wall.src = barBackWallStone;
+        roomDefs.bar.surfaces.bar_back_wall.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.9, grout: 2 };
+      }
+      if (barFloorStone && roomDefs.bar && roomDefs.bar.surfaces.bar_floor) {
+        roomDefs.bar.surfaces.bar_floor.src = barFloorStone;
+        roomDefs.bar.surfaces.bar_floor.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.88, grout: 2.5 };
+      }
+
+      // 8. Living room floor initial photo
       const d = showroomTexture.split(',')[1], bin = atob(d), u = new Uint8Array(bin.length);
       for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
       addPhoto(new Blob([u], { type: 'image/jpeg' }), 'Showroom Ivory Vein').then(o => {
@@ -2654,16 +3250,28 @@
       if (urlParams.get('embed') === '1' || urlParams.get('embedded') === '1') {
         document.body.classList.add('is-embedded');
       }
-      const reqRoom = urlParams.get('room');
-      if (reqRoom === 'bathroom' || reqRoom === 'bath') {
-        switchRoom('bathroom');
-      } else if (reqRoom === 'kitchen' || reqRoom === 'kit') {
-        switchRoom('kitchen');
-      } else if (reqRoom === 'parking' || reqRoom === 'park' || reqRoom === 'driveway') {
-        switchRoom('parking');
-      } else {
-        switchRoom('living');
+      const rawReq = (urlParams.get('room') || 'living').toLowerCase();
+      let targetRoom = 'living';
+      if (roomDefs[rawReq]) {
+        targetRoom = rawReq;
+      } else if (rawReq === 'bath') {
+        targetRoom = 'bathroom';
+      } else if (rawReq === 'kit') {
+        targetRoom = 'kitchen';
+      } else if (rawReq === 'park' || rawReq === 'driveway') {
+        targetRoom = 'parking';
+      } else if (rawReq === 'scullery') {
+        targetRoom = 'utility';
+      } else if (rawReq === 'mandir') {
+        targetRoom = 'pooja';
+      } else if (rawReq === 'entrance') {
+        targetRoom = 'foyer';
+      } else if (rawReq === 'deck') {
+        targetRoom = 'pool';
+      } else if (rawReq === 'lounge') {
+        targetRoom = 'bar';
       }
+      switchRoom(targetRoom);
     })();
 
     // Expose Studio API for mobile UI actions & automated testing

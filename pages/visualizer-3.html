@@ -218,6 +218,19 @@
       padding: 2px 4px;
       border-radius: 6px;
       border: 1px solid rgba(197, 160, 89, 0.25);
+      overflow-x: auto;
+      max-width: 100%;
+      white-space: nowrap;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(197, 160, 89, 0.4) transparent;
+      -webkit-overflow-scrolling: touch;
+    }
+    .v3-room-switcher::-webkit-scrollbar {
+      height: 3px;
+    }
+    .v3-room-switcher::-webkit-scrollbar-thumb {
+      background: rgba(197, 160, 89, 0.5);
+      border-radius: 3px;
     }
     .v3-room-tab {
       background: transparent;
@@ -233,6 +246,8 @@
       align-items: center;
       gap: 5px;
       transition: all 0.2s;
+      flex-shrink: 0;
+      white-space: nowrap;
     }
     .v3-room-tab:hover {
       color: #FFF;
@@ -374,6 +389,42 @@
                     <span class="nav-room-tag">Driveway Paving, Kerb Stones &amp; Facade</span>
                   </div>
                 </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=utility">
+                  <span class="nav-room-icon">🧺</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Utility &amp; Scullery Suite <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Countertop Sink, Anti-Skid Floor &amp; Dado</span>
+                  </div>
+                </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=pooja">
+                  <span class="nav-room-icon">🪔</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Pooja Room &amp; Mandir <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Backlit Altar Niche &amp; Marble Inlay Floor</span>
+                  </div>
+                </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=foyer">
+                  <span class="nav-room-icon">🏛️</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Grand Entrance Foyer <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Medallion Floor, Feature Wall &amp; Console</span>
+                  </div>
+                </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=pool">
+                  <span class="nav-room-icon">🏊</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Swimming Pool Deck <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Wet Deck Paving, Pool Coping &amp; Lounge</span>
+                  </div>
+                </a>
+                <a class="nav-room-pill highlight-webgl" href="pages/visualizer-2.html?room=bar">
+                  <span class="nav-room-icon">🍸</span>
+                  <div class="nav-room-meta">
+                    <span class="nav-room-name">Executive Bar Lounge <span class="badge-webgl-micro">WebGL</span></span>
+                    <span class="nav-room-tag">Waterfall Bar Island &amp; Back-Bar Wall</span>
+                  </div>
+                </a>
+
               </div>
             </div>
           </div>
@@ -398,6 +449,11 @@
       <button id="v3BtnBathroom" class="v3-room-tab" onclick="setV3Room('bathroom')">🛁 Luxury Bathroom <span class="v3-badge-webgl">WebGL</span></button>
       <button id="v3BtnKitchen" class="v3-room-tab" onclick="setV3Room('kitchen')">🍽️ Luxury Kitchen <span class="v3-badge-webgl">WebGL</span></button>
       <button id="v3BtnParking" class="v3-room-tab" onclick="setV3Room('parking')">🚗 Parking &amp; Paving <span class="v3-badge-webgl">WebGL</span></button>
+      <button id="v3BtnUtility" class="v3-room-tab" onclick="setV3Room('utility')">🧺 Utility &amp; Scullery <span class="v3-badge-webgl">WebGL</span></button>
+      <button id="v3BtnPooja" class="v3-room-tab" onclick="setV3Room('pooja')">🪔 Pooja Sanctuary <span class="v3-badge-webgl">WebGL</span></button>
+      <button id="v3BtnFoyer" class="v3-room-tab" onclick="setV3Room('foyer')">🏛️ Grand Foyer <span class="v3-badge-webgl">WebGL</span></button>
+      <button id="v3BtnPool" class="v3-room-tab" onclick="setV3Room('pool')">🏊 Pool Deck &amp; Lounge <span class="v3-badge-webgl">WebGL</span></button>
+      <button id="v3BtnBar" class="v3-room-tab" onclick="setV3Room('bar')">🍸 Executive Bar <span class="v3-badge-webgl">WebGL</span></button>
     </div>
 
     <div class="v3-quick-links">
@@ -415,16 +471,24 @@
     function setV3Room(roomKey) {
       const frame = document.getElementById('showroom-frame');
       const desc = document.getElementById('v3-room-desc');
-      const btnLiv = document.getElementById('v3BtnLiving');
-      const btnBth = document.getElementById('v3BtnBathroom');
-      const btnKit = document.getElementById('v3BtnKitchen');
-      const btnPrk = document.getElementById('v3BtnParking');
       const rawLink = document.getElementById('v3RawLink');
 
-      if (btnLiv) btnLiv.classList.toggle('active', roomKey === 'living');
-      if (btnBth) btnBth.classList.toggle('active', roomKey === 'bathroom');
-      if (btnKit) btnKit.classList.toggle('active', roomKey === 'kitchen');
-      if (btnPrk) btnPrk.classList.toggle('active', roomKey === 'parking');
+      document.querySelectorAll('.v3-room-tab').forEach(b => {
+        b.classList.remove('active');
+      });
+
+      const activeBtn = document.getElementById({
+        living: 'v3BtnLiving',
+        bathroom: 'v3BtnBathroom',
+        kitchen: 'v3BtnKitchen',
+        parking: 'v3BtnParking',
+        utility: 'v3BtnUtility',
+        pooja: 'v3BtnPooja',
+        foyer: 'v3BtnFoyer',
+        pool: 'v3BtnPool',
+        bar: 'v3BtnBar'
+      }[roomKey]);
+      if (activeBtn) activeBtn.classList.add('active');
 
       if (roomKey === 'bathroom') {
         if (frame) frame.src = 'visualizer-2.html?room=bathroom&embed=1';
@@ -447,6 +511,41 @@
           rawLink.href = 'visualizer-2.html?room=parking';
           rawLink.textContent = 'Full Parking Viewport ↗';
         }
+      } else if (roomKey === 'utility') {
+        if (frame) frame.src = 'visualizer-2.html?room=utility&embed=1';
+        if (desc) desc.innerHTML = '<strong>3D Utility &amp; Scullery Service Suite (WebGL):</strong> Customize <strong>Scullery Countertop &amp; Sink</strong>, <strong>Anti-Skid Floor</strong>, and <strong>Splashback Dado</strong> with durable granite slabs.';
+        if (rawLink) {
+          rawLink.href = 'visualizer-2.html?room=utility';
+          rawLink.textContent = 'Full Utility Viewport ↗';
+        }
+      } else if (roomKey === 'pooja') {
+        if (frame) frame.src = 'visualizer-2.html?room=pooja&embed=1';
+        if (desc) desc.innerHTML = '<strong>3D Pooja Room &amp; Mandir Sanctuary (WebGL):</strong> Customize <strong>Backlit Altar Sanctum Niche</strong>, <strong>Mandir Inlay Floor</strong>, and <strong>Sacred Deity Pedestal</strong> with onyx and white marble.';
+        if (rawLink) {
+          rawLink.href = 'visualizer-2.html?room=pooja';
+          rawLink.textContent = 'Full Pooja Viewport ↗';
+        }
+      } else if (roomKey === 'foyer') {
+        if (frame) frame.src = 'visualizer-2.html?room=foyer&embed=1';
+        if (desc) desc.innerHTML = '<strong>3D Grand Entrance Foyer &amp; Vestibule (WebGL):</strong> Customize <strong>Grand Medallion Floor</strong>, <strong>Bookmatched Accent Wall</strong>, and <strong>Cantilevered Console Slab</strong> with statement stone.';
+        if (rawLink) {
+          rawLink.href = 'visualizer-2.html?room=foyer';
+          rawLink.textContent = 'Full Foyer Viewport ↗';
+        }
+      } else if (roomKey === 'pool') {
+        if (frame) frame.src = 'visualizer-2.html?room=pool&embed=1';
+        if (desc) desc.innerHTML = '<strong>3D Swimming Pool Deck &amp; Sunken Lounge (WebGL):</strong> Customize <strong>Wet Deck Anti-Slip Paving</strong>, <strong>Pool Coping Edge</strong>, and <strong>Cascade Water Feature Wall</strong>.';
+        if (rawLink) {
+          rawLink.href = 'visualizer-2.html?room=pool';
+          rawLink.textContent = 'Full Pool Viewport ↗';
+        }
+      } else if (roomKey === 'bar') {
+        if (frame) frame.src = 'visualizer-2.html?room=bar&embed=1';
+        if (desc) desc.innerHTML = '<strong>3D Executive Home Bar &amp; Lounge (WebGL):</strong> Customize <strong>Waterfall Bar Island &amp; Top</strong>, <strong>Back-Bar Showcase Wall</strong>, and <strong>Lounge Floor</strong> with luxury granites.';
+        if (rawLink) {
+          rawLink.href = 'visualizer-2.html?room=bar';
+          rawLink.textContent = 'Full Bar Viewport ↗';
+        }
       } else {
         if (frame) frame.src = 'V1/index.html?v=3.6.1';
         if (desc) desc.innerHTML = '<strong>3D Architectural Living Suite:</strong> Click <strong>Living Floor</strong>, <strong>Accent Wall</strong>, or <strong>Main Walls</strong> in the Stone Studio to apply 48 showroom slabs &amp; tile grids with anti-glare mobile calibration.';
@@ -459,13 +558,15 @@
 
     (function() {
       const params = new URLSearchParams(window.location.search);
-      if (params.get('room') === 'bathroom' || params.get('room') === 'bath') {
-        setV3Room('bathroom');
-      } else if (params.get('room') === 'kitchen' || params.get('room') === 'kit') {
-        setV3Room('kitchen');
-      } else if (params.get('room') === 'parking' || params.get('room') === 'park' || params.get('room') === 'driveway') {
-        setV3Room('parking');
-      }
+      const req = (params.get('room') || '').toLowerCase();
+      if (req === 'bathroom' || req === 'bath') setV3Room('bathroom');
+      else if (req === 'kitchen' || req === 'kit') setV3Room('kitchen');
+      else if (req === 'parking' || req === 'park' || req === 'driveway') setV3Room('parking');
+      else if (req === 'utility' || req === 'scullery') setV3Room('utility');
+      else if (req === 'pooja' || req === 'mandir') setV3Room('pooja');
+      else if (req === 'foyer' || req === 'entrance') setV3Room('foyer');
+      else if (req === 'pool' || req === 'deck') setV3Room('pool');
+      else if (req === 'bar' || req === 'lounge') setV3Room('bar');
     })();
       // Central MuraliSync Cross-Window & Iframe Forwarder
     window.addEventListener('storage', (e) => {
