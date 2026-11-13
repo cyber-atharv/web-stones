@@ -536,6 +536,19 @@
         
         <!-- Surface Selection (Dynamically filtered to surfaces with verified renders) -->
         <div class="p-5 rounded-3xl bg-[#141418] border border-white/10 space-y-4">
+          <!-- Room Design Scheme Variations (Instant toggle for rooms with multiple styles like Kitchen 1 vs Kitchen 2) -->
+          <div id="sidebarDesignVariationBlock" class="space-y-2 pb-3 border-b border-white/10 hidden">
+            <div class="text-xs uppercase tracking-wider font-semibold text-stone-400 flex items-center justify-between">
+              <span class="flex items-center gap-1.5">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-400"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                <span>Room Design Style</span>
+              </span>
+              <span class="text-amber-400 text-[10px]" id="sidebarDesignContextLabel">Variations</span>
+            </div>
+            <div class="grid grid-cols-1 gap-1.5" id="sidebarDesignButtonsContainer">
+            </div>
+          </div>
+
           <div class="text-xs uppercase tracking-wider font-semibold text-stone-400 flex items-center justify-between">
             <span>Target Surface</span>
             <span class="text-amber-400 text-[10px]" id="surfaceContextLabel">Kitchen Plane</span>
@@ -1193,11 +1206,11 @@
     const roomConfigs = {
       'kitchen': {
         name: 'Kitchen',
-        image: 'assets/images/rooms/kitchen-luxury.webp', fallbackImage: 'assets/images/rooms/kitchen-luxury.jpg',
+        image: 'assets/images/rooms/kitchen.webp', fallbackImage: 'assets/images/rooms/kitchen.jpg',
         defaultSurface: 'countertop',
         designs: [
-          { id: 'design-1', name: 'Design 1: European Luxury Suite', image: 'assets/images/rooms/kitchen-luxury.webp', fallbackImage: 'assets/images/rooms/kitchen-luxury.jpg', rendersCount: 24 },
-          { id: 'design-2', name: 'Design 2: Contemporary Chef Island', image: 'assets/images/rooms/kitchen.webp', fallbackImage: 'assets/images/rooms/kitchen.jpg', rendersCount: 12 }
+          { id: 'design-1', name: 'Design 1: Contemporary Island', image: 'assets/images/rooms/kitchen.webp', fallbackImage: 'assets/images/rooms/kitchen.jpg', rendersCount: 12, defaultSurface: 'countertop' },
+          { id: 'design-2', name: 'Design 2: European Luxury Suite', image: 'assets/images/rooms/kitchen-luxury.webp', fallbackImage: 'assets/images/rooms/kitchen-luxury.jpg', rendersCount: 13, defaultSurface: 'floor' }
         ],
         surfaces: {
           'countertop': {
@@ -4684,32 +4697,46 @@
       // Render Room Design Variations (active if multiple designs exist)
       const designBar = document.getElementById('roomDesignVariationBar');
       const designContainer = document.getElementById('roomDesignButtonsContainer');
-      if (designBar && designContainer) {
-        const validDesigns = (room.designs || []);
-        if (validDesigns.length > 1) {
-          designBar.classList.remove('hidden');
-          designContainer.innerHTML = '';
-          validDesigns.forEach(d => {
-            const dBtn = document.createElement('button');
-            const isDActive = d.id === (room.activeDesignId || validDesigns[0].id);
-            dBtn.type = 'button';
-            dBtn.className = `px-3 py-1.5 rounded-lg text-xs transition cursor-pointer ${
-              isDActive 
-                ? 'bg-amber-500 text-stone-950 font-bold shadow' 
-                : 'bg-stone-900 text-stone-300 border border-white/10 hover:border-amber-400'
-            }`;
-            dBtn.textContent = d.name;
-            dBtn.addEventListener('click', () => {
-              room.activeDesignId = d.id;
-              room.image = d.image;
-              renderSurfaceButtons();
-              updateStage();
-            });
-            designContainer.appendChild(dBtn);
+      const sidebarDesignBlock = document.getElementById('sidebarDesignVariationBlock');
+      const sidebarDesignContainer = document.getElementById('sidebarDesignButtonsContainer');
+      const sidebarDesignLabel = document.getElementById('sidebarDesignContextLabel');
+      const validDesigns = (room.designs || []);
+
+      const updateDesignButtons = (container) => {
+        if (!container) return;
+        container.innerHTML = '';
+        validDesigns.forEach(d => {
+          const dBtn = document.createElement('button');
+          const isDActive = d.id === (room.activeDesignId || validDesigns[0].id);
+          dBtn.type = 'button';
+          dBtn.className = `px-3 py-1.5 rounded-xl text-xs transition cursor-pointer flex items-center justify-between gap-1.5 ${
+            isDActive 
+              ? 'bg-amber-500 text-stone-950 font-bold shadow-md' 
+              : 'bg-stone-900 text-stone-300 border border-white/10 hover:border-amber-400'
+          }`;
+          dBtn.innerHTML = `<span>${d.name}</span><span class="text-[10px] opacity-75 font-normal">${d.rendersCount || ''} slabs</span>`;
+          dBtn.addEventListener('click', () => {
+            room.activeDesignId = d.id;
+            room.image = d.image;
+            if (d.defaultSurface && room.surfaces[d.defaultSurface]) {
+              currentSurfaceKey = d.defaultSurface;
+            }
+            renderSurfaceButtons();
+            updateStage();
           });
-        } else {
-          designBar.classList.add('hidden');
-        }
+          container.appendChild(dBtn);
+        });
+      };
+
+      if (validDesigns.length > 1) {
+        if (designBar) designBar.classList.remove('hidden');
+        if (designContainer) updateDesignButtons(designContainer);
+        if (sidebarDesignBlock) sidebarDesignBlock.classList.remove('hidden');
+        if (sidebarDesignContainer) updateDesignButtons(sidebarDesignContainer);
+        if (sidebarDesignLabel) sidebarDesignLabel.textContent = `${validDesigns.length} Styles`;
+      } else {
+        if (designBar) designBar.classList.add('hidden');
+        if (sidebarDesignBlock) sidebarDesignBlock.classList.add('hidden');
       }
 
       // Filter to surfaces that have >= 1 render in this room and active design
@@ -4746,6 +4773,16 @@
 
         btn.addEventListener('click', () => {
           currentSurfaceKey = surf.key;
+          // Auto-align design if the surface is exclusive to a specific design
+          if (currentRoomKey === 'kitchen') {
+            if (surf.key === 'countertop' && room.activeDesignId === 'design-2' && selectedMaterial.id !== 'river-black') {
+              room.activeDesignId = 'design-1';
+              room.image = 'assets/images/rooms/kitchen.webp';
+            } else if (surf.key === 'floor' && room.activeDesignId === 'design-1') {
+              room.activeDesignId = 'design-2';
+              room.image = 'assets/images/rooms/kitchen-luxury.webp';
+            }
+          }
           renderSurfaceButtons();
           const activeCat = document.querySelector('.mat-tab.active')?.getAttribute('data-cat') || 'all';
           renderMaterialsList(activeCat);
@@ -4897,14 +4934,20 @@
         this.style.opacity = '0.5';
       };
 
-      if (baseRoomImg.getAttribute('src') !== room.image) {
-        baseRoomImg.src = room.image;
-        afterBaseRoomImg.src = room.image;
-      }
-
       // 2. Resolve Photorealistic Preview from Manifest
       const activeDesignId = room.activeDesignId || 'design-1';
       const generatedMatch = findGeneratedPreview(currentRoomKey, selectedMaterial.id, currentSurfaceKey, activeDesignId);
+
+      // Synchronize Base Room Framing: base room image MUST match the render's exact source room!
+      const activeDesign = (room.designs || []).find(d => d.id === activeDesignId) || room.designs?.[0];
+      const correctBaseImage = (generatedMatch && generatedMatch.original_room_image) 
+        ? generatedMatch.original_room_image 
+        : (activeDesign?.image || room.image);
+
+      if (baseRoomImg.getAttribute('src') !== correctBaseImage) {
+        baseRoomImg.src = correctBaseImage;
+        afterBaseRoomImg.src = correctBaseImage;
+      }
       const generatedRoomImg = document.getElementById('generatedRoomImg');
       const renderQualityBadge = document.getElementById('renderQualityBadge');
       const renderQualityText = document.getElementById('renderQualityText');

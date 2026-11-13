@@ -1217,7 +1217,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_Black Forest.jpg"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Black Forest.jpg",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "black-pearl",
@@ -1237,7 +1239,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_Black Pearl.png"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Black Pearl.png",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "blue-night",
@@ -1257,7 +1261,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_Blue in the Night.png"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Blue in the Night.png",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "emerald-onyx",
@@ -1277,7 +1283,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_Emerald Onyx Marble.png"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Emerald Onyx Marble.png",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "kashmir-white",
@@ -1297,7 +1305,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_Kashmir Alaska White.png"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Kashmir Alaska White.png",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "marie-gold",
@@ -1317,7 +1327,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_Marie Gold.png"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Marie Gold.png",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "moon-white",
@@ -1337,7 +1349,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_Moon White.jpg"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Moon White.jpg",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "river-black",
@@ -1349,7 +1363,7 @@
     "surface_name": "Countertop & Island",
     "original_room_image": "assets/images/rooms/kitchen.webp",
     "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
-    "generated_preview": "assets/images/room_renders/kitchen countertop/render_River Black.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_River Black_contemporary.webp",
     "normalized_render_path": "assets/images/room_renders/kitchen-countertop/river-black.webp",
     "width": 1376,
     "height": 768,
@@ -1357,7 +1371,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_River Black.png"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_River Black_contemporary.jpg",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "river-white",
@@ -1377,7 +1393,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_River White.jpg"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_River White.jpg",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "statuario-marble",
@@ -1397,7 +1415,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_Statuario Banswara Marble.png"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Statuario Banswara Marble.png",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "tan-brown",
@@ -1417,7 +1437,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_Tan Brown.png"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Tan Brown.png",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "titanium-black",
@@ -1437,7 +1459,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen countertop/render_Titanium Black.jpg"
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_Titanium Black.jpg",
+    "design_id": "design-1",
+    "design_name": "Design 1: Contemporary Chef Island"
   },
   {
     "product_id": "black-forest",
@@ -3011,7 +3035,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_Black Forest.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_Black Forest.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
   },
   {
     "product_id": "black-pearl",
@@ -3031,7 +3057,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_Black Pearl.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_Black Pearl.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
   },
   {
     "product_id": "blue-night",
@@ -3051,7 +3079,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_Blue in the Night.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_Blue in the Night.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
   },
   {
     "product_id": "emerald-onyx",
@@ -3071,7 +3101,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_Emerald Onyx.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_Emerald Onyx.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
   },
   {
     "product_id": "kashmir-white",
@@ -3091,7 +3123,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_Kashmir White.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_Kashmir White.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
   },
   {
     "product_id": "marie-gold",
@@ -3111,7 +3145,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_Marie Gold.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_Marie Gold.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
   },
   {
     "product_id": "moon-white",
@@ -3131,7 +3167,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_Moon White.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_Moon White.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
   },
   {
     "product_id": "river-black",
@@ -3151,7 +3189,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_River Black.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_River Black.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
   },
   {
     "product_id": "river-white",
@@ -3171,7 +3211,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_River White.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_River White.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
   },
   {
     "product_id": "statuario-marble",
@@ -3191,7 +3233,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_Statuario.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_Statuario.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
   },
   {
     "product_id": "tan-brown",
@@ -3211,7 +3255,9 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_Tan Brown.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_Tan Brown.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
   },
   {
     "product_id": "titanium-black",
@@ -3231,6 +3277,30 @@
     "aspect_ratio_match": true,
     "status": "verified_architectural_render",
     "review_status": "verified",
-    "png_preview": "assets/images/room_renders/kitchen floor/render_Titanium Black.jpg"
+    "png_preview": "assets/images/room_renders/kitchen floor/render_Titanium Black.jpg",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite"
+  },
+  {
+    "product_id": "river-black",
+    "product_name": "River Black",
+    "category": "Granite",
+    "room_id": "kitchen",
+    "room_name": "Kitchen",
+    "design_id": "design-2",
+    "design_name": "Design 2: European Luxury Suite",
+    "surface_id": "countertop",
+    "surface_name": "Waterfall Island Table",
+    "original_room_image": "assets/images/rooms/kitchen-luxury.webp",
+    "original_stone_image": "assets/images/products/product-1783138465-6a4888a145274.webp",
+    "generated_preview": "assets/images/room_renders/kitchen countertop/render_River Black_luxury.webp",
+    "normalized_render_path": "assets/images/room_renders/kitchen-countertop/river-black.webp",
+    "width": 1376,
+    "height": 768,
+    "aspect_ratio": 1.7917,
+    "aspect_ratio_match": true,
+    "status": "verified_architectural_render",
+    "review_status": "verified",
+    "png_preview": "assets/images/room_renders/kitchen countertop/render_River Black_luxury.jpg"
   }
 ]
