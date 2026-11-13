@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Close mobile nav when clicking a link
-    mobileNav.querySelectorAll('.mobile-nav-link').forEach(link => {
+    // Close mobile nav when clicking any link
+    mobileNav.querySelectorAll('a, .mobile-nav-link, .m-link, .m-room-item').forEach(link => {
       link.addEventListener('click', () => {
         hamburger.classList.remove('open');
         mobileNav.classList.remove('open');

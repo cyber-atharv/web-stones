@@ -25,6 +25,36 @@
   // 48 Showroom Stones with authentic product images & top 12 Signature badging
   const SHOWROOM_STONES = [
   {
+    "slug": "calacatta-gold-pgvt-tile",
+    "name": "Calacatta Gold PGVT Tile",
+    "cat": "Tiles",
+    "sig": true,
+    "color": "White",
+    "finish": "High Gloss Polish",
+    "isTile": true,
+    "imageUrl": "assets/images/products/product-1783085208-6a47b8986af97.webp"
+  },
+  {
+    "slug": "armani-gris-gvt-tile",
+    "name": "Armani Gris GVT Matte Tile",
+    "cat": "Tiles",
+    "sig": true,
+    "color": "Grey",
+    "finish": "Satin Matte",
+    "isTile": true,
+    "imageUrl": "assets/images/products/product-1783083560-6a47b228132ac.webp"
+  },
+  {
+    "slug": "sahara-beige-parking-tile",
+    "name": "Sahara Beige Heavy-Duty Parking Tile",
+    "cat": "Tiles",
+    "sig": false,
+    "color": "Beige",
+    "finish": "Textured Punch",
+    "isTile": true,
+    "imageUrl": "assets/images/products/product-1783084011-6a47b3eb20cf0.webp"
+  },
+  {
     "slug": "river-black",
     "name": "River Black",
     "cat": "Granite",
@@ -473,15 +503,19 @@
           const cSlug = c.slug || c.id || c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
           const exists = dynamicShowroomStones.some(s => s.slug === cSlug || s.name.toLowerCase() === c.name.toLowerCase());
           if (!exists) {
+            const catLower = (c.category || '').toLowerCase();
+            const nameLower = (c.name || '').toLowerCase();
+            const isTile = catLower.includes('tile') || nameLower.includes('tile');
             dynamicShowroomStones.unshift({
               slug: cSlug,
               name: c.name,
-              cat: c.category || 'Granite',
+              cat: isTile ? 'Tiles' : (c.category || 'Granite'),
               sig: false,
               color: c.color || 'White',
               finish: c.finish || 'Polished',
               imageUrl: c.image_url || 'assets/images/favicon.png',
-              isCustomLive: true
+              isCustomLive: true,
+              isTile: isTile
             });
           }
         });
@@ -1218,12 +1252,13 @@
 
           <!-- Category Filter Pills -->
           <div class="msd-cat-pills">
-            <button class="msd-pill active" data-cat="all">All (48)</button>
+            <button class="msd-pill active" data-cat="all">All</button>
             <button class="msd-pill" data-cat="custom">📁 My Photos (<span id="msd-custom-count">0</span>)</button>
             <button class="msd-pill" data-cat="sig">★ Signature</button>
             <button class="msd-pill" data-cat="Granite">Granite</button>
             <button class="msd-pill" data-cat="Marble">Marble</button>
             <button class="msd-pill" data-cat="Onyx">Onyx</button>
+            <button class="msd-pill" data-cat="Tiles">Tiles</button>
           </div>
 
           <!-- Search Filter -->
@@ -1365,6 +1400,7 @@
       const matchCat = (state.filterCat === 'all') ||
         (state.filterCat === 'custom' && s.isCustom) ||
         (state.filterCat === 'sig' && s.sig) ||
+        (state.filterCat.toLowerCase() === 'tiles' && (s.isTile || (s.cat && s.cat.toLowerCase().includes('tile')))) ||
         (s.cat && s.cat.toLowerCase().includes(state.filterCat.toLowerCase()));
       const matchSearch = !state.searchQuery || s.name.toLowerCase().includes(state.searchQuery.toLowerCase());
       return matchCat && matchSearch;
