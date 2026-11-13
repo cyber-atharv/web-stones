@@ -1224,16 +1224,17 @@
     const canvas=document.getElementById('view');
     let renderer,scene,camera;
     try{
-      renderer=new THREE.WebGLRenderer({canvas,antialias:true});
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
+      renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
       renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);
       renderer.shadowMap.enabled=true;
       renderer.shadowMap.type=THREE.PCFSoftShadowMap;
       renderer.outputColorSpace=THREE.SRGBColorSpace;
       renderer.toneMapping=THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure=1.18;
       scene=new THREE.Scene();
       scene.background=new THREE.Color('#101214');
-      scene.fog=new THREE.Fog('#101214',18,34);
+      scene.fog=new THREE.Fog('#101214',18,36);
       camera=new THREE.PerspectiveCamera(43,1,.1,100);
     }catch(e){status.textContent='WebGL could not start: '+e.message;return}
 
@@ -1247,7 +1248,7 @@
     }
     updateCamera();
 
-    scene.add(new THREE.HemisphereLight(0xeaf4ff, 0x76614c, 2));
+    scene.add(new THREE.HemisphereLight(0xeaf4ff, 0x76614c, 2.2));
 
     // Groups for Multi-Room Architecture
     const livingGroup = new THREE.Group();
@@ -1277,36 +1278,43 @@
     scene.add(poolGroup);
     scene.add(barGroup);
 
-    // Living Room Lighting
-    const sun = new THREE.DirectionalLight(0xffe5bf, 3);
+    // Living Room Lighting (Crisp High-Fidelity Architectural Illumination)
+    const sun = new THREE.DirectionalLight(0xffe5bf, 3.2);
     sun.position.set(-4, 9, 6);
     sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
-    sun.shadow.bias = -0.0005;
-    sun.shadow.radius = 2.5;
+    sun.shadow.mapSize.set(4096, 4096);
+    sun.shadow.bias = -0.0003;
+    sun.shadow.radius = 2.0;
     livingGroup.add(sun);
-    const fill = new THREE.DirectionalLight(0xc7ddff, 1.1);
+    const fill = new THREE.DirectionalLight(0xc7ddff, 1.25);
     fill.position.set(5, 5, -5);
     livingGroup.add(fill);
 
+    // Warm Architectural Ambient Ceiling Spotlights
+    const livingSpot = new THREE.SpotLight(0xfff1dc, 2.4, 15, Math.PI * 0.3, 0.4, 1.2);
+    livingSpot.position.set(0, 6.5, 0);
+    livingSpot.target.position.set(0, 0, 0);
+    livingGroup.add(livingSpot);
+    livingGroup.add(livingSpot.target);
+
     // Bathroom Suite Dedicated Lighting (Soft Architectural PBR Lighting)
-    const bathSun = new THREE.DirectionalLight(0xfff3e2, 2.8);
+    const bathSun = new THREE.DirectionalLight(0xfff3e2, 3.0);
     bathSun.position.set(-5, 8.5, 4);
     bathSun.castShadow = true;
-    bathSun.shadow.mapSize.set(2048, 2048);
-    bathSun.shadow.bias = -0.0005;
-    bathSun.shadow.radius = 2.5;
+    bathSun.shadow.mapSize.set(4096, 4096);
+    bathSun.shadow.bias = -0.0003;
+    bathSun.shadow.radius = 2.0;
     bathroomGroup.add(bathSun);
 
-    const bathFill = new THREE.DirectionalLight(0xc2daf0, 1.25);
+    const bathFill = new THREE.DirectionalLight(0xc2daf0, 1.35);
     bathFill.position.set(4.5, 6, -3.5);
     bathroomGroup.add(bathFill);
 
-    const bathNicheLight = new THREE.PointLight(0xffd599, 1.4, 5.5);
+    const bathNicheLight = new THREE.PointLight(0xffd599, 1.6, 6.0);
     bathNicheLight.position.set(-0.6, 2.0, -4.1);
     bathroomGroup.add(bathNicheLight);
 
-    const bathVanityLight = new THREE.PointLight(0xffecd0, 1.3, 6);
+    const bathVanityLight = new THREE.PointLight(0xffecd0, 1.5, 6.5);
     bathVanityLight.position.set(4.0, 2.4, 0.8);
     bathroomGroup.add(bathVanityLight);
 
@@ -2345,11 +2353,15 @@
       const k=src.id+'|'+mode+'|'+struct+'|'+grout;
       if(!cache.has(k))cache.set(k,(async()=>{
         const img=await srcImage(src);
-        const iw=img.naturalWidth||img.width||1024,ih=img.naturalHeight||img.height||1024;
-        const N=1024,c=document.createElement('canvas');c.width=c.height=N;
+        const iw=img.naturalWidth||img.width||2048,ih=img.naturalHeight||img.height||2048;
+        const N=2048,c=document.createElement('canvas');c.width=c.height=N;
         const ctx=c.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
         const bcan=document.createElement('canvas');bcan.width=bcan.height=N;
         const bctx=bcan.getContext('2d');
+        bctx.imageSmoothingEnabled = true;
+        bctx.imageSmoothingQuality = 'high';
         bctx.fillStyle='#ffffff';bctx.fillRect(0,0,N,N);
         const s=Math.min(iw,ih),sx=(iw-s)/2,sy=(ih-s)/2;
 
@@ -2385,10 +2397,22 @@
           }
         }
         if(img.close)img.close();
-        const diff=new THREE.CanvasTexture(c);diff.colorSpace=THREE.SRGBColorSpace;diff.anisotropy=maxAni;diff.wrapS=diff.wrapT=THREE.RepeatWrapping;
+        const diff=new THREE.CanvasTexture(c);
+        diff.colorSpace=THREE.SRGBColorSpace;
+        diff.anisotropy=maxAni;
+        diff.wrapS=diff.wrapT=THREE.RepeatWrapping;
+        diff.generateMipmaps=true;
+        diff.minFilter=THREE.LinearMipmapLinearFilter;
+        diff.magFilter=THREE.LinearFilter;
         let bump=null;
         if(struct!=='slab'){
-          bump=new THREE.CanvasTexture(bcan);bump.colorSpace=THREE.SRGBColorSpace;bump.anisotropy=maxAni;bump.wrapS=bump.wrapT=THREE.RepeatWrapping;
+          bump=new THREE.CanvasTexture(bcan);
+          bump.colorSpace=THREE.SRGBColorSpace;
+          bump.anisotropy=maxAni;
+          bump.wrapS=bump.wrapT=THREE.RepeatWrapping;
+          bump.generateMipmaps=true;
+          bump.minFilter=THREE.LinearMipmapLinearFilter;
+          bump.magFilter=THREE.LinearFilter;
         }
         return {diff,bump,canvas:c};
       })());
@@ -2414,9 +2438,14 @@
         if(m.bumpMap){
           m.bumpMap.center.copy(t.center);m.bumpMap.repeat.copy(t.repeat);
           m.bumpMap.offset.copy(t.offset);m.bumpMap.rotation=t.rotation;
-          m.bumpMap.needsUpdate=true;m.bumpScale=0.04;
+          m.bumpMap.needsUpdate=true;m.bumpScale=0.045;
         }
-        m.roughness=Math.max(0.04,1-.95*s.set.gloss);
+        const g = s.set.gloss != null ? s.set.gloss : 0.85;
+        m.roughness=Math.max(0.04,1-.95*g);
+        if(m.clearcoat !== undefined) {
+          m.clearcoat = g > 0.55 ? Math.min(1.0, (g - 0.5) * 2.0) : 0;
+          m.clearcoatRoughness = 0.08;
+        }
         m.needsUpdate=true;
       });
 
@@ -2445,12 +2474,17 @@
         const bump=res?res.bump:null;
         const cv=res?(res.canvas||(res.diff&&res.diff.image)):null;
         s.parts.forEach(p=>{
-          const m=new THREE.MeshStandardMaterial({
+          const gloss = s.set.gloss != null ? s.set.gloss : 0.85;
+          const isPolished = gloss > 0.55;
+          const m=new THREE.MeshPhysicalMaterial({
             map:diff,
             bumpMap:bump||null,
-            bumpScale:bump?0.04:0,
-            roughness:Math.max(0.04,1-.95*s.set.gloss),
-            metalness:0.02
+            bumpScale:bump?0.045:0,
+            roughness:Math.max(0.04,1-.95*gloss),
+            metalness:0.02,
+            clearcoat: isPolished ? Math.min(1.0, (gloss - 0.5) * 2.0) : 0,
+            clearcoatRoughness: 0.08,
+            reflectivity: 0.65
           });
           setMat(p,m);
         });

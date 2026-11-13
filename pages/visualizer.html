@@ -111,12 +111,31 @@
       transition: filter 0.35s ease;
     }
   
+    /* Enhanced High-DPI Crisp Rendering for Room Stage */
+    #stageViewport img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: high-quality;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+    }
+  
     /* Stage Appearance Atmospheric Lighting Modes */
     .stage-atmosphere-normal #baseRoomImg,
     .stage-atmosphere-normal #afterBaseRoomImg,
     .stage-atmosphere-normal #generatedRoomImg {
-      filter: none;
+      filter: contrast(1.04) saturate(1.03) brightness(1.02);
       transition: filter 0.4s ease, transform 0.4s ease;
+    }
+
+    .stage-atmosphere-studio #baseRoomImg,
+    .stage-atmosphere-studio #afterBaseRoomImg,
+    .stage-atmosphere-studio #generatedRoomImg {
+      filter: contrast(1.09) saturate(1.06) brightness(1.03) drop-shadow(0 0 28px rgba(197, 160, 89, 0.28));
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+    .stage-atmosphere-studio .ambient-depth-vignette {
+      background: radial-gradient(circle at 50% 35%, rgba(197, 160, 89, 0.08) 0%, rgba(5, 6, 9, 0.55) 100%) !important;
     }
 
     .stage-atmosphere-dark #baseRoomImg,
@@ -426,6 +445,9 @@
               <div id="appearanceModeBar" class="flex items-center gap-1 p-1 rounded-full bg-black/85 backdrop-blur-md border border-white/20 shadow-xl">
                 <button type="button" class="appearance-btn active px-3 py-1 rounded-full text-[11px] font-bold transition cursor-pointer flex items-center gap-1 bg-amber-500 text-stone-950 shadow" data-mode="normal" title="Daylight Balanced (Normal)">
                   <span>☀️ Normal</span>
+                </button>
+                <button type="button" class="appearance-btn px-3 py-1 rounded-full text-[11px] font-medium transition cursor-pointer flex items-center gap-1 bg-stone-900 text-stone-300 hover:text-white hover:border-amber-400" data-mode="studio" title="Studio 4K Ultra-Clarity (Enhanced Texture Micro-Contrast & Natural Polish Pop)">
+                  <span>💎 4K Studio</span>
                 </button>
                 <button type="button" class="appearance-btn px-3 py-1 rounded-full text-[11px] font-medium transition cursor-pointer flex items-center gap-1 bg-stone-900 text-stone-300 hover:text-white hover:border-amber-400" data-mode="dark" title="Dusk / Night Architectural Ambience">
                   <span>🌙 Dark</span>
@@ -5724,7 +5746,7 @@
       const badgeText = document.getElementById('atmosphereBadgeText');
 
       if (stage) {
-        stage.classList.remove('stage-atmosphere-normal', 'stage-atmosphere-dark', 'stage-atmosphere-highlight');
+        stage.classList.remove('stage-atmosphere-normal', 'stage-atmosphere-studio', 'stage-atmosphere-dark', 'stage-atmosphere-highlight');
         stage.classList.add(`stage-atmosphere-${mode}`);
       }
 
@@ -5741,6 +5763,7 @@
 
       if (badgeText) {
         if (mode === 'normal') badgeText.textContent = 'Normal Light';
+        else if (mode === 'studio') badgeText.textContent = '4K Studio Clarity';
         else if (mode === 'dark') badgeText.textContent = 'Dark Night';
         else if (mode === 'highlight') badgeText.textContent = 'Highlight Glow';
       }
