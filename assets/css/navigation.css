@@ -402,6 +402,7 @@ header.scrolled:not(.nav-hidden) {
 }
 
 @media (max-width: 900px) {
+
   .nav-menu,
   .nav-quote-btn {
     display: none;
@@ -410,7 +411,7 @@ header.scrolled:not(.nav-hidden) {
   .hamburger {
     display: flex;
   }
-  
+
   header {
     padding: 1.5rem 6vw;
   }
@@ -650,15 +651,18 @@ footer {
   footer {
     padding: 3rem 5vw 1.8rem !important;
   }
+
   .footer-top {
     flex-direction: column;
     gap: 2.5rem;
   }
+
   .footer-brand {
     text-align: center !important;
     max-width: 100% !important;
     margin: 0 auto !important;
   }
+
   .footer-bottom {
     flex-direction: column !important;
     align-items: center !important;
@@ -678,6 +682,7 @@ footer {
     padding: 0.6rem 0.5rem !important;
     margin: 0.5rem 0 !important;
   }
+
   .dev-credit-box span:nth-child(2) {
     display: none !important;
   }
@@ -691,6 +696,7 @@ footer {
     gap: 0.8rem !important;
     margin-top: 1.2rem !important;
   }
+
   .social-icon-btn {
     width: 36px !important;
     height: 36px !important;
@@ -699,6 +705,7 @@ footer {
     align-items: center !important;
     justify-content: center !important;
   }
+
   .social-icon-btn svg {
     width: 18px !important;
     height: 18px !important;
@@ -742,6 +749,7 @@ body.custom-cursor-active * {
 body:not(.custom-cursor-active) {
   cursor: auto !important;
 }
+
 body:not(.custom-cursor-active) a,
 body:not(.custom-cursor-active) button,
 body:not(.custom-cursor-active) select,
@@ -757,6 +765,7 @@ body:not(.custom-cursor-active) .mobile-quote-btn,
 body:not(.custom-cursor-active) .theme-toggle-btn {
   cursor: pointer !important;
 }
+
 body:not(.custom-cursor-active) textarea,
 body:not(.custom-cursor-active) .collection-card,
 body:not(.custom-cursor-active) .project-card,
@@ -856,7 +865,8 @@ body:not(.custom-cursor-active) .form-submit {
   display: none !important;
 }
 
-.nav-dropdown-card:hover, .nav-dropdown-card.active {
+.nav-dropdown-card:hover,
+.nav-dropdown-card.active {
   background: rgba(197, 160, 89, 0.12);
   border-color: rgba(197, 160, 89, 0.45);
   transform: translateX(3px);
@@ -958,11 +968,13 @@ body:not(.custom-cursor-active) .form-submit {
   background: rgba(255, 255, 255, 0.12);
   color: #FFF;
 }
+
 .m-badge.badge-gold {
   background: linear-gradient(135deg, #7A5C2E, #4A3818);
   color: #FFD700;
   border: 1px solid rgba(197, 160, 89, 0.4);
 }
+
 .m-badge.badge-v3 {
   background: linear-gradient(135deg, #C5A059, #FFD700);
   color: #0E0E10;
@@ -976,6 +988,7 @@ body:not(.custom-cursor-active) .form-submit {
   text-transform: none !important;
   letter-spacing: normal !important;
 }
+
 .v3-nav-links .nav-dropdown-card:hover,
 .v3-nav-links .nav-dropdown-card.active {
   border-color: rgba(197, 160, 89, 0.45) !important;
@@ -1197,7 +1210,8 @@ body:not(.custom-cursor-active) .form-submit {
   transition: all 0.2s;
 }
 
-.m-room-item:hover, .m-room-item:active {
+.m-room-item:hover,
+.m-room-item:active {
   background: rgba(197, 160, 89, 0.2);
   border-color: var(--gold);
   color: #FFF;
