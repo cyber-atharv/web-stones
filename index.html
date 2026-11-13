@@ -116,7 +116,6 @@
 
     html {
       overflow-x: hidden;
-      scroll-behavior: smooth
     }
 
     body {
@@ -148,7 +147,9 @@
       width: 100%;
       height: 100%;
       z-index: 0;
-      pointer-events: none
+      pointer-events: none;
+      transform: translateZ(0);
+      will-change: transform;
     }
 
     #grain {
@@ -156,8 +157,8 @@
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      opacity: .07;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")
+      opacity: .03;
+      background: radial-gradient(circle at 50% 40%, rgba(201, 169, 110, 0.08) 0%, transparent 75%);
     }
 
     #vignette {
@@ -2976,19 +2977,34 @@
       });
 
       let lastY = 0;
-      addEventListener('scroll', () => {
-        const y = scrollY;
-        header.classList.toggle('scrolled', y > 40);
-        header.classList.toggle('hide', y > lastY && y > 400 && !mnav.classList.contains('open'));
-        lastY = y;
-        const max = document.documentElement.scrollHeight - innerHeight;
-        $('#progress').style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
+      let scrollTicking = false;
+      const progressEl = $('#progress');
+      const hudEl = $('#hud');
+      const proofEl = $('#proof');
+      let cachedMaxScroll = 0;
+      function recalcMaxScroll() {
+        cachedMaxScroll = (document.documentElement.scrollHeight || 10000) - window.innerHeight;
+      }
+      recalcMaxScroll();
+      window.addEventListener('resize', recalcMaxScroll, { passive: true });
 
-        // Hide left chapter HUD when user scrolls down to content sections
-        const proofEl = $('#proof');
-        if (proofEl) {
-          const proofTop = proofEl.getBoundingClientRect().top;
-          $('#hud').classList.toggle('hide', proofTop < innerHeight * 0.5);
+      addEventListener('scroll', () => {
+        if (!scrollTicking) {
+          requestAnimationFrame(() => {
+            const y = window.scrollY || window.pageYOffset;
+            header.classList.toggle('scrolled', y > 40);
+            header.classList.toggle('hide', y > lastY && y > 400 && !mnav.classList.contains('open'));
+            lastY = y;
+            if (progressEl) {
+              progressEl.style.transform = `scaleX(${cachedMaxScroll > 0 ? Math.min(1, y / cachedMaxScroll) : 0})`;
+            }
+            if (proofEl && hudEl) {
+              const proofTop = proofEl.getBoundingClientRect().top;
+              hudEl.classList.toggle('hide', proofTop < window.innerHeight * 0.5);
+            }
+            scrollTicking = false;
+          });
+          scrollTicking = true;
         }
       }, { passive: true });
 
@@ -3094,11 +3110,19 @@
           const p = S.P[+el.dataset.c], a = +el.dataset.a, b = +el.dataset.b; let v = 1;
           if (a > 0) v *= clamp((p - a) / .07, 0, 1);
           if (b < 1) v *= 1 - clamp((p - (b - .07)) / .07, 0, 1);
-          el.style.opacity = v.toFixed(3); el.style.transform = `translateY(${((1 - v) * 26).toFixed(1)}px)`;
-          el.classList.toggle('live', v > .5);
+          const vR = Math.round(v * 100) / 100;
+          if (el._lastV !== vR) {
+            el._lastV = vR;
+            el.style.opacity = vR;
+            el.style.transform = `translate3d(0, ${((1 - v) * 26).toFixed(1)}px, 0)`;
+            el.classList.toggle('live', v > .5);
+          }
         });
         let act = 0; S.P.forEach((p, i) => { if (p > 0) act = i });
-        hudLinks.forEach((a, i) => a.classList.toggle('on', i === act));
+        if (window._lastAct !== act) {
+          window._lastAct = act;
+          hudLinks.forEach((a, i) => a.classList.toggle('on', i === act));
+        }
       }
 
       /* ═════════ CHOOSE UI + HOME UI ═════════ */
@@ -3161,10 +3185,10 @@
         if (!window.THREE) return;
         let renderer;
         try {
-          renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+          renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance', stencil: false });
         } catch (e) { return; }
         renderer.localClippingEnabled = true;
-        renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile() ? 1.0 : 1.75));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
         renderer.setSize(innerWidth, innerHeight);
         renderer.outputEncoding = THREE.sRGBEncoding;
         renderer.toneMapping = THREE.ACESFilmicToneMapping;
