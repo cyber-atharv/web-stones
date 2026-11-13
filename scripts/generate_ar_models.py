@@ -328,3 +328,4 @@ create_box_glb('assets/models/jumbo_slab.glb', size_x=2.8, size_y=1.6, size_z=0.
 
 # 2. Floor Tiles AR Model (2.4m x 2.4m x 0.015m) flat on floor (repeats 4x4 tiles)
 create_box_glb('assets/models/floor_tiles_ar.glb', size_x=2.4, size_y=0.015, size_z=2.4, is_horizontal=True, texture_repeat=(4.0, 4.0))
+

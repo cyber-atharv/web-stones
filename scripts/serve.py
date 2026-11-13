@@ -10,6 +10,8 @@ mimetypes.add_type('application/json', '.json')
 mimetypes.add_type('font/woff2', '.woff2')
 mimetypes.add_type('font/woff', '.woff')
 mimetypes.add_type('application/wasm', '.wasm')
+mimetypes.add_type('model/gltf-binary', '.glb')
+mimetypes.add_type('model/vnd.usdz+zip', '.usdz')
 
 # Common exceptions raised when a browser tab closes or cancels a request
 CLIENT_DISCONNECT_EXCEPTIONS = (
