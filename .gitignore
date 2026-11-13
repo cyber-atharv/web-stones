@@ -2,3 +2,7 @@
 *.tar.gz
 .DS_Store
 Thumbs.db
+tempCodeRunnerFile.*
+__pycache__/
+*.pyc
+
