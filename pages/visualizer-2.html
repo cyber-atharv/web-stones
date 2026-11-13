@@ -1052,6 +1052,7 @@
       <button class="tool-btn" id="addTop"><span>＋</span> Add photos</button>
       <button class="tool-btn" id="auto">🎲 Auto-fill room</button>
       <button class="tool-btn" id="reset">↺ Reset camera</button>
+      <button class="tool-btn tool-btn-gold" id="btnArStudio" title="Project active stone slab into your room in 1:1 Augmented Reality (No App Needed)"><span>📱</span> 1:1 AR</button>
     </div>
   </div>
 
@@ -1208,6 +1209,7 @@
   </footer>
 
   <script src="assets/js/navigation.js?v=1.6"></script>
+  <script src="assets/js/ar-modal.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
   <script>
   (function(){
@@ -2717,6 +2719,16 @@
       target.copy(cam.target);
       updateCamera();
     };
+
+    const btnAr = $('#btnArStudio');
+    if (btnAr) {
+      btnAr.onclick = () => {
+        const curStone = lastSrc || (showroomSlabs && showroomSlabs[0]);
+        if (window.MuraliAR && curStone) {
+          window.MuraliAR.openAR(curStone.name, curStone.url || curStone.thumb);
+        }
+      };
+    }
 
     const ray = new THREE.Raycaster(), mv = new THREE.Vector2();
     function pick(e) {

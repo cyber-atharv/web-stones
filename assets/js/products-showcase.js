@@ -1104,8 +1104,11 @@ document.addEventListener('DOMContentLoaded', () => {
           <a class="tile-action-btn tile-btn-visualize" href="${isPages ? '' : 'pages/'}visualizer.html?material=${encName}" title="Preview in Room Visualizer">
             ✦ 3D Visualize
           </a>
+          <button type="button" class="tile-action-btn tile-btn-ar" onclick="event.preventDefault(); event.stopPropagation(); window.MuraliAR && window.MuraliAR.openAR('${escapeHtml(product.name)}', '${product.image_url || ''}')" title="Preview in Your Room (1:1 Real Scale AR)" style="background:rgba(197,160,89,0.18); color:#E7C887; border:1px solid rgba(197,160,89,0.45); font-weight:700;">
+            📱 1:1 AR
+          </button>
           <a class="tile-action-btn tile-btn-quote" href="https://wa.me/916366380051?text=${encodeURIComponent('Hi Murali Granites, I am inquiring about ' + product.name + ' (' + (product.category || 'Natural Stone') + '). Could you share pricing and slab availability?')}" target="_blank" rel="noopener noreferrer" title="Inquire on WhatsApp">
-            WhatsApp Quote
+            WhatsApp
           </a>
         </div>
       `;

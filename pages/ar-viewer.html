@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>1:1 Real-Scale WebXR AR Stone Studio | Murali Granites & Marbles</title>
+  <meta name="description" content="Preview natural marble and granite slabs inside your own house in 1:1 real scale using Augmented Reality. No app installation required.">
+
+  <!-- Google Model Viewer for WebXR, Google Scene Viewer (Android) and Quick Look (iOS) -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+
+  <!-- Tailwind CSS & Brand Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/navigation.css">
+
+  <style>
+    :root {
+      --gold: #C5A059;
+      --gold-light: #E7C887;
+      --gold-dark: #8F7034;
+      --obsidian: #0E0E10;
+      --charcoal: #16161A;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--obsidian);
+      color: #F4F4F5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background-color: #0c0d10;
+      --poster-color: transparent;
+    }
+    .brand-font {
+      font-family: 'Cinzel', serif;
+    }
+    /* Custom AR Button inside model-viewer */
+    .ar-launch-btn {
+      background: linear-gradient(135deg, #E7C887 0%, #C5A059 50%, #8F7034 100%);
+      color: #0E0E10;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+      border-radius: 9999px;
+      padding: 14px 28px;
+      box-shadow: 0 10px 25px -5px rgba(197, 160, 89, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      position: absolute;
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 40;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .ar-launch-btn:active {
+      transform: translateX(-50%) scale(0.96);
+    }
+    .stone-card {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .stone-card.active {
+      border-color: var(--gold);
+      box-shadow: 0 0 16px rgba(197, 160, 89, 0.35);
+      transform: translateY(-2px);
+    }
+    /* Slim gold scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(197, 160, 89, 0.4);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="flex flex-col h-screen w-screen relative">
+
+  <!-- Top Floating Header -->
+  <header class="absolute top-0 left-0 right-0 z-30 px-4 py-3 bg-gradient-to-b from-[#0E0E10]/95 via-[#0E0E10]/80 to-transparent flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a href="visualizer-2.html" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-sm font-bold text-white transition">
+        &larr;
+      </a>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-xs uppercase tracking-widest text-[#C5A059] font-bold">1:1 Real Scale AR</span>
+        </div>
+        <h1 class="text-sm sm:text-base font-bold text-white brand-font tracking-wide" id="arStoneTitle">River Black Granite</h1>
+      </div>
+    </div>
+
+    <!-- Mode Selector: Slab vs Floor -->
+    <div class="flex items-center bg-black/60 backdrop-blur-md p-1 rounded-full border border-white/10 text-xs">
+      <button id="btnModelSlab" class="px-3 py-1.5 rounded-full font-semibold transition bg-[#C5A059] text-black" onclick="switchModel('slab')">
+        10×6 ft Slab
+      </button>
+      <button id="btnModelFloor" class="px-3 py-1.5 rounded-full font-semibold transition text-zinc-400 hover:text-white" onclick="switchModel('floor')">
+        8×8 ft Floor
+      </button>
+    </div>
+  </header>
+
+  <!-- Google Model Viewer: WebXR & Google Scene Viewer & Quick Look -->
+  <div class="flex-1 w-full h-full relative">
+    <model-viewer
+      id="arViewer"
+      src="../assets/models/jumbo_slab.glb"
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      ar-scale="fixed"
+      camera-controls
+      touch-action="pan-y"
+      shadow-intensity="1.2"
+      shadow-softness="0.8"
+      exposure="1.05"
+      alt="Murali Granites 1:1 Real Scale AR Slab Preview">
+
+      <!-- Custom Launch Button on Mobile -->
+      <button slot="ar-button" class="ar-launch-btn">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        </svg>
+        <span>View in My Room (AR)</span>
+      </button>
+
+      <!-- Desktop QR Helper (Visible when not in AR) -->
+      <div id="desktopQrNotice" class="hidden sm:flex absolute top-24 right-4 bg-[#141417]/95 border border-[#C5A059]/40 rounded-2xl p-4 max-w-xs shadow-2xl backdrop-blur-md flex-col items-center text-center z-20">
+        <div class="text-[11px] uppercase tracking-wider text-[#C5A059] font-bold mb-1">Mobile AR Camera Mode</div>
+        <div class="text-xs text-zinc-300 mb-3">Scan this code with your iPhone or Android to project this slab in 1:1 scale on your floor:</div>
+        <div id="qrCodeContainer" class="bg-white p-2.5 rounded-xl shadow-inner mb-3">
+          <img id="qrImg" src="" alt="Scan for AR" class="w-36 h-36">
+        </div>
+        <div class="text-[10px] text-zinc-400">Works in Safari (iOS) and Chrome (Android). Zero app download.</div>
+      </div>
+
+      <!-- Real Dimensions HUD -->
+      <div class="absolute bottom-32 left-4 z-20 bg-black/70 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/10 text-xs">
+        <span class="text-zinc-400 block text-[10px] uppercase font-bold tracking-wider">Physical Dimensions (1:1)</span>
+        <span class="text-white font-mono font-bold" id="arDimensions">2.80m × 1.60m × 20mm (9.2 × 5.2 ft)</span>
+      </div>
+
+    </model-viewer>
+  </div>
+
+  <!-- Bottom Floating Stone Selector Dock -->
+  <footer class="absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-[#0E0E10] via-[#0E0E10]/95 to-transparent pt-6 pb-4 px-4">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-xs font-semibold text-zinc-400">Choose Stone Texture:</span>
+      <div class="flex items-center gap-2">
+        <button id="btnShareWa" onclick="shareToWhatsApp()" class="text-xs text-emerald-400 hover:text-emerald-300 flex items-center gap-1 font-semibold">
+          <span>💬 Enquire on WhatsApp</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Horizontal Stone Swatches -->
+    <div id="stoneDock" class="flex gap-3 overflow-x-auto pb-2 custom-scrollbar">
+      <!-- Injected via JavaScript -->
+    </div>
+  </footer>
+
+  <script>
+    const STONES = [
+      { id: 'river_black', name: 'River Black', cat: 'Granite', url: '../assets/images/products/product-1783138465-6a4888a145274.webp' },
+      { id: 'alaska_white', name: 'Alaska White', cat: 'Granite', url: '../assets/images/products/product-1783084356-6a47b5441b767.webp' },
+      { id: 'banswara_marble', name: 'Banswara Marble', cat: 'Marble', url: '../assets/images/products/product-1783085208-6a47b8986af97.webp' },
+      { id: 'emerald_onyx', name: 'Emerald Onyx Marble', cat: 'Onyx', url: '../assets/images/products/product-1783085161-6a47b869e0448.webp' },
+      { id: 'black_pearl', name: 'Black Pearl', cat: 'Granite', url: '../assets/images/products/product-1783138424-6a488878abc22.webp' },
+      { id: 'tan_brown', name: 'Tan Brown', cat: 'Granite', url: '../assets/images/products/product-1783084011-6a47b3eb20cf0.webp' },
+      { id: 'titanium_black', name: 'Titanium Black', cat: 'Granite', url: '../assets/images/products/product-1783083560-6a47b228132ac.webp' },
+      { id: 'blue_in_the_night', name: 'Blue in the Night', cat: 'Imported', url: '../assets/images/products/product-1783085244-6a47b8bcd330d.webp' },
+      { id: 'marie_gold', name: 'Marie Gold', cat: 'Granite', url: '../assets/images/products/product-1783085317-6a47b9058f71e.webp' },
+      { id: 'moon_white', name: 'Moon White', cat: 'Granite', url: '../assets/images/products/product-1783079448-6a47a218632fd.webp' }
+    ];
+
+    let currentStone = STONES[0];
+    let currentModelType = 'slab';
+    const viewer = document.getElementById('arViewer');
+
+    // Parse URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const stoneReq = urlParams.get('stone') || urlParams.get('name');
+    const customImg = urlParams.get('img');
+    const modelReq = urlParams.get('model');
+
+    if (modelReq === 'floor') {
+      currentModelType = 'floor';
+    }
+
+    if (customImg && stoneReq) {
+      currentStone = { id: 'custom_url', name: stoneReq, cat: 'Custom', url: customImg };
+      STONES.unshift(currentStone);
+    } else if (stoneReq) {
+      const match = STONES.find(s => s.name.toLowerCase() === stoneReq.toLowerCase() || s.id === stoneReq.toLowerCase());
+      if (match) currentStone = match;
+    }
+
+    // Initialize UI
+    function initUI() {
+      // Model buttons state
+      document.getElementById('btnModelSlab').className = currentModelType === 'slab' 
+        ? 'px-3 py-1.5 rounded-full font-semibold transition bg-[#C5A059] text-black' 
+        : 'px-3 py-1.5 rounded-full font-semibold transition text-zinc-400 hover:text-white';
+      
+      document.getElementById('btnModelFloor').className = currentModelType === 'floor' 
+        ? 'px-3 py-1.5 rounded-full font-semibold transition bg-[#C5A059] text-black' 
+        : 'px-3 py-1.5 rounded-full font-semibold transition text-zinc-400 hover:text-white';
+
+      document.getElementById('arDimensions').textContent = currentModelType === 'slab'
+        ? '2.80m × 1.60m × 20mm (9.2 × 5.2 ft Gangsaw Slab)'
+        : '2.40m × 2.40m (8.0 × 8.0 ft Floor Tile Grid)';
+
+      // Populate Dock
+      const dock = document.getElementById('stoneDock');
+      dock.innerHTML = '';
+      STONES.forEach(s => {
+        const item = document.createElement('button');
+        item.className = `stone-card shrink-0 flex items-center gap-2 p-1.5 pr-3 rounded-xl bg-white/5 border ${s === currentStone ? 'active border-[#C5A059]' : 'border-white/10'} hover:bg-white/10 text-left transition`;
+        item.onclick = () => selectStone(s);
+        item.innerHTML = `
+          <img src="${s.url}" alt="${s.name}" class="w-10 h-10 rounded-lg object-cover border border-white/10">
+          <div>
+            <div class="text-xs font-bold text-white whitespace-nowrap">${s.name}</div>
+            <div class="text-[10px] text-[#C5A059]">${s.cat}</div>
+          </div>
+        `;
+        dock.appendChild(item);
+      });
+
+      // Update Desktop QR code
+      const currentFullUrl = window.location.href;
+      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(currentFullUrl)}`;
+      const qrImg = document.getElementById('qrImg');
+      if (qrImg) qrImg.src = qrApiUrl;
+
+      // Hide QR box on mobile screens
+      if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        const notice = document.getElementById('desktopQrNotice');
+        if (notice) notice.style.display = 'none';
+      }
+    }
+
+    async function applyTextureToModel() {
+      document.getElementById('arStoneTitle').textContent = currentStone.name;
+      if (!viewer.model || !viewer.model.materials || !viewer.model.materials.length) return;
+
+      try {
+        const mat = viewer.model.materials[0];
+        const texture = await viewer.createTexture(currentStone.url);
+        if (mat.pbrMetallicRoughness && mat.pbrMetallicRoughness.baseColorTexture) {
+          mat.pbrMetallicRoughness.baseColorTexture.setTexture(texture);
+        }
+      } catch (err) {
+        console.warn('Could not apply dynamic texture to model viewer:', err);
+      }
+    }
+
+    function selectStone(s) {
+      currentStone = s;
+      document.querySelectorAll('.stone-card').forEach(c => c.classList.remove('active', 'border-[#C5A059]'));
+      event.currentTarget.classList.add('active', 'border-[#C5A059]');
+      applyTextureToModel();
+
+      // Update URL silently
+      const newUrl = `${window.location.pathname}?stone=${encodeURIComponent(s.name)}&model=${currentModelType}`;
+      window.history.replaceState(null, '', newUrl);
+
+      // Update QR Code
+      const qrImg = document.getElementById('qrImg');
+      if (qrImg) qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(window.location.origin + newUrl)}`;
+    }
+
+    function switchModel(type) {
+      currentModelType = type;
+      const targetSrc = type === 'slab' ? '../assets/models/jumbo_slab.glb' : '../assets/models/floor_tiles_ar.glb';
+      viewer.setAttribute('src', targetSrc);
+      viewer.src = targetSrc;
+      initUI();
+    }
+    window.switchModel = switchModel;
+    window.selectStone = selectStone;
+
+    viewer.addEventListener('load', () => {
+      applyTextureToModel();
+    });
+
+    function shareToWhatsApp() {
+      const msg = `Hello Murali Granites, I am previewing ${currentStone.name} in 1:1 Augmented Reality (AR) on your website. I would like to enquire about live slab lots, thickness, and pricing.`;
+      const waUrl = `https://wa.me/919443226344?text=${encodeURIComponent(msg)}`;
+      window.open(waUrl, '_blank');
+    }
+
+    initUI();
+  </script>
+</body>
+</html>
