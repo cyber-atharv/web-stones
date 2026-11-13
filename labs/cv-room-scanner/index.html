@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>AI Computer Vision Room & Floor Texture Scanner (Labs Demo)</title>
+  <meta name="description" content="Experimental AI Computer Vision prototype: Human Pose & Floor Plane Tracking for Real-Time Stone Texture Projection.">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Google MediaPipe Pose Engine (Official CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      background-color: #0A0A0C;
+      color: #F4F4F5;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+    }
+    .brand-font {
+      font-family: 'Cinzel', serif;
+    }
+    #videoElement {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1); /* Default mirror for testing, can toggle */
+      z-index: 0;
+    }
+    #overlayCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(197, 160, 89, 0.4);
+      border-radius: 4px;
+    }
+    .stone-card.active {
+      border-color: #C5A059;
+      box-shadow: 0 0 14px rgba(197, 160, 89, 0.4);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body class="flex flex-col h-screen w-screen relative">
+
+  <!-- 1. Real-time Video Stream -->
+  <video id="videoElement" playsinline autoplay muted></video>
+
+  <!-- 2. AI Segmentation & Texture Mapping Canvas -->
+  <canvas id="overlayCanvas"></canvas>
+
+  <!-- 3. Top Control Bar -->
+  <header class="absolute top-0 left-0 right-0 z-30 px-4 py-3 bg-gradient-to-b from-black/90 via-black/60 to-transparent flex items-center justify-between pointer-events-auto">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-[#C5A059]/20 border border-[#C5A059]/50 flex items-center justify-center text-sm font-bold text-[#C5A059]">
+        AI
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-[10px] uppercase tracking-widest text-[#C5A059] font-bold">Computer Vision Labs</span>
+        </div>
+        <h1 class="text-xs sm:text-sm font-bold text-white brand-font tracking-wide">Human Pose &amp; Floor Detector</h1>
+      </div>
+    </div>
+
+    <!-- Mode Selector: Floor vs Wall -->
+    <div class="flex items-center gap-2">
+      <div class="flex items-center bg-black/70 backdrop-blur-md p-1 rounded-full border border-white/10 text-xs">
+        <button id="btnModeFloor" class="px-3 py-1 rounded-full font-bold transition bg-[#C5A059] text-black" onclick="setTargetMode('floor')">
+          Floor Plane
+        </button>
+        <button id="btnModeWall" class="px-3 py-1 rounded-full font-medium transition text-zinc-400 hover:text-white" onclick="setTargetMode('wall')">
+          Wall Plane
+        </button>
+      </div>
+
+      <!-- Flip Camera Button -->
+      <button onclick="toggleCameraFacing()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-xs text-white" title="Flip Camera">
+        🔄
+      </button>
+    </div>
+  </header>
+
+  <!-- 4. AI Status & Guidance HUD -->
+  <div class="absolute top-16 left-4 z-20 bg-black/80 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/10 text-xs pointer-events-none max-w-xs">
+    <div class="flex items-center justify-between gap-3 mb-1">
+      <span class="text-[10px] uppercase font-bold text-[#C5A059]">AI Pose &amp; Horizon Engine</span>
+      <span id="aiFps" class="text-[10px] font-mono text-emerald-400">30 FPS</span>
+    </div>
+    <div id="aiStatusText" class="text-zinc-300 text-[11px] leading-snug">
+      Point camera at a person or stand in frame. The AI detects feet to calculate the ground plane.
+    </div>
+    <div class="mt-2 flex items-center gap-3">
+      <label class="flex items-center gap-1.5 text-[10px] text-zinc-400 pointer-events-auto cursor-pointer">
+        <input type="checkbox" id="chkShowSkeleton" checked class="rounded accent-[#C5A059]">
+        <span>Show Skeleton &amp; Ground Line</span>
+      </label>
+      <label class="flex items-center gap-1.5 text-[10px] text-zinc-400 pointer-events-auto cursor-pointer">
+        <input type="checkbox" id="chkTextureActive" checked class="rounded accent-[#C5A059]">
+        <span>Project Stone</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 5. Real-Time Blend / Opacity Slider -->
+  <div class="absolute top-16 right-4 z-20 bg-black/80 backdrop-blur-md px-3 py-2 rounded-xl border border-white/10 text-xs pointer-events-auto flex flex-col gap-1 w-36">
+    <div class="flex justify-between text-[10px] text-zinc-400 font-bold uppercase">
+      <span>Stone Opacity</span>
+      <span id="opacityLabel" class="text-[#C5A059]">85%</span>
+    </div>
+    <input type="range" id="sliderOpacity" min="20" max="100" value="85" class="w-full accent-[#C5A059] h-1.5 cursor-pointer">
+  </div>
+
+  <!-- 6. Bottom Stone Texture Picker -->
+  <footer class="absolute bottom-0 left-0 right-0 z-30 bg-gradient-to-t from-black via-black/95 to-transparent pt-6 pb-4 px-4 pointer-events-auto">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-xs font-semibold text-zinc-300">Selected Surface Texture:</span>
+      <span id="activeStoneName" class="text-xs font-bold text-[#C5A059]">River Black Granite</span>
+    </div>
+
+    <div id="stoneDock" class="flex gap-2.5 overflow-x-auto pb-1 custom-scrollbar">
+      <!-- Injected via JavaScript -->
+    </div>
+  </footer>
+
+  <script>
+    // ── Stone Textures ──
+    const STONES = [
+      { id: 'river_black', name: 'River Black Granite', cat: 'Granite', url: '../../assets/images/products/product-1783138465-6a4888a145274.webp' },
+      { id: 'banswara_marble', name: 'Banswara White Marble', cat: 'Marble', url: '../../assets/images/products/product-1783085208-6a47b8986af97.webp' },
+      { id: 'emerald_onyx', name: 'Emerald Onyx Marble', cat: 'Onyx', url: '../../assets/images/products/product-1783085161-6a47b869e0448.webp' },
+      { id: 'alaska_white', name: 'Alaska White Granite', cat: 'Granite', url: '../../assets/images/products/product-1783084356-6a47b5441b767.webp' },
+      { id: 'tan_brown', name: 'Tan Brown Granite', cat: 'Granite', url: '../../assets/images/products/product-1783084011-6a47b3eb20cf0.webp' },
+      { id: 'titanium_black', name: 'Titanium Black Granite', cat: 'Granite', url: '../../assets/images/products/product-1783083560-6a47b228132ac.webp' },
+      { id: 'blue_in_the_night', name: 'Blue in the Night', cat: 'Imported', url: '../../assets/images/products/product-1783085244-6a47b8bcd330d.webp' },
+      { id: 'black_pearl', name: 'Black Pearl Granite', cat: 'Granite', url: '../../assets/images/products/product-1783138424-6a488878abc22.webp' }
+    ];
+
+    let currentStone = STONES[0];
+    let targetMode = 'floor'; // 'floor' or 'wall'
+    let currentFacingMode = 'user'; // 'user' (selfie/laptop) or 'environment' (back camera)
+    let isMirrored = true;
+    let stoneImage = new Image();
+    let stonePattern = null;
+
+    function loadStoneTexture(url) {
+      stoneImage = new Image();
+      stoneImage.crossOrigin = 'anonymous';
+      stoneImage.onload = () => {
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = 256;
+        tempCanvas.height = 256;
+        const ctx = tempCanvas.getContext('2d');
+        ctx.drawImage(stoneImage, 0, 0, 256, 256);
+        stonePattern = overlayCtx.createPattern(tempCanvas, 'repeat');
+      };
+      stoneImage.src = url;
+    }
+    loadStoneTexture(currentStone.url);
+
+    // ── Video & Canvas Setup ──
+    const video = document.getElementById('videoElement');
+    const canvas = document.getElementById('overlayCanvas');
+    const overlayCtx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // ── Camera Stream Initialization ──
+    let cameraStream = null;
+
+    async function startCamera() {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+
+      try {
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { ideal: currentFacingMode },
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          },
+          audio: false
+        });
+
+        video.srcObject = cameraStream;
+        await video.play();
+
+        isMirrored = (currentFacingMode === 'user');
+        video.style.transform = isMirrored ? 'scaleX(-1)' : 'scaleX(1)';
+      } catch (err) {
+        console.error('Camera initialization error:', err);
+        document.getElementById('aiStatusText').textContent = 'Camera blocked or unavailable: ' + err.message;
+      }
+    }
+
+    function toggleCameraFacing() {
+      currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+      startCamera();
+    }
+
+    // ── MediaPipe Pose Detection Setup ──
+    const pose = new Pose({
+      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`
+    });
+
+    pose.setOptions({
+      modelComplexity: 1,
+      smoothLandmarks: true,
+      enableSegmentation: false, // Set false for maximum 60FPS mobile performance
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5
+    });
+
+    let lastFrameTime = performance.now();
+    let frameCount = 0;
+    let fps = 30;
+
+    pose.onResults(onPoseResults);
+
+    // ── Computer Vision Logic: Ground Plane & Wall Plane Mapping ──
+    function onPoseResults(results) {
+      // Calculate FPS
+      frameCount++;
+      const now = performance.now();
+      if (now - lastFrameTime >= 1000) {
+        fps = Math.round((frameCount * 1000) / (now - lastFrameTime));
+        document.getElementById('aiFps').textContent = `${fps} FPS`;
+        frameCount = 0;
+        lastFrameTime = now;
+      }
+
+      overlayCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const landmarks = results.poseLandmarks;
+      const statusText = document.getElementById('aiStatusText');
+      const showSkeleton = document.getElementById('chkShowSkeleton').checked;
+      const projectTexture = document.getElementById('chkTextureActive').checked;
+      const opacityVal = parseInt(document.getElementById('sliderOpacity').value, 10) / 100;
+
+      if (!landmarks || landmarks.length === 0) {
+        statusText.textContent = 'Scanning room for human posture... (Stand in camera frame to detect floor level)';
+        // Default Horizon/Floor fallback if no person detected yet
+        drawDefaultFloor(projectTexture, opacityVal);
+        return;
+      }
+
+      statusText.innerHTML = '<span class="text-emerald-400 font-bold">✓ Human Pose Locked:</span> Ground plane &amp; room perspective calibrated from feet contact.';
+
+      // Get Foot & Ankle Landmarks
+      // 27: left_ankle, 28: right_ankle, 29: left_heel, 30: right_heel, 31: left_foot_index, 32: right_foot_index
+      // 11: left_shoulder, 12: right_shoulder, 23: left_hip, 24: right_hip
+      function getPt(idx) {
+        const pt = landmarks[idx];
+        let x = pt.x * canvas.width;
+        if (isMirrored) x = canvas.width - x; // Adjust for mirrored video
+        const y = pt.y * canvas.height;
+        return { x, y, vis: pt.visibility || 0.9 };
+      }
+
+      const lAnkle = getPt(27), rAnkle = getPt(28);
+      const lHeel = getPt(29), rHeel = getPt(30);
+      const lToe = getPt(31), rToe = getPt(32);
+      const lShoulder = getPt(11), rShoulder = getPt(12);
+
+      // 1. Calculate the Ground Plane Contact Line (Lowest Y point of feet)
+      const feetYPoints = [lAnkle.y, rAnkle.y, lHeel.y, rHeel.y, lToe.y, rToe.y];
+      const groundContactY = Math.max(...feetYPoints);
+      const feetCenterX = (lAnkle.x + rAnkle.x) / 2;
+
+      // 2. Texture Projection Mode: Floor vs Wall
+      if (projectTexture && stonePattern) {
+        overlayCtx.save();
+        overlayCtx.globalAlpha = opacityVal;
+
+        if (targetMode === 'floor') {
+          // Perspective Floor Trapezoid:
+          // Top width: narrower at horizon (near feet contact line)
+          // Bottom width: wide base at bottom of screen
+          const horizonY = groundContactY;
+          const topWidthHalf = Math.max(120, Math.abs(lAnkle.x - rAnkle.x) * 2.2);
+
+          overlayCtx.beginPath();
+          overlayCtx.moveTo(feetCenterX - topWidthHalf, horizonY);
+          overlayCtx.lineTo(feetCenterX + topWidthHalf, horizonY);
+          overlayCtx.lineTo(canvas.width + 100, canvas.height);
+          overlayCtx.lineTo(-100, canvas.height);
+          overlayCtx.closePath();
+
+          overlayCtx.fillStyle = stonePattern;
+          overlayCtx.fill();
+
+          // Ambient Shadow & Vignette blend
+          const grad = overlayCtx.createLinearGradient(0, horizonY, 0, canvas.height);
+          grad.addColorStop(0, 'rgba(0,0,0,0.6)');
+          grad.addColorStop(0.3, 'rgba(0,0,0,0.05)');
+          grad.addColorStop(1, 'rgba(0,0,0,0.4)');
+          overlayCtx.fillStyle = grad;
+          overlayCtx.fill();
+
+        } else if (targetMode === 'wall') {
+          // Wall Cladding: Vertical plane extending from horizonY upwards
+          const horizonY = groundContactY;
+          overlayCtx.beginPath();
+          overlayCtx.moveTo(0, 0);
+          overlayCtx.lineTo(canvas.width, 0);
+          overlayCtx.lineTo(canvas.width, horizonY);
+          overlayCtx.lineTo(0, horizonY);
+          overlayCtx.closePath();
+
+          overlayCtx.fillStyle = stonePattern;
+          overlayCtx.fill();
+
+          // Vertical ambient wall lighting gradient
+          const wallGrad = overlayCtx.createLinearGradient(0, 0, 0, horizonY);
+          wallGrad.addColorStop(0, 'rgba(0,0,0,0.4)');
+          wallGrad.addColorStop(1, 'rgba(0,0,0,0.7)');
+          overlayCtx.fillStyle = wallGrad;
+          overlayCtx.fill();
+        }
+
+        overlayCtx.restore();
+      }
+
+      // 3. Draw AI Skeleton & Ground Line if enabled
+      if (showSkeleton) {
+        overlayCtx.save();
+
+        // Draw Ground Contact Line (Golden Horizon line under feet)
+        overlayCtx.strokeStyle = '#C5A059';
+        overlayCtx.lineWidth = 3;
+        overlayCtx.setLineDash([8, 6]);
+        overlayCtx.beginPath();
+        overlayCtx.moveTo(0, groundContactY);
+        overlayCtx.lineTo(canvas.width, groundContactY);
+        overlayCtx.stroke();
+        overlayCtx.setLineDash([]);
+
+        // Label Ground Line
+        overlayCtx.fillStyle = '#C5A059';
+        overlayCtx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
+        overlayCtx.fillText('AI DETECTED GROUND PLANE (FLOOR LEVEL)', 16, groundContactY - 8);
+
+        // Draw Foot Tracking Indicators
+        [lHeel, rHeel, lToe, rToe].forEach(p => {
+          overlayCtx.beginPath();
+          overlayCtx.arc(p.x, p.y, 6, 0, 2 * Math.PI);
+          overlayCtx.fillStyle = '#10B981'; // Emerald
+          overlayCtx.fill();
+          overlayCtx.strokeStyle = '#FFFFFF';
+          overlayCtx.lineWidth = 2;
+          overlayCtx.stroke();
+        });
+
+        // Draw Pose Connections (Bones)
+        const connections = [
+          [11, 12], [11, 23], [12, 24], [23, 24], // Torso
+          [23, 25], [24, 26], [25, 27], [26, 28], // Legs
+          [27, 29], [28, 30], [29, 31], [30, 32]  // Feet
+        ];
+
+        overlayCtx.strokeStyle = 'rgba(231, 200, 135, 0.7)';
+        overlayCtx.lineWidth = 2.5;
+
+        connections.forEach(([i1, i2]) => {
+          const p1 = getPt(i1);
+          const p2 = getPt(i2);
+          overlayCtx.beginPath();
+          overlayCtx.moveTo(p1.x, p1.y);
+          overlayCtx.lineTo(p2.x, p2.y);
+          overlayCtx.stroke();
+        });
+
+        overlayCtx.restore();
+      }
+    }
+
+    function drawDefaultFloor(projectTexture, opacityVal) {
+      if (!projectTexture || !stonePattern) return;
+      const defaultHorizon = canvas.height * 0.65;
+      overlayCtx.save();
+      overlayCtx.globalAlpha = opacityVal * 0.7;
+      overlayCtx.beginPath();
+      overlayCtx.moveTo(0, defaultHorizon);
+      overlayCtx.lineTo(canvas.width, defaultHorizon);
+      overlayCtx.lineTo(canvas.width, canvas.height);
+      overlayCtx.lineTo(0, canvas.height);
+      overlayCtx.closePath();
+      overlayCtx.fillStyle = stonePattern;
+      overlayCtx.fill();
+      overlayCtx.restore();
+    }
+
+    // ── Continuous Frame Capture for MediaPipe ──
+    async function processVideoFrame() {
+      if (video.readyState >= 2) {
+        await pose.send({ image: video });
+      }
+      requestAnimationFrame(processVideoFrame);
+    }
+
+    video.addEventListener('loadeddata', () => {
+      processVideoFrame();
+    });
+
+    // ── UI Controls ──
+    function setTargetMode(mode) {
+      targetMode = mode;
+      document.getElementById('btnModeFloor').className = mode === 'floor' 
+        ? 'px-3 py-1 rounded-full font-bold transition bg-[#C5A059] text-black' 
+        : 'px-3 py-1 rounded-full font-medium transition text-zinc-400 hover:text-white';
+      
+      document.getElementById('btnModeWall').className = mode === 'wall' 
+        ? 'px-3 py-1 rounded-full font-bold transition bg-[#C5A059] text-black' 
+        : 'px-3 py-1 rounded-full font-medium transition text-zinc-400 hover:text-white';
+    }
+
+    document.getElementById('sliderOpacity').addEventListener('input', (e) => {
+      document.getElementById('opacityLabel').textContent = `${e.target.value}%`;
+    });
+
+    // Populate Stone Dock
+    function initStoneDock() {
+      const dock = document.getElementById('stoneDock');
+      dock.innerHTML = '';
+      STONES.forEach(s => {
+        const item = document.createElement('button');
+        item.className = `stone-card shrink-0 flex items-center gap-2 p-1.5 pr-3 rounded-xl bg-white/5 border ${s === currentStone ? 'active border-[#C5A059]' : 'border-white/10'} hover:bg-white/10 text-left transition`;
+        item.onclick = () => {
+          currentStone = s;
+          document.querySelectorAll('.stone-card').forEach(c => c.classList.remove('active', 'border-[#C5A059]'));
+          item.classList.add('active', 'border-[#C5A059]');
+          document.getElementById('activeStoneName').textContent = s.name;
+          loadStoneTexture(s.url);
+        };
+        item.innerHTML = `
+          <img src="${s.url}" alt="${s.name}" class="w-9 h-9 rounded-lg object-cover border border-white/10">
+          <div>
+            <div class="text-[11px] font-bold text-white whitespace-nowrap">${s.name}</div>
+            <div class="text-[9px] text-[#C5A059]">${s.cat}</div>
+          </div>
+        `;
+        dock.appendChild(item);
+      });
+    }
+
+    initStoneDock();
+    startCamera();
+  </script>
+</body>
+</html>
+
