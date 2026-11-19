@@ -76,66 +76,57 @@
     .room-selector {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
       background: rgba(20, 18, 16, 0.95);
-      padding: 4px;
+      padding: 4px 6px;
       border-radius: 8px;
       border: 1px solid rgba(197, 160, 89, 0.35);
-      gap: 5px;
+      gap: 6px;
+      overflow-x: auto;
       width: 100%;
+      white-space: nowrap;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(197, 160, 89, 0.45) transparent;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .room-selector::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .room-selector::-webkit-scrollbar-thumb {
+      background: rgba(197, 160, 89, 0.5);
+      border-radius: 4px;
     }
 
     .room-btn {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 5px;
-      background: rgba(255, 255, 255, 0.04);
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.03);
       color: #A1A1AA;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 6px;
-      padding: 6px 10px;
-      font-size: 11.5px;
+      padding: 6px 12px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
-      flex: 1 1 auto;
-      min-width: 90px;
+      flex-shrink: 0;
       white-space: nowrap;
-      text-align: center;
     }
 
     .room-btn:hover {
       color: #FFF;
-      background: rgba(197, 160, 89, 0.18);
-      border-color: rgba(197, 160, 89, 0.5);
+      background: rgba(197, 160, 89, 0.15);
+      border-color: rgba(197, 160, 89, 0.4);
     }
 
     .room-btn.active {
-      background: linear-gradient(135deg, rgba(197, 160, 89, 0.35), rgba(232, 201, 138, 0.22));
+      background: linear-gradient(135deg, rgba(197, 160, 89, 0.32), rgba(232, 201, 138, 0.18));
       border-color: var(--gold);
       color: #FFF;
       font-weight: 700;
-      box-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
-    }
-
-    .stage-room-select {
-      pointer-events: auto;
-      background: rgba(18, 18, 22, 0.96);
-      color: #E7C887;
-      border: 1px solid rgba(197, 160, 89, 0.45);
-      border-radius: 6px;
-      padding: 4px 8px;
-      font-size: 11.5px;
-      font-weight: 600;
-      cursor: pointer;
-      outline: none;
-      transition: all 0.2s ease;
-    }
-    .stage-room-select:hover {
-      border-color: #E8C98A;
-      background: rgba(30, 30, 36, 0.98);
-      color: #FFF;
+      box-shadow: 0 0 12px rgba(197, 160, 89, 0.35);
     }
 
     .badge-webgl {
@@ -149,6 +140,7 @@
       text-transform: uppercase;
       margin-left: 2px;
     }
+
     .badge-walkthrough {
       font-size: 9px;
       font-weight: 800;
@@ -160,6 +152,7 @@
       text-transform: uppercase;
       margin-left: 2px;
     }
+
     .room-nav-scroll-btn {
       display: inline-flex;
       align-items: center;
@@ -179,6 +172,7 @@
       user-select: none;
       z-index: 2;
     }
+
     .room-nav-scroll-btn:hover {
       background: rgba(197, 160, 89, 0.25);
       color: #FFF;
@@ -333,7 +327,7 @@
       display: flex;
       align-items: center;
       width: 100%;
-      overflow: visible;
+      overflow: hidden;
     }
 
     .studio-badge {
@@ -709,6 +703,7 @@
     #panel {
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
     .v1-stage-container {
       position: absolute;
       inset: 0;
@@ -723,6 +718,7 @@
       overflow: hidden;
       transition: opacity 0.3s ease;
     }
+
     .v1-stage-container.active {
       z-index: 15;
       display: block !important;
@@ -730,6 +726,7 @@
       visibility: visible;
       pointer-events: auto;
     }
+
     .v1-iframe {
       width: 100%;
       height: 100%;
@@ -1299,7 +1296,7 @@
   </div>
 
   <!-- STUDIO SUB-TOOLBAR -->
-  <div class="studio-toolbar" style="margin-top: 92px;">
+  <div class="studio-toolbar" style="margin-top: 86px;">
     <!-- Row 1: Studio Title & Controls -->
     <div class="studio-toolbar-row1">
       <div class="flex items-center gap-3">
@@ -1324,44 +1321,51 @@
 
     <!-- Row 2: Dedicated Full 9-Suite Navigation Bar -->
     <div class="studio-toolbar-row2">
+      <button class="room-nav-scroll-btn" id="roomScrollLeft" aria-label="Scroll rooms left"
+        title="Scroll left">‹</button>
       <div class="room-selector" id="roomSelectorBar">
-        <button class="room-btn active" id="btnRoomLiving" data-room="living" title="Switch to 3D Living Room Walkthrough Showroom">
+        <button class="room-btn active" id="btnRoomLiving" data-room="living"
+          title="Switch to 3D Living Room Walkthrough Showroom">
           <span>🛋️</span>
-          <span>Living Room</span>
+          <span>Living Room <span class="badge-walkthrough">Walkthrough</span></span>
         </button>
         <button class="room-btn" id="btnRoomKitchen" data-room="kitchen" title="Switch to 3D Chef Kitchen Suite">
           <span>🍽️</span>
-          <span>Chef Kitchen</span>
+          <span>Kitchen Suite <span class="badge-webgl">3D WebGL</span></span>
         </button>
-        <button class="room-btn" id="btnRoomBathroom" data-room="bathroom" title="Switch to 3D Luxury Master Bathroom Suite">
+        <button class="room-btn" id="btnRoomBathroom" data-room="bathroom" title="Switch to 3D Luxury Bathroom Suite">
           <span>🛁</span>
-          <span>Master Bath</span>
+          <span>Bathroom Suite <span class="badge-webgl">3D WebGL</span></span>
         </button>
         <button class="room-btn" id="btnRoomPool" data-room="pool" title="Switch to 3D Swimming Pool Deck">
           <span>🏊</span>
-          <span>Swimming Pool</span>
+          <span>Swimming Pool <span class="badge-webgl">3D WebGL</span></span>
         </button>
-        <button class="room-btn" id="btnRoomParking" data-room="parking" title="Switch to 3D Outdoor Parking &amp; Driveway Suite">
+        <button class="room-btn" id="btnRoomParking" data-room="parking"
+          title="Switch to 3D Outdoor Parking &amp; Driveway Suite">
           <span>🚗</span>
-          <span>Parking Suite</span>
+          <span>Parking Suite <span class="badge-webgl">3D WebGL</span></span>
         </button>
         <button class="room-btn" id="btnRoomFoyer" data-room="foyer" title="Switch to 3D Grand Entrance Foyer">
           <span>🏛️</span>
-          <span>Entrance Foyer</span>
+          <span>Entrance Foyer <span class="badge-webgl">3D WebGL</span></span>
         </button>
         <button class="room-btn" id="btnRoomPooja" data-room="pooja" title="Switch to 3D Pooja Room Sanctuary">
           <span>🪔</span>
-          <span>Pooja Sanctuary</span>
+          <span>Pooja Sanctuary <span class="badge-webgl">3D WebGL</span></span>
         </button>
         <button class="room-btn" id="btnRoomBar" data-room="bar" title="Switch to 3D Executive Home Bar &amp; Lounge">
           <span>🍸</span>
-          <span>Bar &amp; Lounge</span>
+          <span>Bar &amp; Lounge <span class="badge-webgl">3D WebGL</span></span>
         </button>
-        <button class="room-btn" id="btnRoomUtility" data-room="utility" title="Switch to 3D Utility &amp; Scullery Service Suite">
+        <button class="room-btn" id="btnRoomUtility" data-room="utility"
+          title="Switch to 3D Utility &amp; Scullery Service Suite">
           <span>🧺</span>
-          <span>Utility Suite</span>
+          <span>Utility Suite <span class="badge-webgl">3D WebGL</span></span>
         </button>
       </div>
+      <button class="room-nav-scroll-btn" id="roomScrollRight" aria-label="Scroll rooms right"
+        title="Scroll right">›</button>
     </div>
   </div>
 
@@ -1372,7 +1376,8 @@
 
       <!-- 1. Photorealistic Walkthrough Living Room Showroom (V1 WebGL) -->
       <div id="v1-stage" class="v1-stage-container" style="display:none;">
-        <iframe id="v1-iframe" class="v1-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen title="Living Room 3D Walkthrough Showroom"></iframe>
+        <iframe id="v1-iframe" class="v1-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking"
+          allowfullscreen title="Living Room 3D Walkthrough Showroom"></iframe>
       </div>
 
       <!-- 2. Photorealistic Sketchfab WebGL Viewports (Kitchen & Bathroom Suites) -->
@@ -1391,19 +1396,6 @@
           <span id="skfbRoomSubtitle" class="text-[11px] text-[#A1A1AA] hidden sm:inline">&bull; Modern Architecture
             &amp; PBR Slabs</span>
         </div>
-
-        <!-- Quick 9-Suite Dropdown Selector -->
-        <select id="stageRoomSelect" class="stage-room-select" title="Switch 3D Suite">
-          <option value="living">🛋️ Living Room Showroom</option>
-          <option value="kitchen">🍽️ Chef Kitchen Suite</option>
-          <option value="bathroom">🛁 Master Bathroom Suite</option>
-          <option value="pool">🏊 Swimming Pool Deck</option>
-          <option value="parking">🚗 Parking Suite</option>
-          <option value="foyer">🏛️ Entrance Foyer</option>
-          <option value="pooja">🪔 Pooja Sanctuary</option>
-          <option value="bar">🍸 Bar &amp; Lounge</option>
-          <option value="utility">🧺 Utility Suite</option>
-        </select>
 
         <!-- Dynamic Camera Viewpoints for Active Room -->
         <div class="skfb-cam-bar" id="skfbCamBar">
@@ -2528,92 +2520,92 @@
         const $$ = s => document.querySelectorAll(s);
         const meshKey = new Map();
 
-    // Multi-Room Architectural Definitions
-    const roomDefs = {
-      living: {
-        id: 'living',
-        name: 'Living Room Suite',
-        group: livingGroup,
-        defaultKey: 'living_floor',
-        wallKeys: ['living_accent', 'living_walls'],
-        camera: { azimuth: Math.PI * 0.25, elevation: 0.37, distance: 12, target: new THREE.Vector3(0, 1.25, 0) },
-        surfaces: {}
-      },
-      kitchen: {
-        id: 'kitchen',
-        name: 'Chef Kitchen Suite',
-        group: kitchenGroup,
-        defaultKey: 'kitchen_countertop',
-        wallKeys: ['kitchen_backsplash'],
-        camera: { azimuth: Math.PI * 0.24, elevation: 0.36, distance: 10.8, target: new THREE.Vector3(0, 1.15, 0) },
-        surfaces: {}
-      },
-      bathroom: {
-        id: 'bathroom',
-        name: 'Master Bathroom Suite',
-        group: bathroomGroup,
-        defaultKey: 'bath_floor',
-        wallKeys: ['bath_shower_wall', 'bath_vanity'],
-        camera: { azimuth: Math.PI * 0.18, elevation: 0.32, distance: 9.8, target: new THREE.Vector3(0, 1.2, 0) },
-        surfaces: {}
-      },
-      pool: {
-        id: 'pool',
-        name: 'Swimming Pool Deck',
-        group: poolGroup,
-        defaultKey: 'pool_deck',
-        wallKeys: ['pool_coping', 'pool_waterwall', 'pool_bench'],
-        camera: { azimuth: Math.PI * 0.32, elevation: 0.42, distance: 16.5, target: new THREE.Vector3(0, 0.6, 0) },
-        surfaces: {}
-      },
-      parking: {
-        id: 'parking',
-        name: 'Parking & Driveway Suite',
-        group: parkingGroup,
-        defaultKey: 'parking_floor',
-        wallKeys: ['parking_wall', 'parking_kerb', 'parking_porch'],
-        camera: { azimuth: Math.PI * 0.35, elevation: 0.45, distance: 18.0, target: new THREE.Vector3(0, 1.0, 0) },
-        surfaces: {}
-      },
-      foyer: {
-        id: 'foyer',
-        name: 'Grand Entrance Foyer',
-        group: foyerGroup,
-        defaultKey: 'foyer_floor',
-        wallKeys: ['foyer_medallion', 'foyer_accent_wall', 'foyer_console'],
-        camera: { azimuth: Math.PI * 0.22, elevation: 0.34, distance: 12.5, target: new THREE.Vector3(0, 1.4, 0) },
-        surfaces: {}
-      },
-      pooja: {
-        id: 'pooja',
-        name: 'Pooja Room Sanctuary',
-        group: poojaGroup,
-        defaultKey: 'pooja_floor',
-        wallKeys: ['pooja_altar_wall', 'pooja_pedestals'],
-        camera: { azimuth: Math.PI * 0.20, elevation: 0.30, distance: 9.2, target: new THREE.Vector3(0, 1.2, -1.0) },
-        surfaces: {}
-      },
-      bar: {
-        id: 'bar',
-        name: 'Executive Bar & Lounge',
-        group: barGroup,
-        defaultKey: 'bar_island_top',
-        wallKeys: ['bar_floor', 'bar_back_slab', 'bar_walls'],
-        camera: { azimuth: Math.PI * 0.28, elevation: 0.38, distance: 12.0, target: new THREE.Vector3(0, 1.1, 0) },
-        surfaces: {}
-      },
-      utility: {
-        id: 'utility',
-        name: 'Utility & Scullery Suite',
-        group: utilityGroup,
-        defaultKey: 'utility_floor',
-        wallKeys: ['utility_counter', 'utility_backsplash'],
-        camera: { azimuth: Math.PI * 0.25, elevation: 0.35, distance: 10.5, target: new THREE.Vector3(0, 1.2, 0) },
-        surfaces: {}
-      }
-    };
-    let activeRoom = 'living';
-    let surf = roomDefs.living.surfaces;
+        // Multi-Room Architectural Definitions
+        const roomDefs = {
+          living: {
+            id: 'living',
+            name: 'Living Room Suite',
+            group: livingGroup,
+            defaultKey: 'living_floor',
+            wallKeys: ['living_accent', 'living_walls'],
+            camera: { azimuth: Math.PI * 0.25, elevation: 0.37, distance: 12, target: new THREE.Vector3(0, 1.25, 0) },
+            surfaces: {}
+          },
+          kitchen: {
+            id: 'kitchen',
+            name: 'Chef Kitchen Suite',
+            group: kitchenGroup,
+            defaultKey: 'kitchen_countertop',
+            wallKeys: ['kitchen_backsplash'],
+            camera: { azimuth: Math.PI * 0.24, elevation: 0.36, distance: 10.8, target: new THREE.Vector3(0, 1.15, 0) },
+            surfaces: {}
+          },
+          bathroom: {
+            id: 'bathroom',
+            name: 'Master Bathroom Suite',
+            group: bathroomGroup,
+            defaultKey: 'bath_floor',
+            wallKeys: ['bath_shower_wall', 'bath_vanity'],
+            camera: { azimuth: Math.PI * 0.18, elevation: 0.32, distance: 9.8, target: new THREE.Vector3(0, 1.2, 0) },
+            surfaces: {}
+          },
+          pool: {
+            id: 'pool',
+            name: 'Swimming Pool Deck',
+            group: poolGroup,
+            defaultKey: 'pool_deck',
+            wallKeys: ['pool_coping', 'pool_waterwall', 'pool_bench'],
+            camera: { azimuth: Math.PI * 0.32, elevation: 0.42, distance: 16.5, target: new THREE.Vector3(0, 0.6, 0) },
+            surfaces: {}
+          },
+          parking: {
+            id: 'parking',
+            name: 'Parking & Driveway Suite',
+            group: parkingGroup,
+            defaultKey: 'parking_floor',
+            wallKeys: ['parking_wall', 'parking_kerb', 'parking_porch'],
+            camera: { azimuth: Math.PI * 0.35, elevation: 0.45, distance: 18.0, target: new THREE.Vector3(0, 1.0, 0) },
+            surfaces: {}
+          },
+          foyer: {
+            id: 'foyer',
+            name: 'Grand Entrance Foyer',
+            group: foyerGroup,
+            defaultKey: 'foyer_floor',
+            wallKeys: ['foyer_medallion', 'foyer_accent_wall', 'foyer_console'],
+            camera: { azimuth: Math.PI * 0.22, elevation: 0.34, distance: 12.5, target: new THREE.Vector3(0, 1.4, 0) },
+            surfaces: {}
+          },
+          pooja: {
+            id: 'pooja',
+            name: 'Pooja Room Sanctuary',
+            group: poojaGroup,
+            defaultKey: 'pooja_floor',
+            wallKeys: ['pooja_altar_wall', 'pooja_pedestals'],
+            camera: { azimuth: Math.PI * 0.20, elevation: 0.30, distance: 9.2, target: new THREE.Vector3(0, 1.2, -1.0) },
+            surfaces: {}
+          },
+          bar: {
+            id: 'bar',
+            name: 'Executive Bar & Lounge',
+            group: barGroup,
+            defaultKey: 'bar_island_top',
+            wallKeys: ['bar_floor', 'bar_back_slab', 'bar_walls'],
+            camera: { azimuth: Math.PI * 0.28, elevation: 0.38, distance: 12.0, target: new THREE.Vector3(0, 1.1, 0) },
+            surfaces: {}
+          },
+          utility: {
+            id: 'utility',
+            name: 'Utility & Scullery Suite',
+            group: utilityGroup,
+            defaultKey: 'utility_floor',
+            wallKeys: ['utility_counter', 'utility_backsplash'],
+            camera: { azimuth: Math.PI * 0.25, elevation: 0.35, distance: 10.5, target: new THREE.Vector3(0, 1.2, 0) },
+            surfaces: {}
+          }
+        };
+        let activeRoom = 'living';
+        let surf = roomDefs.living.surfaces;
 
         function reg(roomKey, k, label, mesh, face, w, h) {
           if (!roomDefs[roomKey]) return;
@@ -2631,10 +2623,10 @@
           }
         }
 
-    // ── Living Room Surfaces Registration (Grand Floor, Accent Wall, Main Walls) ──
-    reg('living', 'living_floor', 'Grand Living Floor', floor, null, 12, 11);
-    reg('living', 'living_accent', 'Accent Feature Wall', sbox(4.5, 3.2, 0.2, 0, 1.6, -5.2, wall), 1, 4.5, 3.2);
-    reg('living', 'living_walls', 'Main Villa Walls', sbox(8.5, 3.2, 0.2, -4.5, 1.6, 0, wall), 1, 8.5, 3.2);
+        // ── Living Room Surfaces Registration (Grand Floor, Accent Wall, Main Walls) ──
+        reg('living', 'living_floor', 'Grand Living Floor', floor, null, 12, 11);
+        reg('living', 'living_accent', 'Accent Feature Wall', sbox(4.5, 3.2, 0.2, 0, 1.6, -5.2, wall), 1, 4.5, 3.2);
+        reg('living', 'living_walls', 'Main Villa Walls', sbox(8.5, 3.2, 0.2, -4.5, 1.6, 0, wall), 1, 8.5, 3.2);
 
         // ── Kitchen Suite Interactive Surface Registrations ──
         reg('kitchen', 'kitchen_countertop', 'Kitchen Island & Table', kitchenIslandTop, 2, 4.5, 1.84);
@@ -2912,23 +2904,6 @@
               skfbRooms[activeRoom].api.setMaterial(targetMat);
             }
           }
-        } else if (activeRoom === 'living') {
-          if (v1Iframe && v1Iframe.contentWindow) {
-            let v1Surf = 'floor';
-            if (k === 'living_accent') v1Surf = 'wall_accent';
-            else if (k === 'living_walls') v1Surf = 'wall_main';
-            try {
-              v1Iframe.contentWindow.postMessage({
-                type: 'murali-apply-stone',
-                surfaceKey: v1Surf,
-                stone: s.src,
-                finish: s.set && s.set.gloss > 0.6 ? 'polished' : 'honed',
-                format: s.set && s.set.struct === 'slab' ? 'slab' : 'tile'
-              }, '*');
-            } catch (err) {
-              console.warn('Could not postMessage to v1-iframe:', err);
-            }
-          }
         }
 
         async function refresh(k) {
@@ -2965,6 +2940,23 @@
 
             if (['kitchen', 'bathroom'].includes(activeRoom)) {
               applyMaterialToSketchfab(k, s, cv, true);
+            } else if (activeRoom === 'living') {
+              if (v1Iframe && v1Iframe.contentWindow) {
+                let v1Surf = 'floor';
+                if (k === 'living_accent') v1Surf = 'wall_accent';
+                else if (k === 'living_walls') v1Surf = 'wall_main';
+                try {
+                  v1Iframe.contentWindow.postMessage({
+                    type: 'murali-apply-stone',
+                    surfaceKey: v1Surf,
+                    stone: s.src,
+                    finish: s.set && s.set.gloss > 0.6 ? 'polished' : 'honed',
+                    format: s.set && s.set.struct === 'slab' ? 'slab' : 'tile'
+                  }, '*');
+                } catch (err) {
+                  console.warn('Could not postMessage to v1-iframe:', err);
+                }
+              }
             }
           } catch (e) {
             console.warn('Failed to apply texture:', e);
@@ -3150,43 +3142,43 @@
           });
         }
 
-    function setTab(t){
-      tab=t;
-      document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
-      renderGrid();
-    }
-    function renderChips(){
-      const c=$('#chips');c.innerHTML='';
-      for(const k in surf){
-        const b=document.createElement('button');b.textContent=surf[k].label;
-        b.className=k===cur?'active':'';
-        b.onclick=()=>select(k);c.append(b);
-      }
-    }
-    function sync(){
-      const s=surf[cur].set;
-      document.querySelectorAll('[data-struct]').forEach(b=>b.classList.toggle('active',b.dataset.struct===s.struct));
-      document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===s.mode));
-      $('#size').value=s.size;$('#sizeO').textContent=s.size.toFixed(2)+' m';
-      $('#gloss').value=s.gloss;$('#glossO').textContent=Math.round(s.gloss*100)+'%';
-      $('#sel').textContent='— '+surf[cur].label;
-      $('#size').disabled=(s.mode==='fit'&&s.struct==='slab');
-    }
-    function select(k){
-      cur=k;renderChips();sync();renderGrid();status.textContent='Selected: '+surf[k].label;
-      if (activeRoom === 'bathroom') {
-        if (k === 'bath_floor') setRoomCamera('floor');
-        else if (k === 'bath_vanity') setRoomCamera('vanity');
-        else setRoomCamera('wall');
-      } else if (activeRoom === 'kitchen') {
-        if (k === 'kitchen_countertop') setRoomCamera('counter');
-        else setRoomCamera('hob');
-      } else if (activeRoom === 'living') {
-        if (k === 'living_floor') setRoomCamera('floor');
-        else if (k === 'living_accent') setRoomCamera('accent');
-        else setRoomCamera('walls');
-      }
-    }
+        function setTab(t) {
+          tab = t;
+          document.querySelectorAll('#tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
+          renderGrid();
+        }
+        function renderChips() {
+          const c = $('#chips'); c.innerHTML = '';
+          for (const k in surf) {
+            const b = document.createElement('button'); b.textContent = surf[k].label;
+            b.className = k === cur ? 'active' : '';
+            b.onclick = () => select(k); c.append(b);
+          }
+        }
+        function sync() {
+          const s = surf[cur].set;
+          document.querySelectorAll('[data-struct]').forEach(b => b.classList.toggle('active', b.dataset.struct === s.struct));
+          document.querySelectorAll('[data-mode]').forEach(b => b.classList.toggle('active', b.dataset.mode === s.mode));
+          $('#size').value = s.size; $('#sizeO').textContent = s.size.toFixed(2) + ' m';
+          $('#gloss').value = s.gloss; $('#glossO').textContent = Math.round(s.gloss * 100) + '%';
+          $('#sel').textContent = '— ' + surf[cur].label;
+          $('#size').disabled = (s.mode === 'fit' && s.struct === 'slab');
+        }
+        function select(k) {
+          cur = k; renderChips(); sync(); renderGrid(); status.textContent = 'Selected: ' + surf[k].label;
+          if (activeRoom === 'bathroom') {
+            if (k === 'bath_floor') setRoomCamera('floor');
+            else if (k === 'bath_vanity') setRoomCamera('vanity');
+            else setRoomCamera('wall');
+          } else if (activeRoom === 'kitchen') {
+            if (k === 'kitchen_countertop') setRoomCamera('counter');
+            else setRoomCamera('hob');
+          } else if (activeRoom === 'living') {
+            if (k === 'living_floor') setRoomCamera('floor');
+            else if (k === 'living_accent') setRoomCamera('accent');
+            else setRoomCamera('walls');
+          }
+        }
 
         document.querySelectorAll('#tabs button').forEach(b => b.onclick = () => setTab(b.dataset.tab));
         document.querySelectorAll('[data-struct]').forEach(b => b.onclick = () => {
@@ -3317,118 +3309,118 @@
           }, duration);
         }
 
-    // ── Unified Multi-Room Camera and Viewport Configurations ──
-    const ROOM_CAMERAS = {
-      living: {
-        type: 'v1',
-        title: 'Living Room Showroom (3D Walkthrough)',
-        subtitle: '• Interactive 360° Walkthrough & PBR Marble Flooring',
-        hint: '<span class="text-[#10B981] font-semibold">💡 3D Walkthrough Showroom:</span> Click and drag to look around 360°, tap on floor circles to walk through the villa, and pick any marble or granite below to customize floors and walls in real-time.',
-        defaultCam: 'floor',
-        cameras: [
-          { id: 'floor', label: '🧱 Grand Floor', surfKey: 'living_floor' },
-          { id: 'accent', label: '🖼️ Feature Wall', surfKey: 'living_accent' },
-          { id: 'walls', label: '🏛️ Main Walls', surfKey: 'living_walls' },
-          { id: 'walkthrough', label: '🚶 360° Walkthrough', surfKey: 'living_floor' }
-        ]
-      },
-      kitchen: {
-        type: 'skfb',
-        title: 'Chef Kitchen Suite (3D WebGL)',
-        subtitle: '• Modern Island & Countertop',
-        hint: '<span class="text-[#E7C887] font-semibold">💡 Kitchen Material Studio:</span> Select <b>Kitchen Island &amp; Countertop</b> or <b>Backsplash Tiles</b>, then pick any granite, marble, or tile format below.',
-        defaultCam: 'counter',
-        cameras: [
-          { id: 'counter', label: '🔪 Island Countertop', eye: [300, -30, 50], target: [-9, 16, -1] },
-          { id: 'hob', label: '🍳 Hob & Cooking', eye: [320, 60, 50], target: [0, 40, -10] },
-          { id: 'panorama', label: '🍽️ Full Kitchen', eye: [598, -39, 115], target: [-9, 16, -1] }
-        ]
-      },
-      bathroom: {
-        type: 'skfb',
-        title: 'Master Bathroom Suite (3D WebGL)',
-        subtitle: '• Master Bath & Spa',
-        hint: '<span class="text-[#E7C887] font-semibold">💡 Bathroom Material Studio:</span> Select <b>Bathroom Floor</b>, <b>Wall Tiles</b>, or <b>Vanity Countertop</b>, then pick any stone or tile format below to customize in real-time 3D.',
-        defaultCam: 'floor',
-        cameras: [
-          { id: 'floor', label: '🧱 Floor View', eye: [-3.51, 23.0, 3.2], target: [-1.95, 6.0, -1.2] },
-          { id: 'wall', label: '🚿 Shower & Walls', eye: [-3.51, 32.27, 6.83], target: [-1.95, 5.31, 1.11] },
-          { id: 'vanity', label: '🪞 Vanity Counter', eye: [2.8, 20.0, 4.2], target: [0.2, 4.0, 1.8] }
-        ]
-      },
-      pool: {
-        type: 'three',
-        title: 'Swimming Pool Deck & Sunken Lounge (3D WebGL)',
-        subtitle: '• Resort Paving & Coping Slabs',
-        hint: '<span class="text-[#E7C887] font-semibold">💡 Swimming Pool Studio:</span> Customize <b>Pool Deck Paving</b>, <b>Coping Slabs</b>, <b>Water Feature Wall</b>, or <b>Sunken Lounge Bench</b> with anti-slip pavers &amp; granite.',
-        defaultCam: 'overview',
-        cameras: [
-          { id: 'overview', label: '🏊 Pool Overview', azimuth: Math.PI * 0.32, elevation: 0.42, distance: 16.5, target: [0, 0.6, 0] },
-          { id: 'lounge', label: '🛋️ Sunken Lounge', azimuth: Math.PI * 0.65, elevation: 0.30, distance: 10.0, target: [4.5, 0.5, 0] },
-          { id: 'waterwall', label: '🌊 Water Feature Wall', azimuth: Math.PI * 0.08, elevation: 0.25, distance: 11.0, target: [-1.8, 1.5, -3] }
-        ]
-      },
-      parking: {
-        type: 'three',
-        title: 'Outdoor Parking & Driveway Suite (3D WebGL)',
-        subtitle: '• Heavy-Duty Pavers & Boundary Walls',
-        hint: '<span class="text-[#E7C887] font-semibold">💡 Parking Suite Studio:</span> Select <b>Heavy-Duty Driveway Floor</b>, <b>Boundary Compound Wall</b>, or <b>Kerb Stones</b> to customize high-load granite &amp; vitrified pavers.',
-        defaultCam: 'overview',
-        cameras: [
-          { id: 'overview', label: '🚗 Driveway Overview', azimuth: Math.PI * 0.35, elevation: 0.45, distance: 18.0, target: [0, 1.0, 0] },
-          { id: 'porch', label: '🏛️ Entry Porch', azimuth: Math.PI * 0.60, elevation: 0.28, distance: 12.0, target: [5.0, 0.8, -1] },
-          { id: 'wall', label: '🧱 Boundary Wall', azimuth: Math.PI * 0.15, elevation: 0.32, distance: 13.0, target: [-2.0, 1.2, -4] }
-        ]
-      },
-      foyer: {
-        type: 'three',
-        title: 'Grand Entrance Foyer & Vestibule (3D WebGL)',
-        subtitle: '• High-Gloss Italian Marble & Inlays',
-        hint: '<span class="text-[#E7C887] font-semibold">💡 Grand Foyer Studio:</span> Customize <b>Grand Entry Marble Floor</b>, <b>Waterjet Medallion Accent</b>, or <b>Bookmatched Feature Wall</b> with luxury marble slabs.',
-        defaultCam: 'overview',
-        cameras: [
-          { id: 'overview', label: '🏛️ Grand Foyer', azimuth: Math.PI * 0.22, elevation: 0.34, distance: 12.5, target: [0, 1.4, 0] },
-          { id: 'medallion', label: '✨ Medallion Inlay', azimuth: Math.PI * 0.25, elevation: 0.70, distance: 8.0, target: [0, 0.1, 0] },
-          { id: 'feature', label: '🖼️ Feature Wall', azimuth: Math.PI * 0.05, elevation: 0.28, distance: 9.5, target: [0, 1.8, -3.5] }
-        ]
-      },
-      pooja: {
-        type: 'three',
-        title: 'Pooja Room & Mandir Sanctuary (3D WebGL)',
-        subtitle: '• Sacred Marble Sanctum & Pedestals',
-        hint: '<span class="text-[#E7C887] font-semibold">💡 Mandir Sanctuary Studio:</span> Customize <b>Sanctuary Marble Floor</b>, <b>Sacred Mandir Back Wall</b>, or <b>Stepped Sanctum Pedestals</b> with pristine white marble.',
-        defaultCam: 'overview',
-        cameras: [
-          { id: 'overview', label: '🪔 Mandir Sanctuary', azimuth: Math.PI * 0.20, elevation: 0.30, distance: 9.2, target: [0, 1.2, -1.0] },
-          { id: 'altar', label: '🕉️ Sacred Altar', azimuth: Math.PI * 0.04, elevation: 0.24, distance: 6.8, target: [0, 1.0, -2.5] },
-          { id: 'floor', label: '🧱 Pure Marble Floor', azimuth: Math.PI * 0.35, elevation: 0.58, distance: 7.5, target: [0, 0.2, -0.5] }
-        ]
-      },
-      bar: {
-        type: 'three',
-        title: 'Executive Home Bar & Cigar Lounge (3D WebGL)',
-        subtitle: '• Monolithic Granite Bar & Mood Lounge',
-        hint: '<span class="text-[#E7C887] font-semibold">💡 Executive Bar Studio:</span> Customize <b>Waterfall Granite Bar Island</b>, <b>High-Gloss Lounge Floor</b>, or <b>Back-Bar Feature Cladding</b> with deep black granites.',
-        defaultCam: 'overview',
-        cameras: [
-          { id: 'overview', label: '🍸 Bar & Lounge', azimuth: Math.PI * 0.28, elevation: 0.38, distance: 12.0, target: [0, 1.1, 0] },
-          { id: 'counter', label: '🥃 Bar Island Top', azimuth: Math.PI * 0.15, elevation: 0.30, distance: 7.5, target: [0, 0.8, 0.2] },
-          { id: 'showcase', label: '🍾 Showcase Wall', azimuth: Math.PI * 0.02, elevation: 0.25, distance: 8.5, target: [0, 1.8, -3.2] }
-        ]
-      },
-      utility: {
-        type: 'three',
-        title: 'Utility & Scullery Service Suite (3D WebGL)',
-        subtitle: '• Scratch-Resistant Heavy-Duty Counters & Cladding',
-        hint: '<span class="text-[#E7C887] font-semibold">💡 Utility Service Studio:</span> Customize <b>Scullery Service Floor</b>, <b>Heavy-Duty Work Countertop</b>, or <b>Splashback Cladding Tiles</b> with stain-resistant granites.',
-        defaultCam: 'overview',
-        cameras: [
-          { id: 'overview', label: '🧺 Utility Suite', azimuth: Math.PI * 0.25, elevation: 0.35, distance: 10.5, target: [0, 1.2, 0] },
-          { id: 'counter', label: '🧼 Work Counter', azimuth: Math.PI * 0.10, elevation: 0.32, distance: 7.0, target: [-1.0, 0.9, -2.5] },
-          { id: 'backsplash', label: '🧱 Splashback Wall', azimuth: Math.PI * 0.05, elevation: 0.25, distance: 6.5, target: [-1.0, 1.5, -3.0] }
-        ]
-      }
-    };
+        // ── Unified Multi-Room Camera and Viewport Configurations ──
+        const ROOM_CAMERAS = {
+          living: {
+            type: 'v1',
+            title: 'Living Room Showroom (3D Walkthrough)',
+            subtitle: '• Interactive 360° Walkthrough & PBR Marble Flooring',
+            hint: '<span class="text-[#10B981] font-semibold">💡 3D Walkthrough Showroom:</span> Click and drag to look around 360°, tap on floor circles to walk through the villa, and pick any marble or granite below to customize floors and walls in real-time.',
+            defaultCam: 'floor',
+            cameras: [
+              { id: 'floor', label: '🧱 Grand Floor', surfKey: 'living_floor' },
+              { id: 'accent', label: '🖼️ Feature Wall', surfKey: 'living_accent' },
+              { id: 'walls', label: '🏛️ Main Walls', surfKey: 'living_walls' },
+              { id: 'walkthrough', label: '🚶 360° Walkthrough', surfKey: 'living_floor' }
+            ]
+          },
+          kitchen: {
+            type: 'skfb',
+            title: 'Chef Kitchen Suite (3D WebGL)',
+            subtitle: '• Modern Island & Countertop',
+            hint: '<span class="text-[#E7C887] font-semibold">💡 Kitchen Material Studio:</span> Select <b>Kitchen Island &amp; Countertop</b> or <b>Backsplash Tiles</b>, then pick any granite, marble, or tile format below.',
+            defaultCam: 'counter',
+            cameras: [
+              { id: 'counter', label: '🔪 Island Countertop', eye: [300, -30, 50], target: [-9, 16, -1] },
+              { id: 'hob', label: '🍳 Hob & Cooking', eye: [320, 60, 50], target: [0, 40, -10] },
+              { id: 'panorama', label: '🍽️ Full Kitchen', eye: [598, -39, 115], target: [-9, 16, -1] }
+            ]
+          },
+          bathroom: {
+            type: 'skfb',
+            title: 'Master Bathroom Suite (3D WebGL)',
+            subtitle: '• Master Bath & Spa',
+            hint: '<span class="text-[#E7C887] font-semibold">💡 Bathroom Material Studio:</span> Select <b>Bathroom Floor</b>, <b>Wall Tiles</b>, or <b>Vanity Countertop</b>, then pick any stone or tile format below to customize in real-time 3D.',
+            defaultCam: 'floor',
+            cameras: [
+              { id: 'floor', label: '🧱 Floor View', eye: [-3.51, 23.0, 3.2], target: [-1.95, 6.0, -1.2] },
+              { id: 'wall', label: '🚿 Shower & Walls', eye: [-3.51, 32.27, 6.83], target: [-1.95, 5.31, 1.11] },
+              { id: 'vanity', label: '🪞 Vanity Counter', eye: [2.8, 20.0, 4.2], target: [0.2, 4.0, 1.8] }
+            ]
+          },
+          pool: {
+            type: 'three',
+            title: 'Swimming Pool Deck & Sunken Lounge (3D WebGL)',
+            subtitle: '• Resort Paving & Coping Slabs',
+            hint: '<span class="text-[#E7C887] font-semibold">💡 Swimming Pool Studio:</span> Customize <b>Pool Deck Paving</b>, <b>Coping Slabs</b>, <b>Water Feature Wall</b>, or <b>Sunken Lounge Bench</b> with anti-slip pavers &amp; granite.',
+            defaultCam: 'overview',
+            cameras: [
+              { id: 'overview', label: '🏊 Pool Overview', azimuth: Math.PI * 0.32, elevation: 0.42, distance: 16.5, target: [0, 0.6, 0] },
+              { id: 'lounge', label: '🛋️ Sunken Lounge', azimuth: Math.PI * 0.65, elevation: 0.30, distance: 10.0, target: [4.5, 0.5, 0] },
+              { id: 'waterwall', label: '🌊 Water Feature Wall', azimuth: Math.PI * 0.08, elevation: 0.25, distance: 11.0, target: [-1.8, 1.5, -3] }
+            ]
+          },
+          parking: {
+            type: 'three',
+            title: 'Outdoor Parking & Driveway Suite (3D WebGL)',
+            subtitle: '• Heavy-Duty Pavers & Boundary Walls',
+            hint: '<span class="text-[#E7C887] font-semibold">💡 Parking Suite Studio:</span> Select <b>Heavy-Duty Driveway Floor</b>, <b>Boundary Compound Wall</b>, or <b>Kerb Stones</b> to customize high-load granite &amp; vitrified pavers.',
+            defaultCam: 'overview',
+            cameras: [
+              { id: 'overview', label: '🚗 Driveway Overview', azimuth: Math.PI * 0.35, elevation: 0.45, distance: 18.0, target: [0, 1.0, 0] },
+              { id: 'porch', label: '🏛️ Entry Porch', azimuth: Math.PI * 0.60, elevation: 0.28, distance: 12.0, target: [5.0, 0.8, -1] },
+              { id: 'wall', label: '🧱 Boundary Wall', azimuth: Math.PI * 0.15, elevation: 0.32, distance: 13.0, target: [-2.0, 1.2, -4] }
+            ]
+          },
+          foyer: {
+            type: 'three',
+            title: 'Grand Entrance Foyer & Vestibule (3D WebGL)',
+            subtitle: '• High-Gloss Italian Marble & Inlays',
+            hint: '<span class="text-[#E7C887] font-semibold">💡 Grand Foyer Studio:</span> Customize <b>Grand Entry Marble Floor</b>, <b>Waterjet Medallion Accent</b>, or <b>Bookmatched Feature Wall</b> with luxury marble slabs.',
+            defaultCam: 'overview',
+            cameras: [
+              { id: 'overview', label: '🏛️ Grand Foyer', azimuth: Math.PI * 0.22, elevation: 0.34, distance: 12.5, target: [0, 1.4, 0] },
+              { id: 'medallion', label: '✨ Medallion Inlay', azimuth: Math.PI * 0.25, elevation: 0.70, distance: 8.0, target: [0, 0.1, 0] },
+              { id: 'feature', label: '🖼️ Feature Wall', azimuth: Math.PI * 0.05, elevation: 0.28, distance: 9.5, target: [0, 1.8, -3.5] }
+            ]
+          },
+          pooja: {
+            type: 'three',
+            title: 'Pooja Room & Mandir Sanctuary (3D WebGL)',
+            subtitle: '• Sacred Marble Sanctum & Pedestals',
+            hint: '<span class="text-[#E7C887] font-semibold">💡 Mandir Sanctuary Studio:</span> Customize <b>Sanctuary Marble Floor</b>, <b>Sacred Mandir Back Wall</b>, or <b>Stepped Sanctum Pedestals</b> with pristine white marble.',
+            defaultCam: 'overview',
+            cameras: [
+              { id: 'overview', label: '🪔 Mandir Sanctuary', azimuth: Math.PI * 0.20, elevation: 0.30, distance: 9.2, target: [0, 1.2, -1.0] },
+              { id: 'altar', label: '🕉️ Sacred Altar', azimuth: Math.PI * 0.04, elevation: 0.24, distance: 6.8, target: [0, 1.0, -2.5] },
+              { id: 'floor', label: '🧱 Pure Marble Floor', azimuth: Math.PI * 0.35, elevation: 0.58, distance: 7.5, target: [0, 0.2, -0.5] }
+            ]
+          },
+          bar: {
+            type: 'three',
+            title: 'Executive Home Bar & Cigar Lounge (3D WebGL)',
+            subtitle: '• Monolithic Granite Bar & Mood Lounge',
+            hint: '<span class="text-[#E7C887] font-semibold">💡 Executive Bar Studio:</span> Customize <b>Waterfall Granite Bar Island</b>, <b>High-Gloss Lounge Floor</b>, or <b>Back-Bar Feature Cladding</b> with deep black granites.',
+            defaultCam: 'overview',
+            cameras: [
+              { id: 'overview', label: '🍸 Bar & Lounge', azimuth: Math.PI * 0.28, elevation: 0.38, distance: 12.0, target: [0, 1.1, 0] },
+              { id: 'counter', label: '🥃 Bar Island Top', azimuth: Math.PI * 0.15, elevation: 0.30, distance: 7.5, target: [0, 0.8, 0.2] },
+              { id: 'showcase', label: '🍾 Showcase Wall', azimuth: Math.PI * 0.02, elevation: 0.25, distance: 8.5, target: [0, 1.8, -3.2] }
+            ]
+          },
+          utility: {
+            type: 'three',
+            title: 'Utility & Scullery Service Suite (3D WebGL)',
+            subtitle: '• Scratch-Resistant Heavy-Duty Counters & Cladding',
+            hint: '<span class="text-[#E7C887] font-semibold">💡 Utility Service Studio:</span> Customize <b>Scullery Service Floor</b>, <b>Heavy-Duty Work Countertop</b>, or <b>Splashback Cladding Tiles</b> with stain-resistant granites.',
+            defaultCam: 'overview',
+            cameras: [
+              { id: 'overview', label: '🧺 Utility Suite', azimuth: Math.PI * 0.25, elevation: 0.35, distance: 10.5, target: [0, 1.2, 0] },
+              { id: 'counter', label: '🧼 Work Counter', azimuth: Math.PI * 0.10, elevation: 0.32, distance: 7.0, target: [-1.0, 0.9, -2.5] },
+              { id: 'backsplash', label: '🧱 Splashback Wall', azimuth: Math.PI * 0.05, elevation: 0.25, distance: 6.5, target: [-1.0, 1.5, -3.0] }
+            ]
+          }
+        };
 
         const SKFB_ROOM_CONFIGS = {
           kitchen: {
@@ -3486,25 +3478,25 @@
           const cam = conf.cameras.find(c => c.id === viewKey) || conf.cameras[0];
           if (!cam) return;
 
-      if (conf.type === 'v1') {
-        if (cam.surfKey) select(cam.surfKey);
-        if (v1Iframe && v1Iframe.contentWindow) {
-          try {
-            v1Iframe.contentWindow.postMessage({ type: 'murali-cam-focus', target: cam.id }, '*');
-          } catch(e) {}
+          if (conf.type === 'v1') {
+            if (cam.surfKey) select(cam.surfKey);
+            if (v1Iframe && v1Iframe.contentWindow) {
+              try {
+                v1Iframe.contentWindow.postMessage({ type: 'murali-cam-focus', target: cam.id }, '*');
+              } catch (e) { }
+            }
+          } else if (conf.type === 'skfb') {
+            const room = skfbRooms[activeRoom];
+            if (!room || !room.api || !room.ready) return;
+            room.api.setCameraLookAt(cam.eye, cam.target, 1.2);
+          } else {
+            azimuth = cam.azimuth;
+            elevation = cam.elevation;
+            distance = cam.distance;
+            target.set(cam.target[0], cam.target[1], cam.target[2]);
+            updateCamera();
+          }
         }
-      } else if (conf.type === 'skfb') {
-        const room = skfbRooms[activeRoom];
-        if (!room || !room.api || !room.ready) return;
-        room.api.setCameraLookAt(cam.eye, cam.target, 1.2);
-      } else {
-        azimuth = cam.azimuth;
-        elevation = cam.elevation;
-        distance = cam.distance;
-        target.set(cam.target[0], cam.target[1], cam.target[2]);
-        updateCamera();
-      }
-    }
 
         function updateCameraButtons(roomKey) {
           const conf = ROOM_CAMERAS[roomKey];
@@ -3670,6 +3662,9 @@
             ui_infos: 0,
             ui_watermark: 0,
             ui_theme: 'dark',
+            dpr: Math.min(window.devicePixelRatio || 1, 2),
+            image_compression: 0,
+            fps_limit: 60,
             success: function (api) {
               room.api = api;
               api.addEventListener('viewerready', function () {
@@ -3677,28 +3672,25 @@
                 room.loading = false;
                 window.skfbReady = true;
                 window.skfbApi = api;
-                window.skfbMaterials = room.materials;
                 status.textContent = conf.title + ' Active · Select surface or stone below to customize';
 
-      room.client = new window.Sketchfab(iframeEl);
-      room.client.init(conf.uid, {
-        autostart: 1,
-        preload: 1,
-        ui_infos: 0,
-        ui_watermark: 0,
-        ui_theme: 'dark',
-        dpr: Math.min(window.devicePixelRatio || 1, 2),
-        image_compression: 0,
-        fps_limit: 60,
-        success: function(api) {
-          room.api = api;
-          api.addEventListener('viewerready', function() {
-            room.ready = true;
-            room.loading = false;
-            window.skfbReady = true;
-            window.skfbApi = api;
-            window.skfbMaterials = room.materials;
-            status.textContent = conf.title + ' Active · Select surface or stone below to customize';
+                api.getMaterialList(function (err, materials) {
+                  if (err) {
+                    console.error('getMaterialList error:', err);
+                    return;
+                  }
+                  materials.forEach(m => {
+                    const nl = m.name.toLowerCase();
+                    if (roomKey === 'kitchen') {
+                      if (nl === 'counters' || nl.includes('counter')) room.materials.counters = m;
+                      else if (nl === 'structure' || nl.includes('struct') || nl.includes('wall')) room.materials.structure = m;
+                    } else if (roomKey === 'bathroom') {
+                      if (nl.includes('floor')) room.materials.floor = m;
+                      else if (nl.includes('wall')) room.materials.wall = m;
+                      else if (nl.includes('shelf')) room.materials.shelf = m;
+                    }
+                  });
+                  window.skfbMaterials = room.materials;
 
                   // Apply pending updates or initial defaults
                   const pendingKeys = Object.keys(room.pendingUpdates);
@@ -3763,53 +3755,53 @@
           if (skfbBottomHint) skfbBottomHint.innerHTML = conf.hint;
           updateCameraButtons(roomKey);
 
-      // Manage Viewport Visibility
-      if (conf.type === 'v1') {
-        if (canvas) canvas.style.display = 'none';
-        if (skfbStage) {
-          skfbStage.style.display = 'none';
-          skfbStage.classList.remove('active');
-        }
-        if (v1Stage) {
-          v1Stage.style.display = 'block';
-          v1Stage.classList.add('active');
-          if (v1Iframe) {
-            if (!v1Iframe.src || !v1Iframe.src.includes('V1/index.html')) {
-              v1Iframe.src = 'V1/index.html?v=3.6.1&autostart=1';
+          // Manage Viewport Visibility
+          if (conf.type === 'v1') {
+            if (canvas) canvas.style.display = 'none';
+            if (skfbStage) {
+              skfbStage.style.display = 'none';
+              skfbStage.classList.remove('active');
             }
-          }
-        }
-      } else if (conf.type === 'skfb') {
-        if (canvas) canvas.style.display = 'none';
-        if (v1Stage) {
-          v1Stage.style.display = 'none';
-          v1Stage.classList.remove('active');
-        }
-        if (skfbStage) {
-          skfbStage.style.display = 'block';
-          skfbStage.classList.add('active');
-        }
-        initSketchfabRoom(roomKey);
-      } else {
-        if (v1Stage) {
-          v1Stage.style.display = 'none';
-          v1Stage.classList.remove('active');
-        }
-        if (skfbStage) {
-          skfbStage.style.display = 'none';
-          skfbStage.classList.remove('active');
-        }
-        if (canvas) {
-          canvas.style.display = 'block';
-          if (renderer && stage) {
-            const w = stage.clientWidth || window.innerWidth;
-            const h = stage.clientHeight || (window.innerHeight - 164);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-            renderer.setSize(w, h, true);
-            camera.aspect = w / h;
-            camera.updateProjectionMatrix();
-          }
-        }
+            if (v1Stage) {
+              v1Stage.style.display = 'block';
+              v1Stage.classList.add('active');
+              if (v1Iframe) {
+                if (!v1Iframe.src || !v1Iframe.src.includes('V1/index.html')) {
+                  v1Iframe.src = 'V1/index.html?v=3.6.1&autostart=1';
+                }
+              }
+            }
+          } else if (conf.type === 'skfb') {
+            if (canvas) canvas.style.display = 'none';
+            if (v1Stage) {
+              v1Stage.style.display = 'none';
+              v1Stage.classList.remove('active');
+            }
+            if (skfbStage) {
+              skfbStage.style.display = 'block';
+              skfbStage.classList.add('active');
+            }
+            initSketchfabRoom(roomKey);
+          } else {
+            if (v1Stage) {
+              v1Stage.style.display = 'none';
+              v1Stage.classList.remove('active');
+            }
+            if (skfbStage) {
+              skfbStage.style.display = 'none';
+              skfbStage.classList.remove('active');
+            }
+            if (canvas) {
+              canvas.style.display = 'block';
+              if (renderer && stage) {
+                const w = stage.clientWidth || window.innerWidth;
+                const h = stage.clientHeight || (window.innerHeight - 164);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                renderer.setSize(w, h, true);
+                camera.aspect = w / h;
+                camera.updateProjectionMatrix();
+              }
+            }
 
             // Toggle Three.js groups
             const allGroups = [livingGroup, bathroomGroup, kitchenGroup, parkingGroup, utilityGroup, poojaGroup, foyerGroup, poolGroup, barGroup];
@@ -3845,13 +3837,10 @@
           document.querySelectorAll('.room-btn').forEach(btn => {
             const isAct = btn.getAttribute('data-room') === roomKey;
             btn.classList.toggle('active', isAct);
+            if (isAct && btn.parentElement) {
+              btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
           });
-
-          // Sync stageRoomSelect dropdown
-          const stageSelect = document.getElementById('stageRoomSelect');
-          if (stageSelect && stageSelect.value !== roomKey) {
-            stageSelect.value = roomKey;
-          }
 
           renderChips();
           sync();
@@ -3863,290 +3852,232 @@
           btn.onclick = () => switchRoom(btn.getAttribute('data-room'));
         });
 
-        const stageSelectEl = document.getElementById('stageRoomSelect');
-        if (stageSelectEl) {
-          stageSelectEl.onchange = (e) => switchRoom(e.target.value);
+        const roomSelectorBar = document.getElementById('roomSelectorBar');
+        const roomScrollLeft = document.getElementById('roomScrollLeft');
+        const roomScrollRight = document.getElementById('roomScrollRight');
+        if (roomScrollLeft && roomSelectorBar) {
+          roomScrollLeft.onclick = () => roomSelectorBar.scrollBy({ left: -240, behavior: 'smooth' });
         }
-
-        // Listen for popstate (browser back/forward)
-        window.addEventListener('popstate', () => {
-          const p = new URLSearchParams(window.location.search);
-          const r = p.get('room') || 'living';
-          switchRoom(r);
-        });
-
-        // Intercept any on-page room links so they switch instantly without reloading
-        document.addEventListener('click', (e) => {
-          const link = e.target.closest('a[href*="room="]');
-          if (link && link.pathname.includes('visualizer-2.html')) {
-            try {
-              const u = new URL(link.href, window.location.origin);
-              const r = u.searchParams.get('room');
-              if (r) {
-                e.preventDefault();
-                switchRoom(r);
-              }
-            } catch(err) {}
-          }
-        });
+        if (roomScrollRight && roomSelectorBar) {
+          roomScrollRight.onclick = () => roomSelectorBar.scrollBy({ left: 240, behavior: 'smooth' });
+        }
 
         // ── Initialize Default Stones on Rooms ──
         (function initShowroomDefaults() {
-          // 0. Living Room Defaults (Statuario on Floor, River Black on Coffee Table, Black Pearl on TV Console)
-          const livFloorStone = showroomSlabs.find(s => s.name === 'Statuario') || showroomSlabs.find(s => s.name === 'Calacatta White') || presets[0];
-          const livTableStone = showroomSlabs.find(s => s.name === 'River Black') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
-          const livTvStone = showroomSlabs.find(s => s.name === 'Black Pearl') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
-          if (livFloorStone && roomDefs.living && roomDefs.living.surfaces.living_floor) {
-            roomDefs.living.surfaces.living_floor.src = livFloorStone;
-            roomDefs.living.surfaces.living_floor.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.95, grout: 2 };
-          }
-          if (livTableStone && roomDefs.living && roomDefs.living.surfaces.living_table) {
-            roomDefs.living.surfaces.living_table.src = livTableStone;
-            roomDefs.living.surfaces.living_table.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.92, grout: 2 };
-          }
-          if (livTvStone && roomDefs.living && roomDefs.living.surfaces.living_tv) {
-            roomDefs.living.surfaces.living_tv.src = livTvStone;
-            roomDefs.living.surfaces.living_tv.set = { struct: 'slab', mode: 'mirror', size: 2.8, rot: 0, gloss: 0.90, grout: 2 };
-          }
+            // 0. Living Room Defaults (Statuario on Floor, River Black on Accent Wall, Armani Grey on Main Walls)
+            const livFloorStone = showroomSlabs.find(s => s.name === 'Statuario') || showroomSlabs.find(s => s.name === 'Calacatta White') || presets[0];
+            const livAccentStone = showroomSlabs.find(s => s.name === 'River Black') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+            const livWallsStone = showroomSlabs.find(s => s.name === 'Armani Grey PGVT Tile') || showroomSlabs.find(s => s.name === 'Steel Grey') || presets[0];
+            if (livFloorStone && roomDefs.living && roomDefs.living.surfaces.living_floor) {
+              roomDefs.living.surfaces.living_floor.src = livFloorStone;
+              roomDefs.living.surfaces.living_floor.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.95, grout: 2 };
+            }
+            if (livAccentStone && roomDefs.living && roomDefs.living.surfaces.living_accent) {
+              roomDefs.living.surfaces.living_accent.src = livAccentStone;
+              roomDefs.living.surfaces.living_accent.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 2 };
+            }
+            if (livWallsStone && roomDefs.living && roomDefs.living.surfaces.living_walls) {
+              roomDefs.living.surfaces.living_walls.src = livWallsStone;
+              roomDefs.living.surfaces.living_walls.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.70, grout: 2 };
+            }
 
-    const roomSelectorBar = document.getElementById('roomSelectorBar');
-    const roomScrollLeft = document.getElementById('roomScrollLeft');
-    const roomScrollRight = document.getElementById('roomScrollRight');
-    if (roomScrollLeft && roomSelectorBar) {
-      roomScrollLeft.onclick = () => roomSelectorBar.scrollBy({ left: -240, behavior: 'smooth' });
-    }
-    if (roomScrollRight && roomSelectorBar) {
-      roomScrollRight.onclick = () => roomSelectorBar.scrollBy({ left: 240, behavior: 'smooth' });
-    }
+            // 2. Luxury Bathroom Defaults (River White Floor, Emerald Onyx Wall, Black Pearl Vanity)
+            const bFloorStone = showroomSlabs.find(s => s.name === 'River White') || presets[0];
+            const bShowerWallStone = showroomSlabs.find(s => s.name === 'Emerald Onyx Marble') || presets.find(p => p.name === 'Calacatta White') || presets[0];
+            const bVanityStone = showroomSlabs.find(s => s.name === 'Titanium Black') || showroomSlabs.find(s => s.name === 'Black Pearl') || showroomSlabs[2];
 
-    // ── Initialize Default Stones on Rooms ──
-    (function initShowroomDefaults() {
-      // 0. Living Room Defaults (Statuario on Floor, River Black on Accent Wall, Armani Grey on Main Walls)
-      const livFloorStone = showroomSlabs.find(s => s.name === 'Statuario') || showroomSlabs.find(s => s.name === 'Calacatta White') || presets[0];
-      const livAccentStone = showroomSlabs.find(s => s.name === 'River Black') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
-      const livWallsStone = showroomSlabs.find(s => s.name === 'Armani Grey PGVT Tile') || showroomSlabs.find(s => s.name === 'Steel Grey') || presets[0];
-      if (livFloorStone && roomDefs.living && roomDefs.living.surfaces.living_floor) {
-        roomDefs.living.surfaces.living_floor.src = livFloorStone;
-        roomDefs.living.surfaces.living_floor.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.95, grout: 2 };
-      }
-      if (livAccentStone && roomDefs.living && roomDefs.living.surfaces.living_accent) {
-        roomDefs.living.surfaces.living_accent.src = livAccentStone;
-        roomDefs.living.surfaces.living_accent.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 2 };
-      }
-      if (livWallsStone && roomDefs.living && roomDefs.living.surfaces.living_walls) {
-        roomDefs.living.surfaces.living_walls.src = livWallsStone;
-        roomDefs.living.surfaces.living_walls.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.70, grout: 2 };
-      }
+            if (bFloorStone && roomDefs.bathroom && roomDefs.bathroom.surfaces.bath_floor) {
+              roomDefs.bathroom.surfaces.bath_floor.src = bFloorStone;
+              roomDefs.bathroom.surfaces.bath_floor.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.72, grout: 2.5 };
+            }
+            if (bShowerWallStone && roomDefs.bathroom && roomDefs.bathroom.surfaces.bath_shower_wall) {
+              roomDefs.bathroom.surfaces.bath_shower_wall.src = bShowerWallStone;
+              roomDefs.bathroom.surfaces.bath_shower_wall.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.82, grout: 2 };
+            }
+            if (bVanityStone && roomDefs.bathroom && roomDefs.bathroom.surfaces.bath_vanity) {
+              roomDefs.bathroom.surfaces.bath_vanity.src = bVanityStone;
+              roomDefs.bathroom.surfaces.bath_vanity.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 3 };
+            }
 
-          // 2. Luxury Bathroom Defaults (River White Floor, Emerald Onyx Wall, Black Pearl Vanity)
-          const bFloorStone = showroomSlabs.find(s => s.name === 'River White') || presets[0];
-          const bShowerWallStone = showroomSlabs.find(s => s.name === 'Emerald Onyx Marble') || presets.find(p => p.name === 'Calacatta White') || presets[0];
-          const bVanityStone = showroomSlabs.find(s => s.name === 'Titanium Black') || showroomSlabs.find(s => s.name === 'Black Pearl') || showroomSlabs[2];
+            // 3. Swimming Pool Defaults
+            const pDeckStone = showroomSlabs.find(s => s.name === 'Sahara Beige Heavy-Duty Parking Tile') || showroomSlabs.find(s => s.name === 'River White') || presets[0];
+            const pCopingStone = showroomSlabs.find(s => s.name === 'Black Pearl') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+            const pWallStone = showroomSlabs.find(s => s.name === 'Blue in the Night') || presets[0];
+            const pBenchStone = showroomSlabs.find(s => s.name === 'Moon White') || presets[0];
+            if (roomDefs.pool) {
+              if (roomDefs.pool.surfaces.pool_deck) {
+                roomDefs.pool.surfaces.pool_deck.src = pDeckStone;
+                roomDefs.pool.surfaces.pool_deck.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.55, grout: 3 };
+              }
+              if (roomDefs.pool.surfaces.pool_coping) {
+                roomDefs.pool.surfaces.pool_coping.src = pCopingStone;
+                roomDefs.pool.surfaces.pool_coping.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.88, grout: 2 };
+              }
+              if (roomDefs.pool.surfaces.pool_waterwall) {
+                roomDefs.pool.surfaces.pool_waterwall.src = pWallStone;
+                roomDefs.pool.surfaces.pool_waterwall.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 2 };
+              }
+              if (roomDefs.pool.surfaces.pool_bench) {
+                roomDefs.pool.surfaces.pool_bench.src = pBenchStone;
+                roomDefs.pool.surfaces.pool_bench.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.70, grout: 2 };
+              }
+            }
 
-          if (bFloorStone && roomDefs.bathroom && roomDefs.bathroom.surfaces.bath_floor) {
-            roomDefs.bathroom.surfaces.bath_floor.src = bFloorStone;
-            roomDefs.bathroom.surfaces.bath_floor.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.72, grout: 2.5 };
-          }
-          if (bShowerWallStone && roomDefs.bathroom && roomDefs.bathroom.surfaces.bath_shower_wall) {
-            roomDefs.bathroom.surfaces.bath_shower_wall.src = bShowerWallStone;
-            roomDefs.bathroom.surfaces.bath_shower_wall.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.82, grout: 2 };
-          }
-          if (bVanityStone && roomDefs.bathroom && roomDefs.bathroom.surfaces.bath_vanity) {
-            roomDefs.bathroom.surfaces.bath_vanity.src = bVanityStone;
-            roomDefs.bathroom.surfaces.bath_vanity.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 3 };
-          }
+            // 4. Parking & Driveway Defaults
+            const parkFloorStone = showroomSlabs.find(s => s.name === 'Sahara Beige Heavy-Duty Parking Tile') || presets[0];
+            const parkWallStone = showroomSlabs.find(s => s.name === 'Tan Brown') || presets[0];
+            const parkKerbStone = showroomSlabs.find(s => s.name === 'Black Pearl') || presets[0];
+            const parkPorchStone = showroomSlabs.find(s => s.name === 'River White') || presets[0];
+            if (roomDefs.parking) {
+              if (roomDefs.parking.surfaces.parking_floor) {
+                roomDefs.parking.surfaces.parking_floor.src = parkFloorStone;
+                roomDefs.parking.surfaces.parking_floor.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.45, grout: 3 };
+              }
+              if (roomDefs.parking.surfaces.parking_wall) {
+                roomDefs.parking.surfaces.parking_wall.src = parkWallStone;
+                roomDefs.parking.surfaces.parking_wall.set = { struct: 'slab', mode: 'repeat', size: 2.0, rot: 0, gloss: 0.75, grout: 2 };
+              }
+              if (roomDefs.parking.surfaces.parking_kerb) {
+                roomDefs.parking.surfaces.parking_kerb.src = parkKerbStone;
+                roomDefs.parking.surfaces.parking_kerb.set = { struct: 'slab', mode: 'mirror', size: 1.8, rot: 0, gloss: 0.70, grout: 2 };
+              }
+              if (roomDefs.parking.surfaces.parking_porch) {
+                roomDefs.parking.surfaces.parking_porch.src = parkPorchStone;
+                roomDefs.parking.surfaces.parking_porch.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.88, grout: 2 };
+              }
+            }
 
-          // 3. Swimming Pool Defaults
-          const pDeckStone = showroomSlabs.find(s => s.name === 'Sahara Beige Heavy-Duty Parking Tile') || showroomSlabs.find(s => s.name === 'River White') || presets[0];
-          const pCopingStone = showroomSlabs.find(s => s.name === 'Black Pearl') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
-          const pWallStone = showroomSlabs.find(s => s.name === 'Blue in the Night') || presets[0];
-          const pBenchStone = showroomSlabs.find(s => s.name === 'Moon White') || presets[0];
-          if (roomDefs.pool) {
-            if (roomDefs.pool.surfaces.pool_deck) {
-              roomDefs.pool.surfaces.pool_deck.src = pDeckStone;
-              roomDefs.pool.surfaces.pool_deck.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.55, grout: 3 };
+            // 5. Entrance Foyer Defaults
+            const foyerFloorStone = showroomSlabs.find(s => s.name === 'Calacatta Gold PGVT Tile') || showroomSlabs.find(s => s.name === 'Banswara Marble') || presets[0];
+            const foyerMedallionStone = showroomSlabs.find(s => s.name === 'Emerald Onyx Marble') || showroomSlabs.find(s => s.name === 'Blue in the Night') || presets[0];
+            const foyerAccentStone = showroomSlabs.find(s => s.name === 'Black Forrest') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+            const foyerConsoleStone = showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+            if (roomDefs.foyer) {
+              if (roomDefs.foyer.surfaces.foyer_floor) {
+                roomDefs.foyer.surfaces.foyer_floor.src = foyerFloorStone;
+                roomDefs.foyer.surfaces.foyer_floor.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.94, grout: 1.5 };
+              }
+              if (roomDefs.foyer.surfaces.foyer_medallion) {
+                roomDefs.foyer.surfaces.foyer_medallion.src = foyerMedallionStone;
+                roomDefs.foyer.surfaces.foyer_medallion.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.95, grout: 1 };
+              }
+              if (roomDefs.foyer.surfaces.foyer_accent_wall) {
+                roomDefs.foyer.surfaces.foyer_accent_wall.src = foyerAccentStone;
+                roomDefs.foyer.surfaces.foyer_accent_wall.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.90, grout: 2 };
+              }
+              if (roomDefs.foyer.surfaces.foyer_console) {
+                roomDefs.foyer.surfaces.foyer_console.src = foyerConsoleStone;
+                roomDefs.foyer.surfaces.foyer_console.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.95, grout: 1 };
+              }
             }
-            if (roomDefs.pool.surfaces.pool_coping) {
-              roomDefs.pool.surfaces.pool_coping.src = pCopingStone;
-              roomDefs.pool.surfaces.pool_coping.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.88, grout: 2 };
-            }
-            if (roomDefs.pool.surfaces.pool_waterwall) {
-              roomDefs.pool.surfaces.pool_waterwall.src = pWallStone;
-              roomDefs.pool.surfaces.pool_waterwall.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 2 };
-            }
-            if (roomDefs.pool.surfaces.pool_bench) {
-              roomDefs.pool.surfaces.pool_bench.src = pBenchStone;
-              roomDefs.pool.surfaces.pool_bench.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.70, grout: 2 };
-            }
-          }
 
-          // 4. Parking & Driveway Defaults
-          const parkFloorStone = showroomSlabs.find(s => s.name === 'Sahara Beige Heavy-Duty Parking Tile') || presets[0];
-          const parkWallStone = showroomSlabs.find(s => s.name === 'Tan Brown') || presets[0];
-          const parkKerbStone = showroomSlabs.find(s => s.name === 'Black Pearl') || presets[0];
-          const parkPorchStone = showroomSlabs.find(s => s.name === 'River White') || presets[0];
-          if (roomDefs.parking) {
-            if (roomDefs.parking.surfaces.parking_floor) {
-              roomDefs.parking.surfaces.parking_floor.src = parkFloorStone;
-              roomDefs.parking.surfaces.parking_floor.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.45, grout: 3 };
+            // 6. Pooja Room Defaults
+            const poojaFloorStone = showroomSlabs.find(s => s.name === 'Calacatta Gold PGVT Tile') || presets[0];
+            const poojaAltarStone = showroomSlabs.find(s => s.name === 'Banswara Marble') || presets[0];
+            const poojaPedStone = showroomSlabs.find(s => s.name === 'Alaska White') || presets[0];
+            if (roomDefs.pooja) {
+              if (roomDefs.pooja.surfaces.pooja_floor) {
+                roomDefs.pooja.surfaces.pooja_floor.src = poojaFloorStone;
+                roomDefs.pooja.surfaces.pooja_floor.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.90, grout: 2 };
+              }
+              if (roomDefs.pooja.surfaces.pooja_altar_wall) {
+                roomDefs.pooja.surfaces.pooja_altar_wall.src = poojaAltarStone;
+                roomDefs.pooja.surfaces.pooja_altar_wall.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.88, grout: 1.5 };
+              }
+              if (roomDefs.pooja.surfaces.pooja_pedestals) {
+                roomDefs.pooja.surfaces.pooja_pedestals.src = poojaPedStone;
+                roomDefs.pooja.surfaces.pooja_pedestals.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.92, grout: 1 };
+              }
             }
-            if (roomDefs.parking.surfaces.parking_wall) {
-              roomDefs.parking.surfaces.parking_wall.src = parkWallStone;
-              roomDefs.parking.surfaces.parking_wall.set = { struct: 'slab', mode: 'repeat', size: 2.0, rot: 0, gloss: 0.75, grout: 2 };
-            }
-            if (roomDefs.parking.surfaces.parking_kerb) {
-              roomDefs.parking.surfaces.parking_kerb.src = parkKerbStone;
-              roomDefs.parking.surfaces.parking_kerb.set = { struct: 'slab', mode: 'mirror', size: 1.8, rot: 0, gloss: 0.70, grout: 2 };
-            }
-            if (roomDefs.parking.surfaces.parking_porch) {
-              roomDefs.parking.surfaces.parking_porch.src = parkPorchStone;
-              roomDefs.parking.surfaces.parking_porch.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.88, grout: 2 };
-            }
-          }
 
-          // 5. Entrance Foyer Defaults
-          const foyerFloorStone = showroomSlabs.find(s => s.name === 'Calacatta Gold PGVT Tile') || showroomSlabs.find(s => s.name === 'Banswara Marble') || presets[0];
-          const foyerMedallionStone = showroomSlabs.find(s => s.name === 'Emerald Onyx Marble') || showroomSlabs.find(s => s.name === 'Blue in the Night') || presets[0];
-          const foyerAccentStone = showroomSlabs.find(s => s.name === 'Black Forrest') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
-          const foyerConsoleStone = showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
-          if (roomDefs.foyer) {
-            if (roomDefs.foyer.surfaces.foyer_floor) {
-              roomDefs.foyer.surfaces.foyer_floor.src = foyerFloorStone;
-              roomDefs.foyer.surfaces.foyer_floor.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.94, grout: 1.5 };
+            // 7. Executive Bar Defaults
+            const barIslandStone = showroomSlabs.find(s => s.name === 'Black Pearl') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+            const barFloorStone = showroomSlabs.find(s => s.name === 'Black Forrest') || presets[0];
+            const barBackStone = showroomSlabs.find(s => s.name === 'Blue in the Night') || presets[0];
+            const barWallStone = showroomSlabs.find(s => s.name === 'Armani Gris GVT Matte Tile') || presets[0];
+            if (roomDefs.bar) {
+              if (roomDefs.bar.surfaces.bar_island_top) {
+                roomDefs.bar.surfaces.bar_island_top.src = barIslandStone;
+                roomDefs.bar.surfaces.bar_island_top.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.96, grout: 1.5 };
+              }
+              if (roomDefs.bar.surfaces.bar_floor) {
+                roomDefs.bar.surfaces.bar_floor.src = barFloorStone;
+                roomDefs.bar.surfaces.bar_floor.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.92, grout: 2 };
+              }
+              if (roomDefs.bar.surfaces.bar_back_slab) {
+                roomDefs.bar.surfaces.bar_back_slab.src = barBackStone;
+                roomDefs.bar.surfaces.bar_back_slab.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.94, grout: 1 };
+              }
+              if (roomDefs.bar.surfaces.bar_walls) {
+                roomDefs.bar.surfaces.bar_walls.src = barWallStone;
+                roomDefs.bar.surfaces.bar_walls.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.70, grout: 2 };
+              }
             }
-            if (roomDefs.foyer.surfaces.foyer_medallion) {
-              roomDefs.foyer.surfaces.foyer_medallion.src = foyerMedallionStone;
-              roomDefs.foyer.surfaces.foyer_medallion.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.95, grout: 1 };
-            }
-            if (roomDefs.foyer.surfaces.foyer_accent_wall) {
-              roomDefs.foyer.surfaces.foyer_accent_wall.src = foyerAccentStone;
-              roomDefs.foyer.surfaces.foyer_accent_wall.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.90, grout: 2 };
-            }
-            if (roomDefs.foyer.surfaces.foyer_console) {
-              roomDefs.foyer.surfaces.foyer_console.src = foyerConsoleStone;
-              roomDefs.foyer.surfaces.foyer_console.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.95, grout: 1 };
-            }
-          }
 
-          // 6. Pooja Room Defaults
-          const poojaFloorStone = showroomSlabs.find(s => s.name === 'Calacatta Gold PGVT Tile') || presets[0];
-          const poojaAltarStone = showroomSlabs.find(s => s.name === 'Banswara Marble') || presets[0];
-          const poojaPedStone = showroomSlabs.find(s => s.name === 'Alaska White') || presets[0];
-          if (roomDefs.pooja) {
-            if (roomDefs.pooja.surfaces.pooja_floor) {
-              roomDefs.pooja.surfaces.pooja_floor.src = poojaFloorStone;
-              roomDefs.pooja.surfaces.pooja_floor.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.90, grout: 2 };
+            // 8. Utility Suite Defaults
+            const utilFloorStone = showroomSlabs.find(s => s.name === 'Steel Grey') || presets[0];
+            const utilCounterStone = showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+            const utilSplashStone = showroomSlabs.find(s => s.name === 'Calacatta Gold PGVT Tile') || presets[0];
+            if (roomDefs.utility) {
+              if (roomDefs.utility.surfaces.utility_floor) {
+                roomDefs.utility.surfaces.utility_floor.src = utilFloorStone;
+                roomDefs.utility.surfaces.utility_floor.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.65, grout: 2.5 };
+              }
+              if (roomDefs.utility.surfaces.utility_counter) {
+                roomDefs.utility.surfaces.utility_counter.src = utilCounterStone;
+                roomDefs.utility.surfaces.utility_counter.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 2 };
+              }
+              if (roomDefs.utility.surfaces.utility_backsplash) {
+                roomDefs.utility.surfaces.utility_backsplash.src = utilSplashStone;
+                roomDefs.utility.surfaces.utility_backsplash.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.82, grout: 2 };
+              }
             }
-            if (roomDefs.pooja.surfaces.pooja_altar_wall) {
-              roomDefs.pooja.surfaces.pooja_altar_wall.src = poojaAltarStone;
-              roomDefs.pooja.surfaces.pooja_altar_wall.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.88, grout: 1.5 };
-            }
-            if (roomDefs.pooja.surfaces.pooja_pedestals) {
-              roomDefs.pooja.surfaces.pooja_pedestals.src = poojaPedStone;
-              roomDefs.pooja.surfaces.pooja_pedestals.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.92, grout: 1 };
-            }
-          }
 
-          // 7. Executive Bar Defaults
-          const barIslandStone = showroomSlabs.find(s => s.name === 'Black Pearl') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
-          const barFloorStone = showroomSlabs.find(s => s.name === 'Black Forrest') || presets[0];
-          const barBackStone = showroomSlabs.find(s => s.name === 'Blue in the Night') || presets[0];
-          const barWallStone = showroomSlabs.find(s => s.name === 'Armani Gris GVT Matte Tile') || presets[0];
-          if (roomDefs.bar) {
-            if (roomDefs.bar.surfaces.bar_island_top) {
-              roomDefs.bar.surfaces.bar_island_top.src = barIslandStone;
-              roomDefs.bar.surfaces.bar_island_top.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.96, grout: 1.5 };
+            // Check URL parameters for initial room and embedded mode
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('embed') === '1' || urlParams.get('embedded') === '1') {
+              document.body.classList.add('is-embedded');
             }
-            if (roomDefs.bar.surfaces.bar_floor) {
-              roomDefs.bar.surfaces.bar_floor.src = barFloorStone;
-              roomDefs.bar.surfaces.bar_floor.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.92, grout: 2 };
-            }
-            if (roomDefs.bar.surfaces.bar_back_slab) {
-              roomDefs.bar.surfaces.bar_back_slab.src = barBackStone;
-              roomDefs.bar.surfaces.bar_back_slab.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.94, grout: 1 };
-            }
-            if (roomDefs.bar.surfaces.bar_walls) {
-              roomDefs.bar.surfaces.bar_walls.src = barWallStone;
-              roomDefs.bar.surfaces.bar_walls.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.70, grout: 2 };
-            }
-          }
+            const rawReq = (urlParams.get('room') || 'living').toLowerCase();
+            let targetRoom = 'living';
+            if (rawReq.includes('kit')) targetRoom = 'kitchen';
+            else if (rawReq.includes('bath')) targetRoom = 'bathroom';
+            else if (rawReq.includes('pool') || rawReq.includes('swim')) targetRoom = 'pool';
+            else if (rawReq.includes('park') || rawReq.includes('drive')) targetRoom = 'parking';
+            else if (rawReq.includes('foyer') || rawReq.includes('entry') || rawReq.includes('vestibule')) targetRoom = 'foyer';
+            else if (rawReq.includes('pooja') || rawReq.includes('mandir')) targetRoom = 'pooja';
+            else if (rawReq.includes('bar') || rawReq.includes('cigar') || rawReq.includes('lounge')) targetRoom = 'bar';
+            else if (rawReq.includes('util') || rawReq.includes('scullery')) targetRoom = 'utility';
+            else targetRoom = 'living';
 
-          // 8. Utility Suite Defaults
-          const utilFloorStone = showroomSlabs.find(s => s.name === 'Steel Grey') || presets[0];
-          const utilCounterStone = showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
-          const utilSplashStone = showroomSlabs.find(s => s.name === 'Calacatta Gold PGVT Tile') || presets[0];
-          if (roomDefs.utility) {
-            if (roomDefs.utility.surfaces.utility_floor) {
-              roomDefs.utility.surfaces.utility_floor.src = utilFloorStone;
-              roomDefs.utility.surfaces.utility_floor.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.65, grout: 2.5 };
-            }
-            if (roomDefs.utility.surfaces.utility_counter) {
-              roomDefs.utility.surfaces.utility_counter.src = utilCounterStone;
-              roomDefs.utility.surfaces.utility_counter.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 2 };
-            }
-            if (roomDefs.utility.surfaces.utility_backsplash) {
-              roomDefs.utility.surfaces.utility_backsplash.src = utilSplashStone;
-              roomDefs.utility.surfaces.utility_backsplash.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.82, grout: 2 };
-            }
-          }
+            switchRoom(targetRoom);
+          })();
 
-          // Check URL parameters for initial room and embedded mode
-          const urlParams = new URLSearchParams(window.location.search);
-          if (urlParams.get('embed') === '1' || urlParams.get('embedded') === '1') {
-            document.body.classList.add('is-embedded');
-          }
-          const rawReq = (urlParams.get('room') || 'living').toLowerCase();
-          let targetRoom = 'living';
-          if (rawReq.includes('kit')) targetRoom = 'kitchen';
-          else if (rawReq.includes('bath')) targetRoom = 'bathroom';
-          else if (rawReq.includes('pool') || rawReq.includes('swim')) targetRoom = 'pool';
-          else if (rawReq.includes('park') || rawReq.includes('drive')) targetRoom = 'parking';
-          else if (rawReq.includes('foyer') || rawReq.includes('entry') || rawReq.includes('vestibule')) targetRoom = 'foyer';
-          else if (rawReq.includes('pooja') || rawReq.includes('mandir')) targetRoom = 'pooja';
-          else if (rawReq.includes('bar') || rawReq.includes('cigar') || rawReq.includes('lounge')) targetRoom = 'bar';
-          else if (rawReq.includes('util') || rawReq.includes('scullery')) targetRoom = 'utility';
-          else targetRoom = 'living';
+          // Expose Studio API for mobile UI actions & automated testing
+          window.addFiles = addFiles;
+          window.addPhoto = addPhoto;
+          window.removePhoto = removePhoto;
+          window.photos = photos;
+          window.surf = surf;
+          Object.defineProperty(window, 'cur', {
+            get: () => cur,
+            set: v => { cur = v; select(v); },
+            configurable: true
+          });
+          window.switchRoom = switchRoom;
+          window.use = use;
+          window.setTab = setTab;
+          window.renderGrid = renderGrid;
 
-          switchRoom(targetRoom);
+          status.textContent = 'Visualizer 2.0 3D Studio Ready';
+          (function loop() {
+            requestAnimationFrame(loop);
+            if (document.hidden) return;
+            if (['kitchen', 'bathroom', 'living'].includes(activeRoom)) return;
+            renderer.render(scene, camera);
+          })();
         })();
-
-        // Expose Studio API for mobile UI actions & automated testing
-        window.addFiles = addFiles;
-        window.addPhoto = addPhoto;
-        window.removePhoto = removePhoto;
-        window.photos = photos;
-        window.surf = surf;
-        Object.defineProperty(window, 'cur', {
-          get: () => cur,
-          set: v => { cur = v; select(v); },
-          configurable: true
-        });
-        window.switchRoom = switchRoom;
-        window.use = use;
-        window.setTab = setTab;
-        window.renderGrid = renderGrid;
-
-        status.textContent = 'Visualizer 2.0 3D Studio Ready';
-        (function loop() {
-          requestAnimationFrame(loop);
-          if (document.hidden) return;
-          if (['kitchen', 'bathroom'].includes(activeRoom)) return;
-          renderer.render(scene, camera);
-        })();
-      })();
     </script>
     <script src="assets/js/site-config-sync.js"></script>
-</body>
-
-    status.textContent = 'Visualizer 2.0 3D Studio Ready';
-    (function loop() {
-      requestAnimationFrame(loop);
-      if (document.hidden) return;
-      if (['kitchen', 'bathroom', 'living'].includes(activeRoom)) return;
-      renderer.render(scene, camera);
-    })();
-  })();
-  </script>
-<script src="assets/js/site-config-sync.js"></script>
 </body>
 </html>
