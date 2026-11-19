@@ -1629,26 +1629,7 @@
         livingGroup.add(livingSpot);
         livingGroup.add(livingSpot.target);
 
-        // Bathroom Suite Dedicated Lighting (Soft Architectural PBR Lighting)
-        const bathSun = new THREE.DirectionalLight(0xfff3e2, 3.0);
-        bathSun.position.set(-5, 8.5, 4);
-        bathSun.castShadow = true;
-        bathSun.shadow.mapSize.set(4096, 4096);
-        bathSun.shadow.bias = -0.0003;
-        bathSun.shadow.radius = 2.0;
-        bathroomGroup.add(bathSun);
-
-        const bathFill = new THREE.DirectionalLight(0xc2daf0, 1.35);
-        bathFill.position.set(4.5, 6, -3.5);
-        bathroomGroup.add(bathFill);
-
-        const bathNicheLight = new THREE.PointLight(0xffd599, 1.6, 6.0);
-        bathNicheLight.position.set(-0.6, 2.0, -4.1);
-        bathroomGroup.add(bathNicheLight);
-
-        const bathVanityLight = new THREE.PointLight(0xffecd0, 1.5, 6.5);
-        bathVanityLight.position.set(4.0, 2.4, 0.8);
-        bathroomGroup.add(bathVanityLight);
+        // Bathroom Suite Lighting & Meshes initialized via window.WebGlRooms.bathroom below
 
         const M = (c, r = 0.7) => new THREE.MeshStandardMaterial({ color: c, roughness: r });
         function box(w, h, d, x, y, z, material, grp = livingGroup) {
@@ -1882,125 +1863,8 @@
           emissiveIntensity: 0.9,
           roughness: 0.5
         });
+        // Master Bathroom Suite meshes initialized via window.WebGlRooms.bathroom below
 
-        // 1. Bathroom Floor Mesh
-        const bathFloor = new THREE.Mesh(new THREE.PlaneGeometry(10, 8.8), M('#ded4c5', 0.2));
-        bathFloor.rotation.x = -Math.PI / 2;
-        bathFloor.position.set(0, 0.025, 0);
-        bathFloor.receiveShadow = true;
-        bathroomGroup.add(bathFloor);
-
-        // 2. Bathtub Feature Wall Mesh (Back Wall)
-        const bathTubWall = sbox(10, 4.4, 0.2, 0, 2.2, -4.4, wall, bathroomGroup);
-
-        // Architectural Recessed LED Backlit Niche in Bathtub Wall
-        box(4.2, 0.65, 0.16, -0.6, 1.85, -4.32, darkMat, bathroomGroup);
-        box(4.1, 0.04, 0.08, -0.6, 2.14, -4.3, warmLedMat, bathroomGroup);
-        // Toiletries & amber spa bottles inside niche
-        cyl(0.04, 0.04, 0.2, -1.8, 1.65, -4.3, M('#7a4f32', 0.15), bathroomGroup);
-        cyl(0.045, 0.045, 0.24, -1.6, 1.67, -4.3, M('#2b3d30', 0.15), bathroomGroup);
-        cyl(0.035, 0.035, 0.16, -1.4, 1.63, -4.3, whiteCeramic, bathroomGroup);
-
-        // 3. Freestanding Modern Oval Soaking Bathtub
-        const tubGroup = new THREE.Group();
-        tubGroup.position.set(-0.6, 0.4, -2.6);
-        const tubOuter = new THREE.Mesh(new THREE.CylinderGeometry(0.92, 0.74, 0.78, 36), whiteCeramic);
-        tubOuter.scale.set(1.42, 1.0, 0.88);
-        tubOuter.castShadow = tubOuter.receiveShadow = true;
-        tubGroup.add(tubOuter);
-        const tubInner = new THREE.Mesh(new THREE.CylinderGeometry(0.84, 0.66, 0.76, 36), M('#f4f4f4', 0.1));
-        tubInner.scale.set(1.36, 1.0, 0.82);
-        tubInner.position.y = 0.03;
-        tubGroup.add(tubInner);
-        bathroomGroup.add(tubGroup);
-
-        // Floor-mounted Freestanding Chrome Tub Mixer & Spout
-        cyl(0.025, 0.025, 1.0, 0.8, 0.5, -2.6, chromeMat, bathroomGroup);
-        box(0.28, 0.04, 0.04, 0.68, 0.98, -2.6, chromeMat, bathroomGroup);
-        cyl(0.02, 0.02, 0.14, 0.8, 0.78, -2.52, chromeMat, bathroomGroup);
-
-        // 4. Shower Enclosure Wall Mesh
-        const bathShowerWall = sbox(0.2, 4.4, 4.4, -4.9, 2.2, -2.2, wall, bathroomGroup);
-
-        // Low-profile Shower Floor Tray
-        box(2.2, 0.05, 4.0, -3.8, 0.03, -2.2, M('#232528', 0.6), bathroomGroup);
-        // Linear Drain
-        box(0.08, 0.02, 2.0, -4.6, 0.06, -2.2, chromeMat, bathroomGroup);
-
-        // Architectural Frameless Glass Shower Screen
-        box(0.03, 2.7, 2.6, -2.7, 1.36, -2.4, glassMat, bathroomGroup);
-        // Black Metal Profiles & Stabilizer Bar
-        box(0.04, 0.04, 2.6, -2.7, 2.72, -2.4, darkMat, bathroomGroup);
-        box(2.2, 0.04, 0.04, -3.8, 2.72, -2.4, darkMat, bathroomGroup);
-
-        // Stainless Rainfall Showerhead System
-        box(0.5, 0.03, 0.03, -4.5, 2.85, -2.2, chromeMat, bathroomGroup);
-        cyl(0.2, 0.2, 0.025, -4.2, 2.8, -2.2, chromeMat, bathroomGroup);
-        cyl(0.04, 0.04, 0.03, -4.78, 1.3, -2.2, chromeMat, bathroomGroup);
-        cyl(0.04, 0.04, 0.03, -4.78, 1.15, -2.2, chromeMat, bathroomGroup);
-
-        // 5. Floating Designer Double Vanity
-        box(0.85, 0.52, 3.2, 4.3, 0.62, 0.8, woodCabinet, bathroomGroup);
-        for (let fi = 0; fi < 12; fi++) {
-          box(0.02, 0.48, 0.04, 3.86, 0.62, -0.6 + fi * 0.26, slat, bathroomGroup);
-        }
-
-        // Vanity Countertop Stone Slab
-        const bathVanity = sbox(0.92, 0.08, 3.3, 4.34, 0.92, 0.8, wall, bathroomGroup);
-
-        // Dual Undermount White Porcelain Basins
-        box(0.58, 0.18, 0.85, 4.34, 0.92, 0.0, whiteCeramic, bathroomGroup);
-        box(0.58, 0.18, 0.85, 4.34, 0.92, 1.6, whiteCeramic, bathroomGroup);
-
-        // Designer Brushed Gold Tall Faucets
-        cyl(0.02, 0.02, 0.34, 4.65, 1.12, 0.0, goldMat, bathroomGroup);
-        box(0.2, 0.03, 0.03, 4.54, 1.28, 0.0, goldMat, bathroomGroup);
-        cyl(0.02, 0.02, 0.34, 4.65, 1.12, 1.6, goldMat, bathroomGroup);
-        box(0.2, 0.03, 0.03, 4.54, 1.28, 1.6, goldMat, bathroomGroup);
-
-        // Dual Backlit Circular Architectural Mirrors
-        cyl(0.55, 0.55, 0.025, 4.76, 2.15, 0.0, M('#eaf3f8', 0.04), bathroomGroup);
-        cyl(0.58, 0.58, 0.015, 4.78, 2.15, 0.0, warmLedMat, bathroomGroup);
-        cyl(0.55, 0.55, 0.025, 4.76, 2.15, 1.6, M('#eaf3f8', 0.04), bathroomGroup);
-        cyl(0.58, 0.58, 0.015, 4.78, 2.15, 1.6, warmLedMat, bathroomGroup);
-
-        // 6. Main Bathroom Wall Meshes
-        const bathMainWall = sbox(0.2, 4.4, 8.8, 4.9, 2.2, 0, wall, bathroomGroup);
-        sbox(0.2, 4.4, 4.4, -4.9, 2.2, 2.2, wall, bathroomGroup);
-
-        // Frosted Architectural Privacy Window
-        box(0.12, 2.8, 1.6, -4.8, 2.4, 2.6, darkMat, bathroomGroup);
-        box(0.03, 2.65, 1.48, -4.8, 2.4, 2.6, M('#dceaf0', 0.35), bathroomGroup);
-
-        // 7. Luxury Spa Fixtures & Accessories
-        // Heated Vertical Towel Rail on Right Wall
-        cyl(0.018, 0.018, 1.8, 4.7, 1.5, -1.8, darkMat, bathroomGroup);
-        cyl(0.018, 0.018, 1.8, 4.7, 1.5, -1.2, darkMat, bathroomGroup);
-        for (let ri = 0; ri < 5; ri++) {
-          box(0.03, 0.025, 0.6, 4.7, 0.8 + ri * 0.32, -1.5, darkMat, bathroomGroup);
-        }
-        box(0.14, 0.44, 0.46, 4.64, 1.42, -1.5, M('#f5f2eb', 0.95), bathroomGroup);
-
-        // Floating Teak Spa Bench
-        box(0.52, 0.06, 1.1, -2.4, 0.44, 2.0, woodCabinet, bathroomGroup);
-        cyl(0.025, 0.025, 0.42, -2.55, 0.22, 1.55, darkMat, bathroomGroup);
-        cyl(0.025, 0.025, 0.42, -2.55, 0.22, 2.45, darkMat, bathroomGroup);
-        cyl(0.07, 0.07, 0.32, -2.4, 0.52, 1.8, M('#f0ede4', 0.95), bathroomGroup);
-        cyl(0.07, 0.07, 0.32, -2.4, 0.52, 2.15, M('#d8d4c9', 0.95), bathroomGroup);
-
-        // Potted Architectural Botanical Plant
-        cyl(0.24, 0.18, 0.42, -4.2, 0.22, 2.6, M('#dedede', 0.3), bathroomGroup);
-        for (let li = 0; li < 6; li++) {
-          const leaf = new THREE.Mesh(new THREE.ConeGeometry(0.12, 0.85, 6), green);
-          leaf.position.set(-4.2 + Math.sin(li * 1.05) * 0.16, 0.65 + (li % 3) * 0.1, 2.6 + Math.cos(li * 1.05) * 0.16);
-          leaf.rotation.x = (Math.random() - 0.5) * 0.2;
-          leaf.rotation.z = (Math.random() - 0.5) * 0.2;
-          leaf.castShadow = true;
-          bathroomGroup.add(leaf);
-        }
-
-
-        // ═════════════════════════════════════════════════════════════════════════
         // ── LUXURY CONTEMPORARY CHEF KITCHEN SUITE (WebGL Architectural 3D) ──
         // ═════════════════════════════════════════════════════════════════════════
 
@@ -2237,54 +2101,8 @@
         cyl(0.22, 0.2, 0.04, 0, 0.42, -2.3, goldMat, poojaGroup);
 
         // ═════════════════════════════════════════════════════════════════════════
-        // ── 3. GRAND ENTRANCE FOYER & VESTIBULE (WebGL Luxury Architectural 3D) ─
-        // ═════════════════════════════════════════════════════════════════════════
-        const foyerSun = new THREE.DirectionalLight(0xfff2e0, 2.8);
-        foyerSun.position.set(-6, 10, 5);
-        foyerSun.castShadow = true;
-        foyerGroup.add(foyerSun);
+        // Grand Entrance Foyer Suite meshes initialized via window.WebGlRooms.foyer below
 
-        const foyerChandelier = new THREE.PointLight(0xffe2b0, 2.6, 8.5);
-        foyerChandelier.position.set(0, 3.4, 0);
-        foyerGroup.add(foyerChandelier);
-
-        // 1. Grand Foyer Floor & Central Geometric Bookmatch Medallion
-        const foyerFloor = new THREE.Mesh(new THREE.PlaneGeometry(12, 10), M('#eae4d8', 0.18));
-        foyerFloor.rotation.x = -Math.PI / 2;
-        foyerFloor.position.set(0, 0.025, 0);
-        foyerFloor.receiveShadow = true;
-        foyerGroup.add(foyerFloor);
-
-        // Central Stone Inlay Medallion (Customizable in 3D: Bookmatched Granites & Marbles)
-        const foyerMedallion = sbox(4.6, 0.012, 4.6, 0, 0.032, 0, wall, foyerGroup);
-        box(4.8, 0.014, 4.8, 0, 0.033, 0, goldMat, foyerGroup);
-
-        // 2. Foyer Perimeter Architectural Walls (Customizable in 3D)
-        const foyerBackWall = sbox(12, 4.2, 0.2, 0, 2.1, -4.9, wall, foyerGroup);
-        const foyerLeftWall = sbox(0.2, 4.2, 10, -5.9, 2.1, 0, wall, foyerGroup);
-        const foyerRightWall = sbox(0.2, 4.2, 10, 5.9, 2.1, 0, wall, foyerGroup);
-
-        // 3. Grand Bookmatched Feature Accent Wall (Customizable in 3D)
-        const foyerAccentWall = sbox(6.2, 3.8, 0.18, 0, 2.1, -4.8, wall, foyerGroup);
-        for (let fi = 0; fi < 14; fi++) {
-          box(0.08, 3.8, 0.08, -3.8 + fi * 0.12, 2.1, -4.75, slat, foyerGroup);
-          box(0.08, 3.8, 0.08, 3.2 + fi * 0.12, 2.1, -4.75, slat, foyerGroup);
-        }
-
-        // 4. Cantilevered Stone Console Table (Customizable in 3D)
-        const foyerConsole = sbox(3.2, 0.14, 0.7, 0, 0.88, -4.3, wall, foyerGroup);
-        box(2.4, 0.8, 0.4, 0, 0.4, -4.3, goldMat, foyerGroup);
-
-        // 5. Giant Backlit Architectural Statement Mirror
-        cyl(0.85, 0.85, 0.02, 0, 2.45, -4.7, warmLedMat, foyerGroup);
-        cyl(0.8, 0.8, 0.03, 0, 2.45, -4.68, chromeMat, foyerGroup);
-
-        // 6. Villa Grand Oak Entrance Double Door
-        box(0.12, 3.2, 2.2, -5.85, 1.6, 1.2, darkMat, foyerGroup);
-        cyl(0.02, 0.02, 1.8, -5.75, 1.6, 1.2, goldMat, foyerGroup);
-        cyl(0.25, 0.18, 1.1, -2.2, 0.55, -4.1, M('#dedede', 0.4), foyerGroup);
-
-        // ═════════════════════════════════════════════════════════════════════════
         // ── 4. SWIMMING POOL DECK & SUNKEN LOUNGE (WebGL Resort 3D) ───────────
         // ═════════════════════════════════════════════════════════════════════════
         // Initialized via window.WebGlRooms.pool below after camera configurations
@@ -2503,21 +2321,14 @@
         reg('kitchen', 'kitchen_countertop', 'Kitchen Island & Table', kitchenIslandRightDrop, 1, 0.93, 1.84);
         reg('kitchen', 'kitchen_countertop', 'Kitchen Island & Table', kitchenPerimeterCounter, 2, 8.5, 0.86);
         reg('kitchen', 'kitchen_backsplash', 'Wall Backsplash Tiles', kitchenBacksplash, 4, 8.4, 1.4);
-
-        // ── Bathroom Suite Surfaces Registration ──
-        reg('bathroom', 'bath_floor', 'Bathroom Floor', bathFloor, null, 10, 8.8);
-        reg('bathroom', 'bath_shower_wall', 'Shower Wall', bathShowerWall, 0, 4.4, 4.4);
-        reg('bathroom', 'bath_vanity', 'Vanity Countertop', bathVanity, 2, 0.92, 3.3);
+        // ── Bathroom Suite Surfaces (Loaded dynamically via window.WebGlRooms.bathroom) ──
 
         // ── Swimming Pool Deck Surfaces (Loaded dynamically via window.WebGlRooms.pool) ──
 
         // ── Outdoor Parking & Driveway Surfaces (Loaded dynamically via window.WebGlRooms.parking) ──
 
-        // ── Grand Entrance Foyer Surfaces ──
-        reg('foyer', 'foyer_floor', 'Grand Entry Floor', foyerFloor, null, 12, 10);
-        reg('foyer', 'foyer_medallion', 'Waterjet Medallion Accent', foyerMedallion, 2, 4.6, 4.6);
-        reg('foyer', 'foyer_accent_wall', 'Bookmatched Accent Wall', foyerAccentWall, 4, 6.2, 3.8);
-        reg('foyer', 'foyer_console', 'Console Table Top', foyerConsole, 2, 3.2, 0.7);
+        // ── Grand Entrance Foyer Surfaces (Loaded dynamically via window.WebGlRooms.foyer) ──
+
 
         // ── Pooja Sanctuary Surfaces ──
         reg('pooja', 'pooja_floor', 'Sanctuary Marble Floor', poojaFloor, null, 8, 8);
@@ -3192,7 +3003,7 @@
             ]
           },
           bathroom: {
-            type: 'skfb',
+            type: 'three',
             title: 'Master Bathroom Suite (3D WebGL)',
             subtitle: '• Master Bath & Spa',
             hint: '<span class="text-[#E7C887] font-semibold">💡 Bathroom Material Studio:</span> Select <b>Bathroom Floor</b>, <b>Wall Tiles</b>, or <b>Vanity Countertop</b>, then pick any stone or tile format below to customize in real-time 3D.',
@@ -3300,6 +3111,34 @@
             roomDefs,
             ROOM_CAMERAS,
             core: { M, box, cyl, sbox, plant },
+            showroomSlabs,
+            presets
+          });
+        }
+
+        // Initialize Master Bathroom Suite & Spa
+        if (window.WebGlRooms && window.WebGlRooms.bathroom) {
+          window.WebGlRooms.bathroom({
+            THREE,
+            group: bathroomGroup,
+            reg,
+            roomDefs,
+            ROOM_CAMERAS,
+            core: { M, box, cyl, sbox, plant, createWoodTexture: window.WebGlCore?.createWoodTexture, createPlasterTexture: window.WebGlCore?.createPlasterTexture },
+            showroomSlabs,
+            presets
+          });
+        }
+
+        // Initialize Grand Entrance Foyer Suite
+        if (window.WebGlRooms && window.WebGlRooms.foyer) {
+          window.WebGlRooms.foyer({
+            THREE,
+            group: foyerGroup,
+            reg,
+            roomDefs,
+            ROOM_CAMERAS,
+            core: { M, box, cyl, sbox, plant, createWoodTexture: window.WebGlCore?.createWoodTexture, createPlasterTexture: window.WebGlCore?.createPlasterTexture },
             showroomSlabs,
             presets
           });
@@ -3964,7 +3803,7 @@
             requestAnimationFrame(loop);
             if (document.hidden) return;
             (window.WebGlAnimators || []).forEach(fn => { try { fn(); } catch(e){} });
-            if (['kitchen', 'bathroom', 'living'].includes(activeRoom)) return;
+            if (['kitchen', 'living'].includes(activeRoom)) return;
             renderer.render(scene, camera);
           })();
         })();
