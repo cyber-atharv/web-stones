@@ -753,8 +753,8 @@
     .skfb-stage-container.active {
       z-index: 15;
       display: block !important;
-      opacity: 1;
-      visibility: visible;
+      opacity: 1 !important;
+      visibility: visible !important;
       pointer-events: auto;
     }
 
@@ -1381,7 +1381,7 @@
       </div>
 
       <!-- 2. Photorealistic Sketchfab WebGL Viewports (Kitchen & Bathroom Suites) -->
-      <div id="skfb-stage" class="skfb-stage-container" style="display:none; opacity:0; visibility:hidden;">
+      <div id="skfb-stage" class="skfb-stage-container" style="display:none;">
         <iframe id="skfb-iframe-kitchen" class="skfb-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking"
           allowfullscreen title="Chef Kitchen 3D Suite" style="display:none;"></iframe>
         <iframe id="skfb-iframe-bathroom" class="skfb-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking"
@@ -4065,6 +4065,11 @@
             configurable: true
           });
           window.switchRoom = switchRoom;
+          Object.defineProperty(window, 'activeRoom', {
+            get: () => activeRoom,
+            set: v => switchRoom(v),
+            configurable: true
+          });
           window.use = use;
           window.setTab = setTab;
           window.renderGrid = renderGrid;
