@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="../">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Murali 3D WebGL Room Architecture Hub | Murali Granites & Marbles</title>
+  <link rel="stylesheet" href="assets/css/navigation.css?v=1.6"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background:#0A0A0D; color:#F5F0E8; font-family:'Inter',sans-serif; min-height:100vh; }
+    .font-serif { font-family:'Cormorant Garamond',Georgia,serif; }
+  </style>
+</head>
+<body class="p-4 sm:p-8 max-w-6xl mx-auto">
+  <header class="mb-8 pb-6 border-b border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <div class="flex items-center gap-2 text-xs text-[#C5A059] uppercase tracking-wider font-semibold mb-1">
+        <span>3D WebGL Architecture Hub</span>
+        <span>&bull;</span>
+        <span>9 Modular Room Suites</span>
+      </div>
+      <h1 class="font-serif text-3xl sm:text-4xl font-bold text-white">Standalone 3D WebGL Rooms</h1>
+      <p class="text-xs sm:text-sm text-stone-400 mt-1 max-w-xl">
+        Every room suite is built in its own dedicated, isolated WebGL file inside the <code class="text-[#E7C887] bg-white/5 px-1.5 py-0.5 rounded">webgl/rooms/</code> directory.
+      </p>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="pages/visualizer-2.html" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#C5A059] to-[#E7C887] text-black font-bold text-xs tracking-wide shadow-lg hover:brightness-110 transition">
+        &larr; Studio Master (Visualizer 2.0)
+      </a>
+    </div>
+  </header>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
+    
+    <div class="bg-[#141418] border border-white/10 hover:border-[#C5A059] rounded-2xl p-5 transition-all duration-300 hover:shadow-[0_0_24px_rgba(197,160,89,0.2)] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-2xl">🛋️</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C5A059]/15 text-[#E7C887] border border-[#C5A059]/30">3D Walkthrough</span>
+        </div>
+        <h3 class="font-serif text-xl font-bold text-white mb-1.5">Living Room Showroom</h3>
+        <p class="text-xs text-stone-400 line-clamp-2 leading-relaxed mb-4">Interactive 360° villa walkthrough & PBR marble flooring.</p>
+      </div>
+      <div class="flex items-center gap-2 pt-3 border-t border-white/5">
+        <a href="webgl/living.html" class="flex-1 text-center py-2 px-3 rounded-lg text-xs font-semibold bg-white/5 hover:bg-[#C5A059] text-stone-200 hover:text-black border border-white/10 hover:border-transparent transition">
+          Direct WebGL &nearr;
+        </a>
+        <a href="pages/visualizer-2.html?room=living" class="py-2 px-3 rounded-lg text-xs font-semibold text-[#E7C887] bg-[#C5A059]/10 hover:bg-[#C5A059]/20 border border-[#C5A059]/40 transition" title="Open in Material Studio">
+          Studio &rarr;
+        </a>
+      </div>
+    </div>
+  
+    <div class="bg-[#141418] border border-white/10 hover:border-[#C5A059] rounded-2xl p-5 transition-all duration-300 hover:shadow-[0_0_24px_rgba(197,160,89,0.2)] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-2xl">🍽️</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C5A059]/15 text-[#E7C887] border border-[#C5A059]/30">3D WebGL</span>
+        </div>
+        <h3 class="font-serif text-xl font-bold text-white mb-1.5">Chef Kitchen Suite</h3>
+        <p class="text-xs text-stone-400 line-clamp-2 leading-relaxed mb-4">Monolithic waterfall island, bookmatched granite & backsplash.</p>
+      </div>
+      <div class="flex items-center gap-2 pt-3 border-t border-white/5">
+        <a href="webgl/kitchen.html" class="flex-1 text-center py-2 px-3 rounded-lg text-xs font-semibold bg-white/5 hover:bg-[#C5A059] text-stone-200 hover:text-black border border-white/10 hover:border-transparent transition">
+          Direct WebGL &nearr;
+        </a>
+        <a href="pages/visualizer-2.html?room=kitchen" class="py-2 px-3 rounded-lg text-xs font-semibold text-[#E7C887] bg-[#C5A059]/10 hover:bg-[#C5A059]/20 border border-[#C5A059]/40 transition" title="Open in Material Studio">
+          Studio &rarr;
+        </a>
+      </div>
+    </div>
+  
+    <div class="bg-[#141418] border border-white/10 hover:border-[#C5A059] rounded-2xl p-5 transition-all duration-300 hover:shadow-[0_0_24px_rgba(197,160,89,0.2)] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-2xl">🛁</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C5A059]/15 text-[#E7C887] border border-[#C5A059]/30">3D WebGL</span>
+        </div>
+        <h3 class="font-serif text-xl font-bold text-white mb-1.5">Master Bathroom Suite</h3>
+        <p class="text-xs text-stone-400 line-clamp-2 leading-relaxed mb-4">Freestanding oval bathtub, double vanity & rain shower.</p>
+      </div>
+      <div class="flex items-center gap-2 pt-3 border-t border-white/5">
+        <a href="webgl/bathroom.html" class="flex-1 text-center py-2 px-3 rounded-lg text-xs font-semibold bg-white/5 hover:bg-[#C5A059] text-stone-200 hover:text-black border border-white/10 hover:border-transparent transition">
+          Direct WebGL &nearr;
+        </a>
+        <a href="pages/visualizer-2.html?room=bathroom" class="py-2 px-3 rounded-lg text-xs font-semibold text-[#E7C887] bg-[#C5A059]/10 hover:bg-[#C5A059]/20 border border-[#C5A059]/40 transition" title="Open in Material Studio">
+          Studio &rarr;
+        </a>
+      </div>
+    </div>
+  
+    <div class="bg-[#141418] border border-white/10 hover:border-[#C5A059] rounded-2xl p-5 transition-all duration-300 hover:shadow-[0_0_24px_rgba(197,160,89,0.2)] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-2xl">🏊</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C5A059]/15 text-[#E7C887] border border-[#C5A059]/30">3D WebGL</span>
+        </div>
+        <h3 class="font-serif text-xl font-bold text-white mb-1.5">Swimming Pool Deck</h3>
+        <p class="text-xs text-stone-400 line-clamp-2 leading-relaxed mb-4">Resort pool basin, crystal water plane & coping slabs.</p>
+      </div>
+      <div class="flex items-center gap-2 pt-3 border-t border-white/5">
+        <a href="webgl/pool.html" class="flex-1 text-center py-2 px-3 rounded-lg text-xs font-semibold bg-white/5 hover:bg-[#C5A059] text-stone-200 hover:text-black border border-white/10 hover:border-transparent transition">
+          Direct WebGL &nearr;
+        </a>
+        <a href="pages/visualizer-2.html?room=pool" class="py-2 px-3 rounded-lg text-xs font-semibold text-[#E7C887] bg-[#C5A059]/10 hover:bg-[#C5A059]/20 border border-[#C5A059]/40 transition" title="Open in Material Studio">
+          Studio &rarr;
+        </a>
+      </div>
+    </div>
+  
+    <div class="bg-[#141418] border border-white/10 hover:border-[#C5A059] rounded-2xl p-5 transition-all duration-300 hover:shadow-[0_0_24px_rgba(197,160,89,0.2)] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-2xl">🚗</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C5A059]/15 text-[#E7C887] border border-[#C5A059]/30">3D WebGL</span>
+        </div>
+        <h3 class="font-serif text-xl font-bold text-white mb-1.5">Luxury Driveway & Parking</h3>
+        <p class="text-xs text-stone-400 line-clamp-2 leading-relaxed mb-4">Heavy-duty granite pavers, boundary walls & flamed kerb.</p>
+      </div>
+      <div class="flex items-center gap-2 pt-3 border-t border-white/5">
+        <a href="webgl/parking.html" class="flex-1 text-center py-2 px-3 rounded-lg text-xs font-semibold bg-white/5 hover:bg-[#C5A059] text-stone-200 hover:text-black border border-white/10 hover:border-transparent transition">
+          Direct WebGL &nearr;
+        </a>
+        <a href="pages/visualizer-2.html?room=parking" class="py-2 px-3 rounded-lg text-xs font-semibold text-[#E7C887] bg-[#C5A059]/10 hover:bg-[#C5A059]/20 border border-[#C5A059]/40 transition" title="Open in Material Studio">
+          Studio &rarr;
+        </a>
+      </div>
+    </div>
+  
+    <div class="bg-[#141418] border border-white/10 hover:border-[#C5A059] rounded-2xl p-5 transition-all duration-300 hover:shadow-[0_0_24px_rgba(197,160,89,0.2)] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-2xl">🏛️</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C5A059]/15 text-[#E7C887] border border-[#C5A059]/30">3D WebGL</span>
+        </div>
+        <h3 class="font-serif text-xl font-bold text-white mb-1.5">Grand Entrance Foyer</h3>
+        <p class="text-xs text-stone-400 line-clamp-2 leading-relaxed mb-4">Waterjet floor medallion, colonnade & accent cladding.</p>
+      </div>
+      <div class="flex items-center gap-2 pt-3 border-t border-white/5">
+        <a href="webgl/foyer.html" class="flex-1 text-center py-2 px-3 rounded-lg text-xs font-semibold bg-white/5 hover:bg-[#C5A059] text-stone-200 hover:text-black border border-white/10 hover:border-transparent transition">
+          Direct WebGL &nearr;
+        </a>
+        <a href="pages/visualizer-2.html?room=foyer" class="py-2 px-3 rounded-lg text-xs font-semibold text-[#E7C887] bg-[#C5A059]/10 hover:bg-[#C5A059]/20 border border-[#C5A059]/40 transition" title="Open in Material Studio">
+          Studio &rarr;
+        </a>
+      </div>
+    </div>
+  
+    <div class="bg-[#141418] border border-white/10 hover:border-[#C5A059] rounded-2xl p-5 transition-all duration-300 hover:shadow-[0_0_24px_rgba(197,160,89,0.2)] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-2xl">🪔</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C5A059]/15 text-[#E7C887] border border-[#C5A059]/30">3D WebGL</span>
+        </div>
+        <h3 class="font-serif text-xl font-bold text-white mb-1.5">Pooja Mandir Sanctuary</h3>
+        <p class="text-xs text-stone-400 line-clamp-2 leading-relaxed mb-4">Sacred Statuario marble floor, sanctum altar & deity pedestals.</p>
+      </div>
+      <div class="flex items-center gap-2 pt-3 border-t border-white/5">
+        <a href="webgl/pooja.html" class="flex-1 text-center py-2 px-3 rounded-lg text-xs font-semibold bg-white/5 hover:bg-[#C5A059] text-stone-200 hover:text-black border border-white/10 hover:border-transparent transition">
+          Direct WebGL &nearr;
+        </a>
+        <a href="pages/visualizer-2.html?room=pooja" class="py-2 px-3 rounded-lg text-xs font-semibold text-[#E7C887] bg-[#C5A059]/10 hover:bg-[#C5A059]/20 border border-[#C5A059]/40 transition" title="Open in Material Studio">
+          Studio &rarr;
+        </a>
+      </div>
+    </div>
+  
+    <div class="bg-[#141418] border border-white/10 hover:border-[#C5A059] rounded-2xl p-5 transition-all duration-300 hover:shadow-[0_0_24px_rgba(197,160,89,0.2)] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-2xl">🍸</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C5A059]/15 text-[#E7C887] border border-[#C5A059]/30">3D WebGL</span>
+        </div>
+        <h3 class="font-serif text-xl font-bold text-white mb-1.5">Executive Bar & Cigar Lounge</h3>
+        <p class="text-xs text-stone-400 line-clamp-2 leading-relaxed mb-4">Waterfall granite bar island, backlit onyx wall & lounge marble.</p>
+      </div>
+      <div class="flex items-center gap-2 pt-3 border-t border-white/5">
+        <a href="webgl/bar.html" class="flex-1 text-center py-2 px-3 rounded-lg text-xs font-semibold bg-white/5 hover:bg-[#C5A059] text-stone-200 hover:text-black border border-white/10 hover:border-transparent transition">
+          Direct WebGL &nearr;
+        </a>
+        <a href="pages/visualizer-2.html?room=bar" class="py-2 px-3 rounded-lg text-xs font-semibold text-[#E7C887] bg-[#C5A059]/10 hover:bg-[#C5A059]/20 border border-[#C5A059]/40 transition" title="Open in Material Studio">
+          Studio &rarr;
+        </a>
+      </div>
+    </div>
+  
+    <div class="bg-[#141418] border border-white/10 hover:border-[#C5A059] rounded-2xl p-5 transition-all duration-300 hover:shadow-[0_0_24px_rgba(197,160,89,0.2)] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-2xl">🧺</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#C5A059]/15 text-[#E7C887] border border-[#C5A059]/30">3D WebGL</span>
+        </div>
+        <h3 class="font-serif text-xl font-bold text-white mb-1.5">Utility Suite & Scullery</h3>
+        <p class="text-xs text-stone-400 line-clamp-2 leading-relaxed mb-4">Deep prep counters, anti-skid tile floor & appliance station.</p>
+      </div>
+      <div class="flex items-center gap-2 pt-3 border-t border-white/5">
+        <a href="webgl/utility.html" class="flex-1 text-center py-2 px-3 rounded-lg text-xs font-semibold bg-white/5 hover:bg-[#C5A059] text-stone-200 hover:text-black border border-white/10 hover:border-transparent transition">
+          Direct WebGL &nearr;
+        </a>
+        <a href="pages/visualizer-2.html?room=utility" class="py-2 px-3 rounded-lg text-xs font-semibold text-[#E7C887] bg-[#C5A059]/10 hover:bg-[#C5A059]/20 border border-[#C5A059]/40 transition" title="Open in Material Studio">
+          Studio &rarr;
+        </a>
+      </div>
+    </div>
+  
+  </div>
+
+  <footer class="pt-6 border-t border-white/10 text-center text-xs text-stone-500">
+    &copy; 2026 Murali Granites & Marbles &bull; High-Fidelity Architectural 3D WebGL Engine
+  </footer>
+</body>
+</html>

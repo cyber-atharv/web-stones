@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="../">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Pooja Mandir Sanctuary (3D WebGL Room) | Murali Granites & Marbles</title>
+  <link rel="stylesheet" href="assets/css/navigation.css?v=1.6"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="webgl/core.js"></script>
+  <script src="webgl/rooms/pooja.js"></script>
+  <style>
+    body { margin:0; background:#09090C; color:#F5F0E8; font-family:'Inter',sans-serif; overflow:hidden; }
+    .nav-bar { position:absolute; top:0; left:0; right:0; height:54px; background:rgba(14,14,18,0.92); backdrop-filter:blur(10px); border-bottom:1px solid rgba(197,160,89,0.3); display:flex; align-items:center; justify-content:space-between; padding:0 18px; z-index:50; }
+    #canvas-container { position:absolute; top:54px; left:0; right:0; bottom:0; }
+    canvas { display:block; width:100%; height:100%; }
+    .cam-pills { position:absolute; top:70px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:40; background:rgba(18,18,22,0.85); padding:6px 10px; border-radius:9999px; border:1px solid rgba(197,160,89,0.35); backdrop-filter:blur(8px); }
+    .cam-btn { font-size:11.5px; font-weight:600; padding:5px 12px; border-radius:9999px; border:1px solid rgba(255,255,255,0.1); color:#A1A1AA; background:transparent; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+    .cam-btn:hover, .cam-btn.active { color:#FFF; border-color:#C5A059; background:rgba(197,160,89,0.25); }
+    .bottom-bar { position:absolute; bottom:16px; left:50%; transform:translateX(-50%); z-index:40; background:rgba(18,18,22,0.9); padding:8px 18px; border-radius:12px; border:1px solid rgba(197,160,89,0.3); font-size:12px; color:#E7C887; text-align:center; max-width:90%; pointer-events:none; }
+  </style>
+</head>
+<body>
+  <div class="nav-bar">
+    <div class="flex items-center gap-3">
+      <a href="pages/visualizer-2.html?room=pooja" class="text-xs font-semibold text-[#E7C887] hover:underline flex items-center gap-1.5">
+        &larr; Customize in Studio
+      </a>
+      <span class="text-white/30">|</span>
+      <span class="text-xs font-bold text-white tracking-wide">🪔 Pooja Mandir Sanctuary</span>
+      <span class="text-[10px] bg-[#C5A059]/20 text-[#E7C887] px-2 py-0.5 rounded font-bold">3D WebGL</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="webgl/index.html" class="text-xs text-stone-300 hover:text-white px-2.5 py-1 bg-white/5 rounded border border-white/10">All WebGL Rooms &rarr;</a>
+    </div>
+  </div>
+
+  <div id="camPills" class="cam-pills"></div>
+  <div id="bottomBar" class="bottom-bar">Sacred Statuario marble floor, sanctum altar & deity pedestals. · Click and drag to orbit 360°</div>
+
+  <div id="canvas-container">
+    <canvas id="view"></canvas>
+  </div>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('view');
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.18;
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color('#0A0A0C');
+      scene.fog = new THREE.Fog('#0A0A0C', 18, 40);
+
+      const camera = new THREE.PerspectiveCamera(43, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+      const target = new THREE.Vector3(0, 1.2, 0);
+      let azimuth = Math.PI * 0.25, elevation = 0.38, distance = 12.0;
+
+      function updateCamera() {
+        elevation = Math.max(0.12, Math.min(1.25, elevation));
+        distance = Math.max(3.5, Math.min(24.0, distance));
+        camera.position.set(
+          target.x + distance * Math.sin(azimuth) * Math.cos(elevation),
+          target.y + distance * Math.sin(elevation),
+          target.z + distance * Math.cos(azimuth) * Math.cos(elevation)
+        );
+        camera.lookAt(target);
+      }
+      updateCamera();
+
+      // Mouse drag controls
+      let dragging = false, prevX = 0, prevY = 0;
+      canvas.addEventListener('mousedown', e => { dragging = true; prevX = e.clientX; prevY = e.clientY; });
+      window.addEventListener('mouseup', () => dragging = false);
+      window.addEventListener('mousemove', e => {
+        if (!dragging) return;
+        const dx = e.clientX - prevX;
+        const dy = e.clientY - prevY;
+        prevX = e.clientX; prevY = e.clientY;
+        azimuth -= dx * 0.006;
+        elevation += dy * 0.006;
+        updateCamera();
+      });
+      canvas.addEventListener('wheel', e => {
+        e.preventDefault();
+        distance += e.deltaY * 0.01;
+        updateCamera();
+      }, { passive: false });
+
+      // Touch controls
+      let touchX = 0, touchY = 0;
+      canvas.addEventListener('touchstart', e => {
+        if (e.touches.length === 1) { touchX = e.touches[0].clientX; touchY = e.touches[0].clientY; }
+      });
+      canvas.addEventListener('touchmove', e => {
+        if (e.touches.length === 1) {
+          const dx = e.touches[0].clientX - touchX;
+          const dy = e.touches[0].clientY - touchY;
+          touchX = e.touches[0].clientX; touchY = e.touches[0].clientY;
+          azimuth -= dx * 0.007;
+          elevation += dy * 0.007;
+          updateCamera();
+        }
+      });
+
+      // Resize
+      window.addEventListener('resize', () => {
+        const w = window.innerWidth, h = window.innerHeight - 54;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        updateCamera();
+      });
+
+      // Build Room
+      const group = new THREE.Group();
+      scene.add(group);
+      const roomDefs = { pooja: { surfaces: {} } };
+      const ROOM_CAMERAS = {};
+      const reg = (rk, key, label, mesh) => {
+        if (!roomDefs[rk].surfaces[key]) {
+          roomDefs[rk].surfaces[key] = { label, meshes: [] };
+        }
+        roomDefs[rk].surfaces[key].meshes.push(mesh);
+      };
+
+      if (window.WebGlRooms['pooja']) {
+        window.WebGlRooms['pooja']({
+          THREE,
+          group,
+          reg,
+          roomDefs,
+          ROOM_CAMERAS,
+          core: window.WebGlCore,
+          showroomSlabs: [],
+          presets: [{ name: 'Default', url: '' }]
+        });
+      }
+
+      // Camera pills
+      const camPills = document.getElementById('camPills');
+      const camConf = ROOM_CAMERAS['pooja'];
+      if (camConf && camConf.cameras) {
+        camConf.cameras.forEach((c, idx) => {
+          const btn = document.createElement('button');
+          btn.className = 'cam-btn' + (idx === 0 ? ' active' : '');
+          btn.textContent = c.label;
+          btn.onclick = () => {
+            document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if (c.azimuth !== undefined) azimuth = c.azimuth;
+            if (c.elevation !== undefined) elevation = c.elevation;
+            if (c.distance !== undefined) distance = c.distance;
+            if (c.target) target.set(c.target[0], c.target[1], c.target[2]);
+            updateCamera();
+          };
+          camPills.appendChild(btn);
+          if (idx === 0) {
+            if (c.azimuth !== undefined) azimuth = c.azimuth;
+            if (c.elevation !== undefined) elevation = c.elevation;
+            if (c.distance !== undefined) distance = c.distance;
+            if (c.target) target.set(c.target[0], c.target[1], c.target[2]);
+            updateCamera();
+          }
+        });
+      }
+
+      function loop() {
+        requestAnimationFrame(loop);
+        renderer.render(scene, camera);
+      }
+      loop();
+    })();
+  </script>
+</body>
+</html>
