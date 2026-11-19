@@ -58,36 +58,36 @@
     
     /* ── Room Selector & WebGL Switcher ── */
     .room-selector {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      background: rgba(24, 22, 20, 0.9);
-      padding: 4px;
+      background: rgba(20, 18, 16, 0.95);
+      padding: 4px 6px;
       border-radius: 8px;
       border: 1px solid rgba(197, 160, 89, 0.35);
-      gap: 4px;
+      gap: 6px;
       overflow-x: auto;
-      max-width: 100%;
+      width: 100%;
       white-space: nowrap;
       scrollbar-width: thin;
-      scrollbar-color: rgba(197, 160, 89, 0.4) transparent;
+      scrollbar-color: rgba(197, 160, 89, 0.45) transparent;
       -webkit-overflow-scrolling: touch;
     }
     .room-selector::-webkit-scrollbar {
-      height: 3px;
+      height: 4px;
     }
     .room-selector::-webkit-scrollbar-thumb {
       background: rgba(197, 160, 89, 0.5);
-      border-radius: 3px;
+      border-radius: 4px;
     }
     .room-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: transparent;
+      background: rgba(255, 255, 255, 0.03);
       color: #A1A1AA;
-      border: 1px solid transparent;
+      border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 6px;
-      padding: 5px 12px;
+      padding: 6px 12px;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
@@ -97,14 +97,15 @@
     }
     .room-btn:hover {
       color: #FFF;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(197, 160, 89, 0.15);
+      border-color: rgba(197, 160, 89, 0.4);
     }
     .room-btn.active {
-      background: linear-gradient(135deg, rgba(197, 160, 89, 0.3), rgba(232, 201, 138, 0.15));
+      background: linear-gradient(135deg, rgba(197, 160, 89, 0.32), rgba(232, 201, 138, 0.18));
       border-color: var(--gold);
       color: #FFF;
       font-weight: 700;
-      box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+      box-shadow: 0 0 12px rgba(197, 160, 89, 0.35);
     }
     .badge-webgl {
       font-size: 9px;
@@ -214,16 +215,16 @@
       margin-top: 0 !important;
     }
     body.is-embedded #studio-app {
-      height: calc(100vh - 46px) !important;
+      height: calc(100vh - 88px) !important;
     }
 
     /* Main Studio Container */
     #studio-app {
       display: grid;
       grid-template-columns: 1fr 380px;
-      height: calc(100vh - 142px);
-      min-height: 600px;
-      margin-top: 86px;
+      height: calc(100vh - 164px);
+      min-height: 580px;
+      margin-top: 0;
       border-top: 1px solid rgba(197, 160, 89, 0.25);
       border-bottom: 1px solid rgba(197, 160, 89, 0.25);
       background: #111114;
@@ -231,15 +232,27 @@
 
     /* Sub Toolbar */
     .studio-toolbar {
-      background: rgba(16, 16, 20, 0.95);
+      background: rgba(16, 16, 20, 0.96);
       border-bottom: 1px solid rgba(197, 160, 89, 0.2);
       padding: 8px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 20;
+    }
+    .studio-toolbar-row1 {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
       flex-wrap: wrap;
-      z-index: 20;
+      width: 100%;
+    }
+    .studio-toolbar-row2 {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      overflow: hidden;
     }
     .studio-badge {
       display: inline-flex;
@@ -485,7 +498,8 @@
     #studio-app {
       display: grid;
       grid-template-columns: 1fr 380px;
-      height: calc(100vh - 64px);
+      height: calc(100vh - 164px);
+      min-height: 580px;
       position: relative;
       overflow: hidden;
       transition: grid-template-columns 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1000,68 +1014,72 @@
 
   <!-- STUDIO SUB-TOOLBAR -->
   <div class="studio-toolbar" style="margin-top: 86px;">
-    <div class="flex items-center gap-3">
-      <span class="studio-badge">VISUALIZER 2.0</span>
-      <h1 class="text-white text-xs sm:text-sm font-semibold tracking-wide">3D Real-Time Stone &amp; Flooring Studio</h1>
+    <!-- Row 1: Studio Title & Controls -->
+    <div class="studio-toolbar-row1">
+      <div class="flex items-center gap-3">
+        <span class="studio-badge">VISUALIZER 2.0</span>
+        <h1 class="text-white text-xs sm:text-sm font-semibold tracking-wide">3D Real-Time Stone &amp; Flooring Studio</h1>
+      </div>
+
+      <!-- Room Controls -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <button class="tool-btn" id="addTop"><span>＋</span> Add photos</button>
+        <button class="tool-btn" id="auto">🎲 Auto-fill room</button>
+        <button class="tool-btn" id="reset">↺ Reset camera</button>
+        <button class="tool-btn tool-btn-gold" id="btnArStudio" title="Project active stone slab into your room in 1:1 Augmented Reality (No App Needed)"><span>📱</span> 1:1 AR</button>
+        <a href="visualizer.html" class="tool-btn tool-btn-gold" title="Switch to 4K Photo Visualizer with Before/After Slider"><span>📸</span> 4K Photo Visualizer (12 Rooms) &rarr;</a>
+      </div>
     </div>
 
-    <!-- Room Selection Tabs -->
-    <div class="room-selector">
-      <button class="room-btn active" id="btnRoomLiving" data-room="living" title="Switch to 3D Living Room Suite">
-        <span>🛋️</span>
-        <span>Living Room <span class="badge-webgl">3D WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomKitchen" data-room="kitchen" title="Switch to 3D Chef Kitchen Suite">
-        <span>🍽️</span>
-        <span>Kitchen Suite <span class="badge-webgl">3D WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomBathroom" data-room="bathroom" title="Switch to 3D Luxury Bathroom Suite">
-        <span>🛁</span>
-        <span>Bathroom Suite <span class="badge-webgl">3D WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomPool" data-room="pool" title="Switch to 3D Swimming Pool Deck">
-        <span>🏊</span>
-        <span>Swimming Pool <span class="badge-webgl">3D WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomParking" data-room="parking" title="Switch to 3D Outdoor Parking &amp; Driveway Suite">
-        <span>🚗</span>
-        <span>Parking Suite <span class="badge-webgl">3D WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomFoyer" data-room="foyer" title="Switch to 3D Grand Entrance Foyer">
-        <span>🏛️</span>
-        <span>Entrance Foyer <span class="badge-webgl">3D WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomPooja" data-room="pooja" title="Switch to 3D Pooja Room Sanctuary">
-        <span>🪔</span>
-        <span>Pooja Sanctuary <span class="badge-webgl">3D WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomBar" data-room="bar" title="Switch to 3D Executive Home Bar &amp; Lounge">
-        <span>🍸</span>
-        <span>Bar &amp; Lounge <span class="badge-webgl">3D WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomUtility" data-room="utility" title="Switch to 3D Utility &amp; Scullery Service Suite">
-        <span>🧺</span>
-        <span>Utility Suite <span class="badge-webgl">3D WebGL</span></span>
-      </button>
-    </div>
-
-    <!-- Room Controls -->
-    <div class="flex items-center gap-2 flex-wrap">
-      <button class="tool-btn" id="addTop"><span>＋</span> Add photos</button>
-      <button class="tool-btn" id="auto">🎲 Auto-fill room</button>
-      <button class="tool-btn" id="reset">↺ Reset camera</button>
-      <button class="tool-btn tool-btn-gold" id="btnArStudio" title="Project active stone slab into your room in 1:1 Augmented Reality (No App Needed)"><span>📱</span> 1:1 AR</button>
-      <a href="visualizer.html" class="tool-btn tool-btn-gold" title="Switch to 4K Photo Visualizer with Before/After Slider"><span>📸</span> 4K Photo Visualizer (12 Rooms) &rarr;</a>
+    <!-- Row 2: Dedicated Full 9-Suite Navigation Bar -->
+    <div class="studio-toolbar-row2">
+      <div class="room-selector">
+        <button class="room-btn active" id="btnRoomLiving" data-room="living" title="Switch to 3D Living Room Suite">
+          <span>🛋️</span>
+          <span>Living Room <span class="badge-webgl">3D WebGL</span></span>
+        </button>
+        <button class="room-btn" id="btnRoomKitchen" data-room="kitchen" title="Switch to 3D Chef Kitchen Suite">
+          <span>🍽️</span>
+          <span>Kitchen Suite <span class="badge-webgl">3D WebGL</span></span>
+        </button>
+        <button class="room-btn" id="btnRoomBathroom" data-room="bathroom" title="Switch to 3D Luxury Bathroom Suite">
+          <span>🛁</span>
+          <span>Bathroom Suite <span class="badge-webgl">3D WebGL</span></span>
+        </button>
+        <button class="room-btn" id="btnRoomPool" data-room="pool" title="Switch to 3D Swimming Pool Deck">
+          <span>🏊</span>
+          <span>Swimming Pool <span class="badge-webgl">3D WebGL</span></span>
+        </button>
+        <button class="room-btn" id="btnRoomParking" data-room="parking" title="Switch to 3D Outdoor Parking &amp; Driveway Suite">
+          <span>🚗</span>
+          <span>Parking Suite <span class="badge-webgl">3D WebGL</span></span>
+        </button>
+        <button class="room-btn" id="btnRoomFoyer" data-room="foyer" title="Switch to 3D Grand Entrance Foyer">
+          <span>🏛️</span>
+          <span>Entrance Foyer <span class="badge-webgl">3D WebGL</span></span>
+        </button>
+        <button class="room-btn" id="btnRoomPooja" data-room="pooja" title="Switch to 3D Pooja Room Sanctuary">
+          <span>🪔</span>
+          <span>Pooja Sanctuary <span class="badge-webgl">3D WebGL</span></span>
+        </button>
+        <button class="room-btn" id="btnRoomBar" data-room="bar" title="Switch to 3D Executive Home Bar &amp; Lounge">
+          <span>🍸</span>
+          <span>Bar &amp; Lounge <span class="badge-webgl">3D WebGL</span></span>
+        </button>
+        <button class="room-btn" id="btnRoomUtility" data-room="utility" title="Switch to 3D Utility &amp; Scullery Service Suite">
+          <span>🧺</span>
+          <span>Utility Suite <span class="badge-webgl">3D WebGL</span></span>
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- MAIN 3D STUDIO APP -->
   <div id="studio-app" style="margin-top:0;">
     <main id="stage">
-      <canvas id="view" style="display:none;"></canvas>
-      <!-- Photorealistic Sketchfab WebGL Viewports -->
-      <div id="skfb-stage" class="skfb-stage-container active" style="display:block; opacity:1; visibility:visible;">
-        <iframe id="skfb-iframe-living" class="skfb-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen title="Living Room 3D Suite"></iframe>
+      <canvas id="view" style="display:block;"></canvas>
+      <!-- Photorealistic Sketchfab WebGL Viewports (Kitchen & Bathroom Suites) -->
+      <div id="skfb-stage" class="skfb-stage-container" style="display:none; opacity:0; visibility:hidden;">
         <iframe id="skfb-iframe-kitchen" class="skfb-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen title="Chef Kitchen 3D Suite" style="display:none;"></iframe>
         <iframe id="skfb-iframe-bathroom" class="skfb-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen title="Master Bathroom 3D Suite" style="display:none;"></iframe>
       </div>
@@ -1334,13 +1352,153 @@
       return o;
     }
 
+    const maxAni = (renderer.capabilities && renderer.capabilities.getMaxAnisotropy) ? renderer.capabilities.getMaxAnisotropy() : 4;
+
+    // ── High-Fidelity Procedural Architectural PBR Textures ──
+    function createWoodTexture(baseColor = '#583c27') {
+      const c = document.createElement('canvas');
+      c.width = 1024; c.height = 1024;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = baseColor;
+      ctx.fillRect(0, 0, 1024, 1024);
+      const grad = ctx.createLinearGradient(0, 0, 1024, 0);
+      grad.addColorStop(0, 'rgba(0,0,0,0.12)');
+      grad.addColorStop(0.35, 'rgba(255,255,255,0.06)');
+      grad.addColorStop(0.7, 'rgba(0,0,0,0.15)');
+      grad.addColorStop(1, 'rgba(255,255,255,0.04)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 1024, 1024);
+      ctx.fillStyle = 'rgba(25, 14, 8, 0.28)';
+      for (let x = 0; x < 1024; x += 3) {
+        const waviness = Math.sin(x * 0.02) * 6;
+        ctx.fillRect(x + waviness, 0, 1.2, 1024);
+      }
+      for (let i = 0; i < 22; i++) {
+        const bx = 30 + i * 46 + Math.sin(i * 1.4) * 16;
+        ctx.fillStyle = 'rgba(15, 8, 4, 0.18)';
+        ctx.fillRect(bx, 0, 5, 1024);
+        ctx.fillStyle = 'rgba(240, 180, 120, 0.10)';
+        ctx.fillRect(bx + 5, 0, 3, 1024);
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(2, 4);
+      tex.anisotropy = maxAni;
+      return tex;
+    }
+
+    function createFabricTexture(tone = '#cfc0a9') {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = tone;
+      ctx.fillRect(0, 0, 512, 512);
+      for (let y = 0; y < 512; y += 4) {
+        for (let x = 0; x < 512; x += 4) {
+          const isWarp = ((x / 4) + (y / 4)) % 2 === 0;
+          ctx.fillStyle = isWarp ? 'rgba(245, 238, 228, 0.45)' : 'rgba(120, 105, 85, 0.35)';
+          ctx.fillRect(x, y, 4, 4);
+        }
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(6, 6);
+      tex.anisotropy = maxAni;
+      return tex;
+    }
+
+    function createPlasterTexture(base = '#ded6cb') {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = base;
+      ctx.fillRect(0, 0, 512, 512);
+      for (let i = 0; i < 14000; i++) {
+        const x = Math.random() * 512;
+        const y = Math.random() * 512;
+        const alpha = Math.random() * 0.08;
+        ctx.fillStyle = Math.random() > 0.5 ? `rgba(255,255,255,${alpha})` : `rgba(25,20,15,${alpha})`;
+        ctx.fillRect(x, y, 1.5, 1.5);
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(4, 4);
+      tex.anisotropy = maxAni;
+      return tex;
+    }
+
+    function createRugTexture() {
+      const c = document.createElement('canvas');
+      c.width = 1024; c.height = 1024;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#dfd6c8';
+      ctx.fillRect(0, 0, 1024, 1024);
+      ctx.fillStyle = 'rgba(50, 48, 44, 0.08)';
+      ctx.fillRect(40, 40, 944, 944);
+      ctx.strokeStyle = 'rgba(197, 160, 89, 0.38)';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(60, 60, 904, 904);
+      ctx.fillStyle = 'rgba(70, 65, 58, 0.06)';
+      for (let i = 0; i < 1024; i += 8) {
+        ctx.fillRect(i, 0, 4, 1024);
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+      tex.anisotropy = maxAni;
+      return tex;
+    }
+
+    function createWaterTexture() {
+      const c = document.createElement('canvas');
+      c.width = 512; c.height = 512;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#0a90b4';
+      ctx.fillRect(0, 0, 512, 512);
+      ctx.strokeStyle = 'rgba(180, 245, 255, 0.45)';
+      ctx.lineWidth = 3;
+      for (let i = 0; i < 70; i++) {
+        ctx.beginPath();
+        const cx = Math.random() * 512, cy = Math.random() * 512, r = 10 + Math.random() * 34;
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+      tex.repeat.set(3, 5);
+      tex.anisotropy = maxAni;
+      return tex;
+    }
+
+    const woodTex = createWoodTexture();
+    const fabricTex = createFabricTexture();
+    const fabricCushTex = createFabricTexture('#e4d8c5');
+    const plasterTex = createPlasterTexture();
+    const rugTex = createRugTexture();
+    const waterTex = createWaterTexture();
+
     // --- LIVING ROOM SUITE 3D OBJECTS ---
-    const wall = M('#d9cbb5'), wood = M('#684a32'), slat = M('#967352'), black = M('#181918', 0.25), sofa = M('#cfc0a9'), cush = M('#e4d8c5'), pot = M('#4c4033'), green = M('#334c35');
+    const wall = new THREE.MeshStandardMaterial({ map: plasterTex, roughness: 0.85 });
+    const wood = new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.38, metalness: 0.05 });
+    const slat = new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.42, metalness: 0.04 });
+    const woodCabinet = new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.35, metalness: 0.05 });
+    const black = new THREE.MeshStandardMaterial({ color: 0x181918, roughness: 0.25, metalness: 0.8 });
+    const sofa = new THREE.MeshStandardMaterial({ map: fabricTex, roughness: 0.94 });
+    const cush = new THREE.MeshStandardMaterial({ map: fabricCushTex, roughness: 0.90 });
+    const pot = new THREE.MeshStandardMaterial({ color: 0x3d352b, roughness: 0.6 });
+    const green = new THREE.MeshStandardMaterial({ color: 0x2e4630, roughness: 0.35, metalness: 0.05 });
+    const rugMat = new THREE.MeshStandardMaterial({ map: rugTex, roughness: 0.95 });
+
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(12, 11), M('#e0d3bd', 0.22));
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = 0.025;
     floor.receiveShadow = true;
     livingGroup.add(floor);
+
+    const rug = new THREE.Mesh(new THREE.PlaneGeometry(6.4, 4.8), rugMat);
+    rug.rotation.x = -Math.PI / 2;
+    rug.position.set(-0.8, 0.035, -1.2);
+    rug.receiveShadow = true;
+    livingGroup.add(rug);
 
     for (let i = 0; i < 16; i++) box(0.055, 4.25, 0.08, -5.77, 2.16, -4.7 + i * 0.62, slat);
     box(5.3, 0.12, 0.12, 0, 3.65, -5.28, black);
@@ -1395,7 +1553,6 @@
       roughness: 0.06,
       metalness: 0.1
     });
-    const woodCabinet = new THREE.MeshStandardMaterial({ color: 0x423223, roughness: 0.65 });
     const warmLedMat = new THREE.MeshStandardMaterial({
       color: 0xfff0dd,
       emissive: new THREE.Color(0xffd180),
@@ -1913,10 +2070,11 @@
     // 1. Crystal Aqua Pool Water Plane
     const poolWaterMat = new THREE.MeshStandardMaterial({
       color: 0x0fa5c4,
-      roughness: 0.08,
-      metalness: 0.15,
+      map: waterTex,
+      roughness: 0.06,
+      metalness: 0.22,
       transparent: true,
-      opacity: 0.74
+      opacity: 0.82
     });
     const poolWater = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 10.6), poolWaterMat);
     poolWater.rotation.x = -Math.PI / 2;
@@ -2287,7 +2445,6 @@
       im.src=s.url;
     });
 
-    const maxAni=renderer.capabilities.getMaxAnisotropy();
     const mat=p=>p.face==null?p.mesh.material:p.mesh.material[p.face];
     function setMat(p,m){if(p.face==null)p.mesh.material=m;else p.mesh.material[p.face]=m}
 
@@ -2372,16 +2529,28 @@
         diff.generateMipmaps=true;
         diff.minFilter=THREE.LinearMipmapLinearFilter;
         diff.magFilter=THREE.LinearFilter;
-        let bump=null;
-        if(struct!=='slab'){
-          bump=new THREE.CanvasTexture(bcan);
-          bump.colorSpace=THREE.SRGBColorSpace;
-          bump.anisotropy=maxAni;
-          bump.wrapS=bump.wrapT=THREE.RepeatWrapping;
-          bump.generateMipmaps=true;
-          bump.minFilter=THREE.LinearMipmapLinearFilter;
-          bump.magFilter=THREE.LinearFilter;
+
+        let bump = null;
+        if (struct === 'slab') {
+          try {
+            const imgData = ctx.getImageData(0, 0, N, N);
+            const bumpData = bctx.createImageData(N, N);
+            const d = imgData.data, bd = bumpData.data;
+            for (let i = 0; i < d.length; i += 4) {
+              const lum = (d[i] * 0.299 + d[i+1] * 0.587 + d[i+2] * 0.114) | 0;
+              bd[i] = bd[i+1] = bd[i+2] = lum;
+              bd[i+3] = 255;
+            }
+            bctx.putImageData(bumpData, 0, 0);
+          } catch(e) {}
         }
+        bump = new THREE.CanvasTexture(bcan);
+        bump.colorSpace = THREE.SRGBColorSpace;
+        bump.anisotropy = maxAni;
+        bump.wrapS = bump.wrapT = THREE.RepeatWrapping;
+        bump.generateMipmaps = true;
+        bump.minFilter = THREE.LinearMipmapLinearFilter;
+        bump.magFilter = THREE.LinearFilter;
         return {diff,bump,canvas:c};
       })());
       return cache.get(k);
@@ -2406,18 +2575,19 @@
         if(m.bumpMap){
           m.bumpMap.center.copy(t.center);m.bumpMap.repeat.copy(t.repeat);
           m.bumpMap.offset.copy(t.offset);m.bumpMap.rotation=t.rotation;
-          m.bumpMap.needsUpdate=true;m.bumpScale=0.045;
+          m.bumpMap.needsUpdate=true;
+          m.bumpScale = s.set.struct === 'slab' ? 0.022 : 0.055;
         }
         const g = s.set.gloss != null ? s.set.gloss : 0.85;
         m.roughness=Math.max(0.04,1-.95*g);
         if(m.clearcoat !== undefined) {
-          m.clearcoat = g > 0.55 ? Math.min(1.0, (g - 0.5) * 2.0) : 0;
-          m.clearcoatRoughness = 0.08;
+          m.clearcoat = g > 0.55 ? Math.min(1.0, (g - 0.45) * 2.2) : 0.06;
+          m.clearcoatRoughness = 0.06;
         }
         m.needsUpdate=true;
       });
 
-      if (['living', 'kitchen', 'bathroom'].includes(activeRoom) && typeof skfbRooms !== 'undefined' && skfbRooms[activeRoom] && skfbRooms[activeRoom].ready) {
+      if (['kitchen', 'bathroom'].includes(activeRoom) && typeof skfbRooms !== 'undefined' && skfbRooms[activeRoom] && skfbRooms[activeRoom].ready) {
         let targetMat = typeof getTargetMaterialForRoom === 'function' ? getTargetMaterialForRoom(activeRoom, k) : null;
         if (targetMat && targetMat.channels && targetMat.channels.RoughnessPBR) {
           targetMat.channels.RoughnessPBR.factor = Math.max(0.04, 1.0 - (s.set.gloss || 0.72));
@@ -2441,15 +2611,16 @@
         s.parts.forEach(p=>{
           const gloss = s.set.gloss != null ? s.set.gloss : 0.85;
           const isPolished = gloss > 0.55;
+          const isSlab = s.set.struct === 'slab';
           const m=new THREE.MeshPhysicalMaterial({
             map:diff,
             bumpMap:bump||null,
-            bumpScale:bump?0.045:0,
+            bumpScale: bump ? (isSlab ? 0.022 : 0.055) : 0,
             roughness:Math.max(0.04,1-.95*gloss),
             metalness:0.02,
-            clearcoat: isPolished ? Math.min(1.0, (gloss - 0.5) * 2.0) : 0,
-            clearcoatRoughness: 0.08,
-            reflectivity: 0.65
+            clearcoat: isPolished ? Math.min(1.0, (gloss - 0.45) * 2.2) : 0.06,
+            clearcoatRoughness: 0.06,
+            reflectivity: 0.72
           });
           setMat(p,m);
         });
@@ -2457,7 +2628,7 @@
         const structName=s.set.struct==='slab'?'Grand Slab':(s.set.struct==='tile60'?'Tile 60×60':(s.set.struct==='tile120'?'Tile 120×60':'Staggered Brick'));
         status.textContent=s.label+': '+s.src.name+(s.src.origin?' ('+s.src.origin+')':'')+' · '+structName;
 
-        if (['living', 'kitchen', 'bathroom'].includes(activeRoom)) {
+        if (['kitchen', 'bathroom'].includes(activeRoom)) {
           applyMaterialToSketchfab(k, s, cv, true);
         }
       }catch(e){
@@ -2814,15 +2985,15 @@
     // ── Unified Multi-Room Camera and Viewport Configurations ──
     const ROOM_CAMERAS = {
       living: {
-        type: 'skfb',
+        type: 'three',
         title: 'Living Room Suite (3D WebGL)',
-        subtitle: '• Modern Architecture & PBR Marble Slabs',
-        hint: '<span class="text-[#E7C887] font-semibold">💡 Living Room 3D Studio:</span> Customize <b>Grand Marble Floor</b>, <b>Coffee Table</b>, or <b>Console Slab</b> with authentic marble &amp; granite textures in real-time WebGL.',
+        subtitle: '• Modern Designer Architecture & PBR Marble Slabs',
+        hint: '<span class="text-[#E7C887] font-semibold">💡 Living Room 3D Studio:</span> Customize <b>Grand Marble Floor</b>, <b>Coffee Table</b>, or <b>Console Slab</b> with authentic showroom marble &amp; granite in real-time WebGL.',
         defaultCam: 'overview',
         cameras: [
-          { id: 'overview', label: '🛋️ Living Overview', eye: [431.16, -0.25, 86.84], target: [0.25, 0.24, 4.73] },
-          { id: 'floor', label: '🧱 Marble Floor', eye: [280, 160, 40], target: [0, 0, 5] },
-          { id: 'coffee', label: '☕ Coffee Table', eye: [140, -15, 45], target: [-5, 15, 10] }
+          { id: 'overview', label: '🛋️ Living Overview', azimuth: Math.PI * 0.25, elevation: 0.38, distance: 11.2, target: [0, 1.25, 0] },
+          { id: 'floor', label: '🧱 Marble Floor', azimuth: Math.PI * 0.15, elevation: 0.68, distance: 8.5, target: [0, 0.2, 0] },
+          { id: 'coffee', label: '☕ Coffee Table', azimuth: Math.PI * 0.35, elevation: 0.28, distance: 5.6, target: [0, 0.45, 0] }
         ]
       },
       kitchen: {
@@ -2924,15 +3095,6 @@
     };
 
     const SKFB_ROOM_CONFIGS = {
-      living: {
-        uid: 'afb8cb0cbee1488caf61471ef14041e9',
-        iframeId: 'skfb-iframe-living',
-        title: 'Living Room Suite (3D WebGL)',
-        subtitle: '• Modern Architecture & PBR Marble Slabs',
-        cameras: ROOM_CAMERAS.living.cameras,
-        defaultCam: 'overview',
-        hint: ROOM_CAMERAS.living.hint
-      },
       kitchen: {
         uid: '2cc658a96e304a6d9db1813233ed90d1',
         iframeId: 'skfb-iframe-kitchen',
@@ -2954,7 +3116,6 @@
     };
 
     const skfbRooms = {
-      living: { client: null, api: null, ready: false, loading: false, materials: {}, pendingUpdates: {} },
       kitchen: { client: null, api: null, ready: false, loading: false, materials: {}, pendingUpdates: {} },
       bathroom: { client: null, api: null, ready: false, loading: false, materials: {}, pendingUpdates: {} }
     };
@@ -2971,12 +3132,7 @@
     function getTargetMaterialForRoom(roomKey, k) {
       const room = skfbRooms[roomKey];
       if (!room || !room.materials) return null;
-      if (roomKey === 'living') {
-        if (k === 'living_floor') return room.materials.floor;
-        if (k === 'living_table') return room.materials.table;
-        if (k === 'living_tv') return room.materials.tv;
-        return room.materials.floor;
-      } else if (roomKey === 'kitchen') {
+      if (roomKey === 'kitchen') {
         if (k === 'kitchen_countertop') return room.materials.counters;
         return room.materials.structure;
       } else if (roomKey === 'bathroom') {
@@ -3188,11 +3344,7 @@
               }
               materials.forEach(m => {
                 const nl = m.name.toLowerCase();
-                if (roomKey === 'living') {
-                  if (nl.includes('structure')) room.materials.floor = m;
-                  else if (nl.includes('coffeetable') || nl.includes('coffee')) room.materials.table = m;
-                  else if (nl.includes('tvstand') || nl.includes('tv')) room.materials.tv = m;
-                } else if (roomKey === 'kitchen') {
+                if (roomKey === 'kitchen') {
                   if (nl === 'counters' || nl.includes('counter')) room.materials.counters = m;
                   else if (nl === 'structure' || nl.includes('struct') || nl.includes('wall')) room.materials.structure = m;
                 } else if (roomKey === 'bathroom') {
@@ -3211,10 +3363,7 @@
                 });
                 room.pendingUpdates = {};
               } else {
-                if (roomKey === 'living') {
-                  if (roomDefs.living.surfaces.living_floor) applyMaterialToSketchfab('living_floor', roomDefs.living.surfaces.living_floor, null, false);
-                  if (roomDefs.living.surfaces.living_table) applyMaterialToSketchfab('living_table', roomDefs.living.surfaces.living_table, null, false);
-                } else if (roomKey === 'kitchen') {
+                if (roomKey === 'kitchen') {
                   if (roomDefs.kitchen.surfaces.kitchen_countertop) applyMaterialToSketchfab('kitchen_countertop', roomDefs.kitchen.surfaces.kitchen_countertop, null, false);
                   if (roomDefs.kitchen.surfaces.kitchen_backsplash) applyMaterialToSketchfab('kitchen_backsplash', roomDefs.kitchen.surfaces.kitchen_backsplash, null, false);
                 } else if (roomKey === 'bathroom') {
@@ -3341,9 +3490,10 @@
 
     // ── Initialize Default Stones on Rooms ──
     (function initShowroomDefaults() {
-      // 0. Living Room Defaults (Statuario on Floor, River Black on Coffee Table)
+      // 0. Living Room Defaults (Statuario on Floor, River Black on Coffee Table, Black Pearl on TV Console)
       const livFloorStone = showroomSlabs.find(s => s.name === 'Statuario') || showroomSlabs.find(s => s.name === 'Calacatta White') || presets[0];
       const livTableStone = showroomSlabs.find(s => s.name === 'River Black') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+      const livTvStone = showroomSlabs.find(s => s.name === 'Black Pearl') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
       if (livFloorStone && roomDefs.living && roomDefs.living.surfaces.living_floor) {
         roomDefs.living.surfaces.living_floor.src = livFloorStone;
         roomDefs.living.surfaces.living_floor.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.95, grout: 2 };
@@ -3351,6 +3501,10 @@
       if (livTableStone && roomDefs.living && roomDefs.living.surfaces.living_table) {
         roomDefs.living.surfaces.living_table.src = livTableStone;
         roomDefs.living.surfaces.living_table.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.92, grout: 2 };
+      }
+      if (livTvStone && roomDefs.living && roomDefs.living.surfaces.living_tv) {
+        roomDefs.living.surfaces.living_tv.src = livTvStone;
+        roomDefs.living.surfaces.living_tv.set = { struct: 'slab', mode: 'mirror', size: 2.8, rot: 0, gloss: 0.90, grout: 2 };
       }
 
       // 1. Chef Kitchen Defaults (River Black on Countertop, River White on Backsplash)
@@ -3557,7 +3711,7 @@
     (function loop() {
       requestAnimationFrame(loop);
       if (document.hidden) return;
-      if (['living', 'kitchen', 'bathroom'].includes(activeRoom)) return;
+      if (['kitchen', 'bathroom'].includes(activeRoom)) return;
       renderer.render(scene, camera);
     })();
   })();
