@@ -93,5 +93,20 @@
     <script src="js/lib/three.min.js"></script>
     <script src="js/main.min.js"></script>
     <script src="js/murali-stone-studio.js?v=3.6.1"></script>
+    <script>
+      (function() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('autostart') === '1') {
+          const autoTimer = setInterval(function() {
+            const startBtn = document.querySelector('[data-ref="start"]');
+            if (startBtn && startBtn.offsetParent !== null) {
+              startBtn.click();
+              clearInterval(autoTimer);
+            }
+          }, 150);
+          setTimeout(function() { clearInterval(autoTimer); }, 15000);
+        }
+      })();
+    </script>
   </body>
 </html>

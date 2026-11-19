@@ -1014,41 +1014,41 @@
 
     <!-- Room Selection Tabs -->
     <div class="room-selector">
-      <button class="room-btn active" id="btnRoomLiving" data-room="living" title="Switch to 3D Living Room Suite">
+      <button class="room-btn active" id="btnRoomLiving" data-room="living" title="Switch to 3D Living Room Architectural Showroom (Photorealistic WebGL)">
         <span>🛋️</span>
-        <span>Living Room</span>
+        <span>Living Room <span class="badge-webgl">3D Showroom</span></span>
       </button>
-      <button class="room-btn" id="btnRoomBathroom" data-room="bathroom" title="Switch to 3D Luxury Bathroom Suite (WebGL)">
+      <button class="room-btn" id="btnRoomBathroom" data-room="bathroom" title="Switch to 3D Luxury Bathroom Suite (Photorealistic WebGL Scan)">
         <span>🛁</span>
         <span>Bathroom Suite <span class="badge-webgl">WebGL</span></span>
       </button>
-      <button class="room-btn" id="btnRoomKitchen" data-room="kitchen" title="Switch to 3D Luxury Kitchen Suite (Three.js WebGL)">
+      <button class="room-btn" id="btnRoomKitchen" data-room="kitchen" title="Switch to 3D Chef Kitchen Suite (Modern Island & Countertop WebGL)">
         <span>🍽️</span>
         <span>Kitchen Suite <span class="badge-webgl">WebGL</span></span>
       </button>
-      <button class="room-btn" id="btnRoomParking" data-room="parking" title="Switch to 3D Outdoor Parking &amp; Driveway Suite (Three.js WebGL)">
-        <span>🚗</span>
-        <span>Parking &amp; Paving <span class="badge-webgl">WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomUtility" data-room="utility" title="Switch to 3D Utility &amp; Scullery Suite (Three.js WebGL)">
-        <span>🧺</span>
-        <span>Utility &amp; Scullery <span class="badge-webgl">WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomPooja" data-room="pooja" title="Switch to 3D Pooja Room &amp; Mandir Sanctuary (Three.js WebGL)">
-        <span>🪔</span>
-        <span>Pooja Sanctuary <span class="badge-webgl">WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomFoyer" data-room="foyer" title="Switch to 3D Grand Entrance Foyer Suite (Three.js WebGL)">
-        <span>🏛️</span>
-        <span>Grand Foyer <span class="badge-webgl">WebGL</span></span>
-      </button>
-      <button class="room-btn" id="btnRoomPool" data-room="pool" title="Switch to 3D Swimming Pool Deck &amp; Sunken Lounge (Three.js WebGL)">
+      <button class="room-btn" id="btnRoomPool" data-room="pool" title="Switch to 3D Pool Deck & Lounge (Photorealistic 3D Showroom)">
         <span>🏊</span>
-        <span>Pool Deck &amp; Lounge <span class="badge-webgl">WebGL</span></span>
+        <span>Pool Deck &amp; Lounge <span class="badge-webgl">3D Showroom</span></span>
       </button>
-      <button class="room-btn" id="btnRoomBar" data-room="bar" title="Switch to 3D Executive Home Bar &amp; Lounge (Three.js WebGL)">
+      <button class="room-btn" id="btnRoomParking" data-room="parking" title="Switch to Outdoor Parking & Driveway (4K Studio Visualizer)">
+        <span>🚗</span>
+        <span>Parking &amp; Paving <span class="badge-webgl">4K Studio</span></span>
+      </button>
+      <button class="room-btn" id="btnRoomPooja" data-room="pooja" title="Switch to Pooja Sanctuary (4K Studio Visualizer)">
+        <span>🪔</span>
+        <span>Pooja Sanctuary <span class="badge-webgl">4K Studio</span></span>
+      </button>
+      <button class="room-btn" id="btnRoomFoyer" data-room="foyer" title="Switch to Grand Entrance Foyer (4K Studio Visualizer)">
+        <span>🏛️</span>
+        <span>Grand Foyer <span class="badge-webgl">4K Studio</span></span>
+      </button>
+      <button class="room-btn" id="btnRoomUtility" data-room="utility" title="Switch to Utility & Scullery (4K Studio Visualizer)">
+        <span>🧺</span>
+        <span>Utility &amp; Scullery <span class="badge-webgl">4K Studio</span></span>
+      </button>
+      <button class="room-btn" id="btnRoomBar" data-room="bar" title="Switch to Executive Bar & Lounge (4K Studio Visualizer)">
         <span>🍸</span>
-        <span>Executive Bar <span class="badge-webgl">WebGL</span></span>
+        <span>Executive Bar <span class="badge-webgl">4K Studio</span></span>
       </button>
     </div>
 
@@ -1058,30 +1058,35 @@
       <button class="tool-btn" id="auto">🎲 Auto-fill room</button>
       <button class="tool-btn" id="reset">↺ Reset camera</button>
       <button class="tool-btn tool-btn-gold" id="btnArStudio" title="Project active stone slab into your room in 1:1 Augmented Reality (No App Needed)"><span>📱</span> 1:1 AR</button>
-      <a href="pages/visualizer.html" class="tool-btn tool-btn-gold" title="Switch back to 1D Live Photo Visualizer"><span>🖼️</span> Visualizer 1.0 &rarr;</a>
+      <a href="visualizer.html" class="tool-btn tool-btn-gold" title="Switch back to 1D Live Photo Visualizer"><span>🖼️</span> Visualizer 1.0 &rarr;</a>
     </div>
   </div>
 
   <!-- MAIN 3D STUDIO APP -->
   <div id="studio-app" style="margin-top:0;">
     <main id="stage">
-      <!-- Direct Three.js Live 3D Viewport (Living Room) -->
+      <!-- Direct Three.js Live 3D Viewport (Fallback) -->
       <canvas id="view"></canvas>
 
-      <!-- Luxury 3D Master Bathroom Suite Viewport -->
+      <!-- Visualizer 3.0 Architectural Showroom Viewport (Living Room & Pool Deck) -->
+      <div id="v1-stage" class="skfb-stage-container active">
+        <iframe id="v1-iframe" class="skfb-iframe" src="../V1/index.html?autostart=1" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen title="Murali Granites 3D Architectural Showroom"></iframe>
+      </div>
+
+      <!-- Photorealistic Sketchfab WebGL Viewport (Bathroom & Kitchen Suites) -->
       <div id="skfb-stage" class="skfb-stage-container">
-        <iframe id="skfb-bathroom-iframe" class="skfb-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen title="Luxury 3D Master Bathroom Suite"></iframe>
+        <iframe id="skfb-bathroom-iframe" class="skfb-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen title="Photorealistic 3D Architectural Suite"></iframe>
         
-        <!-- Floating Bathroom Top Bar -->
+        <!-- Floating Top Bar -->
         <div class="skfb-top-bar">
           <div class="skfb-badge">
             <span class="skfb-live-pulse"></span>
-            <span class="text-xs font-bold text-[#E7C887]">Luxury Bathroom Suite (3D)</span>
-            <span class="text-[11px] text-[#A1A1AA] hidden sm:inline">&bull; Master Bath &amp; Spa</span>
+            <span id="skfbRoomTitle" class="text-xs font-bold text-[#E7C887]">Luxury Bathroom Suite (3D)</span>
+            <span id="skfbRoomSubtitle" class="text-[11px] text-[#A1A1AA] hidden sm:inline">&bull; Master Bath &amp; Spa</span>
           </div>
 
-          <!-- Camera Viewpoints -->
-          <div class="skfb-cam-bar">
+          <!-- Dynamic Camera Viewpoints for Bathroom & Kitchen -->
+          <div class="skfb-cam-bar" id="skfbCamBar">
             <button class="skfb-cam-btn active" id="btnCamFloor" data-cam="floor" title="Focus camera on bathroom floor tiles">🧱 Floor View</button>
             <button class="skfb-cam-btn" id="btnCamWall" data-cam="wall" title="Focus camera on wall tiles & shower">🚿 Shower &amp; Walls</button>
             <button class="skfb-cam-btn" id="btnCamVanity" data-cam="vanity" title="Focus camera on vanity countertop & shelf">🪞 Vanity Counter</button>
@@ -1095,9 +1100,9 @@
         </div>
 
         <!-- Floating Bottom Status Helper -->
-        <div class="skfb-bottom-hint">
-          <span class="text-[#E7C887] font-semibold">💡 Bathroom Material Studio:</span>
-          Select <b>Bathroom Floor</b>, <b>Wall Tiles</b>, or <b>Vanity Countertop</b>, then click any stone or tile format below to customize in real-time 3D.
+        <div class="skfb-bottom-hint" id="skfbBottomHint">
+          <span class="text-[#E7C887] font-semibold">💡 3D Material Studio:</span>
+          Select an architectural surface, then pick any stone or tile format below to customize in real-time 3D.
         </div>
       </div>
 
@@ -2839,40 +2844,77 @@
       }, duration);
     }
 
-    // ── Sketchfab WebGL Master Bathroom Suite Controller ──
-    const SKFB_MODEL_UID = '1d6d97a5144e4a459fe46d06af57936c';
+    // ── Multi-Model Photorealistic 3D Architecture Controller ──
+    const SKFB_MODELS = {
+      bathroom: {
+        uid: '1d6d97a5144e4a459fe46d06af57936c',
+        title: 'Luxury Master Bathroom Suite (3D)',
+        subtitle: '• Master Bath & Spa',
+        cameras: [
+          { id: 'floor', label: '🧱 Floor View', eye: [-3.51, 23.0, 3.2], target: [-1.95, 6.0, -1.2] },
+          { id: 'wall', label: '🚿 Shower & Walls', eye: [-3.51, 32.27, 6.83], target: [-1.95, 5.31, 1.11] },
+          { id: 'vanity', label: '🪞 Vanity Counter', eye: [2.8, 20.0, 4.2], target: [0.2, 4.0, 1.8] },
+          { id: 'panorama', label: '🔄 Panorama', eye: [-3.51, 32.27, 6.83], target: [-1.95, 5.31, 1.11] }
+        ],
+        defaultCam: 'floor',
+        hint: '<span class="text-[#E7C887] font-semibold">💡 Bathroom Material Studio:</span> Select <b>Bathroom Floor</b>, <b>Wall Tiles</b>, or <b>Vanity Countertop</b>, then pick any stone or tile format below to customize in real-time 3D.'
+      },
+      kitchen: {
+        uid: '2cc658a96e304a6d9db1813233ed90d1',
+        title: 'Chef Kitchen Suite (3D WebGL)',
+        subtitle: '• Modern Island & Countertop',
+        cameras: [
+          { id: 'counter', label: '🔪 Island Countertop', eye: [300, -30, 50], target: [-9, 16, -1] },
+          { id: 'hob', label: '🍳 Hob & Cooking', eye: [320, 60, 50], target: [0, 40, -10] },
+          { id: 'panorama', label: '🍽️ Full Kitchen', eye: [598, -39, 115], target: [-9, 16, -1] }
+        ],
+        defaultCam: 'counter',
+        hint: '<span class="text-[#E7C887] font-semibold">💡 Kitchen Material Studio:</span> Select <b>Kitchen Island & Countertop</b> or <b>Backsplash Tiles</b>, then pick any granite, marble, or tile format below.'
+      }
+    };
+
     const skfbStage = $('#skfb-stage');
     const skfbIframe = $('#skfb-bathroom-iframe');
+    const v1Stage = $('#v1-stage');
+    const v1Iframe = $('#v1-iframe');
+    const skfbRoomTitle = $('#skfbRoomTitle');
+    const skfbRoomSubtitle = $('#skfbRoomSubtitle');
+    const skfbCamBar = $('#skfbCamBar');
+    const skfbBottomHint = $('#skfbBottomHint');
+
+    let currentSkfbRoom = null;
     let skfbClient = null;
     let skfbApi = null;
     let skfbReady = false;
     let skfbLoading = false;
-    const skfbMaterials = {}; // { floor, wall, shelf }
+    let skfbMaterials = {};
     const skfbTextureCache = new Map();
     let pendingSkfbUpdates = {};
 
-    function setBathroomCamera(viewKey) {
+    function setRoomCamera(viewKey) {
       $$('.skfb-cam-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.cam === viewKey));
       if (!skfbApi || !skfbReady) return;
-      if (viewKey === 'floor') {
-        // Look downward at the bathroom floor tiles
-        skfbApi.setCameraLookAt([-3.51, 23.0, 3.2], [-1.95, 6.0, -1.2], 1.2);
-      } else if (viewKey === 'wall') {
-        // Look towards shower and accent wall
-        skfbApi.setCameraLookAt([-3.51, 32.27, 6.83], [-1.95, 5.31, 1.11], 1.2);
-      } else if (viewKey === 'vanity') {
-        // Look towards vanity countertop and mirror
-        skfbApi.setCameraLookAt([2.8, 20.0, 4.2], [0.2, 4.0, 1.8], 1.2);
-      } else {
-        // Full wide room panorama
-        skfbApi.setCameraLookAt([-3.51, 32.27, 6.83], [-1.95, 5.31, 1.11], 1.2);
+      const conf = SKFB_MODELS[activeRoom];
+      if (!conf) return;
+      const cam = conf.cameras.find(c => c.id === viewKey) || conf.cameras[0];
+      if (cam) {
+        skfbApi.setCameraLookAt(cam.eye, cam.target, 1.2);
       }
     }
 
-    // Connect camera preset buttons
-    $$('.skfb-cam-btn').forEach(btn => {
-      btn.onclick = () => setBathroomCamera(btn.dataset.cam);
-    });
+    function updateCameraButtons(roomKey) {
+      const conf = SKFB_MODELS[roomKey];
+      if (!conf || !skfbCamBar) return;
+      skfbCamBar.innerHTML = '';
+      conf.cameras.forEach((cam) => {
+        const btn = document.createElement('button');
+        btn.className = 'skfb-cam-btn' + (cam.id === conf.defaultCam ? ' active' : '');
+        btn.dataset.cam = cam.id;
+        btn.textContent = cam.label;
+        btn.onclick = () => setRoomCamera(cam.id);
+        skfbCamBar.appendChild(btn);
+      });
+    }
 
     // Connect dock collapse / expand button
     const btnToggleDock = $('#btnToggleDock');
@@ -2900,9 +2942,14 @@
       }
 
       let targetMat = null;
-      if (k === 'bath_floor') targetMat = skfbMaterials.floor;
-      else if (k === 'bath_vanity') targetMat = skfbMaterials.shelf;
-      else targetMat = skfbMaterials.wall;
+      if (activeRoom === 'bathroom') {
+        if (k === 'bath_floor') targetMat = skfbMaterials.floor;
+        else if (k === 'bath_vanity') targetMat = skfbMaterials.shelf;
+        else targetMat = skfbMaterials.wall;
+      } else if (activeRoom === 'kitchen') {
+        if (k === 'kitchen_countertop') targetMat = skfbMaterials.counters;
+        else targetMat = skfbMaterials.structure;
+      }
 
       if (!targetMat) return;
 
@@ -2922,7 +2969,7 @@
           return;
         }
 
-        const cacheKey = s.src.id + '|' + (s.set.struct || 'slab') + '|' + (s.set.grout || 3) + '|' + (s.set.gloss || 0.75);
+        const cacheKey = activeRoom + '|' + s.src.id + '|' + (s.set.struct || 'slab') + '|' + (s.set.grout || 3) + '|' + (s.set.gloss || 0.75);
         
         const updateChannelsAndSave = (texUid) => {
           targetMat.channels.AlbedoPBR.enable = true;
@@ -2967,19 +3014,35 @@
       }
     }
 
-    function initSketchfab() {
-      if (skfbApi || skfbLoading) return;
+    function initSketchfabRoom(roomKey) {
+      const conf = SKFB_MODELS[roomKey];
+      if (!conf) return;
+
+      if (skfbRoomTitle) skfbRoomTitle.textContent = conf.title;
+      if (skfbRoomSubtitle) skfbRoomSubtitle.textContent = conf.subtitle;
+      if (skfbBottomHint) skfbBottomHint.innerHTML = conf.hint;
+      updateCameraButtons(roomKey);
+
+      if (currentSkfbRoom === roomKey && skfbReady) {
+        setRoomCamera(conf.defaultCam);
+        return;
+      }
+
+      currentSkfbRoom = roomKey;
+      skfbReady = false;
+      skfbApi = null;
+      skfbMaterials = {};
       skfbLoading = true;
-      status.textContent = 'Loading Luxury Master Bathroom 3D Suite...';
+      status.textContent = 'Loading ' + conf.title + '...';
 
       if (!window.Sketchfab) {
         console.error('3D library unavailable');
-        status.textContent = '3D bathroom viewer initializing...';
+        status.textContent = '3D viewer initializing...';
         return;
       }
 
       skfbClient = new window.Sketchfab(skfbIframe);
-      skfbClient.init(SKFB_MODEL_UID, {
+      skfbClient.init(conf.uid, {
         autostart: 1,
         preload: 1,
         ui_infos: 0,
@@ -2993,7 +3056,7 @@
             window.skfbApi = api;
             window.skfbMaterials = skfbMaterials;
             skfbLoading = false;
-            status.textContent = 'Luxury Bathroom 3D Suite Active · Select any surface or stone below to customize';
+            status.textContent = conf.title + ' Active · Select surface or stone below to customize';
             api.getMaterialList(function(err, materials) {
               if (err) {
                 console.error('getMaterialList error:', err);
@@ -3001,21 +3064,17 @@
               }
               materials.forEach(m => {
                 const nl = m.name.toLowerCase();
-                if (nl.includes('floor')) skfbMaterials.floor = m;
-                else if (nl.includes('wall')) skfbMaterials.wall = m;
-                else if (nl.includes('shelf')) skfbMaterials.shelf = m;
+                if (roomKey === 'bathroom') {
+                  if (nl.includes('floor')) skfbMaterials.floor = m;
+                  else if (nl.includes('wall')) skfbMaterials.wall = m;
+                  else if (nl.includes('shelf')) skfbMaterials.shelf = m;
+                } else if (roomKey === 'kitchen') {
+                  if (nl === 'counters' || nl.includes('counter')) skfbMaterials.counters = m;
+                  else if (nl === 'structure' || nl.includes('struct') || nl.includes('wall')) skfbMaterials.structure = m;
+                }
               });
 
-              fetch('/api/diag-log', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  status: 'viewerready',
-                  materials: materials.map(m => m.name)
-                })
-              }).catch(() => {});
-
-              // Apply queued updates or initial materials
+              // Apply queued updates or initial room materials
               const pendingKeys = Object.keys(pendingSkfbUpdates);
               if (pendingKeys.length > 0) {
                 pendingKeys.forEach(pk => {
@@ -3024,16 +3083,16 @@
                 });
                 pendingSkfbUpdates = {};
               } else {
-                if (roomDefs.bathroom.surfaces.bath_floor) {
-                  applyMaterialToSketchfab('bath_floor', roomDefs.bathroom.surfaces.bath_floor, null, false);
-                }
-                if (roomDefs.bathroom.surfaces.bath_shower_wall) {
-                  applyMaterialToSketchfab('bath_shower_wall', roomDefs.bathroom.surfaces.bath_shower_wall, null, false);
-                }
-                if (roomDefs.bathroom.surfaces.bath_vanity) {
-                  applyMaterialToSketchfab('bath_vanity', roomDefs.bathroom.surfaces.bath_vanity, null, false);
+                if (roomKey === 'bathroom') {
+                  if (roomDefs.bathroom.surfaces.bath_floor) applyMaterialToSketchfab('bath_floor', roomDefs.bathroom.surfaces.bath_floor, null, false);
+                  if (roomDefs.bathroom.surfaces.bath_shower_wall) applyMaterialToSketchfab('bath_shower_wall', roomDefs.bathroom.surfaces.bath_shower_wall, null, false);
+                  if (roomDefs.bathroom.surfaces.bath_vanity) applyMaterialToSketchfab('bath_vanity', roomDefs.bathroom.surfaces.bath_vanity, null, false);
+                } else if (roomKey === 'kitchen') {
+                  if (roomDefs.kitchen.surfaces.kitchen_countertop) applyMaterialToSketchfab('kitchen_countertop', roomDefs.kitchen.surfaces.kitchen_countertop, null, false);
+                  if (roomDefs.kitchen.surfaces.kitchen_backsplash) applyMaterialToSketchfab('kitchen_backsplash', roomDefs.kitchen.surfaces.kitchen_backsplash, null, false);
                 }
               }
+              setRoomCamera(conf.defaultCam);
             });
           });
           api.start();
@@ -3055,26 +3114,73 @@
     const stageHint = $('#stageHint') || $('.stage-hint');
 
     function switchRoom(roomKey) {
+      // If client requests 4K Studio rooms (parking, pooja, foyer, utility, bar), smoothly redirect to visualizer.html
+      const studio4kRooms = {
+        parking: 'Outdoor',
+        pooja: 'Pooja',
+        foyer: 'Reception',
+        utility: 'Utility',
+        bar: 'Dining'
+      };
+      if (studio4kRooms[roomKey]) {
+        showToast('Switching to 4K Architectural Studio (' + roomKey.toUpperCase() + ')...');
+        setTimeout(() => {
+          window.location.href = 'visualizer.html?room=' + encodeURIComponent(studio4kRooms[roomKey]);
+        }, 300);
+        return;
+      }
+
       if (!roomDefs[roomKey]) return;
       activeRoom = roomKey;
 
-      // 1. Toggle visibility of Three.js 3D groups and Viewports
-      if (roomKey === 'bathroom') {
+      // 1. Toggle visibility of Viewports
+      if (roomKey === 'living') {
         canvas.style.display = 'none';
+        if (skfbStage) {
+          skfbStage.classList.remove('active');
+          skfbStage.style.display = 'none';
+        }
+        if (v1Stage) {
+          v1Stage.style.display = 'block';
+          v1Stage.classList.add('active');
+          if (v1Iframe && !v1Iframe.src.includes('autostart=1')) {
+            v1Iframe.src = '../V1/index.html?autostart=1';
+          }
+        }
+        status.textContent = 'Living Room 3D Showroom Active (Visualizer 3.0)';
+      } else if (roomKey === 'pool') {
+        canvas.style.display = 'none';
+        if (skfbStage) {
+          skfbStage.classList.remove('active');
+          skfbStage.style.display = 'none';
+        }
+        if (v1Stage) {
+          v1Stage.style.display = 'block';
+          v1Stage.classList.add('active');
+          if (v1Iframe && !v1Iframe.src.includes('exterior2')) {
+            v1Iframe.src = '../V1/index.html?scene=exterior2&autostart=1';
+          }
+        }
+        status.textContent = 'Outdoor Pool Deck & Terrace Active (Visualizer 3.0)';
+      } else if (roomKey === 'bathroom' || roomKey === 'kitchen') {
+        canvas.style.display = 'none';
+        if (v1Stage) {
+          v1Stage.classList.remove('active');
+          v1Stage.style.display = 'none';
+        }
         if (skfbStage) {
           skfbStage.style.display = 'block';
           skfbStage.classList.add('active');
         }
-        initSketchfab();
-        if (skfbReady) {
-          if (cur === 'bath_floor') setBathroomCamera('floor');
-          else if (cur === 'bath_vanity') setBathroomCamera('vanity');
-          else setBathroomCamera('wall');
-        }
+        initSketchfabRoom(roomKey);
       } else {
         if (skfbStage) {
           skfbStage.classList.remove('active');
           skfbStage.style.display = 'none';
+        }
+        if (v1Stage) {
+          v1Stage.classList.remove('active');
+          v1Stage.style.display = 'none';
         }
         canvas.style.display = 'block';
       }
@@ -3082,24 +3188,21 @@
       roomDefs.living.group.visible = (roomKey === 'living');
       roomDefs.bathroom.group.visible = (roomKey === 'bathroom');
       if (roomDefs.kitchen) roomDefs.kitchen.group.visible = (roomKey === 'kitchen');
-      if (roomDefs.parking) roomDefs.parking.group.visible = (roomKey === 'parking');
-      if (roomDefs.utility) roomDefs.utility.group.visible = (roomKey === 'utility');
-      if (roomDefs.pooja) roomDefs.pooja.group.visible = (roomKey === 'pooja');
-      if (roomDefs.foyer) roomDefs.foyer.group.visible = (roomKey === 'foyer');
       if (roomDefs.pool) roomDefs.pool.group.visible = (roomKey === 'pool');
-      if (roomDefs.bar) roomDefs.bar.group.visible = (roomKey === 'bar');
 
       // 2. Set active surfaces and default surface
       surf = roomDefs[roomKey].surfaces;
       cur = roomDefs[roomKey].defaultKey;
 
-      // 3. Reset camera to room's custom view
+      // 3. Reset camera for Three.js fallback
       const cam = roomDefs[roomKey].camera;
-      azimuth = cam.azimuth;
-      elevation = cam.elevation;
-      distance = cam.distance;
-      target.copy(cam.target);
-      updateCamera();
+      if (cam) {
+        azimuth = cam.azimuth;
+        elevation = cam.elevation;
+        distance = cam.distance;
+        target.copy(cam.target);
+        updateCamera();
+      }
 
       // 4. Update top toolbar room buttons and scroll active tab into view
       document.querySelectorAll('.room-btn').forEach(btn => {
@@ -3120,50 +3223,19 @@
       } else if (roomKey === 'kitchen') {
         if (stageHint) {
           stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Chef Kitchen 3D Studio Controls:</span><br/>' +
-            '• Customize <b>Kitchen Floor</b>, <b>Waterfall Island &amp; Countertop Table</b>, or <b>Backsplash</b><br/>' +
+            '• Customize <b>Waterfall Island &amp; Countertop Table</b>, or <b>Backsplash Structure</b><br/>' +
             '• Select any granite, marble, or vitrified tile &bull; Real-time 3D PBR WebGL';
         }
-      } else if (roomKey === 'parking') {
+      } else if (roomKey === 'living') {
         if (stageHint) {
-          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Outdoor Parking 3D Studio Controls:</span><br/>' +
-            '• Customize <b>Driveway Paving Floor</b>, <b>Compound Boundary Wall</b>, or <b>Kerb Borders &amp; Steps</b><br/>' +
-            '• Select heavy-duty granites (Tan Brown, River Black, Titanium Black) &bull; Cobblestone &amp; Paver Grid';
-        }
-      } else if (roomKey === 'utility') {
-        if (stageHint) {
-          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Utility &amp; Scullery 3D Controls:</span><br/>' +
-            '• Customize <b>Scullery Countertop &amp; Sink</b>, <b>Anti-Skid Floor</b>, or <b>Splashback Dado</b><br/>' +
-            '• Heavy-duty granites (Tan Brown, River Black, Titanium Black) &bull; Appliance and laundry dado';
-        }
-      } else if (roomKey === 'pooja') {
-        if (stageHint) {
-          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Pooja Sanctuary 3D Controls:</span><br/>' +
-            '• Customize <b>Backlit Altar Sanctum Niche</b>, <b>Mandir Inlay Floor</b>, or <b>Deity Pedestal</b><br/>' +
-            '• Sacred stones (Emerald Onyx, Banswara Marble, Statuario) &bull; Brass inlay &amp; warm diyas';
-        }
-      } else if (roomKey === 'foyer') {
-        if (stageHint) {
-          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Grand Entrance Foyer 3D Controls:</span><br/>' +
-            '• Customize <b>Grand Medallion Floor</b>, <b>Bookmatched Accent Wall</b>, or <b>Console Table Slab</b><br/>' +
-            '• Statement luxury bookmatches (Alaska White, Black Forest, Titanium Black)';
+          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Living Room Showroom Controls:</span><br/>' +
+            '• Click &amp; drag to look around 360° &bull; Walk across expansive stone floors<br/>' +
+            '• Real-time PBR with calibrated anti-glare finish and authentic marble veining';
         }
       } else if (roomKey === 'pool') {
         if (stageHint) {
-          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Pool Deck &amp; Lounge 3D Controls:</span><br/>' +
-            '• Customize <b>Wet Deck Anti-Slip Paving</b>, <b>Pool Edge Coping Stones</b>, or <b>Water Feature Wall</b><br/>' +
-            '• Flamed textured granites &bull; Crystal water and sunken conversational lounge';
-        }
-      } else if (roomKey === 'bar') {
-        if (stageHint) {
-          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Executive Bar &amp; Lounge 3D Controls:</span><br/>' +
-            '• Customize <b>Waterfall Bar Island &amp; Top</b>, <b>Back-Bar Showcase Wall</b>, or <b>Lounge Floor</b><br/>' +
-            '• Exotic granites (Blue in the Night, Black Pearl, River Black) &bull; Under-counter ambient illumination';
-        }
-      } else {
-        if (stageHint) {
-          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Living Room Controls:</span><br/>' +
-            '• Drag to rotate camera &bull; Scroll / Pinch to zoom<br/>' +
-            '• Click any surface to select &bull; Drag a slab onto it';
+          stageHint.innerHTML = '<span class="font-bold text-[#E7C887]">Pool Deck &amp; Terrace Controls:</span><br/>' +
+            '• Luxury swimming pool, sunken conversational lounge &bull; Flamed granite pavers';
         }
       }
 
@@ -3179,6 +3251,18 @@
 
     // ── Initialize Default Stones on Rooms ──
     (function initShowroomDefaults() {
+      // 0. Curated Initial Materials for Chef Kitchen Suite (River Black Island & White Calacatta Backsplash)
+      const kitCounterStone = showroomSlabs.find(s => s.name === 'River Black') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+      const kitBacksplashStone = showroomSlabs.find(s => s.name === 'River White') || showroomSlabs.find(s => s.name === 'Calacatta White') || presets[0];
+      if (kitCounterStone && roomDefs.kitchen && roomDefs.kitchen.surfaces.kitchen_countertop) {
+        roomDefs.kitchen.surfaces.kitchen_countertop.src = kitCounterStone;
+        roomDefs.kitchen.surfaces.kitchen_countertop.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 2 };
+      }
+      if (kitBacksplashStone && roomDefs.kitchen && roomDefs.kitchen.surfaces.kitchen_backsplash) {
+        roomDefs.kitchen.surfaces.kitchen_backsplash.src = kitBacksplashStone;
+        roomDefs.kitchen.surfaces.kitchen_backsplash.set = { struct: 'tile60', mode: 'repeat', size: 0.6, rot: 0, gloss: 0.85, grout: 2 };
+      }
+
       // 1. Curated Initial Materials for Luxury Bathroom Suite (River White Floor, Emerald Onyx Wall, Black Pearl Vanity)
       const bFloorStone = showroomSlabs.find(s => s.name === 'River White') || presets[0];
       const bShowerWallStone = showroomSlabs.find(s => s.name === 'Emerald Onyx Marble') || presets.find(p => p.name === 'Calacatta White') || presets[0];
@@ -3365,7 +3449,7 @@
     (function loop() {
       requestAnimationFrame(loop);
       if (document.hidden) return;
-      if (activeRoom === 'bathroom') return; // Pause hidden Three.js viewport when in 3D bathroom viewer
+      if (activeRoom === 'bathroom' || activeRoom === 'kitchen' || activeRoom === 'living' || activeRoom === 'pool') return; // Pause hidden Three.js canvas when photorealistic 3D suites are active
       renderer.render(scene, camera);
     })();
   })();
