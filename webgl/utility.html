@@ -37,7 +37,7 @@
   </div>
 
   <div id="camPills" class="cam-pills"></div>
-  <div id="bottomBar" class="bottom-bar">Deep prep counters, anti-skid tile floor & appliance station. · Click and drag to orbit 360°</div>
+  <div id="bottomBar" class="bottom-bar">Heavy-duty scullery granite worktop, double wash sink & luxury laundry suite · Click and drag to orbit 360°</div>
 
   <div id="canvas-container">
     <canvas id="view"></canvas>
@@ -57,15 +57,17 @@
 
       const scene = new THREE.Scene();
       scene.background = new THREE.Color('#0A0A0C');
-      scene.fog = new THREE.Fog('#0A0A0C', 18, 40);
+      scene.fog = new THREE.Fog('#0A0A0C', 18, 42);
 
       const camera = new THREE.PerspectiveCamera(43, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-      const target = new THREE.Vector3(0, 1.2, 0);
-      let azimuth = Math.PI * 0.25, elevation = 0.38, distance = 12.0;
+      const target = new THREE.Vector3(-0.6, 1.25, -2.1);
+      const targetLook = target.clone();
+      let azimuth = 0.06, elevation = 0.32, distance = 7.2;
+      let targetAzimuth = azimuth, targetElevation = elevation, targetDistance = distance;
 
       function updateCamera() {
-        elevation = Math.max(0.12, Math.min(1.25, elevation));
-        distance = Math.max(3.5, Math.min(24.0, distance));
+        elevation = Math.max(0.08, Math.min(1.35, elevation));
+        distance = Math.max(2.5, Math.min(22.0, distance));
         camera.position.set(
           target.x + distance * Math.sin(azimuth) * Math.cos(elevation),
           target.y + distance * Math.sin(elevation),
@@ -84,14 +86,12 @@
         const dx = e.clientX - prevX;
         const dy = e.clientY - prevY;
         prevX = e.clientX; prevY = e.clientY;
-        azimuth -= dx * 0.006;
-        elevation += dy * 0.006;
-        updateCamera();
+        targetAzimuth -= dx * 0.006;
+        targetElevation += dy * 0.006;
       });
       canvas.addEventListener('wheel', e => {
         e.preventDefault();
-        distance += e.deltaY * 0.01;
-        updateCamera();
+        targetDistance += e.deltaY * 0.008;
       }, { passive: false });
 
       // Touch controls
@@ -104,9 +104,8 @@
           const dx = e.touches[0].clientX - touchX;
           const dy = e.touches[0].clientY - touchY;
           touchX = e.touches[0].clientX; touchY = e.touches[0].clientY;
-          azimuth -= dx * 0.007;
-          elevation += dy * 0.007;
-          updateCamera();
+          targetAzimuth -= dx * 0.007;
+          targetElevation += dy * 0.007;
         }
       });
 
@@ -155,18 +154,17 @@
           btn.onclick = () => {
             document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            if (c.azimuth !== undefined) azimuth = c.azimuth;
-            if (c.elevation !== undefined) elevation = c.elevation;
-            if (c.distance !== undefined) distance = c.distance;
-            if (c.target) target.set(c.target[0], c.target[1], c.target[2]);
-            updateCamera();
+            if (c.azimuth !== undefined) targetAzimuth = c.azimuth;
+            if (c.elevation !== undefined) targetElevation = c.elevation;
+            if (c.distance !== undefined) targetDistance = c.distance;
+            if (c.target) targetLook.set(c.target[0], c.target[1], c.target[2]);
           };
           camPills.appendChild(btn);
           if (idx === 0) {
-            if (c.azimuth !== undefined) azimuth = c.azimuth;
-            if (c.elevation !== undefined) elevation = c.elevation;
-            if (c.distance !== undefined) distance = c.distance;
-            if (c.target) target.set(c.target[0], c.target[1], c.target[2]);
+            if (c.azimuth !== undefined) { azimuth = targetAzimuth = c.azimuth; }
+            if (c.elevation !== undefined) { elevation = targetElevation = c.elevation; }
+            if (c.distance !== undefined) { distance = targetDistance = c.distance; }
+            if (c.target) { target.set(c.target[0], c.target[1], c.target[2]); targetLook.copy(target); }
             updateCamera();
           }
         });
@@ -174,6 +172,12 @@
 
       function loop() {
         requestAnimationFrame(loop);
+        (window.WebGlAnimators || []).forEach(fn => { try { fn(); } catch(e){} });
+        azimuth += (targetAzimuth - azimuth) * 0.08;
+        elevation += (targetElevation - elevation) * 0.08;
+        distance += (targetDistance - distance) * 0.08;
+        target.lerp(targetLook, 0.08);
+        updateCamera();
         renderer.render(scene, camera);
       }
       loop();
