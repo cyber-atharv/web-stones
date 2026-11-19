@@ -2118,98 +2118,10 @@
         // ── OUTDOOR PARKING & DRIVEWAY PAVING SUITE (WebGL Architectural 3D) ──
         // ═════════════════════════════════════════════════════════════════════════
 
-        // Parking & Driveway Dedicated Architectural Outdoor PBR Sunlight
-        const parkingSun = new THREE.DirectionalLight(0xfffaea, 3.4);
-        parkingSun.position.set(-8, 14, 10);
-        parkingSun.castShadow = true;
-        parkingSun.shadow.mapSize.set(2048, 2048);
-        parkingSun.shadow.bias = -0.0005;
-        parkingSun.shadow.radius = 2.0;
-        parkingGroup.add(parkingSun);
-
-        const parkingSkyFill = new THREE.DirectionalLight(0xbdd7ee, 1.4);
-        parkingSkyFill.position.set(8, 10, -6);
-        parkingGroup.add(parkingSkyFill);
-
-        const parkingBollard1 = new THREE.PointLight(0xffdfa0, 1.3, 7.5);
-        parkingBollard1.position.set(-5.5, 0.85, 2.0);
-        parkingGroup.add(parkingBollard1);
-
-        const parkingBollard2 = new THREE.PointLight(0xffdfa0, 1.3, 7.5);
-        parkingBollard2.position.set(-5.5, 0.85, -3.2);
-        parkingGroup.add(parkingBollard2);
-
-        const parkingPorchGlow = new THREE.PointLight(0xffecd0, 1.4, 7.0);
-        parkingPorchGlow.position.set(6.2, 3.0, -1.2);
-        parkingGroup.add(parkingPorchGlow);
-
-        // 1. Heavy-Duty Driveway & Parking Floor (Customizable in 3D: Granite Cobblestone, Pavers, Slabs)
-        const parkingFloor = new THREE.Mesh(new THREE.PlaneGeometry(16, 14), M('#32302e', 0.55));
-        parkingFloor.rotation.x = -Math.PI / 2;
-        parkingFloor.position.set(0, 0.025, 0);
-        parkingFloor.receiveShadow = true;
-        parkingGroup.add(parkingFloor);
-
-        // 2. Perimeter Compound Boundary Walls (Customizable in 3D: Granite Cladding, Wall Tiles, Stone Facings)
-        const parkingBackWall = sbox(16, 3.2, 0.3, 0, 1.6, -6.85, wall, parkingGroup);
-        const parkingLeftWall = sbox(0.3, 3.2, 14, -7.85, 1.6, 0, wall, parkingGroup);
-        // Compound wall stone coping caps
-        box(16.4, 0.12, 0.45, 0, 3.26, -6.85, darkMat, parkingGroup);
-        box(0.45, 0.12, 14.4, -7.85, 3.26, 0, darkMat, parkingGroup);
-
-        // 3. Flamed Granite Curb Stones & Planter Border (Customizable in 3D: Kerb Stones, Steps)
-        const parkingKerbLeft = sbox(0.35, 0.28, 13.6, -5.8, 0.14, 0, wall, parkingGroup);
-        const parkingKerbBack = sbox(12.4, 0.28, 0.35, 0.4, 0.14, -4.8, wall, parkingGroup);
-
-        // Raised Garden Planter Bed along boundary wall
-        box(1.7, 0.22, 13.6, -6.85, 0.11, 0, M('#231c15', 0.95), parkingGroup);
-        for (let pi = 0; pi < 7; pi++) {
-          const cypress = new THREE.Mesh(new THREE.ConeGeometry(0.42, 2.3, 8), green);
-          cypress.position.set(-6.85, 1.25, -5.0 + pi * 1.75);
-          cypress.castShadow = true;
-          parkingGroup.add(cypress);
-        }
-
-        // 4. Architectural Pergola / Carport Structure
-        // Steel vertical uprights
-        box(0.18, 3.4, 0.18, 4.8, 1.7, -4.2, darkMat, parkingGroup);
-        box(0.18, 3.4, 0.18, 4.8, 1.7, 1.8, darkMat, parkingGroup);
-        box(0.18, 3.4, 0.18, -1.8, 1.7, -4.2, darkMat, parkingGroup);
-        box(0.18, 3.4, 0.18, -1.8, 1.7, 1.8, darkMat, parkingGroup);
-        // Roof steel support girders
-        box(7.0, 0.18, 0.18, 1.5, 3.4, -4.2, darkMat, parkingGroup);
-        box(7.0, 0.18, 0.18, 1.5, 3.4, 1.8, darkMat, parkingGroup);
-        box(0.18, 0.18, 6.4, -1.8, 3.4, -1.2, darkMat, parkingGroup);
-        box(0.18, 0.18, 6.4, 4.8, 3.4, -1.2, darkMat, parkingGroup);
-        // Architectural wood louvers
-        for (let li = 0; li < 14; li++) {
-          box(6.8, 0.08, 0.12, 1.5, 3.52, -4.0 + li * 0.42, woodCabinet, parkingGroup);
-        }
-
-        // 5. Villa Entrance Porch, Steps & Facade Wall (Customizable in 3D)
-        const parkingPorch = sbox(3.2, 0.35, 6.0, 6.25, 0.175, -1.2, wall, parkingGroup);
-        const parkingStep = sbox(0.6, 0.18, 5.6, 4.35, 0.09, -1.2, wall, parkingGroup);
-        const parkingFacade = sbox(0.25, 4.2, 8.0, 7.85, 2.1, -1.2, wall, parkingGroup);
-        // Villa grand entrance door
-        box(0.08, 2.8, 1.6, 7.68, 1.75, -1.2, woodCabinet, parkingGroup);
-        // Entrance porch canopy
-        box(3.4, 0.15, 6.2, 6.25, 3.4, -1.2, darkMat, parkingGroup);
-
-        // 6. Luxury Executive Vehicle Silhouette & Wheel Hubs
-        box(2.05, 0.72, 4.35, 1.5, 0.52, -1.2, M('#15171a', 0.18), parkingGroup);
-        box(1.72, 0.52, 2.25, 1.5, 1.14, -1.35, M('#0a0c0e', 0.08), parkingGroup);
-        const whF1 = cyl(0.35, 0.35, 0.22, 0.38, 0.35, -2.55, darkMat, parkingGroup); whF1.rotation.z = Math.PI / 2;
-        const whF2 = cyl(0.35, 0.35, 0.22, 2.62, 0.35, -2.55, darkMat, parkingGroup); whF2.rotation.z = Math.PI / 2;
-        const whR1 = cyl(0.35, 0.35, 0.22, 0.38, 0.35, 0.15, darkMat, parkingGroup); whR1.rotation.z = Math.PI / 2;
-        const whR2 = cyl(0.35, 0.35, 0.22, 2.62, 0.35, 0.15, darkMat, parkingGroup); whR2.rotation.z = Math.PI / 2;
-        box(0.32, 0.1, 0.04, 0.85, 0.52, 0.98, warmLedMat, parkingGroup);
-        box(0.32, 0.1, 0.04, 2.15, 0.52, 0.98, warmLedMat, parkingGroup);
-
-        // 7. Modern Driveway Bollard Path Lights
-        for (let bi = 0; bi < 4; bi++) {
-          cyl(0.055, 0.055, 0.72, -5.5, 0.36, -4.0 + bi * 2.75, darkMat, parkingGroup);
-          cyl(0.058, 0.058, 0.08, -5.5, 0.68, -4.0 + bi * 2.75, warmLedMat, parkingGroup);
-        }
+        // ═════════════════════════════════════════════════════════════════════════
+        // ── 3. LUXURY DRIVEWAY & PARKING SUITE (WebGL Architectural 3D) ────────
+        // ═════════════════════════════════════════════════════════════════════════
+        // Initialized via window.WebGlRooms.parking below after camera configurations
 
         // ═════════════════════════════════════════════════════════════════════════
         // ── 1. UTILITY & SCULLERY SERVICE SUITE (WebGL Architectural 3D) ──
@@ -2599,14 +2511,7 @@
 
         // ── Swimming Pool Deck Surfaces (Loaded dynamically via window.WebGlRooms.pool) ──
 
-        // ── Outdoor Parking & Driveway Surfaces ──
-        reg('parking', 'parking_floor', 'Heavy-Duty Driveway Floor', parkingFloor, null, 16, 14);
-        reg('parking', 'parking_wall', 'Compound Boundary Wall', parkingBackWall, 4, 16, 3.2);
-        reg('parking', 'parking_wall', 'Compound Boundary Wall', parkingLeftWall, 1, 0.3, 14);
-        reg('parking', 'parking_kerb', 'Flamed Granite Kerb', parkingKerbLeft, 2, 0.35, 13.6);
-        reg('parking', 'parking_kerb', 'Flamed Granite Kerb', parkingKerbBack, 2, 12.4, 0.35);
-        reg('parking', 'parking_porch', 'Entry Porch & Steps', parkingPorch, 2, 3.2, 6.0);
-        reg('parking', 'parking_porch', 'Entry Porch & Steps', parkingStep, 2, 0.6, 5.6);
+        // ── Outdoor Parking & Driveway Surfaces (Loaded dynamically via window.WebGlRooms.parking) ──
 
         // ── Grand Entrance Foyer Surfaces ──
         reg('foyer', 'foyer_floor', 'Grand Entry Floor', foyerFloor, null, 12, 10);
@@ -3377,6 +3282,20 @@
           window.WebGlRooms.pool({
             THREE,
             group: poolGroup,
+            reg,
+            roomDefs,
+            ROOM_CAMERAS,
+            core: { M, box, cyl, sbox, plant },
+            showroomSlabs,
+            presets
+          });
+        }
+
+        // Initialize Luxury Villa Driveway & Executive Parking Suite
+        if (window.WebGlRooms && window.WebGlRooms.parking) {
+          window.WebGlRooms.parking({
+            THREE,
+            group: parkingGroup,
             reg,
             roomDefs,
             ROOM_CAMERAS,
