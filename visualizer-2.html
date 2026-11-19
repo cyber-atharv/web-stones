@@ -2058,83 +2058,8 @@
         // ═════════════════════════════════════════════════════════════════════════
         // ── 5. EXECUTIVE HOME BAR & CIGAR LOUNGE (WebGL Mood Lounge 3D) ───────
         // ═════════════════════════════════════════════════════════════════════════
-        const barSun = new THREE.DirectionalLight(0xffe0b8, 2.6);
-        barSun.position.set(-5, 9, 5);
-        barSun.castShadow = true;
-        barGroup.add(barSun);
+        // Executive Bar & Cigar Lounge meshes initialized via window.WebGlRooms.bar below
 
-        const barShelfGlow1 = new THREE.PointLight(0xffbe6b, 2.0, 5.0);
-        barShelfGlow1.position.set(0, 1.8, -4.0);
-        barGroup.add(barShelfGlow1);
-
-        const barShelfGlow2 = new THREE.PointLight(0xffbe6b, 2.0, 5.0);
-        barShelfGlow2.position.set(0, 2.6, -4.0);
-        barGroup.add(barShelfGlow2);
-
-        const barCounterGlow = new THREE.PointLight(0xffd588, 1.6, 4.5);
-        barCounterGlow.position.set(0, 0.85, 0.5);
-        barGroup.add(barCounterGlow);
-
-        // 1. High-Gloss Dark Marble Lounge Floor (Customizable in 3D)
-        const barFloor = new THREE.Mesh(new THREE.PlaneGeometry(12, 11), M('#1e1c1a', 0.25));
-        barFloor.rotation.x = -Math.PI / 2;
-        barFloor.position.set(0, 0.025, 0);
-        barFloor.receiveShadow = true;
-        barGroup.add(barFloor);
-
-        // 2. Perimeter Lounge Walls (Customizable in 3D)
-        const barBackWall = sbox(12, 4.2, 0.2, 0, 2.1, -4.4, wall, barGroup);
-        const barLeftWall = sbox(0.2, 4.2, 10, -5.9, 2.1, 0, wall, barGroup);
-        const barRightWall = sbox(0.2, 4.2, 10, 5.9, 2.1, 0, wall, barGroup);
-
-        // 3. Back-Bar Showcase Feature Cladding Wall (Customizable in 3D)
-        const barBackSlab = sbox(7.2, 3.4, 0.16, 0, 2.2, -4.3, wall, barGroup);
-
-        // Floating Brass & Glass Liquor Display Shelving
-        box(6.8, 0.05, 0.42, 0, 1.6, -4.0, goldMat, barGroup);
-        box(6.8, 0.05, 0.42, 0, 2.2, -4.0, goldMat, barGroup);
-        box(6.8, 0.05, 0.42, 0, 2.8, -4.0, goldMat, barGroup);
-
-        // Luxury Liquor Bottles & Crystal Glassware
-        cyl(0.04, 0.04, 0.28, -2.2, 1.76, -4.0, M('#9c6628', 0.1), barGroup);
-        cyl(0.05, 0.05, 0.24, -1.8, 1.74, -4.0, M('#234d31', 0.1), barGroup);
-        cyl(0.045, 0.045, 0.26, -1.4, 1.75, -4.0, M('#e2dfd2', 0.05), barGroup);
-        cyl(0.04, 0.04, 0.28, 1.4, 1.76, -4.0, M('#9c6628', 0.1), barGroup);
-        cyl(0.05, 0.05, 0.24, 1.8, 1.74, -4.0, M('#234d31', 0.1), barGroup);
-        cyl(0.045, 0.045, 0.26, 2.2, 1.75, -4.0, M('#e2dfd2', 0.05), barGroup);
-
-        // 4. Monolithic Waterfall Granite Bar Island (The Architectural Focal Point)
-        box(4.6, 0.95, 1.4, 0, 0.475, 0.0, darkMat, barGroup);
-        // Bar Top Slab (Customizable in 3D)
-        const barIslandTop = sbox(4.9, 0.1, 1.65, 0, 1.0, 0.0, wall, barGroup);
-        // Waterfall Left Drop Leg
-        const barIslandLeftDrop = sbox(0.1, 1.0, 1.65, -2.45, 0.5, 0.0, wall, barGroup);
-        // Waterfall Right Drop Leg
-        const barIslandRightDrop = sbox(0.1, 1.0, 1.65, 2.45, 0.5, 0.0, wall, barGroup);
-
-        // Integrated Prep Sink & Brass Cocktail Station
-        box(0.65, 0.25, 0.45, -1.3, 0.85, -0.2, goldMat, barGroup);
-        cyl(0.015, 0.015, 0.28, -1.3, 1.15, -0.4, goldMat, barGroup);
-
-        // Brushed Brass Footrail
-        const barFootrail = cyl(0.025, 0.025, 4.4, 0, 0.18, 0.95, goldMat, barGroup);
-        barFootrail.rotation.z = Math.PI / 2;
-
-        // 5. Designer High Barstools
-        for (let bsi = 0; bsi < 4; bsi++) {
-          const bx = -1.6 + bsi * 1.08;
-          cyl(0.018, 0.018, 0.72, bx, 0.36, 1.45, goldMat, barGroup);
-          cyl(0.2, 0.2, 0.03, bx, 0.03, 1.45, goldMat, barGroup);
-          cyl(0.2, 0.2, 0.08, bx, 0.74, 1.45, M('#2b1d16', 0.3), barGroup);
-        }
-
-        // 6. Trio of Pendant Smoke-Glass Chandelier Lights
-        for (let pi = 0; pi < 3; pi++) {
-          const px = -1.4 + pi * 1.4;
-          cyl(0.005, 0.005, 1.2, px, 2.8, 0.0, darkMat, barGroup);
-          cyl(0.14, 0.16, 0.32, px, 2.05, 0.0, glassMat, barGroup);
-          cyl(0.03, 0.03, 0.05, px, 2.05, 0.0, warmLedMat, barGroup);
-        }
 
         function texture(base, vein, seed) {
           const c = document.createElement('canvas'); c.width = c.height = 512;
@@ -2222,11 +2147,11 @@
           },
           bar: {
             id: 'bar',
-            name: 'Executive Bar & Lounge',
+            name: 'Executive Bar & Cigar Lounge',
             group: barGroup,
             defaultKey: 'bar_island_top',
-            wallKeys: ['bar_floor', 'bar_back_slab', 'bar_walls'],
-            camera: { azimuth: Math.PI * 0.28, elevation: 0.38, distance: 12.0, target: new THREE.Vector3(0, 1.1, 0) },
+            wallKeys: ['bar_back_slab', 'bar_prep_counter', 'bar_floor'],
+            camera: { azimuth: Math.PI * 0.14, elevation: 0.24, distance: 8.2, target: new THREE.Vector3(0, 1.1, 0.0) },
             surfaces: {}
           },
           utility: {
@@ -2277,17 +2202,9 @@
 
         // ── Grand Entrance Foyer Surfaces (Loaded dynamically via window.WebGlRooms.foyer) ──
         // ── Pooja Sanctuary Surfaces (Loaded dynamically via window.WebGlRooms.pooja) ──
+        // ── Executive Bar Surfaces (Loaded dynamically via window.WebGlRooms.bar) ──
 
 
-
-        // ── Executive Bar Surfaces ──
-        reg('bar', 'bar_island_top', 'Waterfall Bar Island Top', barIslandTop, 2, 4.9, 1.65);
-        reg('bar', 'bar_island_top', 'Waterfall Bar Island Top', barIslandLeftDrop, 0, 0.1, 1.65);
-        reg('bar', 'bar_island_top', 'Waterfall Bar Island Top', barIslandRightDrop, 1, 0.1, 1.65);
-        reg('bar', 'bar_floor', 'Lounge Marble Floor', barFloor, null, 12, 11);
-        reg('bar', 'bar_back_slab', 'Back-Bar Feature Cladding', barBackSlab, 4, 7.2, 3.4);
-        reg('bar', 'bar_walls', 'Acoustic Lounge Walls', barLeftWall, 1, 10, 4.2);
-        reg('bar', 'bar_walls', 'Acoustic Lounge Walls', barRightWall, 0, 10, 4.2);
 
         // ── Utility Suite Surfaces ──
         reg('utility', 'utility_floor', 'Scullery Service Floor', utilityFloor, null, 10, 8);
@@ -3092,6 +3009,20 @@
           window.WebGlRooms.pooja({
             THREE,
             group: poojaGroup,
+            reg,
+            roomDefs,
+            ROOM_CAMERAS,
+            core: { M, box, cyl, sbox, plant, createWoodTexture: window.WebGlCore?.createWoodTexture, createPlasterTexture: window.WebGlCore?.createPlasterTexture },
+            showroomSlabs,
+            presets
+          });
+        }
+
+        // Initialize Executive Bar & Cigar Lounge Suite
+        if (window.WebGlRooms && window.WebGlRooms.bar) {
+          window.WebGlRooms.bar({
+            THREE,
+            group: barGroup,
             reg,
             roomDefs,
             ROOM_CAMERAS,
