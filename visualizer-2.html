@@ -2375,63 +2375,7 @@
         // ═════════════════════════════════════════════════════════════════════════
         // ── 4. SWIMMING POOL DECK & SUNKEN LOUNGE (WebGL Resort 3D) ───────────
         // ═════════════════════════════════════════════════════════════════════════
-        const poolSun = new THREE.DirectionalLight(0xfffaea, 3.5);
-        poolSun.position.set(-7, 13, 8);
-        poolSun.castShadow = true;
-        poolSun.shadow.mapSize.set(2048, 2048);
-        poolSun.shadow.bias = -0.0005;
-        poolGroup.add(poolSun);
-
-        const poolSky = new THREE.DirectionalLight(0xbde3ff, 1.5);
-        poolSky.position.set(6, 8, -5);
-        poolGroup.add(poolSky);
-
-        const poolAquaLight = new THREE.PointLight(0x00e5ff, 2.6, 9.0);
-        poolAquaLight.position.set(-1.8, -0.3, 0);
-        poolGroup.add(poolAquaLight);
-
-        // 1. Crystal Aqua Pool Water Plane
-        const poolWaterMat = new THREE.MeshStandardMaterial({
-          color: 0x0fa5c4,
-          map: waterTex,
-          roughness: 0.06,
-          metalness: 0.22,
-          transparent: true,
-          opacity: 0.82
-        });
-        const poolWater = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 10.6), poolWaterMat);
-        poolWater.rotation.x = -Math.PI / 2;
-        poolWater.position.set(-1.8, 0.08, 0);
-        poolGroup.add(poolWater);
-
-        // 2. Large Format Anti-Slip Wet Deck Paving (Customizable in 3D)
-        const poolDeck = new THREE.Mesh(new THREE.PlaneGeometry(16, 14), M('#363432', 0.55));
-        poolDeck.rotation.x = -Math.PI / 2;
-        poolDeck.position.set(0, 0.025, 0);
-        poolDeck.receiveShadow = true;
-        poolGroup.add(poolDeck);
-
-        // 3. Perimeter Bullnose Pool Edge Coping Stones (Customizable in 3D)
-        const poolCopingE = sbox(0.5, 0.1, 10.8, 1.5, 0.12, 0, wall, poolGroup);
-        const poolCopingW = sbox(0.5, 0.1, 10.8, -5.1, 0.12, 0, wall, poolGroup);
-        const poolCopingN = sbox(7.1, 0.1, 0.5, -1.8, 0.12, -5.4, wall, poolGroup);
-        const poolCopingS = sbox(7.1, 0.1, 0.5, -1.8, 0.12, 5.4, wall, poolGroup);
-
-        // 4. Cascading Waterfall Feature Wall (Customizable in 3D)
-        const poolWaterWall = sbox(6.8, 3.4, 0.4, -1.8, 1.7, -6.6, wall, poolGroup);
-        box(3.2, 0.06, 0.3, -1.8, 2.2, -6.3, chromeMat, poolGroup);
-        sbox(0.3, 3.4, 14, -7.85, 1.7, 0, wall, poolGroup);
-
-        // 5. Sunken Conversation Lounge Steps & Bench (Customizable in 3D)
-        const poolLoungeBench = sbox(4.5, 0.45, 4.5, 4.8, 0.225, 0, wall, poolGroup);
-        box(3.8, 0.2, 3.8, 4.8, 0.45, 0, M('#e4dcd0', 0.8), poolGroup);
-        box(3.8, 0.5, 0.3, 4.8, 0.7, -1.8, M('#d0c5b5', 0.8), poolGroup);
-        box(0.3, 0.5, 3.8, 6.6, 0.7, 0, M('#d0c5b5', 0.8), poolGroup);
-        cyl(0.5, 0.5, 0.4, 4.8, 0.45, 0, darkMat, poolGroup);
-
-        // 6. Resort Sun Loungers
-        box(0.75, 0.25, 2.0, 2.6, 0.15, -2.4, woodCabinet, poolGroup);
-        box(0.75, 0.25, 2.0, 2.6, 0.15, 2.4, woodCabinet, poolGroup);
+        // Initialized via window.WebGlRooms.pool below after camera configurations
 
         // ═════════════════════════════════════════════════════════════════════════
         // ── 5. EXECUTIVE HOME BAR & CIGAR LOUNGE (WebGL Mood Lounge 3D) ───────
@@ -2653,14 +2597,7 @@
         reg('bathroom', 'bath_shower_wall', 'Shower Wall', bathShowerWall, 0, 4.4, 4.4);
         reg('bathroom', 'bath_vanity', 'Vanity Countertop', bathVanity, 2, 0.92, 3.3);
 
-        // ── Swimming Pool Deck Surfaces ──
-        reg('pool', 'pool_deck', 'Pool Deck Paving', poolDeck, null, 16, 14);
-        reg('pool', 'pool_coping', 'Perimeter Coping Slabs', poolCopingE, 2, 0.5, 10.8);
-        reg('pool', 'pool_coping', 'Perimeter Coping Slabs', poolCopingW, 2, 0.5, 10.8);
-        reg('pool', 'pool_coping', 'Perimeter Coping Slabs', poolCopingN, 2, 7.1, 0.5);
-        reg('pool', 'pool_coping', 'Perimeter Coping Slabs', poolCopingS, 2, 7.1, 0.5);
-        reg('pool', 'pool_waterwall', 'Cascading Water Wall', poolWaterWall, 4, 6.8, 3.4);
-        reg('pool', 'pool_bench', 'Sunken Lounge Bench', poolLoungeBench, 2, 4.5, 4.5);
+        // ── Swimming Pool Deck Surfaces (Loaded dynamically via window.WebGlRooms.pool) ──
 
         // ── Outdoor Parking & Driveway Surfaces ──
         reg('parking', 'parking_floor', 'Heavy-Duty Driveway Floor', parkingFloor, null, 16, 14);
@@ -3435,6 +3372,20 @@
           }
         };
 
+        // Initialize Luxury Resort Swimming Pool Deck & Sunken Lounge
+        if (window.WebGlRooms && window.WebGlRooms.pool) {
+          window.WebGlRooms.pool({
+            THREE,
+            group: poolGroup,
+            reg,
+            roomDefs,
+            ROOM_CAMERAS,
+            core: { M, box, cyl, sbox, plant },
+            showroomSlabs,
+            presets
+          });
+        }
+
         const SKFB_ROOM_CONFIGS = {
           kitchen: {
             uid: '2cc658a96e304a6d9db1813233ed90d1',
@@ -4078,6 +4029,8 @@
             configurable: true
           });
           window.switchRoom = switchRoom;
+          window.setRoomCamera = setRoomCamera;
+          window.select = select;
           Object.defineProperty(window, 'activeRoom', {
             get: () => activeRoom,
             set: v => switchRoom(v),
@@ -4091,6 +4044,7 @@
           (function loop() {
             requestAnimationFrame(loop);
             if (document.hidden) return;
+            (window.WebGlAnimators || []).forEach(fn => { try { fn(); } catch(e){} });
             if (['kitchen', 'bathroom', 'living'].includes(activeRoom)) return;
             renderer.render(scene, camera);
           })();
