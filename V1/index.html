@@ -96,16 +96,41 @@
     <script>
       (function() {
         const params = new URLSearchParams(window.location.search);
+        function tryStartShowroom() {
+          const $start = window.jQuery ? window.jQuery('[data-ref="start"]') : null;
+          if ($start && $start.length) {
+            $start.trigger('tap');
+            $start.trigger('click');
+            return true;
+          }
+          const startBtn = document.querySelector('[data-ref="start"]');
+          if (startBtn && startBtn.offsetParent !== null) {
+            startBtn.click();
+            return true;
+          }
+          return false;
+        }
+
+        if (window.jQuery) {
+          window.jQuery(document).on('click', '[data-ref="start"]', function() {
+            window.jQuery(this).trigger('tap');
+          });
+        }
+
         if (params.get('autostart') === '1') {
           const autoTimer = setInterval(function() {
-            const startBtn = document.querySelector('[data-ref="start"]');
-            if (startBtn && startBtn.offsetParent !== null) {
-              startBtn.click();
+            if (tryStartShowroom()) {
               clearInterval(autoTimer);
             }
           }, 150);
           setTimeout(function() { clearInterval(autoTimer); }, 15000);
         }
+
+        window.addEventListener('message', function(e) {
+          if (e.data && (e.data.type === 'murali-start-showroom' || e.data.type === 'murali-cam-focus')) {
+            tryStartShowroom();
+          }
+        });
       })();
     </script>
   </body>

@@ -562,8 +562,19 @@
     });
 
     window.addEventListener('message', (e) => {
-      if (e.data && (e.data.type === 'murali-sync-event' || e.data.type === 'murali-sync')) {
+      if (!e.data) return;
+      if (e.data.type === 'murali-sync-event' || e.data.type === 'murali-sync') {
         reloadStudioCatalog();
+      } else if (e.data.type === 'murali-apply-stone') {
+        const sKey = e.data.surfaceKey || 'floor';
+        if (!state.surfaces[sKey]) state.surfaces[sKey] = {};
+        if (e.data.stone) {
+          state.surfaces[sKey].stone = e.data.stone;
+          state.activeStone = e.data.stone;
+        }
+        if (e.data.finish) state.surfaces[sKey].finish = e.data.finish;
+        if (e.data.format) state.surfaces[sKey].format = e.data.format;
+        applyCurrentStoneToSurface(sKey, false);
       }
     });
 
@@ -972,6 +983,13 @@
           tex.wrapS = THREE.RepeatWrapping;
           tex.wrapT = THREE.RepeatWrapping;
           tex.generateMipmaps = true;
+          tex.minFilter = THREE.LinearMipmapLinearFilter;
+          tex.magFilter = THREE.LinearFilter;
+          if (window.showroomApp && window.showroomApp.renderer && window.showroomApp.renderer.capabilities) {
+            tex.anisotropy = window.showroomApp.renderer.capabilities.getMaxAnisotropy() || 16;
+          } else {
+            tex.anisotropy = 16;
+          }
           tex.needsUpdate = true;
           textureCache.set(url, tex);
           callback(tex);

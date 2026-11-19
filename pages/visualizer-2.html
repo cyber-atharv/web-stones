@@ -118,6 +118,41 @@
       text-transform: uppercase;
       margin-left: 2px;
     }
+    .badge-walkthrough {
+      font-size: 9px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #FFF;
+      padding: 1px 5px;
+      border-radius: 3px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-left: 2px;
+    }
+    .room-nav-scroll-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 32px;
+      background: rgba(24, 24, 28, 0.95);
+      border: 1px solid rgba(197, 160, 89, 0.35);
+      border-radius: 6px;
+      color: #C5A059;
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 700;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+      user-select: none;
+      z-index: 2;
+    }
+    .room-nav-scroll-btn:hover {
+      background: rgba(197, 160, 89, 0.25);
+      color: #FFF;
+      border-color: #E8C98A;
+    }
     .stage-view-toggle {
       position: absolute;
       top: 12px;
@@ -513,6 +548,34 @@
     }
     #panel {
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .v1-stage-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #09090C;
+      z-index: 0;
+      display: none;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      overflow: hidden;
+      transition: opacity 0.3s ease;
+    }
+    .v1-stage-container.active {
+      z-index: 15;
+      display: block !important;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .v1-iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #09090C;
     }
     .skfb-stage-container {
       position: absolute;
@@ -1033,10 +1096,11 @@
 
     <!-- Row 2: Dedicated Full 9-Suite Navigation Bar -->
     <div class="studio-toolbar-row2">
-      <div class="room-selector">
-        <button class="room-btn active" id="btnRoomLiving" data-room="living" title="Switch to 3D Living Room Suite">
+      <button class="room-nav-scroll-btn" id="roomScrollLeft" aria-label="Scroll rooms left" title="Scroll left">‹</button>
+      <div class="room-selector" id="roomSelectorBar">
+        <button class="room-btn active" id="btnRoomLiving" data-room="living" title="Switch to 3D Living Room Walkthrough Showroom">
           <span>🛋️</span>
-          <span>Living Room <span class="badge-webgl">3D WebGL</span></span>
+          <span>Living Room <span class="badge-walkthrough">Walkthrough</span></span>
         </button>
         <button class="room-btn" id="btnRoomKitchen" data-room="kitchen" title="Switch to 3D Chef Kitchen Suite">
           <span>🍽️</span>
@@ -1071,14 +1135,21 @@
           <span>Utility Suite <span class="badge-webgl">3D WebGL</span></span>
         </button>
       </div>
+      <button class="room-nav-scroll-btn" id="roomScrollRight" aria-label="Scroll rooms right" title="Scroll right">›</button>
     </div>
   </div>
 
   <!-- MAIN 3D STUDIO APP -->
   <div id="studio-app" style="margin-top:0;">
     <main id="stage">
-      <canvas id="view" style="display:block;"></canvas>
-      <!-- Photorealistic Sketchfab WebGL Viewports (Kitchen & Bathroom Suites) -->
+      <canvas id="view" style="display:none;"></canvas>
+
+      <!-- 1. Photorealistic Walkthrough Living Room Showroom (V1 WebGL) -->
+      <div id="v1-stage" class="v1-stage-container" style="display:none;">
+        <iframe id="v1-iframe" class="v1-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen title="Living Room 3D Walkthrough Showroom"></iframe>
+      </div>
+
+      <!-- 2. Photorealistic Sketchfab WebGL Viewports (Kitchen & Bathroom Suites) -->
       <div id="skfb-stage" class="skfb-stage-container" style="display:none; opacity:0; visibility:hidden;">
         <iframe id="skfb-iframe-kitchen" class="skfb-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen title="Chef Kitchen 3D Suite" style="display:none;"></iframe>
         <iframe id="skfb-iframe-bathroom" class="skfb-iframe" src="" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen title="Master Bathroom 3D Suite" style="display:none;"></iframe>
@@ -2217,7 +2288,7 @@
         name: 'Living Room Suite',
         group: livingGroup,
         defaultKey: 'living_floor',
-        wallKeys: ['living_table', 'living_tv'],
+        wallKeys: ['living_accent', 'living_walls'],
         camera: { azimuth: Math.PI * 0.25, elevation: 0.37, distance: 12, target: new THREE.Vector3(0, 1.25, 0) },
         surfaces: {}
       },
@@ -2313,10 +2384,10 @@
       }
     }
 
-    // ── Living Room Surfaces Registration ──
-    reg('living', 'living_floor', 'Grand Marble Floor', floor, null, 12, 11);
-    reg('living', 'living_table', 'Designer Coffee Table', sbox(1.8, 0.45, 1.0, 0, 0.25, 0, wall), 2, 1.8, 1.0);
-    reg('living', 'living_tv', 'Console Slab', sbox(2.8, 0.5, 0.5, 0, 0.35, -4.5, wall), 2, 2.8, 0.5);
+    // ── Living Room Surfaces Registration (Grand Floor, Accent Wall, Main Walls) ──
+    reg('living', 'living_floor', 'Grand Living Floor', floor, null, 12, 11);
+    reg('living', 'living_accent', 'Accent Feature Wall', sbox(4.5, 3.2, 0.2, 0, 1.6, -5.2, wall), 1, 4.5, 3.2);
+    reg('living', 'living_walls', 'Main Villa Walls', sbox(8.5, 3.2, 0.2, -4.5, 1.6, 0, wall), 1, 8.5, 3.2);
 
     // ── Kitchen Suite Interactive Surface Registrations ──
     reg('kitchen', 'kitchen_countertop', 'Kitchen Island & Table', kitchenIslandTop, 2, 4.5, 1.84);
@@ -2630,6 +2701,23 @@
 
         if (['kitchen', 'bathroom'].includes(activeRoom)) {
           applyMaterialToSketchfab(k, s, cv, true);
+        } else if (activeRoom === 'living') {
+          if (v1Iframe && v1Iframe.contentWindow) {
+            let v1Surf = 'floor';
+            if (k === 'living_accent') v1Surf = 'wall_accent';
+            else if (k === 'living_walls') v1Surf = 'wall_main';
+            try {
+              v1Iframe.contentWindow.postMessage({
+                type: 'murali-apply-stone',
+                surfaceKey: v1Surf,
+                stone: s.src,
+                finish: s.set && s.set.gloss > 0.6 ? 'polished' : 'honed',
+                format: s.set && s.set.struct === 'slab' ? 'slab' : 'tile'
+              }, '*');
+            } catch (err) {
+              console.warn('Could not postMessage to v1-iframe:', err);
+            }
+          }
         }
       }catch(e){
         console.warn('Failed to apply texture:', e);
@@ -2848,8 +2936,8 @@
         else setRoomCamera('hob');
       } else if (activeRoom === 'living') {
         if (k === 'living_floor') setRoomCamera('floor');
-        else if (k === 'living_table') setRoomCamera('coffee');
-        else setRoomCamera('overview');
+        else if (k === 'living_accent') setRoomCamera('accent');
+        else setRoomCamera('walls');
       }
     }
 
@@ -2985,15 +3073,16 @@
     // ── Unified Multi-Room Camera and Viewport Configurations ──
     const ROOM_CAMERAS = {
       living: {
-        type: 'three',
-        title: 'Living Room Suite (3D WebGL)',
-        subtitle: '• Modern Designer Architecture & PBR Marble Slabs',
-        hint: '<span class="text-[#E7C887] font-semibold">💡 Living Room 3D Studio:</span> Customize <b>Grand Marble Floor</b>, <b>Coffee Table</b>, or <b>Console Slab</b> with authentic showroom marble &amp; granite in real-time WebGL.',
-        defaultCam: 'overview',
+        type: 'v1',
+        title: 'Living Room Showroom (3D Walkthrough)',
+        subtitle: '• Interactive 360° Walkthrough & PBR Marble Flooring',
+        hint: '<span class="text-[#10B981] font-semibold">💡 3D Walkthrough Showroom:</span> Click and drag to look around 360°, tap on floor circles to walk through the villa, and pick any marble or granite below to customize floors and walls in real-time.',
+        defaultCam: 'floor',
         cameras: [
-          { id: 'overview', label: '🛋️ Living Overview', azimuth: Math.PI * 0.25, elevation: 0.38, distance: 11.2, target: [0, 1.25, 0] },
-          { id: 'floor', label: '🧱 Marble Floor', azimuth: Math.PI * 0.15, elevation: 0.68, distance: 8.5, target: [0, 0.2, 0] },
-          { id: 'coffee', label: '☕ Coffee Table', azimuth: Math.PI * 0.35, elevation: 0.28, distance: 5.6, target: [0, 0.45, 0] }
+          { id: 'floor', label: '🧱 Grand Floor', surfKey: 'living_floor' },
+          { id: 'accent', label: '🖼️ Feature Wall', surfKey: 'living_accent' },
+          { id: 'walls', label: '🏛️ Main Walls', surfKey: 'living_walls' },
+          { id: 'walkthrough', label: '🚶 360° Walkthrough', surfKey: 'living_floor' }
         ]
       },
       kitchen: {
@@ -3150,7 +3239,14 @@
       const cam = conf.cameras.find(c => c.id === viewKey) || conf.cameras[0];
       if (!cam) return;
 
-      if (conf.type === 'skfb') {
+      if (conf.type === 'v1') {
+        if (cam.surfKey) select(cam.surfKey);
+        if (v1Iframe && v1Iframe.contentWindow) {
+          try {
+            v1Iframe.contentWindow.postMessage({ type: 'murali-cam-focus', target: cam.id }, '*');
+          } catch(e) {}
+        }
+      } else if (conf.type === 'skfb') {
         const room = skfbRooms[activeRoom];
         if (!room || !room.api || !room.ready) return;
         room.api.setCameraLookAt(cam.eye, cam.target, 1.2);
@@ -3327,6 +3423,9 @@
         ui_infos: 0,
         ui_watermark: 0,
         ui_theme: 'dark',
+        dpr: Math.min(window.devicePixelRatio || 1, 2),
+        image_compression: 0,
+        fps_limit: 60,
         success: function(api) {
           room.api = api;
           api.addEventListener('viewerready', function() {
@@ -3418,14 +3517,37 @@
       updateCameraButtons(roomKey);
 
       // Manage Viewport Visibility
-      if (conf.type === 'skfb') {
+      if (conf.type === 'v1') {
         if (canvas) canvas.style.display = 'none';
+        if (skfbStage) {
+          skfbStage.style.display = 'none';
+          skfbStage.classList.remove('active');
+        }
+        if (v1Stage) {
+          v1Stage.style.display = 'block';
+          v1Stage.classList.add('active');
+          if (v1Iframe) {
+            if (!v1Iframe.src || !v1Iframe.src.includes('V1/index.html')) {
+              v1Iframe.src = 'V1/index.html?v=3.6.1&autostart=1';
+            }
+          }
+        }
+      } else if (conf.type === 'skfb') {
+        if (canvas) canvas.style.display = 'none';
+        if (v1Stage) {
+          v1Stage.style.display = 'none';
+          v1Stage.classList.remove('active');
+        }
         if (skfbStage) {
           skfbStage.style.display = 'block';
           skfbStage.classList.add('active');
         }
         initSketchfabRoom(roomKey);
       } else {
+        if (v1Stage) {
+          v1Stage.style.display = 'none';
+          v1Stage.classList.remove('active');
+        }
         if (skfbStage) {
           skfbStage.style.display = 'none';
           skfbStage.classList.remove('active');
@@ -3433,8 +3555,11 @@
         if (canvas) {
           canvas.style.display = 'block';
           if (renderer && stage) {
-            renderer.setSize(stage.clientWidth, stage.clientHeight);
-            camera.aspect = stage.clientWidth / stage.clientHeight;
+            const w = stage.clientWidth || window.innerWidth;
+            const h = stage.clientHeight || (window.innerHeight - 164);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+            renderer.setSize(w, h, true);
+            camera.aspect = w / h;
             camera.updateProjectionMatrix();
           }
         }
@@ -3488,23 +3613,33 @@
       btn.onclick = () => switchRoom(btn.getAttribute('data-room'));
     });
 
+    const roomSelectorBar = document.getElementById('roomSelectorBar');
+    const roomScrollLeft = document.getElementById('roomScrollLeft');
+    const roomScrollRight = document.getElementById('roomScrollRight');
+    if (roomScrollLeft && roomSelectorBar) {
+      roomScrollLeft.onclick = () => roomSelectorBar.scrollBy({ left: -240, behavior: 'smooth' });
+    }
+    if (roomScrollRight && roomSelectorBar) {
+      roomScrollRight.onclick = () => roomSelectorBar.scrollBy({ left: 240, behavior: 'smooth' });
+    }
+
     // ── Initialize Default Stones on Rooms ──
     (function initShowroomDefaults() {
-      // 0. Living Room Defaults (Statuario on Floor, River Black on Coffee Table, Black Pearl on TV Console)
+      // 0. Living Room Defaults (Statuario on Floor, River Black on Accent Wall, Armani Grey on Main Walls)
       const livFloorStone = showroomSlabs.find(s => s.name === 'Statuario') || showroomSlabs.find(s => s.name === 'Calacatta White') || presets[0];
-      const livTableStone = showroomSlabs.find(s => s.name === 'River Black') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
-      const livTvStone = showroomSlabs.find(s => s.name === 'Black Pearl') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+      const livAccentStone = showroomSlabs.find(s => s.name === 'River Black') || showroomSlabs.find(s => s.name === 'Titanium Black') || presets[0];
+      const livWallsStone = showroomSlabs.find(s => s.name === 'Armani Grey PGVT Tile') || showroomSlabs.find(s => s.name === 'Steel Grey') || presets[0];
       if (livFloorStone && roomDefs.living && roomDefs.living.surfaces.living_floor) {
         roomDefs.living.surfaces.living_floor.src = livFloorStone;
         roomDefs.living.surfaces.living_floor.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.95, grout: 2 };
       }
-      if (livTableStone && roomDefs.living && roomDefs.living.surfaces.living_table) {
-        roomDefs.living.surfaces.living_table.src = livTableStone;
-        roomDefs.living.surfaces.living_table.set = { struct: 'slab', mode: 'mirror', size: 2.0, rot: 0, gloss: 0.92, grout: 2 };
+      if (livAccentStone && roomDefs.living && roomDefs.living.surfaces.living_accent) {
+        roomDefs.living.surfaces.living_accent.src = livAccentStone;
+        roomDefs.living.surfaces.living_accent.set = { struct: 'slab', mode: 'mirror', size: 2.4, rot: 0, gloss: 0.92, grout: 2 };
       }
-      if (livTvStone && roomDefs.living && roomDefs.living.surfaces.living_tv) {
-        roomDefs.living.surfaces.living_tv.src = livTvStone;
-        roomDefs.living.surfaces.living_tv.set = { struct: 'slab', mode: 'mirror', size: 2.8, rot: 0, gloss: 0.90, grout: 2 };
+      if (livWallsStone && roomDefs.living && roomDefs.living.surfaces.living_walls) {
+        roomDefs.living.surfaces.living_walls.src = livWallsStone;
+        roomDefs.living.surfaces.living_walls.set = { struct: 'tile120', mode: 'repeat', size: 1.2, rot: 0, gloss: 0.70, grout: 2 };
       }
 
       // 1. Chef Kitchen Defaults (River Black on Countertop, River White on Backsplash)
@@ -3711,7 +3846,7 @@
     (function loop() {
       requestAnimationFrame(loop);
       if (document.hidden) return;
-      if (['kitchen', 'bathroom'].includes(activeRoom)) return;
+      if (['kitchen', 'bathroom', 'living'].includes(activeRoom)) return;
       renderer.render(scene, camera);
     })();
   })();
